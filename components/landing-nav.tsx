@@ -41,7 +41,7 @@ export function LandingNav() {
               </Link>
             </NavigationMenuLink>
             <NavigationMenuItem>
-              <NavigationMenuTrigger className="font-bold">About</NavigationMenuTrigger>
+              <NavigationMenuTrigger className="font-bold">Industry</NavigationMenuTrigger>
               <NavigationMenuContent>
                 <div className="grid w-[400px] p-2">
                   <NavigationMenuLink asChild>
@@ -153,16 +153,25 @@ export function LandingNav() {
                 className="group font-bold inline-flex h-9 w-max items-center justify-center rounded-md bg-background px-4 py-2 text-sm transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground focus:outline-none disabled:pointer-events-none disabled:opacity-50 data-[active]:bg-accent/50 data-[state=open]:bg-accent/50"
                 prefetch={false}
               >
-                Contact
+                Blog
               </Link>
             </NavigationMenuLink>
             <NavigationMenuLink asChild>
               <Link
-                href="#"
+                href="/solutions"
                 className="group font-bold inline-flex h-9 w-max items-center justify-center rounded-md bg-background px-4 py-2 text-sm transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground focus:outline-none disabled:pointer-events-none disabled:opacity-50 data-[active]:bg-accent/50 data-[state=open]:bg-accent/50"
                 prefetch={false}
               >
-                Community
+                Solutions
+              </Link>
+            </NavigationMenuLink>
+            <NavigationMenuLink asChild>
+              <Link
+                href="/about"
+                className="group font-bold inline-flex h-9 w-max items-center justify-center rounded-md bg-background px-4 py-2 text-sm transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground focus:outline-none disabled:pointer-events-none disabled:opacity-50 data-[active]:bg-accent/50 data-[state=open]:bg-accent/50"
+                prefetch={false}
+              >
+                About
               </Link>
             </NavigationMenuLink>
           </NavigationMenuList>

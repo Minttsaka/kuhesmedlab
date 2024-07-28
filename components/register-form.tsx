@@ -17,33 +17,95 @@ To read more about using these font, please visit the Next.js documentation:
 - App Directory: https://nextjs.org/docs/app/building-your-application/optimizing/fonts
 - Pages Directory: https://nextjs.org/docs/pages/building-your-application/optimizing/fonts
 **/
+
+"use client"
 import { Card, CardHeader, CardTitle, CardDescription, CardContent, CardFooter } from "@/components/ui/card"
 import { Label } from "@/components/ui/label"
-import { Input } from "@/components/ui/input"
 import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from "@/components/ui/select"
+import { Checkbox } from "@/components/ui/checkbox"
 import { Button } from "@/components/ui/button"
 import Link from "next/link"
-import { Checkbox } from "@/components/ui/checkbox"
+import { Input } from "./ui/input"
+import { zodResolver } from "@hookform/resolvers/zod";
+import { SubmitHandler, useForm } from "react-hook-form";
+import { z } from "zod";
+import axios from "axios";
+import { toast } from "sonner";
+import { Loader2 } from "lucide-react";
+import { useRouter } from "next/navigation";
+import { useState } from "react"
+
+const FormSchema = z.object({
+  name: z
+    .string()
+    .min(2, "First name must be at least 2 characters")
+    .max(45, "First name must be less than 45 characters"),
+  email: z.string().email("Please enter a valid email address"),
+  password: z.string().min(4, "First name must be at least 2 characters"),
+});
+
+type InputType = z.infer<typeof FormSchema>;
 
 export function RegisterForm() {
+
+  const [country, setCountry] = useState("")
+
+  const router = useRouter();
+  const {
+    register,
+    handleSubmit,
+    reset,
+    control,
+    watch,
+    formState: { errors,isSubmitting },
+  } = useForm<InputType>({
+    resolver: zodResolver(FormSchema),
+  });
+
+
+  const saveUser: SubmitHandler<InputType> = async (data) => {
+
+    const {
+      name,
+      email,
+      password
+    }=data
+
+    try {
+      const response= await axios.post('/api/sign-up',{
+        name,
+        email,
+        country,
+        password
+      })
+
+      if(response.data==="failed") return toast.error("The email you are using is not allowed. Please contact your institution");
+        toast.success("The User Registered Successfully.");
+        router.push("/verify")
+    } catch (error) {
+      console.log(error)
+    }
+  };
+
   return (
       <Card className="w-full shadow md:px-8">
         <CardHeader className="space-y-2 text-center">
           <CardTitle className="text-2xl font-bold my-10 mx-w-sm">Create your KuhesMedLab account today.</CardTitle>
           <CardDescription></CardDescription>
         </CardHeader>
-        <CardContent className="space-y-8">
+        <CardContent className="">
+          <form onSubmit={handleSubmit(saveUser)}  className="space-y-8">
           <div className="grid gap-2">
             <Label htmlFor="name">Full Name</Label>
-            <Input id="name" type="text" className="rounded-md" />
+            <Input {...register("name")} id="name" type="text" className="rounded-md" />
           </div>
           <div className="grid gap-2">
             <Label htmlFor="email">Email</Label>
-            <Input id="email" type="email" className="rounded-md" />
+            <Input {...register("email")} id="email" type="email" className="rounded-md" />
           </div>
           <div className="grid gap-2">
             <Label htmlFor="country">Country</Label>
-            <Select >
+            <Select onValueChange={(e)=>setCountry(e)}>
               <SelectTrigger>
                 <SelectValue placeholder="Select country" />
               </SelectTrigger>
@@ -58,16 +120,18 @@ export function RegisterForm() {
           </div>
           <div className="grid gap-2">
             <Label htmlFor="password">Password</Label>
-            <Input id="password" type="password" className="rounded-md" />
+            <Input {...register("password")} id="password" type="password" className="rounded-md" />
           </div>
           <div className="flex gap-2 items-start">
             <Checkbox />
             <p className="text-xs">By registering it means you have accept our terms and conditions
                </p>
           </div>
+          <Button type="submit" className="w-full rounded-md" disabled={isSubmitting}>{ isSubmitting ? <Loader2 className="h-3 w-3 animate-spin" /> : "Register"}</Button>
+          </form>
         </CardContent>
         <CardFooter className="flex flex-col gap-5">
-          <Button className="w-full rounded-md">Register</Button>
+          
           <p className="text-xs">Already have an account ? <Link className="text-[#2a2e7c] underline" href={'/signin'} >signin</Link></p>
         </CardFooter>
       </Card>

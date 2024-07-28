@@ -17,38 +17,86 @@ To read more about using these font, please visit the Next.js documentation:
 - App Directory: https://nextjs.org/docs/app/building-your-application/optimizing/fonts
 - Pages Directory: https://nextjs.org/docs/pages/building-your-application/optimizing/fonts
 **/
+
+"use client"
 import { Card, CardHeader, CardTitle, CardDescription, CardContent, CardFooter } from "@/components/ui/card"
 import { Label } from "@/components/ui/label"
 import { Input } from "@/components/ui/input"
 import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from "@/components/ui/select"
 import { Button } from "@/components/ui/button"
 import Link from "next/link"
+import { z } from "zod"
+import { useRouter } from "next/navigation"
+import { SubmitHandler, useForm } from "react-hook-form"
+import { zodResolver } from "@hookform/resolvers/zod"
+import { signIn } from "next-auth/react"
+import { toast } from "sonner"
+import { Loader2 } from "lucide-react"
+
+const FormSchema = z.object({
+  email: z.string().email("Please enter a valid email address"),
+  password: z.string({
+    required_error: "Please enter your password",
+  }),
+});
+
+type InputType = z.infer<typeof FormSchema>;
 
 export function SigninForm() {
+
+  const router=useRouter()
+
+  const {
+    register,
+    handleSubmit,
+    formState: { errors, isSubmitting },
+  } = useForm<InputType>({
+    resolver: zodResolver(FormSchema),
+  });
+
+  const onSubmit: SubmitHandler<InputType> = async (data) => {
+    const result = await signIn("credentials", {
+      redirect: false,
+      username: data.email,
+      password: data.password,
+    });
+    if (!result?.ok) {
+      toast(result?.error);
+      return;
+    }
+
+    toast.success("Successfully login in");
+    router.push("/mw/dashboard")
+    
+  };
+
+
   return (
       <Card className="max-w-lg mx-auto shadow md:px-8">
         <CardHeader className="space-y-2 text-center">
           <CardTitle className="text-2xl font-bold my-10">Login to Kuhesmedlab</CardTitle>
           <CardDescription></CardDescription>
         </CardHeader>
-        <CardContent className="space-y-8">
-          <div className="grid gap-2">
-            <Label htmlFor="email">Email</Label>
-            <Input id="email" type="email" className="rounded-md" />
-          </div>
-          <div className="grid gap-2">
-            <Label htmlFor="password">Password</Label>
-            <Input id="password" type="password"  className="rounded-md" />
-          </div>
-          <div>
-            <p className="text-xs">Lorem ipsum, dolor sit amet 
-              consectetur adipisicing elit. Est neque qui, amet atque vitae repudiandae
-               exercitationem aspernatur architecto tempora consequuntur.
-               </p>
-          </div>
+        <CardContent >
+          <form onSubmit={handleSubmit(onSubmit)} className="space-y-8">
+            <div className="grid gap-2">
+              <Label htmlFor="email">Email</Label>
+              <Input {...register("email")} id="email" type="email" className="rounded-md" />
+            </div>
+            <div className="grid gap-2">
+              <Label htmlFor="password">Password</Label>
+              <Input {...register("password")} id="password" type="password"  className="rounded-md" />
+            </div>
+            <div>
+              <p className="text-xs">Lorem ipsum, dolor sit amet 
+                consectetur adipisicing elit. Est neque qui, amet atque vitae repudiandae
+                exercitationem aspernatur architecto tempora consequuntur.
+                </p>
+            </div>
+            <Button type="submit" className="w-full rounded-md" disabled={isSubmitting}>{ isSubmitting ? <Loader2 className="h-3 w-3 animate-spin" /> : "Register"}</Button>
+          </form>
         </CardContent>
         <CardFooter className="flex flex-col gap-5">
-          <Button className="w-full rounded-md">Signin</Button>
           <p className="text-xs">Dont have an account ? <Link className="text-[#2a2e7c] underline" href={'/register'} >sign up</Link></p>
         </CardFooter>
       </Card>
