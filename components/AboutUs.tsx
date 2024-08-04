@@ -51,17 +51,16 @@ export default function AboutUs() {
 
   return (
     <div className='py-20'>
-        <div className='container mx-auto grid grid-cols-2 gap-20'>
+        <div className='container mx-auto grid md:grid-cols-2  md:items-center gap-20'>
             <div className='space-y-5'>
-                <h2 className='text-green-400'>- About us</h2>
-                <h2 className='text-3xl font-bold'>Shaping Digital Solutions That Transform Businesses</h2>
-                <div className='bg-green-400 p-5 rounded grid grid-cols-2'>
+                <h2 className='text-3xl font-bold'>Shaping Digital Solutions That Transform ai in Research</h2>
+                <div className='bg-green-400 p-5 rounded grid md:grid-cols-2'>
                     <div className='flex flex-row items-center '>
                     <AnimatedTooltip items={people} />
                     </div>
                     <div>
-                        <h2 className='text-4xl font-bold'>100+</h2>
-                        <p>Tech partners</p>
+                        <h2 className='md:text-4xl font-bold'>100+</h2>
+                        <p>partners</p>
                     </div>
                 </div>
                 <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Itaque aspernatur tenetur atque odit.</p>
@@ -69,7 +68,7 @@ export default function AboutUs() {
                     <div className='bg-blue-700 p-5 flex gap-3 items-center rounded-md' >
                         <NewspaperIcon className='h-6 w-6' />
                         <div>
-                            <h2 className='text-4xl font-bold'>100+</h2>
+                            <h2 className='md:text-4xl font-bold'>100+</h2>
                             <p>Award winner</p>
                         </div> 
                     </div>
@@ -77,7 +76,7 @@ export default function AboutUs() {
                     <div className='bg-blue-700 p-5 flex gap-3 items-center rounded-md' >
                         <NewspaperIcon className='h-6 w-6' />
                         <div>
-                            <h2 className='text-4xl font-bold'>100+</h2>
+                            <h2 className='md:text-4xl font-bold'>100+</h2>
                             <p>Award winner</p>
                         </div> 
                     </div>

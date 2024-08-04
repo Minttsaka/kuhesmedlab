@@ -4,6 +4,7 @@ import { ArrowRight, Book, Hospital, Leaf } from 'lucide-react'
 import { Card, CardContent, CardHeader } from './ui/card'
 import { Badge } from './ui/badge'
 import Link from 'next/link'
+import { StarFilledIcon } from '@radix-ui/react-icons'
 
 export default function Finisher() {
   return (
@@ -17,66 +18,98 @@ export default function Finisher() {
         power and shape the future of Medical Laboratory Science in
         Malawi.
       </p>
-        <Button className="w-fit rounded-3xl">
-          Explore how<ArrowRight className="h-3 w-3"/>
-        </Button>
+
+        <Link href={'/signin'} className="bg-slate-800 no-underline group w-fit cursor-pointer relative shadow-2xl shadow-zinc-900 rounded-full p-px text-xs font-semibold leading-6  text-white inline-block">
+              <span className="absolute inset-0 overflow-hidden rounded-full">
+                <span className="absolute inset-0 rounded-full bg-[image:radial-gradient(75%_100%_at_50%_0%,rgba(56,189,248,0.6)_0%,rgba(56,189,248,0)_75%)] opacity-0 transition-opacity duration-500 group-hover:opacity-100" />
+              </span>
+              <div className="relative flex space-x-2 items-center z-10 rounded-full bg-zinc-950 py-0.5 px-4 ring-1 ring-white/10 ">
+                <span>
+                Start now
+                </span>
+                <svg
+                  fill="none"
+                  height="16"
+                  viewBox="0 0 24 24"
+                  width="16"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="M10.75 8.75L14.25 12L10.75 15.25"
+                    stroke="currentColor"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth="1.5"
+                  />
+                </svg>
+              </div>
+              <span className="absolute -bottom-0 left-[1.125rem] h-px w-[calc(100%-2.25rem)] bg-gradient-to-r from-emerald-400/0 via-emerald-400/90 to-emerald-400/0 transition-opacity duration-500 group-hover:opacity-40" />
+            </Link>
     </div>
     <div className='container mx-auto grid md:grid-cols-3 gap-5 mt-10 border-x'>
+    <Card className='shadow-2xl'>
+            <CardHeader className='bg-gray-100 m-2 rounded-2xl  pl-40 pt-20'>
+                <img src='https://plus.unsplash.com/premium_photo-1681842934644-0d05b05e3348?q=80&w=2061&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D' className='rounded-2xl' alt='this is good' />
+            </CardHeader>
+            <CardContent>
+                
+                <div className='space-y-2  mt-5'>
+                    <Badge className='flex gap-2 p-2 hover:bg-transparent rounded-xl bg-gray-100 text-gray-500 w-fit'>
+                       
+                    Halima Kaipirani
+                    </Badge>
+                    
+                    <p className='text-gray-500'>Discover the essential support system to propel this platform forward! dentify and connect with the right support system, resources, and expertise to fuel the growth and success of this innovative platform.</p>
+                     <div className='flex gap-3 items-center'>
+                    <StarFilledIcon className=" text-green-500" />
+                    <StarFilledIcon className=" text-green-500" />
+                    <StarFilledIcon className=" text-green-500" />
+                  </div>
+                </div>
+            </CardContent>
+        </Card>
       <Card className='shadow-2xl'>
-          <CardHeader className='bg-gray-100 m-2 rounded-2xl  pl-40 pt-20'>
-              <img src='https://plus.unsplash.com/premium_photo-1681842934644-0d05b05e3348?q=80&w=2061&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D' className='rounded-2xl' alt='this is good' />
-          </CardHeader>
-          <CardContent>
-              
-              <div className='flex flex-col gap-10 mt-5'>
-                  <Badge className='p-5 rounded-xl bg-gray-100 text-gray-800 w-fit'>
-                    Detective Sarah Williamson
-                  </Badge>
-                  <h2 className=' text-xs font-bold'>City police</h2>
-                  <p className='text-xs'>
-                  As a detective, working with the forensic nurses has been invaluable. 
-                  Their expertise in evidence collection and medical testimony has been crucial
-                   in securing convictions and getting justice for victims. Highly recommend their services.
-                  </p>
-              </div>
-          </CardContent>
-      </Card>
+            <CardHeader className='bg-gray-100 m-2 rounded-2xl  pl-40 pt-20'>
+                <img src='https://plus.unsplash.com/premium_photo-1681842934644-0d05b05e3348?q=80&w=2061&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D' className='rounded-2xl' alt='this is good' />
+            </CardHeader>
+            <CardContent>
+                
+                <div className='space-y-2  mt-5'>
+                    <Badge className='flex gap-2 p-2 hover:bg-transparent rounded-xl bg-gray-100 text-gray-500 w-fit'>
+                       
+                    DL Banda
+                    </Badge>
+                    
+                    <p className='text-gray-500'>Discover the essential support system to propel this platform forward! dentify and connect with the right support system, resources, and expertise to fuel the growth and success of this innovative platform.</p>
+                     <div className='flex gap-3 items-center'>
+                    <StarFilledIcon className=" text-green-500" />
+                    <StarFilledIcon className=" text-green-500" />
+                    <StarFilledIcon className=" text-green-500" />
+                  </div>
+                </div>
+            </CardContent>
+        </Card>
       <Card className='shadow-2xl'>
-          <CardHeader className='bg-gray-100 m-2 rounded-2xl  pl-40 pt-20'>
-              <img src='https://images.unsplash.com/photo-1563969105292-818af62ac5e5?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D' className='rounded-2xl' alt='this is good' />
-          </CardHeader>
-          <CardContent>
-              
-              <div className='flex flex-col gap-10 mt-5'>
-                  <Badge className='p-5 rounded-xl bg-gray-100 text-gray-800 w-fit'>
-                  Emily Thompson
-                  </Badge>
-                  <h2 className='text-xs font-bold'>Nurse</h2>
-                  <p className='text-xs'>
-                  As a busy nurse, I was really struggling with the previous EMR system. But the nurse informaticist listened to our concerns and implemented changes that have made my job so much easier. I can now spend more time with patients instead of fighting with the technology.
-                  </p>
-              </div>
-          </CardContent>
-      </Card>
-      <Card className='shadow-2xl'>
-          <CardHeader className='bg-gray-100 m-2 rounded-2xl  pl-40 pt-20'>
-              <img src='https://images.unsplash.com/photo-1563969105292-818af62ac5e5?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D' className='rounded-2xl' alt='this is good' />
-          </CardHeader>
-          <CardContent>
-              
-              <div className='flex flex-col gap-10 mt-5'>
-                  <Badge className='p-5 rounded-xl bg-gray-100 text-gray-800 w-fit'>
-                  Sophia Ramirez
-                  </Badge>
-                  <h2 className='text-xs font-bold'>Student</h2>
-                  <p className='text-xs'>
-                  Going into nursing, I never would have imagined myself working in the field of informatics.
-                   But this program has opened my eyes to the critical role nurses play in shaping the future of healthcare technology. 
-                  The hands-on projects and industry partnerships have given me invaluable real-world experience.
-                  </p>
-              </div>
-          </CardContent>
-      </Card>
+            <CardHeader className='bg-gray-100 m-2 rounded-2xl  pl-40 pt-20'>
+                <img src='https://plus.unsplash.com/premium_photo-1681842934644-0d05b05e3348?q=80&w=2061&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D' className='rounded-2xl' alt='this is good' />
+            </CardHeader>
+            <CardContent>
+                
+                <div className='space-y-2  mt-5'>
+                    <Badge className='flex gap-2 p-2 hover:bg-transparent rounded-xl bg-gray-100 text-gray-500 w-fit'>
+                       
+                    Chikumbutso Mzumara 
+                    </Badge>
+                    
+                    <p className='text-gray-500'>Discover the essential support system to propel this platform forward! dentify and connect with the right support system, resources, and expertise to fuel the growth and success of this innovative platform.</p>
+                     <div className='flex gap-3 items-center'>
+                    <StarFilledIcon className=" text-green-500" />
+                    <StarFilledIcon className=" text-green-500" />
+                    <StarFilledIcon className=" text-green-500" />
+                  </div>
+                </div>
+            </CardContent>
+        </Card>
   
     </div>
   </div>

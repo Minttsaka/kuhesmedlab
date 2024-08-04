@@ -10,6 +10,8 @@ import { Input } from "./ui/input";
 import { Button } from "./ui/button";
 import { BackgroundGradientAnimation } from "./ui/background-gradient-animation";
 import Trustedby from "./Trustedby";
+import { ArrowRightIcon } from "@radix-ui/react-icons";
+import Link from "next/link";
 
 /** Add fonts into your Next.js project:
 
@@ -23,37 +25,85 @@ inter({
 To read more about using these font, please visit the Next.js documentation:
 - App Directory: https://nextjs.org/docs/app/building-your-application/optimizing/fonts
 - Pages Directory: https://nextjs.org/docs/pages/building-your-application/optimizing/fonts
+
 **/
+
+{/* <div className="absolute inset-x-0 top-40 bottom-0 h-[30rem] bg-[#A3CCE5] -skew-y-12 origin-top-left" /> */}
+        {/* <div className="absolute inset-x-0 top-40 bottom-0 h-[30rem] bg-[#A3CCE5] skew-y-12 origin-bottom-right" /> */}
+
 export function LandingFirst() {
   return (
-    <div className="flex h-screen  items-center  w-full">
-      <div className="relative w-full">
+    <div className="flex min-h-screen  items-center  w-full">
         <BackgroundGradientAnimation className=" -skew-y-12 origin-top-left" />
         <BackgroundGradientAnimation className=" skew-y-12 origin-bottom-right" />
-        {/* <div className="absolute inset-x-0 top-40 bottom-0 h-[30rem] bg-[#A3CCE5] -skew-y-12 origin-top-left" /> */}
-        {/* <div className="absolute inset-x-0 top-40 bottom-0 h-[30rem] bg-[#A3CCE5] skew-y-12 origin-bottom-right" /> */}
-        <div className="relative max-w-7xl mx-auto z-10 md:grid grid-cols-2 p-6 gap-6">
-          <div className=" max-w-lg flex flex-col gap-4 text-start text-gray-100">
-            <Badge className="w-fit">See how ai is helping lab<ArrowRight className="h-3 w-3" /></Badge>
-            <h1 className="text-6xl md:text-6xl font-bold ">Kuhes medical laboratory program</h1>
-            <p className="text-lg sm:text-xl">The field of Medical Laboratory Science 
-            is on the cusp of a revolution, and KUHES is at the heart of it!join the movement 
-             to revolutionize this critical field!
+        <div className="max-w-7xl text-center mx-auto z-10  p-6 md:p-0 ">
+          <div className=" space-y-5 mt-20 mx-auto text-gray-100">
+          <div className="max-w-3xl mx-auto text-center mb-5 lg:mb-5 overflow-hidden tracking-[3px] text-xs md:px-5 md:py-2 uppercase bg-black bg-opacity-10 text-white rounded-full px-4 py-2">
+            <span className="md:flex items-center gap-2 ">Explore how ai is advancing medical reseach in todays world of tech <ArrowRightIcon className="hidden md:block" /></span>
+            </div>
+            <h1 className="text-4xl md:text-6xl lg:text-8xl font-bold text-black text-opacity-75 ">Advancing Medical Laboratory Science </h1>
+            <p className="md:text-xl pb-10 max-w-4xl mx-auto text-balance">Empowering medical laboratory profession to drive innovation, collaboration,
+               and excellence in healthcare using AI and technology
+                through research, discovery, and data-driven solutions.
              </p>
-              <div className="p-2 flex gap-2  rounded-3xl bg-white bg-opacity-20 mb-2 md:mb-0">
-                <Input placeholder="email" className="bg-transparent border-none placeholder:text-white rounded-2xl" />
-                <Button className="rounded-2xl">Send<ArrowRight className="h-3 w-3" /></Button>
+             
+          </div>
+          <div className="flex flex-col md:flex-row gap-2 items-center justify-center">
+          <Link href={'/signin'} className="bg-slate-800 no-underline group cursor-pointer relative shadow-2xl shadow-zinc-900 rounded-full p-px text-xs font-semibold leading-6  text-white inline-block">
+              <span className="absolute inset-0 overflow-hidden rounded-full">
+                <span className="absolute inset-0 rounded-full bg-[image:radial-gradient(75%_100%_at_50%_0%,rgba(56,189,248,0.6)_0%,rgba(56,189,248,0)_75%)] opacity-0 transition-opacity duration-500 group-hover:opacity-100" />
+              </span>
+              <div className="relative flex space-x-2 items-center z-10 rounded-full bg-zinc-950 py-0.5 px-4 ring-1 ring-white/10 ">
+                <span>
+                  Get Started
+                </span>
+                <svg
+                  fill="none"
+                  height="16"
+                  viewBox="0 0 24 24"
+                  width="16"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="M10.75 8.75L14.25 12L10.75 15.25"
+                    stroke="currentColor"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth="1.5"
+                  />
+                </svg>
               </div>
+              <span className="absolute -bottom-0 left-[1.125rem] h-px w-[calc(100%-2.25rem)] bg-gradient-to-r from-emerald-400/0 via-emerald-400/90 to-emerald-400/0 transition-opacity duration-500 group-hover:opacity-40" />
+            </Link>
+
+              <Link href={'/signin'} className="px-8 py-2 text-gray-500 flex items-center gap-2  bg-transparent rounded-[6px]  relative group transition duration-20 hover:bg-transparent">
+                Learn more 
+                <svg
+                  fill="none"
+                  height="16"
+                  viewBox="0 0 24 24"
+                  width="16"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="M10.75 8.75L14.25 12L10.75 15.25"
+                    stroke="currentColor"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth="1.5"
+                  />
+                </svg>
+              </Link>
+           
           </div>
           <div>
-            <div className="p-6 rounded-lg bg-opacity-20 bg-white">
-              <img src="https://media.istockphoto.com/id/1485440785/photo/science-covid-and-solution-with-a-black-woman-doctor-working-in-a-laboratory-for-research-or.webp?b=1&s=170667a&w=0&k=20&c=Z2xDwFlMDwXy3DmRdxlPSoj6AKor5gUUKW1NdiSibwY=" className="w-full h-full rounded-lg" />
+            <div className="p-6 shadow-2xl shadow-gray-200 rounded-lg bg-opacity-20 bg-white">
+              <img src="https://www.slab.lk/wp-content/uploads/2020/04/Medical-Clinical-.jpg.png" className="w-full h-full rounded-lg" />
             </div>
           </div>
           <Trustedby />
         </div>
       </div>
-    </div>
     
   )
 }

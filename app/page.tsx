@@ -1,9 +1,10 @@
 import BeautifulCard from "@/components/BeautifulCard";
+import BestThreeCards from "@/components/BestThreeCards";
 import BlackBg from "@/components/BlackBg";
 import Finisher from "@/components/Finisher";
 import Footer from "@/components/Footer";
 import GlobalConnection from "@/components/GlobalConnection";
-import { StickyScrollRevealDemo } from "@/components/StickyScroll";
+import { HeroParallaxDemo } from "@/components/HeroParallaxDemo";
 import { AutoTriggerTabs } from "@/components/auto-trigger-tabs";
 import { Faq } from "@/components/faq";
 import { LandingFirst } from "@/components/landing-first";
@@ -15,7 +16,8 @@ export default function Home() {
     <main className="">
       <LandingNav />
      <LandingFirst />
-     <StickyScrollRevealDemo />
+     <BestThreeCards />
+     <HeroParallaxDemo />
      <GlobalConnection />
      <AutoTriggerTabs />
      <BeautifulCard />

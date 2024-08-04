@@ -1,67 +1,130 @@
-import * as React from "react"
-
-import { Card, CardContent } from "@/components/ui/card"
-import {
-  Carousel,
-  CarouselContent,
-  CarouselItem,
-  CarouselNext,
-  CarouselPrevious,
-} from "@/components/ui/carousel"
-import { ArrowRightIcon } from "lucide-react"
-import Link from "next/link"
+"use client";
+import Image from "next/image";
+import React from "react";
+import { Carousel, } from "@/components/ui/apple-cards-carousel";
+import { Card } from "./ui/card";
+import Link from "next/link";
 
 export function BlogList() {
-  return (
-    <div className="bg-black space-y-2 pt-10">
-        <Carousel
-      opts={{
-        align: "start",
-      }}
-      className="container ml-auto py-20"
-    >
-      <CarouselContent>
-        {Array.from({ length: 5 }).map((_, index) => (
-          <CarouselItem key={index} className="md:basis-1/2 lg:basis-1/3">
-            <div className="p-1">
-            <Card className="group overflow-hidden max-w-xs rounded-none transition-all hover:shadow-xl border-none">
-            <Link href="#" className="block h-48 w-full overflow-hidden" prefetch={false}>
-              <img
-                src="https://media.istockphoto.com/id/1485440785/photo/science-covid-and-solution-with-a-black-woman-doctor-working-in-a-laboratory-for-research-or.webp?b=1&s=170667a&w=0&k=20&c=Z2xDwFlMDwXy3DmRdxlPSoj6AKor5gUUKW1NdiSibwY="
-                alt="Blog Post 1"
-                width={600}
-                height={400}
-                className="h-full w-full object-cover transition-all group-hover:scale-105"
-              />
-            </Link>
-            <div className="p-4">
-              <p className="mt-2 text-muted-foreground">
-                Discover how kuhes cutting-edge tools and technologies can revolutionize your software development
-                process.
-              </p>
-              <Link
-                href="#"
-                className="mt-4 inline-flex items-center gap-1 font-medium text-primary transition-colors hover:text-primary/80"
-                prefetch={false}
-              >
-                Read More
-                <ArrowRightIcon className="h-4 w-4" />
-              </Link>
-            </div>
-          </Card>
-            </div>
-          </CarouselItem>
-        ))}
-      </CarouselContent>
-      <div className="flex gap-2 mt-5 ml-5">
-        <CarouselPrevious />
-        <CarouselNext />
-      </div>
+  const cards = data.map((card, index) => (
+    <Card key={index} className="shadow-2xl w-screen md:w-[32rem] md:h-[30rem] shadow-gray-300 rounded-3xl border-t-4 border-t-blue-400 flex items-center justify-center p-10 md:px-20">
+          <div className="AccentedCard AccentedCard--shadowMedium AccentedCardCarouselItem__accentedCard" >
+             
+                  <div className="space-y-2">
+                      <section className="space-y-5" >
+                          <header className="text-xl font-bold tracking-wide">
+                              <h1 className="Copy__title">
+                                  Facilitate and monetize platform payments
+                              </h1>
+                          </header>
       
-    </Carousel>
+                          <div className="Copy__body">
+                              <p>Make your software integral to your users businesses by embedding our best-in-class payments technology to create your own payments service.</p>
+                          </div>
+      
+                          <Link href={'/signin'} className=" text-[#2a2e7c] font-bold flex items-center gap-2  bg-transparent rounded-[6px]  relative group transition duration-20 hover:bg-transparent">
+                            Learn more 
+                            <svg
+                              fill="none"
+                              height="16"
+                              viewBox="0 0 24 24"
+                              width="16"
+                              xmlns="http://www.w3.org/2000/svg"
+                            >
+                              <path
+                                d="M10.75 8.75L14.25 12L10.75 15.25"
+                                stroke="currentColor"
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                                strokeWidth="1.5"
+                              />
+                            </svg>
+                          </Link>
+                      </section>
+                  </div>
+          </div>
+      </Card>
+    // <Card key={card.src} card={card} index={index} layout={true} />
+  ));
+
+  return (
+    <div id='blog' className="w-full h-full py-20">
+      <h2 className="max-w-7xl pl-4 mx-auto text-xl md:text-5xl font-bold text-neutral-800 dark:text-neutral-200 font-sans">
+        Blog
+      </h2>
+      <Carousel items={cards} />
     </div>
-    
-  )
+  );
 }
 
+const DummyContent = () => {
+  return (
+    <>
+      {[...new Array(3).fill(1)].map((_, index) => {
+        return (
+          <div
+            key={"dummy-content" + index}
+            className="bg-[#F5F5F7] p-8 md:p-14 rounded-3xl mb-4"
+          >
+            <p className="text-neutral-600 text-base md:text-2xl font-sans max-w-3xl mx-auto">
+              <span className="font-bold text-neutral-700">
+                The first rule of Apple club is that you boast about Apple club.
+              </span>{" "}
+              Keep a journal, quickly jot down a grocery list, and take amazing
+              class notes. Want to convert those notes to text? No problem.
+              Langotiya jeetu ka mara hua yaar is ready to capture every
+              thought.
+            </p>
+            <Image
+              src="https://assets.aceternity.com/macbook.png"
+              alt="Macbook mockup from Aceternity UI"
+              height="500"
+              width="500"
+              className="md:w-1/2 md:h-1/2 h-full w-full mx-auto object-contain"
+            />
+          </div>
+        );
+      })}
+    </>
+  );
+};
 
+const data = [
+  {
+    category: "Artificial Intelligence",
+    title: "You can do more with AI.",
+    src: "https://images.unsplash.com/photo-1593508512255-86ab42a8e620?q=80&w=3556&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+    content: <DummyContent />,
+  },
+  {
+    category: "Productivity",
+    title: "Enhance your productivity.",
+    src: "https://images.unsplash.com/photo-1531554694128-c4c6665f59c2?q=80&w=3387&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+    content: <DummyContent />,
+  },
+  {
+    category: "Product",
+    title: "Launching the new Apple Vision Pro.",
+    src: "https://images.unsplash.com/photo-1713869791518-a770879e60dc?q=80&w=2333&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+    content: <DummyContent />,
+  },
+
+  {
+    category: "Product",
+    title: "Maps for your iPhone 15 Pro Max.",
+    src: "https://images.unsplash.com/photo-1599202860130-f600f4948364?q=80&w=2515&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+    content: <DummyContent />,
+  },
+  {
+    category: "iOS",
+    title: "Photography just got better.",
+    src: "https://images.unsplash.com/photo-1602081957921-9137a5d6eaee?q=80&w=2793&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+    content: <DummyContent />,
+  },
+  {
+    category: "Hiring",
+    title: "Hiring for a Staff Software Engineer",
+    src: "https://images.unsplash.com/photo-1511984804822-e16ba72f5848?q=80&w=2048&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+    content: <DummyContent />,
+  },
+];

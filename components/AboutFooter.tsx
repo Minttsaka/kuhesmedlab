@@ -1,51 +1,61 @@
-import React from 'react'
-import { Button } from './ui/button'
-import { Facebook } from 'lucide-react'
 import { InstagramLogoIcon, TwitterLogoIcon } from '@radix-ui/react-icons'
+import { Copyright, Facebook } from 'lucide-react'
+import React from 'react'
 
 export default function AboutFooter() {
   return (
-    <div className='py-20'>
-      <div className='container mx-auto grid grid-cols-4'>
+    <div className='relative  md:mt-80'>
+      <div className='absolute inset-x-0 -skew-y-12 top-40 bottom-0 h-[30rem] bg-[#2a2e7c] origin-top-left ' />
+      <div className='absolute inset-x-0  skew-y-12 top-40 bottom-0 h-[30rem] bg-[#2a2e7c] origin-top-right ' />
+      <div className='relative py-20 '>
+      <div className='container text-white mx-auto grid  md:grid-cols-4 lg:grid-cols-6 gap-5 md:gap-0 z-50'>
+        <h3 className='text-2xl  font-bold bg-gradient-to-r from-pink-500 to-purple-600 bg-clip-text text-transparent'>
+            Kuhesmedlab
+        </h3>
         <div>
-            <h2 className='font-bold'>Emerging tech</h2>
-            <ul className='space-y-2 mt-2'>
-                <li className="text-xs">Data science</li>
-                <li className="text-xs">Ai and Ml</li>
-                <li className="text-xs">Blockchain</li>
-                <li className="text-xs">interet of things</li>
-                <li className="text-xs">geneatative ai</li>
+            <h2 className='font-bold text-gray-300'>Products</h2>
+            <ul className='space-y-2 mt-2 text-gray-400'>
+                <li className="">Research</li>
+                <li className="">Survey</li>
+                <li className="">Data Analysis</li>
+                <li className="">Cloud Storage</li>
+                <li className="">Artificial Intelligence</li>
+                <li className="">Automation</li>
             </ul>
         </div>
 
         <div>
-            <h2 className='font-bold'>Emerging tech</h2>
-            <ul className='space-y-2 mt-2'>
-                <li className="text-xs">Data science</li>
-                <li className="text-xs">Ai and Ml</li>
-                <li className="text-xs">Blockchain</li>
-                <li className="text-xs">interet of things</li>
-                <li className="text-xs">geneatative ai</li>
+            <h2 className='font-bold text-gray-300'>Events</h2>
+            <ul className='space-y-2 mt-2 text-gray-400'>
+                <li className="">Organizational Events</li>
+                <li className="">Global Events</li>
+                <li className="">Institutional Events</li>
             </ul>
         </div>
 
         <div>
-            <h2 className='font-bold'>Emerging tech</h2>
-            <ul className='space-y-2 mt-2'>
-                <li className="text-xs">Data science</li>
-                <li className="text-xs">Ai and Ml</li>
-                <li className="text-xs">Blockchain</li>
-                <li className="text-xs">interet of things</li>
-                <li className="text-xs">geneatative ai</li>
+            <h2 className='font-bold text-gray-300'>Resources</h2>
+            <ul className='space-y-2 mt-2 text-gray-400'>
+                <li className="">Blog</li>
+                <li className="">Community</li>
+                <li className="">Faq</li>
+                <li className="">Support</li>
             </ul>
         </div>
 
-        <div className='space-y-3'>
+        <div>
+            <h2 className='font-bold text-gray-300'>About</h2>
+            <ul className='space-y-2 mt-2 text-gray-400'>
+                <li className="">About</li>
+                <li className="">About us</li>
+                <li className="">About Team</li>
+                <li className="">About Technology</li>
+            </ul>
+        </div>
+
+        <div className='space-y-3 text-gray-300'>
             <h3 className='font-bold'>Get in touch</h3>
-            <div className='flex gap-5'>
-                <Button>Contact us</Button>
-                <Button className='bg-transparent border text-black'>Contact us</Button>
-            </div>
+            
             <div>
                 <p className="font-light">0998970102</p>
                 <p className="font-light">sales@kuhes.com</p>
@@ -70,6 +80,7 @@ export default function AboutFooter() {
         </div>
             
       </div>
+    </div>
     </div>
   )
 }

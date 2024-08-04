@@ -1,27 +1,27 @@
 
-    export const faq = [
-      {
-        "question": "What is the purpose of this program on 'hidden' nursing professions?",
-        "answer": "The purpose of this program is to raise awareness and showcase the diverse range of career paths available to nurses beyond the traditional bedside care roles. It aims to inspire and empower students and early-career professionals to explore alternative nursing specialties that leverage their clinical expertise and problem-solving skills in unique ways."
-      },
-      {
-        "question": "What are the key focus areas of this program?",
-        "answer": "The program highlights four main 'hidden' nursing professions: forensic nursing, nurse informatics, nurse entrepreneurship, and nurse navigation. Each of these tracks provides specialized training and hands-on experience to prepare nurses for these alternative career paths."
-      },
-      {
-        "question": "Who is this program designed for?",
-        "answer": "This program is designed for current nursing students, as well as early-career nurses looking to expand their professional horizons. It provides opportunities for both undergraduate and graduate-level nursing learners to explore these lesser-known nursing roles."
-      },
-      {
-        "question": "What kind of curriculum and learning experiences does the program offer?",
-        "answer": "The program curriculum includes a combination of specialized coursework, clinical rotations, capstone projects, and industry partnerships. Students gain both theoretical knowledge and practical, hands-on experience in their chosen 'hidden' nursing specialty. Mentorship from experienced professionals in the field is also a key component."
-      },
-      {
-        "question": "What are the potential career outcomes for graduates of this program?",
-        "answer": "Graduates of this program are prepared to pursue a wide range of career paths, including roles as forensic nurses, nurse informaticists, nurse entrepreneurs, and nurse navigators. They are equipped with the skills and knowledge to drive innovation, improve patient outcomes, and make a meaningful impact in the healthcare industry."
-      },
-      {
-        "question": "Are there any scholarships or funding opportunities available for this program?",
-        "answer": "Yes, the program offers several scholarship and grant opportunities to support students, particularly those from underrepresented backgrounds in nursing. Prospective students are encouraged to explore the available financial aid options to make this program more accessible."
-      }
-    ]
+export const faq = [
+  {
+    question: "What is KUHESMEDLAB's mission?",
+    answer: "KUHESMEDLAB aims to empower medical laboratory professionals and students to drive innovation, collaboration, and excellence in healthcare, leveraging AI and technology to transform lives and communities in Malawi and beyond."
+  },
+  {
+    question: "What resources does KUHESMEDLAB offer for medical laboratory professionals?",
+    answer: "KUHESMEDLAB provides access to cutting-edge research, AI-driven tools, and collaboration platforms to support medical laboratory professionals in their work and research."
+  },
+  {
+    question: "Can I contribute my research or expertise to KUHESMEDLAB?",
+    answer: "Yes, KUHESMEDLAB welcomes contributions from medical laboratory professionals and researchers. You can share your research papers, expertise, and knowledge to help drive innovation and improve healthcare outcomes."
+  },
+  {
+    question: "How does KUHESMEDLAB utilize AI in medical laboratory science?",
+    answer: "KUHESMEDLAB harnesses the power of AI to analyze complex data, identify new research opportunities, and accelerate discovery in medical laboratory science, driving evidence-based decision-making and improving healthcare outcomes."
+  },
+  {
+    question: "Is KUHESMEDLAB open to collaboration with other organizations?",
+    answer: "Yes, KUHESMEDLAB seeks to collaborate with healthcare organizations, research institutions, and industry partners to drive innovation and improve healthcare outcomes in Malawi and beyond."
+  },
+  {
+    question: "How can I stay updated on KUHESMEDLAB's latest developments and research?",
+    answer: "You can subscribe to our newsletter, follow us on social media, or join our community forum to stay informed about our latest research, events, and initiatives."
+  }
+];

@@ -19,16 +19,16 @@ To read more about using these font, please visit the Next.js documentation:
 **/
 export function AboutTeam() {
   return (
-    <div>
-      <section className="w-full pt-12 md:pt-24 lg:pt-32">
+    <div className="relative py-10">
+      <section className="w-full ">
         <div className="container space-y-10 xl:space-y-16">
           <div className="flex flex-col items-center space-y-4 text-center">
             <div className="space-y-2">
               <h1 className="font-bold tracking-tighter  text-3xl">
                 Meet Our Team
               </h1>
-              <p className="mx-auto max-w-[700px] text-muted-foreground md:text-sm">
-                We are a passionate group of individuals dedicated to building innovative solutions.
+              <p className="mx-auto max-w-[700px] text-muted-foreground ">
+              KUHES MED LAB was founded by a diverse and dedicated team of individuals passionate about advancing medical research and improving healthcare outcomes.
               </p>
             </div>
           </div>
@@ -36,8 +36,8 @@ export function AboutTeam() {
             <div className="flex flex-col items-center space-y-4 rounded-lg bg-background p-6 shadow-lg transition-transform duration-300 ease-in-out hover:-translate-y-2 hover:shadow-xl">
               <img src="https://plus.unsplash.com/premium_photo-1680658096480-7ca2fe809317?q=80&w=1974&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="Team Member" width={120} height={120} className="rounded-full" />
               <div className="space-y-2 text-center">
-                <h3 className="text-xl font-bold">John Doe</h3>
-                <p className="text-muted-foreground">CEO</p>
+                <h3 className="text-xl font-bold">Chikumbutso Mzumara</h3>
+                <p className="text-muted-foreground">Founder</p>
                 <p className="text-sm text-muted-foreground">
                   John is the visionary behind our company, leading the team to new heights.
                 </p>
@@ -46,8 +46,8 @@ export function AboutTeam() {
             <div className="flex flex-col items-center space-y-4 rounded-lg bg-background p-6 shadow-lg transition-transform duration-300 ease-in-out hover:-translate-y-2 hover:shadow-xl">
               <img src="https://plus.unsplash.com/premium_photo-1680658096480-7ca2fe809317?q=80&w=1974&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="Team Member" width={120} height={120} className="rounded-full" />
               <div className="space-y-2 text-center">
-                <h3 className="text-xl font-bold">Jane Smith</h3>
-                <p className="text-muted-foreground">CTO</p>
+                <h3 className="text-xl font-bold">DL Banda</h3>
+                <p className="text-muted-foreground">CO-Founder</p>
                 <p className="text-sm text-muted-foreground">
                   Jane is our technical mastermind, driving innovation and engineering excellence.
                 </p>
@@ -56,8 +56,8 @@ export function AboutTeam() {
             <div className="flex flex-col items-center space-y-4 rounded-lg bg-background p-6 shadow-lg transition-transform duration-300 ease-in-out hover:-translate-y-2 hover:shadow-xl">
               <img src="https://plus.unsplash.com/premium_photo-1680658096480-7ca2fe809317?q=80&w=1974&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="Team Member" width={120} height={120} className="rounded-full" />
               <div className="space-y-2 text-center">
-                <h3 className="text-xl font-bold">Michael Johnson</h3>
-                <p className="text-muted-foreground">Lead Designer</p>
+                <h3 className="text-xl font-bold">Edna Nsulupi </h3>
+                <p className="text-muted-foreground">CO-Founder</p>
                 <p className="text-sm text-muted-foreground">
                   Michael is our creative visionary, crafting beautiful and user-friendly designs.
                 </p>
@@ -66,7 +66,7 @@ export function AboutTeam() {
             <div className="flex flex-col items-center space-y-4 rounded-lg bg-background p-6 shadow-lg transition-transform duration-300 ease-in-out hover:-translate-y-2 hover:shadow-xl">
               <img src="https://plus.unsplash.com/premium_photo-1680658096480-7ca2fe809317?q=80&w=1974&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="Team Member" width={120} height={120} className="rounded-full" />
               <div className="space-y-2 text-center">
-                <h3 className="text-xl font-bold">Emily Davis</h3>
+                <h3 className="text-xl font-bold">Nyasha Nguluwe</h3>
                 <p className="text-muted-foreground">Product Manager</p>
                 <p className="text-sm text-muted-foreground">
                   Emily is our user-centric product expert, ensuring our solutions meet the needs of our customers.

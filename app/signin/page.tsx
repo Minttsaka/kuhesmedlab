@@ -9,6 +9,9 @@ import { ArrowRight, Star } from "lucide-react";
 import { InstagramLogoIcon, TwitterLogoIcon } from '@radix-ui/react-icons'
 import { Copyright, Facebook } from 'lucide-react'
 import { SigninForm } from "@/components/SigninForm";
+import { getServerSession } from "next-auth";
+import { authOptions } from "@/lib/auth";
+import { redirect } from "next/navigation";
 
 /** Add fonts into your Next.js project:
 
@@ -23,14 +26,20 @@ To read more about using these font, please visit the Next.js documentation:
 - App Directory: https://nextjs.org/docs/app/building-your-application/optimizing/fonts
 - Pages Directory: https://nextjs.org/docs/pages/building-your-application/optimizing/fonts
 **/
-export default function page() {
+export default async function page() {
+
+  const session = await getServerSession(authOptions)
+
+  if(session){
+    redirect('/mw/dashboard')
+  }
   return (
-      <div className="relative h-screen bg-white w-full">
-        <div className="absolute inset-x-0  bottom-0 h-[30rem] bg-[#2a2e7c] -skew-y-12 origin-top-left" />
-        <div className="absolute inset-x-0  bottom-0 h-[30rem] bg-[#2a2e7c] origin-bottom-right" />
-        <div className="relative max-w-7xl mx-auto z-10 items-center p-6 gap-6">
+      <div className="relative flex items-center justify-center h-screen bg-white w-full">
+        <div className="absolute inset-x-0  bottom-0 h-[10rem] bg-[#2a2e7c] -skew-y-12 origin-top-left" />
+        <div className="absolute inset-x-0  bottom-0 h-[10rem] bg-[#2a2e7c] origin-bottom-right" />
+        <div className="z-10 p-6 gap-6">
           <SigninForm />
-          <div className='flex justify-between items-center pt-5'>
+          <div className='flex justify-between items-end pt-5'>
             <div className='flex gap-5 items-center'>
                 <Facebook className='h-4 w-4 text-white' />
                 <InstagramLogoIcon className='h-4 w-4 text-white' />

@@ -88,12 +88,12 @@ export function RegisterForm() {
   };
 
   return (
-      <Card className="w-full shadow md:px-8">
+      <Card className="w-full shadow ">
         <CardHeader className="space-y-2 text-center">
-          <CardTitle className="text-2xl font-bold my-10 mx-w-sm">Create your KuhesMedLab account today.</CardTitle>
+          <CardTitle className="text-2xl font-bold my-10 mx-w-sm md:px-8">Create your KuhesMedLab account today.</CardTitle>
           <CardDescription></CardDescription>
         </CardHeader>
-        <CardContent className="">
+        <CardContent className="md:px-8">
           <form onSubmit={handleSubmit(saveUser)}  className="space-y-8">
           <div className="grid gap-2">
             <Label htmlFor="name">Full Name</Label>
@@ -130,9 +130,9 @@ export function RegisterForm() {
           <Button type="submit" className="w-full rounded-md" disabled={isSubmitting}>{ isSubmitting ? <Loader2 className="h-3 w-3 animate-spin" /> : "Register"}</Button>
           </form>
         </CardContent>
-        <CardFooter className="flex flex-col gap-5">
+        <CardFooter className="flex flex-col gap-5 bg-[#2a2e7c] pt-50 rounded-b-md">
           
-          <p className="text-xs">Already have an account ? <Link className="text-[#2a2e7c] underline" href={'/signin'} >signin</Link></p>
+          <p className="text-xs text-gray-300">Already have an account ? <Link className=" underline" href={'/signin'} >signin</Link></p>
         </CardFooter>
       </Card>
   )

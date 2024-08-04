@@ -29,7 +29,7 @@ import { z } from "zod"
 import { useRouter } from "next/navigation"
 import { SubmitHandler, useForm } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
-import { signIn } from "next-auth/react"
+import { signIn, useSession } from "next-auth/react"
 import { toast } from "sonner"
 import { Loader2 } from "lucide-react"
 
@@ -45,6 +45,14 @@ type InputType = z.infer<typeof FormSchema>;
 export function SigninForm() {
 
   const router=useRouter()
+
+  const {data:session}=useSession()
+
+  if(session){
+    router.push('/mw/dashboard')
+  }
+
+  
 
   const {
     register,
@@ -93,7 +101,7 @@ export function SigninForm() {
                 exercitationem aspernatur architecto tempora consequuntur.
                 </p>
             </div>
-            <Button type="submit" className="w-full rounded-md" disabled={isSubmitting}>{ isSubmitting ? <Loader2 className="h-3 w-3 animate-spin" /> : "Register"}</Button>
+            <Button type="submit" className="w-full rounded-md" disabled={isSubmitting}>{ isSubmitting ? <Loader2 className="h-3 w-3 animate-spin" /> : "Signin"}</Button>
           </form>
         </CardContent>
         <CardFooter className="flex flex-col gap-5">

@@ -23,23 +23,40 @@ import Link from "next/link"
 import { Sheet, SheetTrigger, SheetContent, SheetClose } from "@/components/ui/sheet"
 import { Button } from "@/components/ui/button"
 import { signOut } from "next-auth/react"
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuGroup,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuPortal,
+  DropdownMenuSeparator,
+  DropdownMenuShortcut,
+  DropdownMenuSub,
+  DropdownMenuSubContent,
+  DropdownMenuSubTrigger,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu"
+import { Cloud, CreditCard, Github, Keyboard, LifeBuoy, LogOut, Mail, MessageSquare, Plus, PlusCircle, Settings, User, UserPlus, Users } from "lucide-react"
+
 
 export function DashboardNav() {
   return (
-    <header className="sticky top-0 z-50 w-full bg-[#2a2e7c] text-white">
-      <div className="container flex h-16 items-center justify-between px-4 md:px-6">
+    <header className="sticky flex justify-between items-center px-10 top-0 z-50 w-full bg-[#2a2e7c] text-white">
+      <div className="flex h-16 items-center gap-10 justify-between ">
         <Link href="#" className="flex items-center gap-2" prefetch={false}>
           <span className="text-lg font-semibold">  Kuhesmedlab</span>
         </Link>
         <nav className="hidden items-center gap-6 md:flex">
           <Link href="#" className="text-sm hover:text-primary" prefetch={false}>
-            My Account
+            My Research Projects
           </Link>
           <Link href="#" className="text-sm hover:text-primary" prefetch={false}>
-            kuhes Products
+          My Research Group
           </Link>
           <Link href="#" className="text-sm hover:text-primary" prefetch={false}>
-            Solutions
+            Events
           </Link>
           <Link href="#" className="text-sm hover:text-primary" prefetch={false}>
             Pricing
@@ -91,13 +108,13 @@ export function DashboardNav() {
                 My Account
               </Link>
               <Link href="#" className="text-sm hover:text-primary" prefetch={false}>
-                kuhes Products
+                My research Projects
               </Link>
               <Link href="#" className="text-sm hover:text-primary" prefetch={false}>
-                Solutions
+              My research Group
               </Link>
               <Link href="#" className="text-sm hover:text-primary" prefetch={false}>
-                Pricing
+                Events
               </Link>
               <Link href="#" className="text-sm hover:text-primary" prefetch={false}>
                 Documentation
@@ -124,6 +141,95 @@ export function DashboardNav() {
           </SheetContent>
         </Sheet>
       </div>
+      <DropdownMenu>
+      <DropdownMenuTrigger asChild>
+          <Avatar>
+            <AvatarImage src="https://github.com/shadcn.png" />
+            <AvatarFallback>CN</AvatarFallback>
+          </Avatar>
+      </DropdownMenuTrigger>
+      <DropdownMenuContent className="w-56">
+        <DropdownMenuLabel>My Account</DropdownMenuLabel>
+        <DropdownMenuSeparator />
+        <DropdownMenuGroup>
+          <DropdownMenuItem>
+            <User className="mr-2 h-4 w-4" />
+            <span>Profile</span>
+            <DropdownMenuShortcut>⇧⌘P</DropdownMenuShortcut>
+          </DropdownMenuItem>
+          <DropdownMenuItem>
+            <CreditCard className="mr-2 h-4 w-4" />
+            <span>Billing</span>
+            <DropdownMenuShortcut>⌘B</DropdownMenuShortcut>
+          </DropdownMenuItem>
+          <DropdownMenuItem>
+            <Settings className="mr-2 h-4 w-4" />
+            <span>Settings</span>
+            <DropdownMenuShortcut>⌘S</DropdownMenuShortcut>
+          </DropdownMenuItem>
+          <DropdownMenuItem>
+            <Keyboard className="mr-2 h-4 w-4" />
+            <span>Keyboard shortcuts</span>
+            <DropdownMenuShortcut>⌘K</DropdownMenuShortcut>
+          </DropdownMenuItem>
+        </DropdownMenuGroup>
+        <DropdownMenuSeparator />
+        <DropdownMenuGroup>
+          <DropdownMenuItem>
+            <Users className="mr-2 h-4 w-4" />
+            <span>Team</span>
+          </DropdownMenuItem>
+          <DropdownMenuSub>
+            <DropdownMenuSubTrigger>
+              <UserPlus className="mr-2 h-4 w-4" />
+              <span>Invite users</span>
+            </DropdownMenuSubTrigger>
+            <DropdownMenuPortal>
+              <DropdownMenuSubContent>
+                <DropdownMenuItem>
+                  <Mail className="mr-2 h-4 w-4" />
+                  <span>Email</span>
+                </DropdownMenuItem>
+                <DropdownMenuItem>
+                  <MessageSquare className="mr-2 h-4 w-4" />
+                  <span>Message</span>
+                </DropdownMenuItem>
+                <DropdownMenuSeparator />
+                <DropdownMenuItem>
+                  <PlusCircle className="mr-2 h-4 w-4" />
+                  <span>More...</span>
+                </DropdownMenuItem>
+              </DropdownMenuSubContent>
+            </DropdownMenuPortal>
+          </DropdownMenuSub>
+          <DropdownMenuItem>
+            <Plus className="mr-2 h-4 w-4" />
+            <span>New Team</span>
+            <DropdownMenuShortcut>⌘+T</DropdownMenuShortcut>
+          </DropdownMenuItem>
+        </DropdownMenuGroup>
+        <DropdownMenuSeparator />
+        <DropdownMenuItem>
+          <Github className="mr-2 h-4 w-4" />
+          <span>GitHub</span>
+        </DropdownMenuItem>
+        <DropdownMenuItem>
+          <LifeBuoy className="mr-2 h-4 w-4" />
+          <span>Support</span>
+        </DropdownMenuItem>
+        <DropdownMenuItem disabled>
+          <Cloud className="mr-2 h-4 w-4" />
+          <span>API</span>
+        </DropdownMenuItem>
+        <DropdownMenuSeparator />
+        <DropdownMenuItem>
+          <LogOut className="mr-2 h-4 w-4" />
+          <span>Log out</span>
+          <DropdownMenuShortcut>⇧⌘Q</DropdownMenuShortcut>
+        </DropdownMenuItem>
+      </DropdownMenuContent>
+    </DropdownMenu>
+
     </header>
   )
 }

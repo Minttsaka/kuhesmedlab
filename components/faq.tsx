@@ -28,7 +28,7 @@ type Faq = {
 
 export function Faq() {
   return (
-    <section className="w-full py-24 bg-gray-100">
+    <section id="faq" className="w-full py-24 bg-gray-100">
       <div className="container mx-auto">
         <div className="">
           <div className="text-center">
