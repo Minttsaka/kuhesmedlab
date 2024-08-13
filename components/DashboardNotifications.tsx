@@ -16,7 +16,6 @@ export default async function DashboardNotifications() {
     }
   })
 
-  console.log(user)
 
   const hasNoBio = user?.bio===null
   

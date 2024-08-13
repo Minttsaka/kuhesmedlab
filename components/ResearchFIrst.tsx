@@ -16,16 +16,16 @@ export default function ResearchFIrst() {
         <div className="stats-container">
           <div className="shadow-md bg-white max-w-2xl flex flex-col items-start sm:flex-row justify-between rounded-md mx-auto p-8">
             <div className="flex flex-col my-2">
-              <p className="text-6xl font-extrabold">100+</p>
-              <span className="ml-2 mt-2">Components</span>
+              <p className="text-6xl font-extrabold">10+</p>
+              <span className="ml-2 mt-2">Research papers</span>
             </div>
             <div className="flex flex-col my-2">
-              <p className="text-6xl font-extrabold">25+</p>
-              <span className="ml-2 mt-2">Categories</span>
+              <p className="text-6xl font-extrabold">10+</p>
+              <span className="ml-2 mt-2">Users</span>
             </div>
             <div className="flex flex-col my-2">
-              <p className="text-6xl font-extrabold">15</p>
-              <span className="ml-2 mt-2">Monthly Updates</span>
+              <p className="text-6xl font-extrabold">2</p>
+              <span className="ml-2 mt-2">Citations</span>
             </div>
           </div>
         </div>

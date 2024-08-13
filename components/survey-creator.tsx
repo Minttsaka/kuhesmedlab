@@ -30,167 +30,45 @@ import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
 import { Textarea } from "@/components/ui/textarea"
 import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from "@/components/ui/select"
-import { SurveyCollabo } from "./SurveyCollabo"
 import { AddQuestionForSurvey } from "./add-question-for-survey"
 import { InviteSurvey } from "./invite-survey"
 import { SurveyQuestionList } from "./survey-question-list"
-import { Graph } from "./ResearchPattern"
+
+import { Research, Survey,  } from "@prisma/client"
 
 //
 
-export function SurveyCreator() {
+export function SurveyCreator({survey, research}:{ survey:Survey, research:Research}) {
   return (
-    <div className="flex flex-col min-h-screen ">
+    <div className="flex flex-col ">
       <header className=" text-gray-500 py-4 px-6 ">
-        <div className=" flex items-center justify-between">
+        <div className=" ">
           <h1 className="text-2xl font-bold">Survey Builder</h1>
-          <div className="flex items-center gap-4">
-            <Link href="#" className="hover:underline" prefetch={false}>
-              Home
-            </Link>
-            <Link href="#" className="hover:underline" prefetch={false}>
-              My Surveys
-            </Link>
-            <Avatar className="h-8 w-8 bg-[#4f46e5] text-white">
-              <AvatarImage src="/placeholder-user.jpg" />
-              <AvatarFallback>JD</AvatarFallback>
-            </Avatar>
-          </div>
+          
         </div>
       </header>
       <main className="flex  ">
         <div className="w-full grid grid-cols-1 md:grid-cols-2 gap-8 m-10">
           <section className="mt-10">
-            <h2 className="text-2xl w-full text-center font-bold mb-4 text-[#334155]">Why most people are not successfull</h2>
-            <p className="text-center text-gray-500 mb-5">Lorem ipsum, dolor sit amet consectetur adipisicing elit. Quaerat ratione ipsam quisquam accusamus aspernatur id veniam deserunt, eaque explicabo magnam.</p>
-           <div className="flex justify-center space-x-5">
-            {/* <AddQuestionForSurvey /> */}
-         
-
-            <button className="px-12 py-4 rounded-full bg-[#1ED760] font-bold text-white tracking-widest uppercase transform hover:scale-105 hover:bg-[#21e065] transition-colors duration-200">
-                  Preview Survey
-              </button>
+          <div className="w-fit mb-5 lg:mb-5 overflow-hidden tracking-[3px] text-xs md:px-5 md:py-2 lg:text-xs uppercase bg-gradient-to-r from-blue-300 to-purple-400 text-white rounded-full px-4 py-2">
+                <span>Research
+                </span>
+              </div>
+            <h2 className="text-2xl w-full  font-bold mb-4 text-[#334155]">{research?.title}</h2>
+            <p className=" text-gray-500 mb-5">{research?.abstract}</p>
+           <div className="space-x-5">
+           <div className="w-fit mb-5 lg:mb-5 overflow-hidden tracking-[3px] text-xs md:px-3 md:py-1 lg:text-xs uppercase bg-gradient-to-r from-blue-300 to-purple-400 text-white rounded-full px-4 py-2">
+                <span>Survey
+                </span>
+              </div>
+              <h2 className="text-2xl w-full text-center font-bold mb-4 text-[#334155]">{survey?.title}</h2>
+              <p className="text-center text-gray-500 mb-5">{survey.description}</p>
            </div>
           </section>
           <section className=" shadow rounded-lg">
             <InviteSurvey />
-          </section>
-          <section className="w-full col-span-2  rounded-2xl">
-            <SurveyQuestionList />
-          </section>
-         
-          <section className=" ">
-          <div className="space-y-5">
-        <div className="text-xs flex justify-between items-center">
-          <p className="text-xl">
-            Recent Activity
-          </p>
-          <p>View All</p>
+          </section>                 
         </div>
-
-        <div className="space-y-5">
-          <div className="flex items-start gap-10">
-            <Avatar>
-              <AvatarImage src="" />
-              <AvatarFallback>
-
-              </AvatarFallback>
-            </Avatar>
-            <div className="text-sm space-y-2">
-              <h5 className=" text-lg">
-                Lorem ipsum dolor sit amet consectetur.
-              </h5>
-              <p className="text-gray-500">Lorem ipsum dolor sit amet consectetur adipisicing elit. Ipsum, nulla?</p>
-              <div>
-                <div>
-
-                </div>
-                <p>Lorem, ipsum dolor.<br />12:45 pm</p>
-              </div>
-            </div>
-          </div>
-
-          <div className="flex items-start gap-10">
-            <Avatar>
-              <AvatarImage src="" />
-              <AvatarFallback>
-
-              </AvatarFallback>
-            </Avatar>
-            <div className="text-sm space-y-2">
-              <h5 className=" text-lg">
-                Lorem ipsum dolor sit amet consectetur.
-              </h5>
-              <p className="text-gray-500">Lorem ipsum dolor sit amet consectetur adipisicing elit. Ipsum, nulla?</p>
-              <div>
-                <div>
-
-                </div>
-                <p>Lorem, ipsum dolor.<br />12:45 pm</p>
-              </div>
-            </div>
-          </div>
-
-          <div className="flex items-start gap-10">
-            <Avatar>
-              <AvatarImage src="" />
-              <AvatarFallback>
-
-              </AvatarFallback>
-            </Avatar>
-            <div className="text-sm space-y-2">
-              <h5 className=" text-lg">
-                Lorem ipsum dolor sit amet consectetur.
-              </h5>
-              <p className="text-gray-500">Lorem ipsum dolor sit amet consectetur adipisicing elit. Ipsum, nulla?</p>
-              <div>
-                <div>
-
-                </div>
-                <p>Lorem, ipsum dolor.<br />12:45 pm</p>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-          </section>
-          <div>
-            <Graph />
-            <div>
-              <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Eveniet, pariatur cum! Cum ipsa eos odio temporibus rem fugiat non accusantium corrupti repellat modi voluptatibus, neque cupiditate dolorem esse eveniet beatae!</p>
-            </div>
-          </div>
-          
-          <section className="col-span-1 md:col-span-2">
-            <h2 className="text-2xl font-bold mb-4 text-[#334155]">Preview and Publish</h2>
-            <div className=" rounded-lg shadow p-6">
-              <div className="mb-4">
-                <Label htmlFor="survey-link" className="block font-medium mb-2 text-[#334155]">
-                  Survey Link
-                </Label>
-                <Input
-                  id="survey-link"
-                  type="text"
-                  placeholder="https://example.com/survey"
-                  className="w-full  border-[#e2e8f0] focus:ring-[#6366f1] focus:border-[#6366f1]"
-                />
-              </div>
-              <div className="grid grid-cols-2 gap-4">
-                <Button variant="outline" className="bg-[#6366f1] text-white hover:bg-[#4f46e5]">
-                  <EyeIcon className="mr-2 h-4 w-4" />
-                  Preview
-                </Button>
-                <Button className="bg-[#6366f1] text-white hover:bg-[#4f46e5]">
-                  <UploadIcon className="mr-2 h-4 w-4" />
-                  Publish
-                </Button>
-              </div>
-            </div>
-          </section>
-        </div>
-        <section className="md:w-[30%]">
-            <SurveyCollabo />
-          </section>
       </main>
       
     </div>

@@ -28,9 +28,11 @@ To read more about using these font, please visit the Next.js documentation:
 **/
 export default async function page() {
 
-  const session = await getServerSession(authOptions)
+  const session:any = await getServerSession(authOptions)
 
-  if(session){
+  const user = session?.user
+
+  if(user){
     redirect('/mw/dashboard')
   }
   return (

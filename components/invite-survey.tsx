@@ -25,6 +25,7 @@ import { Button } from "@/components/ui/button"
 import { Command, CommandInput, CommandList, CommandEmpty, CommandGroup, CommandItem } from "@/components/ui/command"
 import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar"
 import { GroupMembers } from "./GroupMembers"
+import { IconMailAi } from "@tabler/icons-react"
 
 export function InviteSurvey() {
   return (
@@ -39,17 +40,16 @@ export function InviteSurvey() {
         <GroupMembers />
         <form className="space-y-4">
           
-          <div className="space-y-2">
-            <Label htmlFor="collaborators">Collaborators</Label>
+          <div className="space-y-2 flex gap-2">
             <DropdownMenu>
-              <DropdownMenuTrigger className="w-full relative text-sm sm:text-base z-50 border-2 border-green-600 dark:text-white bg-transparent text-black h-full rounded-full focus:outline-none focus:ring-0 pl-4 sm:pl-10 pr-20 " asChild>
+              <DropdownMenuTrigger className="w-full relative bg-gradient-to-r from-blue-300 to-purple-400 rounded-2xl px-2 " asChild>
                   <span className="flex items-center justify-between">
                     Add collaborators
                   <ChevronDownIcon className="h-4 w-4" />
                   </span>
                   
               </DropdownMenuTrigger>
-              <DropdownMenuContent className="w-[300px] bg-background">
+              <DropdownMenuContent className="w-full bg-zinc-400">
                 <DropdownMenuLabel>Collaborators</DropdownMenuLabel>
                 <DropdownMenuSeparator />
                 <Command>
@@ -90,10 +90,14 @@ export function InviteSurvey() {
                 </Command>
               </DropdownMenuContent>
             </DropdownMenu>
-          </div>
-          <button className="px-12 w-full py-4 rounded-full bg-[#1ED760] font-bold text-white tracking-widest uppercase transform hover:scale-105 hover:bg-[#21e065] transition-colors duration-200">
-            Invite
+            <button className="px-8 py-2  rounded-full relative bg-slate-700 text-white text-sm hover:shadow-2xl hover:shadow-white/[0.1] transition duration-200 border border-slate-600">
+            <div className="absolute inset-x-0 h-px w-1/2 mx-auto -top-px shadow-2xl  bg-gradient-to-r from-transparent via-teal-500 to-transparent" />
+            <span className="relative flex items-center gap-1 z-20">
+              Invite <IconMailAi />
+            </span>
           </button>
+          </div>
+          
         </form>
       </CardContent>
     </Card>

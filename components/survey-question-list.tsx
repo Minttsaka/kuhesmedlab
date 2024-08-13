@@ -17,99 +17,222 @@ To read more about using these font, please visit the Next.js documentation:
 - App Directory: https://nextjs.org/docs/app/building-your-application/optimizing/fonts
 - Pages Directory: https://nextjs.org/docs/pages/building-your-application/optimizing/fonts
 **/
-import { Table, TableHeader, TableRow, TableHead, TableBody, TableCell } from "@/components/ui/table"
-import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from "@/components/ui/select"
-import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar"
 
-export function SurveyQuestionList() {
+"use client"
+import { Table, TableHeader, TableRow, TableHead, TableBody, TableCell } from "@/components/ui/table"
+import { Dialog, DialogTrigger, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "@/components/ui/dialog"
+import { Button } from "antd"
+import { Input } from "./ui/input"
+import axios from "axios"
+import { z } from "zod"
+import { zodResolver } from "@hookform/resolvers/zod";
+import { SubmitHandler, useForm } from "react-hook-form";
+import useSWR from "swr"
+import { Label } from "./ui/label"
+import { toast } from "sonner"
+import { SurveyFormAnswer } from "@prisma/client"
+import { Loader2 } from "lucide-react"
+import Link from "next/link"
+
+
+type SurveyFormQuestion = {
+  id: string
+  title: string
+  image: string | null
+  choices:SurveyFormAnswer[]
+  formId: string
+  author: string
+  createdAt: Date
+}
+
+const FormSchema = z.object({
+  title: z
+    .string()
+    .min(2, "First name must be at least 2 characters"),
+  description: z.string()
+  .min(2, "First name must be at least 2 characters")
+});
+
+type InputType = z.infer<typeof FormSchema>;
+
+
+
+const fetcher = async (url:string) => {
+  const res = await axios.get(url);
+
+  return res.data;
+};
+
+
+export function SurveyQuestionList({surveyId}:{surveyId:string}) {
+
+  const {
+    register,
+    handleSubmit,
+    reset,
+    control,
+    watch,
+    formState: { errors,isSubmitting },
+  } = useForm<InputType>({
+    resolver: zodResolver(FormSchema),
+  });
+
+  console.log(errors)
+
+
+  const { data, mutate, isLoading, error } = useSWR(
+    `/api/form/${surveyId}`,
+    fetcher
+  );
+
+  if (isLoading) {
+    return <div>Loading...</div>;
+  }
+
+  if (error) {
+    return <div>Error loading data</div>;
+
+
+  }
+  console.log(surveyId,  "first")
+
+  const saveform: SubmitHandler<InputType> = async (data) => {
+
+    console.log(surveyId,  "second")
+
+    const {title, description} = data
+  try {
+    const response= await axios.post('/api/form',{
+      title,
+      description,
+      surveyId
+        })
+      mutate();
+      toast.success("The User Registered Successfully.");
+      
+  } catch (error) {
+    console.log(error)
+  }
+};
+
+const formList = Array.isArray(data) ? data : [];
+
   return (
     <div className="rounded-lg w-full">
-      <h2 className="font-bold text-gray-500">Respondents</h2>
+      <div className="flex items-center justify-between mx-10 mb-5">
+      <h2 className="font-bold text-gray-500">Questionaires</h2>
+      <Dialog>
+      <DialogTrigger asChild>
+        <button className="px-8 py-2 rounded-full relative bg-gradient-to-r from-blue-400 to-purple-500 text-white text-sm hover:shadow-2xl hover:shadow-white/[0.1] transition duration-200 ">
+          <div className="absolute inset-x-0 h-px w-1/2 mx-auto -top-px shadow-2xl  bg-gradient-to-r from-transparent via-teal-500 to-transparent" />
+          <span className="relative z-20">
+          Create new form
+          </span>
+        </button>
+      </DialogTrigger>
+      <DialogContent className="bg-[#c8f2f3] sm:max-w-[425px]">
+        <DialogTitle>
+          <h2 className='text-gray-600 font-bold space-y-5 text-center'>Create New survey Form</h2>
+        </DialogTitle>
+        <form onSubmit={handleSubmit(saveform)} className="grid gap-4 py-4">
+          <div className="">
+            <Label htmlFor="title" className="text-right">
+              Title
+            </Label>
+            <Input
+              id="title"
+              {...register("title")}
+              className="bg-transparent border-b-2 focus:outline-0 border-b-[green]"
+            />
+          </div>
+          <div className="">
+            <Label htmlFor="description" className="text-right">
+             Description
+            </Label>
+            <Input
+            {...register("description")}
+              id="description"
+              className="bg-transparent border-b-2 focus:outline-0 border-b-[green]"
+            />
+          </div>
+          <button type='submit' className="px-8 py-2 rounded-full relative bg-gradient-to-r from-blue-400 to-purple-500 text-white text-sm hover:shadow-2xl hover:shadow-white/[0.1] transition duration-200"
+          disabled={isSubmitting}
+          >
+            <div className="absolute inset-x-0 h-px w-1/2 mx-auto -top-px shadow-2xl  bg-gradient-to-r from-transparent via-teal-500 to-transparent" />
+            <span className="relative z-20">
+                {isSubmitting ? (<Loader2 className=" animate-spin h-4 w-4"/>) : "Create New form"}
+            </span>
+            </button>
+        </form>
+      </DialogContent>
+    </Dialog>
+      </div>
+      
       <div className="relative w-full overflow-auto">
-        <Table>
-          <TableHeader >
-            <TableRow>
-              <TableHead>Image</TableHead>
-              <TableHead>Name</TableHead>
-              <TableHead>Questions</TableHead>
-            </TableRow>
-          </TableHeader>
-          <TableBody  className="w-full">
-            <TableRow>
-              <TableCell className="font-medium">
-                <Avatar>
-                  <AvatarImage className="object-cover" src="https://images.unsplash.com/photo-1544725176-7c40e5a71c5e?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=3534&q=80"  />
-                  <AvatarFallback className="src only">
-                    avatar
-                  </AvatarFallback>
-                </Avatar>
-              </TableCell>
-              <TableCell>Miracle tsaka</TableCell>
-              <TableCell>
-                <Select>
-                  <SelectTrigger className="w-fit text-sm sm:text-base z-50 border-2 border-green-600 dark:text-white bg-transparent text-black h-full rounded-full focus:outline-none focus:ring-0 pl-4 sm:pl-10 pr-20 ">
-                    <SelectValue placeholder="Attempted All Questions" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="red">Red</SelectItem>
-                    <SelectItem value="green">Green</SelectItem>
-                    <SelectItem value="blue">Blue</SelectItem>
-                    <SelectItem value="yellow">Yellow</SelectItem>
-                  </SelectContent>
-                </Select>
-              </TableCell>
-            </TableRow>
-            <TableRow>
-              <TableCell className="font-medium">
-                <Avatar>
-                  <AvatarImage className="object-cover" src="https://images.unsplash.com/photo-1544725176-7c40e5a71c5e?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=3534&q=80"  />
-                  <AvatarFallback className="src only">
-                    avatar
-                  </AvatarFallback>
-                </Avatar>
-              </TableCell>
-              <TableCell>Miracle tsaka</TableCell>
-              <TableCell>
-                <Select>
-                  <SelectTrigger className="w-fit text-sm sm:text-base z-50 border-2 border-green-600 dark:text-white bg-transparent text-black h-full rounded-full focus:outline-none focus:ring-0 pl-4 sm:pl-10 pr-20 ">
-                    <SelectValue placeholder="Attempted All Questions" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="red">Red</SelectItem>
-                    <SelectItem value="green">Green</SelectItem>
-                    <SelectItem value="blue">Blue</SelectItem>
-                    <SelectItem value="yellow">Yellow</SelectItem>
-                  </SelectContent>
-                </Select>
-              </TableCell>
-            </TableRow>
-            <TableRow>
-              <TableCell className="font-medium">
-                <Avatar>
-                  <AvatarImage className="object-cover" src="https://images.unsplash.com/photo-1544725176-7c40e5a71c5e?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=3534&q=80"  />
-                  <AvatarFallback className="src only">
-                    avatar
-                  </AvatarFallback>
-                </Avatar>
-              </TableCell>
-              <TableCell>Miracle tsaka</TableCell>
-              <TableCell>
-                <Select>
-                  <SelectTrigger className="w-fit text-sm sm:text-base z-50 border-2 border-green-600 dark:text-white bg-transparent text-black h-full rounded-full focus:outline-none focus:ring-0 pl-4 sm:pl-10 pr-20 ">
-                    <SelectValue placeholder="Attempted All Questions" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="red">Red</SelectItem>
-                    <SelectItem value="green">Green</SelectItem>
-                    <SelectItem value="blue">Blue</SelectItem>
-                    <SelectItem value="yellow">Yellow</SelectItem>
-                  </SelectContent>
-                </Select>
-              </TableCell>
-            </TableRow>
-           
+      {formList.length === 0 && (<p  className=" text-gray-500">No survey form for this survey</p>)}
+   
+                {formList.length > 0 &&
+                
+                <Table className="space-y-5">
+                <TableHeader className="rounded-full text-gray-500">
+                  <TableRow className="border border-green-300  rounded-3xl">
+                    <TableHead>Title</TableHead>
+                    <TableHead>Description</TableHead>
+                    <TableHead>No. of Questions</TableHead>
+                    <TableHead>No. of Respondents</TableHead>
+                    <TableHead>Action</TableHead>
+                  </TableRow>
+                </TableHeader>
+                <TableBody  className="w-full ">
+                
+                  
+                  {formList.map(form=>(
+                    <TableRow key={form.id}>
+                    <TableCell key={form.id} className="font-medium">
+                    {form.title}
+                   </TableCell>
+                   <TableCell key={form.id} className="font-medium">
+                   {form.description}
+                  </TableCell>
+                  <TableCell key={form.id} className="font-medium">
+                   {form?.questions?.length}
+                  </TableCell>
+                  <TableCell key={form.id} className="font-medium">
+                   {form?.questions?.map((question:SurveyFormQuestion)=>(<span key={question.id}>{question.choices.length}</span>))}
+                  </TableCell>
+                    
+                    <TableCell className="flex gap-1 items-center">
+                      <Link href={`/mw/survey/create/${form.id}`} target="_blank">
+                        <button className="px-8 py-2 rounded-full relative bg-green-400 text-white text-sm hover:shadow-2xl hover:shadow-white/[0.1] transition duration-200 ">
+                            <div className="absolute inset-x-0 h-px w-1/2 mx-auto -top-px shadow-2xl  bg-gradient-to-r from-transparent via-teal-500 to-transparent" />
+                            <span className="relative z-20">
+                              View
+                            </span>
+                          </button>
+                      </Link>
+                      <button className="px-8 py-2 rounded-full relative bg-blue-400 text-white text-sm hover:shadow-2xl hover:shadow-white/[0.1] transition duration-200 ">
+                        <div className="absolute inset-x-0 h-px w-1/2 mx-auto -top-px shadow-2xl  bg-gradient-to-r from-transparent via-teal-500 to-transparent" />
+                        <span className="relative z-20">
+                          Edit
+                        </span>
+                      </button>
+                      <button className="px-8 py-2 rounded-full relative bg-[red] text-white text-sm hover:shadow-2xl hover:shadow-white/[0.1] transition duration-200 ">
+                        <div className="absolute inset-x-0 h-px w-1/2 mx-auto -top-px shadow-2xl  bg-gradient-to-r from-transparent via-teal-500 to-transparent" />
+                        <span className="relative z-20">
+                          Delete
+                        </span>
+                      </button>
+                    </TableCell>
+                  </TableRow>
+                  ))}
+              
+              
+               
           </TableBody>
         </Table>
+        }
+
+          
       </div>
     </div>
   )

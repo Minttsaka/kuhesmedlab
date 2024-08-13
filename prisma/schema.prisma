@@ -49,6 +49,195 @@ model User {
   emailVerified DateTime?
    phone        String?
   image         String?
+  researchId    String?
+  reviews     Review[]
+  files       File[]
+  researchPapers ResearchPaper[]
   accounts      Account[]
   sessions      Session[]
+  research      Research?     @relation(fields: [researchId], references: [id])
+}
+
+model Research {
+  id          String        @id @default(auto()) @map("_id") @db.ObjectId
+  title       String
+  creatorId   String
+  keyWords    String
+  abstract      String?
+  researchField  String
+  publicationDate DateTime?
+  doi           String     @unique
+  journal       String
+  conference    String
+  updatedAt     DateTime    @updatedAt
+  creatorName String
+  affiliation String
+  author      Author[]
+  surveys     Survey[]
+  files       File[]
+  participants User[]
+  createdAt   DateTime   @default(now())
+}
+
+model File {
+  id           String    @id @default(auto()) @map("_id") @db.ObjectId
+  url          String    // URL or path to the file
+  keyWords     String
+  filename     String    // Original file name
+  mimetype     String?    // MIME type of the file (e.g., application/pdf)
+  researchId   String
+  research     Research  @relation(fields: [researchId], references: [id])
+  uploadedById String
+  uploadedBy   User      @relation(fields: [uploadedById], references: [id])
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime  @updatedAt
+}
+
+model Author {
+  id          String   @id @default(auto()) @map("_id") @db.ObjectId
+  firstName   String
+  lastName    String
+  email       String   @unique
+  researchId  String
+  affiliation String?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  research    Research @relation(fields: [researchId], references: [id])
+}
+
+
+enum QuestionType {
+  Paragraph
+  Multiple_Choice
+  Short_Answer
+  Checkbox
+  Rating
+}
+
+model Survey {
+   id         String        @id @default(auto()) @map("_id") @db.ObjectId
+  title       String
+  description String
+  creatorId   String?
+  creatorName String
+  surveyForm  SurveyForm[]
+  researchId  String
+  research     Research    @relation(fields: [researchId], references: [id])
+  createdAt   DateTime   @default(now())
+}
+
+model SurveyForm {
+  id          String        @id @default(auto()) @map("_id") @db.ObjectId
+  title       String
+  description String
+  creatorId   String
+  creatorName String
+  questions   SurveyFormQuestion[]
+  surveyId    String
+  survey      Survey    @relation(fields: [surveyId], references: [id])
+  createdAt   DateTime   @default(now())
+}
+
+model SurveyFormQuestion {
+  id       String      @id @default(auto()) @map("_id") @db.ObjectId
+  title    String
+  image    String?
+  type     QuestionType
+  choices  SurveyFormAnswer[]
+  formId   String
+  author   String
+  authorId String
+  form     SurveyForm     @relation(fields: [formId], references: [id])
+  createdAt   DateTime   @default(now())
+}
+
+
+model SurveyFormAnswer {
+  id         String      @id @default(auto()) @map("_id") @db.ObjectId
+  answer     String
+  userId     String
+  questionId String
+  question   SurveyFormQuestion @relation(fields: [questionId], references: [id])
+  createdAt  DateTime @default(now())
+}
+
+model ResearchPaper {
+  id            String      @id @default(auto()) @map("_id") @db.ObjectId
+  title         String
+  abstract      String?
+  publicationDate DateTime?
+  fileUrl       String
+  doi           String?     @unique
+  journal       String?
+  conference    String?
+  createdAt     DateTime    @default(now())
+  updatedAt     DateTime    @updatedAt
+  authorId      String
+  author        User      @relation(fields: [authorId], references: [id])
+  categories    PaperCategory[]
+  tags          PaperTag[]
+  citations     Citation[]
+  reviews       Review[]
+}
+
+model Category {
+  id          String         @id @default(auto()) @map("_id") @db.ObjectId
+  name        String         @unique
+  description String?
+  createdAt   DateTime       @default(now())
+  updatedAt   DateTime       @updatedAt
+  papers      PaperCategory[]
+}
+
+model Tag {
+  id        String      @id @default(auto()) @map("_id") @db.ObjectId
+  name      String      @unique
+  createdAt DateTime    @default(now())
+  updatedAt DateTime    @updatedAt
+  papers    PaperTag[]
+}
+
+model PaperCategory {
+  id         String         @id @default(auto()) @map("_id") @db.ObjectId
+  paperId    String
+  categoryId String
+  paper      ResearchPaper  @relation(fields: [paperId], references: [id])
+  category   Category       @relation(fields: [categoryId], references: [id])
+}
+
+model PaperTag {
+  id      String        @id @default(auto()) @map("_id") @db.ObjectId
+  paperId String
+  tagId   String
+  paper   ResearchPaper @relation(fields: [paperId], references: [id])
+  tag     Tag           @relation(fields: [tagId], references: [id])
+}
+
+model Citation {
+  id          String        @id @default(auto()) @map("_id") @db.ObjectId
+  paperId     String
+  citationText String
+  authorId      String
+  citationLink String?
+  paper       ResearchPaper @relation(fields: [paperId], references: [id])
+}
+
+model Review {
+  id        String        @id @default(auto()) @map("_id") @db.ObjectId
+  paperId   String
+  reviewerId String
+  comment   String?
+  rating    Int?
+  createdAt DateTime      @default(now())
+  updatedAt DateTime      @updatedAt
+  paper     ResearchPaper @relation(fields: [paperId], references: [id])
+  reviewer  User          @relation(fields: [reviewerId], references: [id])
+}
+
+model Institution {
+  id        String      @id @default(auto()) @map("_id") @db.ObjectId
+  name      String
+  location  String?
+  createdAt DateTime    @default(now())
+  updatedAt DateTime    @updatedAt
 }

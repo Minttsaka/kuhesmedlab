@@ -1,12 +1,12 @@
-import ReseachDashboardFirst from '@/components/ReseachDashboardFirst'
-import { ResearchDashboard } from '@/components/research-dashboard'
+import { CreateFirstWorkspace } from '@/components/create-first-workspace'
+import CreateResearchForm from '@/components/CreateResearchForm'
 import React from 'react'
 
 export default function page() {
   return (
-    <div className='m-6'>
-          <ReseachDashboardFirst />
-          <ResearchDashboard />
+    <div className='w-full m-5'>
+      <CreateResearchForm id={'578'} />
+      <CreateFirstWorkspace />
     </div>
   )
 }
