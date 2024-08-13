@@ -33,7 +33,7 @@ export default async function page() {
   const user = session?.user
 
   if(user){
-    redirect('/mw/dashboard')
+    redirect('/mw/r-for-researcher')
   }
   return (
       <div className="relative flex items-center justify-center h-screen bg-white w-full">
