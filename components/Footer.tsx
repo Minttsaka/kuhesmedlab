@@ -4,7 +4,7 @@ import React from 'react'
 
 export default function Footer() {
   return (
-    <div className='relative  md:mt-80'>
+    <div className='relative md:mt-80'>
       <div className='absolute inset-x-0 -skew-y-12 top-40 bottom-0 h-[30rem] bg-[#2a2e7c] origin-top-left ' />
       <div className='absolute inset-x-0  skew-y-12 top-40 bottom-0 h-[30rem] bg-[#2a2e7c] origin-top-right ' />
       <div className='relative py-20 '>
@@ -13,7 +13,7 @@ export default function Footer() {
             Kuhesmedlab
         </h3>
         <div>
-            <h2 className='font-bold text-gray-300'>Products</h2>
+            <h2 className='font-bold text-[#df891f]'>Products</h2>
             <ul className='space-y-2 mt-2 text-gray-400'>
                 <li className="">Research</li>
                 <li className="">Survey</li>
@@ -25,7 +25,7 @@ export default function Footer() {
         </div>
 
         <div>
-            <h2 className='font-bold text-gray-300'>Events</h2>
+            <h2 className='font-bold text-[#df891f]'>Events</h2>
             <ul className='space-y-2 mt-2 text-gray-400'>
                 <li className="">Organizational Events</li>
                 <li className="">Global Events</li>
@@ -34,7 +34,7 @@ export default function Footer() {
         </div>
 
         <div>
-            <h2 className='font-bold text-gray-300'>Resources</h2>
+            <h2 className='font-bold text-[#df891f]'>Resources</h2>
             <ul className='space-y-2 mt-2 text-gray-400'>
                 <li className="">Blog</li>
                 <li className="">Community</li>
@@ -44,7 +44,7 @@ export default function Footer() {
         </div>
 
         <div>
-            <h2 className='font-bold text-gray-300'>About</h2>
+            <h2 className='font-bold text-[#df891f]'>About</h2>
             <ul className='space-y-2 mt-2 text-gray-400'>
                 <li className="">About</li>
                 <li className="">About us</li>

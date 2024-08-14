@@ -4,6 +4,8 @@ import { motion } from "framer-motion";
 import Link from "next/link";
 import Image from "next/image";
 
+//text-[#0a2540]
+
 const transition = {
   type: "spring",
   mass: 0.5,
@@ -28,7 +30,7 @@ export const MenuItem = ({
     <div onMouseEnter={() => setActive(item)} className="relative">
       <motion.p
         transition={{ duration: 0.3 }}
-        className="cursor-pointer text-[#0a2540] font-bold text-sm hover:opacity-[0.9] dark:text-white"
+        className="cursor-pointer text-white font-bold text-sm hover:opacity-[0.9] dark:text-white"
       >
         {item}
       </motion.p>

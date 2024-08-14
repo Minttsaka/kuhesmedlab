@@ -20,21 +20,20 @@ export default function BestThreeCards() {
             />
           </div>
 
-            <GlareCard className="h-full w-full">
+            <GlareCard className="h-40 w-40 md:h-full md:w-full">
                 
                 <img
                 className="h-full w-full absolute inset-0 object-cover"
-                src="https://media.istockphoto.com/id/1159619657/photo/searching-and-big-data-concepts-with-male-hand-using-computer-laptop-in-cafe-bar-with-search.webp?b=1&s=170667a&w=0&k=20&c=HwyyVeIWKlGIjJAAnkZreu8LtDoFkeiGdD7dvf_ciT8="
+                src="/img/upload.png"
                 />
             </GlareCard>
             <div className='max-w-sm'>
                 <h2 className='text-2xl'>
-                All the Insights, All in One Place to Make Research Innovative
+                Upload research papers to KUHESMEDLAB DB
                 </h2>
                 <p className='text-gray-500 font-light'>
-                Centralizing knowledge and expertise in medical laboratory science, 
-                fostering collaboration and innovation to combat ESKAPE pathogens
-                 and improve healthcare outcomes in Malawi and beyond.
+                Simplify and accelerate the sharing of medical laboratory research, uploading papers in a centralized
+                 hub to facilitate collaboration, innovation, and improved healthcare outcomes in Malawi and beyond.
                 </p>
             </div>
             </div>
@@ -56,14 +55,18 @@ export default function BestThreeCards() {
                 
                 <img
                 className="h-full w-full absolute inset-0 object-cover"
-                src="https://plus.unsplash.com/premium_photo-1661685751617-d51f9025f164?fm=jpg&q=60&w=3000&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MXx8ZGVzaWduJTIwcmVzZWFyY2h8ZW58MHx8MHx8fDA%3D"
+                src="/img/download.png"
                 />
             </GlareCard>
             <div className='max-w-sm'>
                 <h2 className='text-2xl'>
-                    Connecting Minds, Advancing Healthcare through Collaboration
+                Download research papers from KUHESMEDLAB DB
                 </h2>
-                <p className='text-gray-500 font-light'>Providing a secure, intuitive platform for medical laboratory professionals and students to share knowledge, collaborate on research projects, and leverage collective expertise to drive innovation and improve healthcare outcomes.</p>
+                <p className='text-gray-500 font-light'>
+                Explore a vast collection of medical laboratory research,
+                 downloading papers to stay updated on the latest findings, advancements,
+                and best practices in enhancing healthcare outcomes.
+                  </p>
             </div>
             </div>
 
@@ -81,14 +84,17 @@ export default function BestThreeCards() {
           </div>
             <div className='max-w-sm'>
                 <h2 className='text-2xl'>
-                    Connecting Minds, Advancing Healthcare through Collaboration
+                Download research papers from KUHESMEDLAB DB
                 </h2>
-                <p className='text-gray-500 font-light'>Providing a secure, intuitive platform for medical laboratory professionals and students to share knowledge, collaborate on research projects, and leverage collective expertise to drive innovation and improve healthcare outcomes.</p>
+                <p className='text-gray-500 font-light'>
+                Explore a vast collection of medical laboratory research, downloading papers to stay updated on the latest findings, advancements,
+                 and best practices in enhancing healthcare outcomes.
+                </p>
             </div>
-            <GlareCard className="h-full w-full">
+            <GlareCard className="h-40 w-40 md:h-full md:w-full">
                 <img
                 className="h-full w-full absolute inset-0 object-cover"
-                src="https://plus.unsplash.com/premium_photo-1661685751617-d51f9025f164?fm=jpg&q=60&w=3000&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MXx8ZGVzaWduJTIwcmVzZWFyY2h8ZW58MHx8MHx8fDA%3D"
+                src="/img/download.png"
                 />
             </GlareCard>
             
@@ -107,19 +113,21 @@ export default function BestThreeCards() {
             />
           </div>
 
-            <GlareCard className="h-full w-full">
+            <GlareCard className="h-40 w-40 md:h-full md:w-full">
                 <img
                 className="h-full w-full absolute inset-0 object-cover"
-                src="https://media.istockphoto.com/id/1398247155/photo/businessman-working-on-laptops-with-signs-of-the-top-service-quality-control-certification.webp?b=1&s=170667a&w=0&k=20&c=V_I0uvWss_Q5QyRB7195ZdBnQjMNVMpP7XYkJBopXeg="
+                src="/img/learn.png"
                 />
             </GlareCard>
             <div className='max-w-sm'>
                 <h2 className='text-2xl'>
-                Revolutionizing Data Analysis with AI-Powered Insights
+                Learn from KUHESMEDLAB Site
                 </h2>
-                <p className='text-gray-500 font-light'>Utilizing artificial intelligence and machine learning 
-                  to analyze complex medical data, uncover hidden patterns,
-                   and drive informed decision-making in medical laboratory science research and practice.</p>
+                <p className='text-gray-500 font-light'>
+                Enhance your knowledge and skills in medical laboratory science, accessing
+                 a comprehensive repository of research papers, articles, and resources 
+                to stay updated on the latest techniques, methodologies, and innovations in the field.
+                </p>
             </div>
             </div>
             

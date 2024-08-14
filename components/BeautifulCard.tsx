@@ -50,7 +50,7 @@ export default function BeautifulCard() {
         <div className='grid grid-cols-1 gap-5 md:pr-12'>
         <Card className='shadow-2xl'>
             <CardHeader className='bg-gray-100 m-2 rounded-2xl  pl-40 pt-20'>
-                <img src='https://plus.unsplash.com/premium_photo-1681842934644-0d05b05e3348?q=80&w=2061&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D' className='rounded-2xl' alt='this is good' />
+                <img src='/img/support.png' className='rounded-2xl' alt='this is good' />
             </CardHeader>
             <CardContent>
                 
@@ -83,7 +83,7 @@ export default function BeautifulCard() {
         </Card>
         <Card className='shadow-2xl'>
             <CardHeader className='bg-gray-100 m-2 rounded-2xl  pl-40 pt-20'>
-                <img src='https://plus.unsplash.com/premium_photo-1681842934644-0d05b05e3348?q=80&w=2061&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D' className='rounded-2xl' alt='this is good' />
+                <img src='/img/forum.png' className='rounded-2xl' alt='this is good' />
             </CardHeader>
             <CardContent>
                 
@@ -118,7 +118,7 @@ export default function BeautifulCard() {
         <div className='grid grid-cols-1 gap-5 md:pl-12'>
         <Card className='shadow-2xl'>
             <CardHeader className='bg-gray-100 m-2 rounded-2xl  pl-40 pt-20'>
-                <img src='https://plus.unsplash.com/premium_photo-1681842934644-0d05b05e3348?q=80&w=2061&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D' className='rounded-2xl' alt='this is good' />
+                <img src='/img/research.png' className='rounded-2xl' alt='this is good' />
             </CardHeader>
             <CardContent>
                 
@@ -151,7 +151,7 @@ export default function BeautifulCard() {
         </Card>
         <Card className='shadow-2xl'>
             <CardHeader className='bg-gray-100 m-2 rounded-2xl  pl-40 pt-20'>
-                <img src='https://plus.unsplash.com/premium_photo-1681842934644-0d05b05e3348?q=80&w=2061&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D' className='rounded-2xl' alt='this is good' />
+                <img src='/img/learn.png' className='rounded-2xl' alt='this is good' />
             </CardHeader>
             <CardContent>
                 

@@ -10,93 +10,93 @@ export const products = [
     title: "Moonbeam",
     link: "https://gomoonbeam.com",
     thumbnail:
-      "https://plus.unsplash.com/premium_photo-1661767959390-c0ad35845cce?q=80&w=1974&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+      "https://0.academia-photos.com/attachment_thumbnails/52756045/mini_magick20190122-11575-165j9xr.png?1548191534",
   },
   {
     title: "Cursor",
     link: "https://cursor.so",
     thumbnail:
-      "https://images.unsplash.com/photo-1432888498266-38ffec3eaf0a?q=80&w=2074&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+      "https://www.healthwriterhub.com/wp-content/uploads/2015/04/new-england-journal-of-medicine-top-medical-journal.gif",
   },
   {
     title: "Rogue",
     link: "https://userogue.com",
     thumbnail:
-      "https://images.unsplash.com/file-1719664968387-83d5a3f4d758image?dpr=2&w=416&auto=format&fit=crop&q=60",
+      "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS7pDkdSI7WIJOklPHD_m3Wqbj93g-D0COskPeW8h4CyeiMTk1RShgIS2x1l0U1fVZbO0w&usqp=CAU",
   },
 
   {
     title: "Editorially",
     link: "https://editorially.org",
     thumbnail:
-      "https://images.unsplash.com/photo-1450101499163-c8848c66ca85?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NHx8cmVzZWFyY2glMjBwYXBlcnN8ZW58MHx8MHx8fDA%3D",
+      "https://i1.rgstatic.net/publication/271382163_Hedging_in_Popular_Scientific_Articles_on_Medicine/links/57aa1c9208ae0932c96e6479/largepreview.png",
   },
   {
     title: "Editrix AI",
     link: "https://editrix.ai",
     thumbnail:
-      "https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8M3x8cmVzZWFyY2glMjBwYXBlcnN8ZW58MHx8MHx8fDA%3D",
+      "https://i1.rgstatic.net/publication/339050709_Artificial_Intelligence_in_Medicine_Today_and_Tomorrow/links/5e3afb98458515072d82dfc4/largepreview.png",
   },
   {
     title: "Pixel Perfect",
     link: "https://app.pixelperfect.quest",
     thumbnail:
-      "https://images.unsplash.com/photo-1512758017271-d7b84c2113f1?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8N3x8cmVzZWFyY2glMjBwYXBlcnN8ZW58MHx8MHx8fDA%3D",
+      "https://i1.rgstatic.net/publication/4986671_MEDICINE_The_Use_of_Statistics_in_Medical_Research_A_Comparison_of_The_New_England_Journal_of_Medicine_and_Nature_Medicine/links/0912f507fa8204002b000000/largepreview.png",
   },
 
   {
     title: "Algochurn",
     link: "https://algochurn.com",
     thumbnail:
-      "https://images.unsplash.com/photo-1457369804613-52c61a468e7d?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8OHx8cmVzZWFyY2glMjBwYXBlcnN8ZW58MHx8MHx8fDA%3D",
+      "https://www.understandinghealthresearch.org/media/abstract.png",
   },
   {
     title: "Aceternity UI",
     link: "https://ui.aceternity.com",
     thumbnail:
-      "https://images.unsplash.com/photo-1532619675605-1ede6c2ed2b0?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTV8fHJlc2VhcmNoJTIwcGFwZXJzfGVufDB8fDB8fHww",
+      "https://www.understandinghealthresearch.org/media/introduction_copy1.png",
   },
   {
     title: "Tailwind Master Kit",
     link: "https://tailwindmasterkit.com",
     thumbnail:
-      "https://images.unsplash.com/3/doctype-hi-res.jpg?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MjB8fHJlc2VhcmNoJTIwcGFwZXJzfGVufDB8fDB8fHww",
+      "https://www.understandinghealthresearch.org/media/introduction_copy1.png",
   },
   {
     title: "SmartBridge",
     link: "https://smartbridgetech.com",
     thumbnail:
-      "https://images.unsplash.com/photo-1434626881859-194d67b2b86f?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTl8fHJlc2VhcmNoJTIwcGFwZXJzfGVufDB8fDB8fHww",
+      "https://www.understandinghealthresearch.org/media/introduction_copy1.png",
   },
   {
     title: "Renderwork Studio",
     link: "https://renderwork.studio",
     thumbnail:
-      "https://images.unsplash.com/photo-1707944746042-e4c81c191812?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTR8fHJlc2VhcmNoZXJ8ZW58MHx8MHx8fDA%3D",
+      "https://www.understandinghealthresearch.org/media/introduction_copy1.png",
   },
 
   {
     title: "Creme Digital",
     link: "https://cremedigital.com",
     thumbnail:
-      "https://plus.unsplash.com/premium_photo-1661438058994-d13fec8543f8?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NXx8cmVzZWFyY2hlcnxlbnwwfHwwfHx8MA%3D%3D",
+      "https://www.understandinghealthresearch.org/media/introduction_copy1.png",
   },
   {
     title: "Golden Bells Academy",
     link: "https://goldenbellsacademy.com",
     thumbnail:
-      "https://images.unsplash.com/photo-1652947965461-9ec15359520a?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8N3x8cmVzZWFyY2hlcnxlbnwwfHwwfHx8MA%3D%3D",
+      "https://www.understandinghealthresearch.org/media/introduction_copy1.png",
   },
   {
     title: "Invoker Labs",
     link: "https://invoker.lol",
     thumbnail:
-      "https://images.unsplash.com/photo-1707944746042-e4c81c191812?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTR8fHJlc2VhcmNoZXJ8ZW58MHx8MHx8fDA%3D",
+      "https://www.understandinghealthresearch.org/media/introduction_copy1.png",
   },
   {
     title: "E Free Invoice",
     link: "https://efreeinvoice.com",
     thumbnail:
-      "https://images.unsplash.com/photo-1707944746042-e4c81c191812?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTR8fHJlc2VhcmNoZXJ8ZW58MHx8MHx8fDA%3D",
+      "https://www.understandinghealthresearch.org/media/introduction_copy1.png",
   },
 ];

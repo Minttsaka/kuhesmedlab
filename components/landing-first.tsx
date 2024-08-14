@@ -41,7 +41,7 @@ export function LandingFirst() {
           <div className="max-w-3xl mx-auto text-center mb-5 lg:mb-5 overflow-hidden tracking-[3px] text-xs md:px-5 md:py-2 uppercase bg-black bg-opacity-10 text-white rounded-full px-4 py-2">
             <span className="md:flex items-center gap-2 ">Explore how ai is advancing medical reseach in todays world of tech <ArrowRightIcon className="hidden md:block" /></span>
             </div>
-            <h1 className="text-4xl md:text-6xl lg:text-8xl font-bold text-black text-opacity-75 ">Advancing Medical Laboratory Science </h1>
+            <h1 className="text-6xl lg:text-8xl font-bold text-black text-opacity-75 ">Advancing Medical Laboratory Science </h1>
             <p className="md:text-xl pb-10 max-w-4xl mx-auto text-balance">Empowering medical laboratory profession to drive innovation, collaboration,
                and excellence in healthcare using AI and technology
                 through research, discovery, and data-driven solutions.
@@ -98,7 +98,7 @@ export function LandingFirst() {
           </div>
           <div>
             <div className="p-6 shadow-2xl shadow-gray-200 rounded-lg bg-opacity-20 bg-white">
-              <img src="https://www.slab.lk/wp-content/uploads/2020/04/Medical-Clinical-.jpg.png" className="w-full h-full rounded-lg" />
+              <img src="https://scontent.fblz1-1.fna.fbcdn.net/v/t39.30808-6/455265995_921894826636112_1523723343655404444_n.jpg?_nc_cat=105&ccb=1-7&_nc_sid=833d8c&_nc_eui2=AeERLiR-SlN6FYioRJCDK-xcq1DtVCVakYCrUO1UJVqRgIx5NPPUwhwKVSto1_MHmEJHdN2TUwNbvc2GzVC1xEjy&_nc_ohc=7eUHtHegNUsQ7kNvgFCz7cy&_nc_pt=5&_nc_zt=23&_nc_ht=scontent.fblz1-1.fna&oh=00_AYAuRQPBSBtr-_XL_q5u1ARtvLGE9OkjoTJ-eEAYjrQIdw&oe=66C233E6" className="w-full h-full rounded-lg" />
             </div>
           </div>
           <Trustedby />

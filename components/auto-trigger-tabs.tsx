@@ -25,6 +25,7 @@ import { ArrowRight, Facebook } from "lucide-react"
 import { InstagramLogoIcon, TwitterLogoIcon } from "@radix-ui/react-icons"
 import Image from "next/image"
 import Link from "next/link"
+import 'animate.css';
 
 export function AutoTriggerTabs() {
   const [activeTab, setActiveTab] = useState(0)
@@ -75,7 +76,7 @@ Recognizing the rapidly evolving landscape of laboratory technology, the researc
       </div>
       <div className="p-6">
         {activeTab === 0 && (
-          <div className="grid md:grid-cols-2 gap-5">
+          <div className="grid md:grid-cols-2 gap-5 animate__animated animate__fadeIn">
             <div className="grid grid-cols-1 gap-2">
               <div>
                 <h2 className="font-bold text-2xl">Portable Diagnostics</h2>
@@ -108,7 +109,7 @@ Recognizing the rapidly evolving landscape of laboratory technology, the researc
           </div>
         )}
         {activeTab === 1 && (
-          <div className="grid md:grid-cols-2 gap-5">
+          <div className="grid md:grid-cols-2 gap-5 animate__animated animate__fadeIn">
           <div className="grid grid-cols-1 gap-2">
             <div>
               <h2 className="font-bold text-2xl">Traditional Knowledge</h2>
@@ -140,7 +141,7 @@ KUHeSMEDLAB develops local solutions to improve Malawis healthcare.
         </div>
         )}
         {activeTab === 2 && (
-          <div className="grid md:grid-cols-2 gap-5">
+          <div className="grid md:grid-cols-2 gap-5 animate__animated animate__fadeIn">
           <div className="grid grid-cols-1 gap-2">
             <div>
               <h2 className="font-bold text-2xl">Empowering the Next Generation</h2>
@@ -182,9 +183,7 @@ Empowering innovation and problem-solving in Malawi.
           }`}
           onClick={() => setActiveTab(0)}
         >
-          <Image src={'/diagnosis.png'} alt="diagnosis" className="h-12 w-12 font-bold hidden md:block" height={50} width={50}/>
-          
-          <p className="hidden md:block">DIAGNOSIS</p>
+         
         </button>
         <button
           className={`flex items-center justify-center gap-2 px-4 py-10 text-sm font-medium transition-colors ${
@@ -192,9 +191,7 @@ Empowering innovation and problem-solving in Malawi.
           }`}
           onClick={() => setActiveTab(1)}
         >
-          <Image src={'/traditional-medicine.png'} alt="diagnosis" className="h-12 w-12 font-bold hidden md:block" height={50} width={50}/>
-          
-          <p className="hidden md:block">TRADITION</p>
+        
         </button>
         <button
           className={`flex items-center justify-center gap-2 px-4 py-10 text-sm font-medium transition-colors ${
@@ -203,8 +200,6 @@ Empowering innovation and problem-solving in Malawi.
           onClick={() => setActiveTab(2)}
         >
 
-          <Image src={'/nurturing.png'} alt="diagnosis" className="h-12 w-12 font-bold hidden md:block" height={50} width={50}/>
-          <p className="hidden md:block">EMPOWER</p>
           
         </button>
       </div>
