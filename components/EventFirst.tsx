@@ -66,8 +66,8 @@ export default function EventFirst() {
             </button>
                 </div>
         </div>
-        <div>
-            <img className='shadow-2xl shadow-gray-300 rounded-full' alt='' src='/rese.png' />
+        <div className='p-3 rounded-full shadow bg-white bg-opacity-20'>
+            <img className='shadow-2xl shadow-gray-300 rounded-full' alt='' src='/img/events.png' />
 
         </div>
       </div>

@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 
 import SurveySIdeBar from "@/components/SurveySIdeBar";
 import ResearchSideBar from "@/components/ResearchSideBar";
+import ResearchNavBar from "@/components/ResearchNavBar";
 
 // const inter = Inter({ subsets: ["latin"] });
 
@@ -18,12 +19,15 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-
-    <div className='bg-[#b6ebec] p-6'>
-    <div className='bg-white bg-opacity-20  rounded-3xl p-6 border-2 border-white'>
-      <div className='flex bg-white bg-opacity-40  rounded-3xl  space-y-5'>
+    <div className='bg-[#b6ebec] min-h-screen p-3 md:p-6 w-full'>
+    <div className='bg-white bg-opacity-20  w-full rounded-3xl md:p-6 border-2 border-white'>
+      <div className='flex min-h-screen bg-white bg-opacity-40  rounded-3xl pb-5'>
         <ResearchSideBar />
-        {children}
+        <div className="w-full ">
+          <ResearchNavBar />
+          {children}
+        </div>
+        
         </div>
       </div>
     </div>

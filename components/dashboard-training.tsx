@@ -24,8 +24,8 @@ To read more about using these font, please visit the Next.js documentation:
 export function DashboardTraining() {
   return (
     <div className=" container space-y-10 my-20 mx-auto">
-      <h2 className="text-3xl font-sans ">Training and certification</h2>
-      <div className="grid grid-cols-2 gap-4 " >
+      <h2 className="text-3xl font-sans ">Top Discoveries</h2>
+      <div className="grid md:grid-cols-2 gap-4 " >
       <div className="relative overflow-hidden rounded-3xl shadow-lg group hover:shadow-xl">
         <img
           src="https://plus.unsplash.com/premium_photo-1680658096480-7ca2fe809317?q=80&w=1974&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
@@ -52,7 +52,7 @@ export function DashboardTraining() {
           
         </div>
       </div>
-      <div className="grid grid-rows-2 gap-4">
+      <div className="grid md:grid-rows-2 gap-4">
         <div className="relative overflow-hidden rounded-3xl shadow-lg group hover:shadow-xl">
           <img
             src="https://plus.unsplash.com/premium_photo-1680658096480-7ca2fe809317?q=80&w=1974&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"

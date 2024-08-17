@@ -7,6 +7,7 @@ export default function Footer() {
     <div className='relative md:mt-80'>
       <div className='absolute inset-x-0 -skew-y-12 top-40 bottom-0 h-[30rem] bg-[#2a2e7c] origin-top-left ' />
       <div className='absolute inset-x-0  skew-y-12 top-40 bottom-0 h-[30rem] bg-[#2a2e7c] origin-top-right ' />
+      <div className='absolute inset-x-0  top-40 bottom-0 h-full md:h-[30rem] bg-[#2a2e7c] origin-top-right ' />
       <div className='relative py-20 '>
       <div className='container text-white mx-auto grid  md:grid-cols-4 lg:grid-cols-6 gap-5 md:gap-0 z-50'>
         <h3 className='text-2xl  font-bold bg-gradient-to-r from-pink-500 to-purple-600 bg-clip-text text-transparent'>

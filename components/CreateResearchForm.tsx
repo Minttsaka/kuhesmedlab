@@ -118,63 +118,51 @@ export default function CreateResearchForm({ id }:{ id:string }) {
 
   const researchList = Array.isArray(data) ? data : [];
 
-
+//href={`/mw/r-for-researcher/${research.id}
   return (
-    <div className='relative my-8'>
-       <div>
-            <div className='flex items-center justify-between'>
-                <div className='mb-10'>
-                    <h2 className='text-3xl font-bold text-green-900'>Your Research List</h2>
-                    <p>All the details for individual research can be found by scrolling down below research list</p>
-                </div>
-               
-            </div>
-           
-            <div className='flex gap-4'>
-              {researchList.length===0 && (
-                <Card className="w-full max-w-md mx-auto">
-                <CardHeader>
-                  <CardTitle>No Research Conducted</CardTitle>
-                </CardHeader>
-                <CardContent className="space-y-4">
-                  <CardDescription>
-                    It looks like you havent started your research yet. Get started by exploring our library of resources and
-                    data to uncover valuable insights.
-                  </CardDescription>
-                 
-                </CardContent>
-              </Card>
-              )}
-              {
-                (researchList as Research[])?.map((research)=>(
-                  <Link key={research.id} href={`/mw/r-for-researcher/${research.id}`}>
-                    <Card  className={cn('bg-white rounded-3xl space-y-0',{
-                    "border border-green-500":research.id===id
-                  })}>
-                    <CardHeader className='font-bold text-xl'>
-                        {research.title}
-                    </CardHeader>
-                    <CardContent>
-                        <CardDescription className='text-gray-500'>
-                           {research.abstract}
-                        </CardDescription>
-                    </CardContent>
-                    <CardFooter className='flex flex-col'>
-                        <GroupMembers />
-                        <p className='text-xs text-gray-500'>{new Date(research.createdAt).toDateString()}</p>
-                      </CardFooter>
-                    </Card>
-
+    <div className=' my-8'>
+        <div className='mb-10'>
+            <h2 className='text-xl md:text-3xl font-bold text-green-900'>Your Research List</h2>
+            <p className='max-w-md'>All the details for individual research can be found by scrolling down below research list</p>
+        </div>
+        <div className='max-h-[70vh] lg:max-h-full grid lg:flex overflow-y-auto lg:overflow-x-auto lg:w-full gap-1'>
+          {researchList.length===0 && (
+            <Card className="w-full max-w-md ">
+            <CardHeader>
+              <CardTitle>No Research Conducted</CardTitle>
+            </CardHeader>
+            <CardContent className="space-y-4">
+              <CardDescription>
+                It looks like you havent started your research yet. Get started by exploring our library of resources and
+                data to uncover valuable insights.
+              </CardDescription>
+              
+            </CardContent>
+          </Card>
+          )}
+ 
+          {(researchList as Research[])?.map((research,index) => (
+                <Link  href={`/mw/r-for-researcher/${research.id}`} key={research.id} className={cn(' bg-white p-10 rounded-3xl space-y-0',{
+                  "border border-green-500":research.id===id
+                })}>
+                  <div className='font-bold md:text-xl'>
+                      {research.title}
+                  </div>
+                  <div>
+                      <div className='text-gray-500'>
+                          {research.abstract}
+                      </div>
+                  </div>
+                  <div className='flex flex-col'>
+                      {/* <GroupMembers /> */}
+                      <p className='text-xs text-gray-500'>{new Date(research.createdAt).toDateString()}</p>
+                    </div>
                   </Link>
-                  
-                ))
-              }
-                
-            
-            </div>
+          ))}
+
         </div>
       <Dialog>
-      <DialogTrigger className='absolute top-3 right-3 p-2 rounded-full bg-green-300' asChild>
+      <DialogTrigger className=' p-2 rounded-full bg-green-300' asChild>
         <PlusIcon className='h-10 w-10 font-bold text-white' />
       </DialogTrigger>
       <DialogContent className="bg-[#c8f2f3] max-w-7xl h-[95vh] overflow-y-auto">

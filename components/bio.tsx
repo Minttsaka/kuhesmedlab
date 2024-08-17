@@ -19,7 +19,7 @@ To read more about using these font, please visit the Next.js documentation:
 **/
 "use client"
 import { useState, useEffect } from 'react';
-import { Dialog, DialogTrigger, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "@/components/ui/dialog"
+import * as Dialog from '@radix-ui/react-dialog';
 import { Button } from "@/components/ui/button"
 import { Textarea } from "@/components/ui/textarea"
 import { useRouter } from "next/navigation"
@@ -30,6 +30,8 @@ import { toast } from "sonner"
 import { Loader2 } from "lucide-react"
 import { z } from 'zod';
 import axios from 'axios';
+import { CheckIcon } from '@radix-ui/react-icons';
+import { String } from 'aws-sdk/clients/codebuild';
 
 const FormSchema = z.object({
   bio: z.string(),
@@ -38,26 +40,54 @@ const FormSchema = z.object({
 
 type InputType = z.infer<typeof FormSchema>;
 
-export function Bio() {
+const wait = () => new Promise((resolve) => setTimeout(resolve, 1000));
 
+export function Bio({name}:{name:String}) {
 
-  const messages = [
-    "Welcome again!",
-    "Now i want.",
-    "to tell me",
-    "about yourself.",
-    "a little bit",
-
-  ];
-
+  const [open, setOpen] = useState(true);
   const [currentMessage, setCurrentMessage] = useState('');
   const [currentMessageIndex, setCurrentMessageIndex] = useState(0);
   const [currentCharIndex, setCurrentCharIndex] = useState(0);
   const [isFinished, setIsFinished] = useState(false);
+  const [messages, setMessages] = useState<string[]>([
+    "Welcome again!"
+  ]);
+
+  const prompt = `Generate a JavaScript array of strings 
+  that contains a welcoming message for a new user called ${name} at KUHESMedlab. 
+  The schema should look like this:
+ [
+    "Welcome again!",
+    "Now I want.",
+    "to tell me",
+    "about yourself.",
+    "a little bit",
+    "more text"
+  ].
+  Please replace the text with a more personalized and friendly welcoming message.
+  The array should contain a personalized, friendly message split into multiple parts. Each string in the array should
+    represent a part of the message.`
+
+
 
   useEffect(() => {
-    if (currentMessageIndex < messages.length) {
-      if (currentCharIndex < messages[currentMessageIndex].length) {
+    const aiWelcome = async(prompt:string)=>{
+      const response = await axios.post('/api/openai/',{
+          prompt,
+      })
+      console.log(response.data)
+  
+      //setMessages(JSON.parse(response.data))
+      setMessages([...messages, ...JSON.parse(response.data)]);
+    
+    }
+    aiWelcome(prompt)
+  },[])
+
+  useEffect(() => {
+   
+    if (currentMessageIndex < messages?.length) {
+      if (currentCharIndex < messages?.[currentMessageIndex].length) {
         const timeoutId = setTimeout(() => {
           setCurrentMessage(
             (prev) => prev + messages[currentMessageIndex][currentCharIndex]
@@ -76,7 +106,7 @@ export function Bio() {
     } else {
       setIsFinished(true);
     }
-  }, [currentCharIndex, currentMessageIndex, messages]);
+  }, [currentCharIndex,currentMessage, messages]);
 
   const router=useRouter()
 
@@ -104,30 +134,50 @@ export function Bio() {
   };
 
   return (
-    <Dialog defaultOpen>
-      <DialogTrigger asChild>
-        <Button variant="outline">Describe Yourself</Button>
-      </DialogTrigger>
-      <DialogContent className="sm:max-w-[500px]">
-  
-          {/* <DialogTitle>Tell Us About Yourself</DialogTitle> */}
-          <DialogDescription>
+    <div className='fixed inset-0 flex items-center justify-center bg-black bg-opacity-80'>
+
+        <div className='min-w-[300px] md:min-w-[500px] mx-auto'>
+
           <p
-        className="text-2xl text-black font-bold typewriter"
-        style={{ width: `${currentMessage.length}ch` }}
+        className="text-2xl text-white font-bold typewriter "
+        // style={{ width: `${currentMessage.length}ch` }}
       >
-        {currentMessage}
+        {currentMessage} {!isFinished && <span className='h-10 w-1 blinker'>|</span>}
       </p>
-          {isFinished && (
-            <form onSubmit={handleSubmit(onSubmit)} className="grid gap-4 py-4">
-            <Textarea  {...register("bio")} placeholder="Enter your description here...who you are or want you like" className="min-h-[150px]" />
-            <div className="flex justify-end gap-2">
-            <Button type="submit" className="w-full rounded-md" disabled={isSubmitting}>{ isSubmitting ?" wait a little bit.." : "Submit"}</Button>
-            </div>
+          {isFinished && messages.length > 5  && (
+            <form onSubmit={handleSubmit(onSubmit)} className="grid gap-4 py-4 w-full">
+            <Textarea  {...register("bio")} placeholder="Enter your description here...who you are or want you like" className="min-h-[150px] text-white min-w-xl bg-transparent border placeholder:text-gray-200" />
+
+            <Button size={'icon'} type="submit" className="w-full rounded-full bg-green-400" disabled={isSubmitting}>{ isSubmitting ? <LoadingSpinner /> : <CheckIcon />}</Button>
           </form>
           )}
-          </DialogDescription>
-      </DialogContent>
-    </Dialog>
+        </div>
+    </div>
   )
 }
+
+const LoadingSpinner: React.FC = () => {
+  return (
+    <svg
+      className="animate-spin h-6 w-6 text-gray-500"
+      xmlns="http://www.w3.org/2000/svg"
+      fill="none"
+      viewBox="0 0 24 24"
+    >
+      <circle
+        className="opacity-25"
+        cx="12"
+        cy="12"
+        r="10"
+        stroke="currentColor"
+        strokeWidth="4"
+      ></circle>
+      <path
+        className="opacity-75"
+        fill="currentColor"
+        d="M4 12a8 8 0 018-8v8H4z"
+      ></path>
+    </svg>
+  );
+};
+

@@ -7,7 +7,7 @@ import Link from 'next/link'
 
 export default function BeautifulCard() {
   return (
-    <div className='bg-gray-100 py-40'>
+    <div className='relative bg-gray-100 py-10'>
       <div className="container mx-auto flex flex-col gap-5 border-x border-dotted">
         <h2 className="text-[purple] font-bold text-2xl">Features to drive success</h2>
         <h1 className="text-4xl font-bold">All in One</h1>
@@ -46,8 +46,7 @@ export default function BeautifulCard() {
               <span className="absolute -bottom-0 left-[1.125rem] h-px w-[calc(100%-2.25rem)] bg-gradient-to-r from-emerald-400/0 via-emerald-400/90 to-emerald-400/0 transition-opacity duration-500 group-hover:opacity-40" />
             </Link>
       </div>
-      <div className='container mx-auto grid md:grid-cols-2 gap-5 mt-10 border-x'>
-        <div className='grid grid-cols-1 gap-5 md:pr-12'>
+      <div className='container mx-auto grid md:grid-cols-2 gap-20 mt-10 border-x'>
         <Card className='shadow-2xl'>
             <CardHeader className='bg-gray-100 m-2 rounded-2xl  pl-40 pt-20'>
                 <img src='/img/support.png' className='rounded-2xl' alt='this is good' />
@@ -59,7 +58,7 @@ export default function BeautifulCard() {
                         <HelpCircle className='h-4 w-4' />
                         SUPPORT
                     </Badge>
-                    <h2 className='uppercase font-bold'>Outstanding support</h2>
+                    <h2 className='uppercase text-xl'>Outstanding support</h2>
                     <p className='text-gray-500'>Discover the essential support system to propel this platform forward! dentify and connect with the right support system, resources, and expertise to fuel the growth and success of this innovative platform.</p>
                     <Link className='text-gray-500 text-sm pt-5 flex gap-2 items-center' href={'#'}>
                         Explore support  <svg
@@ -92,7 +91,7 @@ export default function BeautifulCard() {
                         <Group className='h-4 w-4' />
                         FORUM
                     </Badge>
-                    <h2 className='uppercase font-bold'>Forum to discussion</h2>
+                    <h2 className='uppercase text-xl'>Forum to discussion</h2>
                     <p className='text-gray-500'> Engage in discussions on the latest developments and trends in medical laboratory technologies and advancements.</p>
                     <Link className='text-gray-500 text-sm pt-5 flex gap-2 items-center' href={'#'}>
                         Explore Forum  <svg
@@ -114,8 +113,6 @@ export default function BeautifulCard() {
                 </div>
             </CardContent>
         </Card>
-        </div>
-        <div className='grid grid-cols-1 gap-5 md:pl-12'>
         <Card className='shadow-2xl'>
             <CardHeader className='bg-gray-100 m-2 rounded-2xl  pl-40 pt-20'>
                 <img src='/img/research.png' className='rounded-2xl' alt='this is good' />
@@ -127,7 +124,7 @@ export default function BeautifulCard() {
                         <Search className='h-4 w-4' />
                         Research
                     </Badge>
-                    <h2 className='uppercase font-bold'>Research center</h2>
+                    <h2 className='uppercase text-xl'>Research center</h2>
                     <p className='text-gray-500'>Use this platform to research and drive innovation in medical laboratory science. Share knowledge, ideas, and expertise to overcome challenges and advance laboratory technology.</p>
                     <Link className='text-gray-500 text-sm pt-5 flex gap-2 items-center' href={'#'}>
                         Learn more about research  <svg
@@ -160,7 +157,7 @@ export default function BeautifulCard() {
                         <Book className='h-4 w-4' />
                         Education
                     </Badge>
-                    <h2 className='uppercase font-bold'>Educational Resources</h2>
+                    <h2 className='uppercase text-xl'>Educational Resources</h2>
                     <p className='text-gray-500'> Find training programs, workshops, and mentorship opportunities.
 Explore educational resources, including research papers, presentations, and tutorials.</p>
                     <Link className='text-gray-500 text-sm pt-5 flex gap-2 items-center' href={'#'}>
@@ -183,8 +180,6 @@ Explore educational resources, including research papers, presentations, and tut
                 </div>
             </CardContent>
         </Card>
-        </div>
-        
       </div>
     </div>
   )

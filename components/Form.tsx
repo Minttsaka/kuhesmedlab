@@ -84,22 +84,25 @@ const Form = ({ form }:{ form:SurveyForm }) => {
  
   return (
     <div className="relative w-full">
-      <header className="bg-background px-4 py-3 shadow-sm">
-      <div className="flex items-center justify-between">
-        <div className="flex items-center gap-4">
-          <div className="flex items-center gap-2">
-            <Avatar>
-              <AvatarImage src="https://lh3.googleusercontent.com/p/AF1QipOcEAWN-J65DTf7PRUFsOAcqfJdPFHMz0C7s9Us=s680-w680-h510" alt="John Doe" />
-              <AvatarFallback>JD</AvatarFallback>
-            </Avatar>
-            <Avatar>
-              <AvatarImage src="https://lh3.googleusercontent.com/p/AF1QipOcEAWN-J65DTf7PRUFsOAcqfJdPFHMz0C7s9Us=s680-w680-h510" alt="Jane Smith" />
-              <AvatarFallback>JS</AvatarFallback>
-            </Avatar>
-            <Avatar>
-              <AvatarImage src="https://lh3.googleusercontent.com/p/AF1QipOcEAWN-J65DTf7PRUFsOAcqfJdPFHMz0C7s9Us=s680-w680-h510" alt="Bob Johnson" />
-              <AvatarFallback>BJ</AvatarFallback>
-            </Avatar>
+      <header className="bg-background px-4 py-3 shadow-sm lg:rounded-se-3xl">
+      <div className="lg:flex items-center justify-between">
+        <div className="lg:flex items-center gap-4">
+          <div className="lg:flex items-center gap-2">
+            <div className="flex items-center gap-2">
+              <Avatar>
+                <AvatarImage src="https://lh3.googleusercontent.com/p/AF1QipOcEAWN-J65DTf7PRUFsOAcqfJdPFHMz0C7s9Us=s680-w680-h510" alt="John Doe" />
+                <AvatarFallback>JD</AvatarFallback>
+              </Avatar>
+              <Avatar>
+                <AvatarImage src="https://lh3.googleusercontent.com/p/AF1QipOcEAWN-J65DTf7PRUFsOAcqfJdPFHMz0C7s9Us=s680-w680-h510" alt="Jane Smith" />
+                <AvatarFallback>JS</AvatarFallback>
+              </Avatar>
+              <Avatar>
+                <AvatarImage src="https://lh3.googleusercontent.com/p/AF1QipOcEAWN-J65DTf7PRUFsOAcqfJdPFHMz0C7s9Us=s680-w680-h510" alt="Bob Johnson" />
+                <AvatarFallback>BJ</AvatarFallback>
+              </Avatar>
+            </div>
+            
             <span className="text-sm text-muted-foreground">+ 2 more collaborators</span>
           </div>
           <div className="flex items-center gap-1 text-sm text-muted-foreground">
@@ -107,7 +110,7 @@ const Form = ({ form }:{ form:SurveyForm }) => {
             <span>{questionList.length} {questionList.length<=1 ? "question" : "questions"}</span>
           </div>
         </div>
-        <div className="flex items-center gap-4">
+        <div className="lg:flex items-center gap-4 space-y-2 lg:space-y-0 my-2 lg:my-0 bg-gray-100 p-2 rounded-md">
           <div className="flex items-center gap-1 text-sm text-muted-foreground">
             <ClockIcon className="h-4 w-4" />
             <span>Estimated time: 10 min</span>

@@ -119,7 +119,7 @@ export function SurveyForms({surveyId}:{surveyId:string}) {
 const formList = Array.isArray(data) ? data : [];
 
   return (
-    <div className="bg-white mr-6 p-6 rounded-2xl space-y-5 w-[30%]">
+    <div className="hidden lg:block bg-white mr-6 p-6 rounded-2xl space-y-5 w-[30%]">
           <Dialog>
           <DialogTrigger asChild>
             <button className="px-8 py-2 rounded-full relative bg-gradient-to-r from-blue-400 to-purple-500 text-white text-sm hover:shadow-2xl hover:shadow-white/[0.1] transition duration-200 ">

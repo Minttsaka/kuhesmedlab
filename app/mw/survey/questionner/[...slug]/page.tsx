@@ -34,7 +34,7 @@ export default async function page({ params: { slug } }: Props) {
   })
 
   return (
-    <div className='w-full flex'>
+    <div className='lg:w-full flex'>
       <div className=''>
         <SurveyCreator survey={survey!} research={research!} />
         <SurveyAnalytics />

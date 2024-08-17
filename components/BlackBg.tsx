@@ -2,9 +2,10 @@ import React from 'react'
 
 export default function BlackBg() {
   return (
-    <div className='relative min-h-screen bg-gray-100'>
-      <div className='absolute inset-x-0 skew-y-12 top-40 bottom-0 h-full bg-[#2a2e7c] origin-bottom-right ' />
-      <div className="container mx-auto z-10 md:absolute inset-x-0 top-0">
+    <div className='relative my-40'>
+      <div className='absolute inset-x-0 skew-y-12 top-60 bottom-20 md:bottom-0 h-full bg-[#2a2e7c] origin-bottom-right ' />
+      <div className='absolute inset-x-0  md:top-60 bottom-0 h-full bg-[#2a2e7c] origin-bottom-right ' />
+      <div className="container mx-auto z-10 py-10 ">
           <div className="relative w-fit mb-5 lg:mb-5 overflow-hidden tracking-[3px] text-xs md:px-5 md:py-2 lg:text-xs uppercase bg-gradient-to-r from-blue-300 to-purple-400 text-white rounded-full px-4 py-2">
                 <span>AI for data analysis
                 </span>

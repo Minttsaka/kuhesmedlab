@@ -4,7 +4,7 @@ import React from 'react'
 
 export default function page() {
   return (
-    <div className='w-full m-5'>
+    <div className='px-1 '>
       <CreateResearchForm id={'578'} />
       <CreateFirstWorkspace />
     </div>

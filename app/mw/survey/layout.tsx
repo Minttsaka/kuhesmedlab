@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 
 import SurveySIdeBar from "@/components/SurveySIdeBar";
+import ResearchNavBar from "@/components/ResearchNavBar";
 
 // const inter = Inter({ subsets: ["latin"] });
 
@@ -18,10 +19,13 @@ export default function RootLayout({
 }>) {
   return (
     <div className='bg-[#b6ebec] p-6'>
-    <div className='bg-white bg-opacity-20  rounded-3xl p-6 border-2 border-white'>
-      <div className='flex bg-white bg-opacity-40  rounded-3xl  space-y-5'>
+    <div className='bg-white bg-opacity-20  rounded-3xl lg:p-6 border-2 border-white'>
+      <div className='flex bg-white bg-opacity-40  rounded-3xl'>
         <SurveySIdeBar />
-        {children}
+        <div className="w-full">
+          <ResearchNavBar />
+          {children}
+        </div>
         </div>
       </div>
     </div>

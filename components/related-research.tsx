@@ -43,7 +43,7 @@ export function RelatedResearch({title}:{title:string}) {
     const fetchData = async () => {
       try {
         const response = await fetch(
-          `http://export.arxiv.org/api/query?search_query=all:${title}&start=0&max_results=10`
+          `http://export.arxiv.org/api/query?search_query=all:${title}&start=0&max_results=9`
         );
         const text = await response.text();
     
@@ -90,21 +90,19 @@ export function RelatedResearch({title}:{title:string}) {
     <LoadingSpinner />
   </div>
   return (
-    <section className="bg-background py-10 px-4 md:px-6">
-      <div className="">
+    <section className=" bg-background py-10 px-2 md:px-6">
         <div className="mb-8">
           <h2 className="text-2xl font-bold tracking-tight">Related Research</h2>
           <p className="text-muted-foreground">Discover related research papers and content based on your interests.</p>
         </div>
-        <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+        <div className="grid gap-6 lg:grid-cols-3">
         {articles.map((article, index) => (
-          <Link key={index} href={`${article.link}`} className="group rounded-lg bg-muted p-4 transition-colors hover:bg-muted/50" prefetch={false}>
-            <div className="flex items-start gap-4">
-              <div className="flex-1">
+          <Link key={index} href={`${article.link}`} className="rounded-lg bg-muted p-4 transition-colors hover:bg-muted/50" prefetch={false}>
+            <div className="items-start gap-4">
                 <h3 className="text-lg group-hover:text-primary">
                 {article.title}
                 </h3>
-                <ul className="list-disc flex items-center ml-2 text-sm text-muted-foreground">
+                <ul className="list-disc ml-2 text-sm text-muted-foreground">
                   {article.authors.map((author, idx) => (
                     <li key={idx} className="text-sm">
                       {author.name} 
@@ -114,12 +112,10 @@ export function RelatedResearch({title}:{title:string}) {
                 <p className="mt-2 text-sm line-clamp-5">
                 {article.summary}
                 </p>
-                <div className="flex gap-2 my-2 items-center">
+                <div className="md:flex gap-2 my-2 items-center">
                   <p className="text-sm text-gray-500">Published: {new Date(article.published).toLocaleDateString()}</p>
                   <p className="text-sm text-gray-500">Updated: {new Date(article.updated).toLocaleDateString()}</p>
                 </div>
-              </div>
-             
               <div className="shrink-0">
                 <StarFilledIcon className="text-purple-400" />
               </div>
@@ -129,7 +125,6 @@ export function RelatedResearch({title}:{title:string}) {
           <ul>
       </ul>
         </div>
-      </div>
     </section>
   )
 }

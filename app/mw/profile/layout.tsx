@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 
 import { Toaster } from "@/components/ui/sonner";
 import ProfileSideBar from "@/components/ProfileSideBar";
+import { DashboardNav } from "@/components/dashboard-nav";
 
 // const inter = Inter({ subsets: ["latin"] });
 
@@ -19,9 +20,12 @@ export default function RootLayout({
 }>) {
   return (
 
-      <div className={'flex'}>
+      <div >
+        <DashboardNav />
+        <div className={'flex'}>
         <ProfileSideBar />
         {children}
+        </div>
      
       </div>
   );

@@ -85,7 +85,7 @@ export function ResearchDashboard({ file_url , id, surveys }:{ id:string, survey
       })
       router.push(`/mw/survey/questionner/${response.data}/${id}`)
       
-        toast.success("The User Registered Successfully.");
+        toast.success("The workspace created.");
         
     } catch (error) {
       console.log(error)
@@ -93,20 +93,20 @@ export function ResearchDashboard({ file_url , id, surveys }:{ id:string, survey
   };
 
   return (
-    <div className="grid md:grid-cols-2 gap-5 my-5">
+    <div className="grid lg:grid-cols-2 gap-5 my-5">
       {!file_url &&
         <UploadResearchPaper researchId={id}/>
       }
  
-      <div className="space-y-5 bg-white rounded-2xl p-8">
-        <div className="text-xs flex justify-between items-center">
-          <p className="text-xl">
-            Survey for this Survey
+      <div className="space-y-5 bg-white rounded-md p-8">
+        <div className="text-xs lg:flex justify-between items-center">
+          <p className="font-bold">
+            Survey
           </p>
           <Dialog>
       <DialogTrigger className='absolute top-3 right-3 p-2 rounded-full ' asChild>
         <button className="px-8 py-2 rounded-xl relative bg-gray-100 text-gray-600 text-sm hover:shadow-2xl hover:shadow-white/[0.1] transition duration-200">
-            <span className="relative z-20">
+            <span className="relative text-xs z-20">
               Create Survey form
             </span>
           </button>
@@ -152,7 +152,7 @@ export function ResearchDashboard({ file_url , id, surveys }:{ id:string, survey
           {surveys?.length===0 && (<p className='text-[red] text-sm'>No survey for this research</p>)}
 
           {surveys?.map((survey)=>(
-          <div  key={survey.id} className="relative overflow-hidden rounded-lg transition-transform duration-300 ease-in-out group hover:-translate-y-2 hover:shadow-xl">
+          <div  key={survey.id} className="relative overflow-hidden rounded-lg transition-transform duration-300 ease-in-out group hover:-translate-y-2 hover:shadow-xl hover:shadow-purple-500">
             <Link  href={`/mw/survey/questionner/${survey.id}/${id}`} target='_blank' className="absolute inset-0 z-10" prefetch={false}>
               <span className="sr-only">View Survey</span>
             </Link>

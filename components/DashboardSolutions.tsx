@@ -6,115 +6,121 @@ import Link from 'next/link'
 
 export default function DashboardSolutions() {
   return (
-    <div>
+    <div className='my-10'>
         <div className='container mx-auto space-y-5 mb-5'>
-            <h2 className='text-3xl text-slate-600'>
-                Explore our Solutions
+            <h2 className='text-3xl font-sans'>
+                Your Products
             </h2>
-            <Button className='bg-transparent text-black border'>
-                Filter our Solutions
-            </Button>
         </div>
-      <div className='container mx-auto grid grid-cols-3 gap-4'>
-            <Card className='border-none  shadow-none bg-gray-100 py-10'>
+      <div className='container mx-auto grid md:grid-cols-3 gap-4'>
+            <Card className='border-none  shadow-none bg-gray-100 py-10 hover:shadow-2xl cursor-pointer hover:shadow-purple-500 '>
                 <CardContent className='space-y-3'>
                     <Badge className='bg-gradient-to-r from-blue-200 to-purple-300 text-xs text-gray-500'>
-                        Industry
+                        Research
                     </Badge>
                     <h2  className='text-3xl'>
-                        Six steps to success with generative AI
+                        Create Your Research Workspace
                     </h2>
                     <p className=''>
-                        Lorem ipsum dolor sit amet consectetur adipisicing elit.
+                    Create a personal space for your research, where you can
+                     easily access and organize your papers, collaborations,
+                      and resources, helping you work more efficiently and make new discoveries.
                     </p>
-                    <Link className='text-xs underline flex items-center' href={'#'}>
+                    <Link className='underline flex items-center' href={'/mw/r-for-researcher'}>
                         View this Solution
                     </Link>
                 </CardContent>
             </Card>
 
-            <Card className='border-none  shadow-none bg-gray-100 py-10'>
+            <Card className='border-none  shadow-none bg-gray-100 py-10 hover:shadow-2xl cursor-pointer hover:shadow-purple-500'>
                 <CardContent className='space-y-3'>
                     <Badge className='bg-gradient-to-r from-blue-200 to-purple-300 text-xs text-gray-500'>
-                        Industry
+                        Events
                     </Badge>
                     <h2  className='text-3xl'>
-                        Six steps to success with generative AI
+                        Find Events
                     </h2>
                     <p className=''>
-                        Lorem ipsum dolor sit amet consectetur adipisicing elit.
+                    Discover upcoming conferences, workshops, and webinars in medical laboratory science,
+                     connecting you with experts, innovations, and networking
+                      opportunities to enhance your knowledge and professional growth.
                     </p>
-                    <Link className='text-xs underline flex items-center' href={'#'}>
-                        View this Solution
-                    </Link>
-                </CardContent>
-            </Card>
-
-
-            <Card className='border-none  shadow-none bg-gray-100 py-10'>
-                <CardContent className='space-y-3'>
-                    <Badge className='bg-gradient-to-r from-blue-200 to-purple-300 text-xs text-gray-500'>
-                        Industry
-                    </Badge>
-                    <h2  className='text-3xl'>
-                        Six steps to success with generative AI
-                    </h2>
-                    <p className=''>
-                        Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                    </p>
-                    <Link className='text-xs underline flex items-center' href={'#'}>
+                    <Link className='underline flex items-center' href={'#'}>
                         View this Solution
                     </Link>
                 </CardContent>
             </Card>
 
 
-            <Card className='border-none  shadow-none bg-gray-100 py-10'>
+            <Card className='border-none  shadow-none bg-gray-100 py-10 hover:shadow-2xl cursor-pointer hover:shadow-purple-500'>
                 <CardContent className='space-y-3'>
                     <Badge className='bg-gradient-to-r from-blue-200 to-purple-300 text-xs text-gray-500'>
-                        Industry
+                        Research
                     </Badge>
                     <h2  className='text-3xl'>
-                        Six steps to success with generative AI
+                    Research Repository
                     </h2>
                     <p className=''>
-                        Lorem ipsum dolor sit amet consectetur adipisicing elit.
+                        Access a vast collection of medical laboratory science research papers,
+                         articles, and resources, curated to facilitate knowledge sharing, collaboration, and innovation.
                     </p>
-                    <Link className='text-xs underline flex items-center' href={'#'}>
+                    <Link className='underline flex items-center' href={'#'}>
                         View this Solution
                     </Link>
                 </CardContent>
             </Card>
 
 
-            <Card className='border-none  shadow-none bg-gray-100 py-10'>
+            <Card className='border-none  shadow-none bg-gray-100 py-10 hover:shadow-2xl cursor-pointer hover:shadow-purple-500'>
                 <CardContent className='space-y-3'>
                     <Badge className='bg-gradient-to-r from-blue-200 to-purple-300 text-xs text-gray-500'>
-                        Industry
+                        Support
                     </Badge>
                     <h2  className='text-3xl'>
-                        Six steps to success with generative AI
+                        Seek Support From Expert
                     </h2>
                     <p className=''>
-                        Lorem ipsum dolor sit amet consectetur adipisicing elit.
+                    Connect with experienced professionals in medical laboratory science, receiving personalized guidance,
+                     mentorship, and expertise to overcome challenges, enhance your research, and achieve your goals.
                     </p>
-                    <Link className='text-xs underline flex items-center' href={'#'}>
+                    <Link className='underline flex items-center' href={'#'}>
                         View this Solution
                     </Link>
                 </CardContent>
             </Card>
 
 
-            <Card className='border-none  shadow-none bg-gray-100 py-10'>
+            <Card className='border-none  shadow-none bg-gray-100 py-10 hover:shadow-2xl cursor-pointer hover:shadow-purple-500'>
                 <CardContent className='space-y-3'>
                     <Badge className='bg-gradient-to-r from-blue-200 to-purple-300 text-xs text-gray-500'>
-                        Industry
+                        Connect
                     </Badge>
                     <h2  className='text-3xl'>
-                        Six steps to success with generative AI
+                        Virtual Conference
                     </h2>
                     <p className=''>
-                        Lorem ipsum dolor sit amet consectetur adipisicing elit.
+                    Attend a conference to meet and learn from other professionals
+                     in medical laboratory science, share your research, and discuss new ideas.
+                    </p>
+                    <Link className='underline flex items-center' href={'#'}>
+                        View this Solution
+                    </Link>
+                </CardContent>
+            </Card>
+
+
+            <Card className='border-none  shadow-none bg-gray-100 py-10 hover:shadow-2xl cursor-pointer hover:shadow-purple-500'>
+                <CardContent className='space-y-3'>
+                    <Badge className='bg-gradient-to-r from-blue-200 to-purple-300 text-xs text-gray-500'>
+                       Developers
+                    </Badge>
+                    <h2  className='text-3xl'>
+                        API Access
+                    </h2>
+                    <p className=''>
+                    Unlock programmatic access to the KUHESMEDLAB DB repository, enabling seamless integration,
+                     automated workflows, and custom applications to accelerate your medical 
+                     laboratory science research and development.
                     </p>
                     <Link className='text-xs underline flex items-center' href={'#'}>
                         View this Solution

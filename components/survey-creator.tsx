@@ -23,54 +23,44 @@ To read more about using these font, please visit the Next.js documentation:
 - App Directory: https://nextjs.org/docs/app/building-your-application/optimizing/fonts
 - Pages Directory: https://nextjs.org/docs/pages/building-your-application/optimizing/fonts
 **/
-import Link from "next/link"
-import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar"
-import { Label } from "@/components/ui/label"
-import { Input } from "@/components/ui/input"
-import { Button } from "@/components/ui/button"
-import { Textarea } from "@/components/ui/textarea"
-import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from "@/components/ui/select"
-import { AddQuestionForSurvey } from "./add-question-for-survey"
-import { InviteSurvey } from "./invite-survey"
-import { SurveyQuestionList } from "./survey-question-list"
 
+import { InviteSurvey } from "./invite-survey"
 import { Research, Survey,  } from "@prisma/client"
+import { SurveyFormLists } from "./SurveyFormLists"
 
 //
 
 export function SurveyCreator({survey, research}:{ survey:Survey, research:Research}) {
   return (
-    <div className="flex flex-col ">
+    <div className=" ">
       <header className=" text-gray-500 py-4 px-6 ">
-        <div className=" ">
+        <div className="flex justify-between w-full ">
           <h1 className="text-2xl font-bold">Survey Builder</h1>
-          
+          <SurveyFormLists surveyId={survey.id} />
         </div>
       </header>
-      <main className="flex  ">
-        <div className="w-full grid grid-cols-1 md:grid-cols-2 gap-8 m-10">
-          <section className="mt-10">
-          <div className="w-fit mb-5 lg:mb-5 overflow-hidden tracking-[3px] text-xs md:px-5 md:py-2 lg:text-xs uppercase bg-gradient-to-r from-blue-300 to-purple-400 text-white rounded-full px-4 py-2">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 m-10">
+          <div className="mt-10">
+            <div className="w-fit mb-5 lg:mb-5 overflow-hidden tracking-[3px] text-xs md:px-5 md:py-2 lg:text-xs uppercase bg-gradient-to-r from-blue-300 to-purple-400 text-white rounded-full px-4 py-2">
                 <span>Research
                 </span>
               </div>
-            <h2 className="text-2xl w-full  font-bold mb-4 text-[#334155]">{research?.title}</h2>
-            <p className=" text-gray-500 mb-5">{research?.abstract}</p>
+              <div>
+                <h2 className="text-2xl  font-bold mb-4 text-[#334155]">{research?.title}</h2>
+                <p className=" text-gray-500 mb-5">{research?.abstract}</p>
+              </div>
+            
            <div className="space-x-5">
-           <div className="w-fit mb-5 lg:mb-5 overflow-hidden tracking-[3px] text-xs md:px-3 md:py-1 lg:text-xs uppercase bg-gradient-to-r from-blue-300 to-purple-400 text-white rounded-full px-4 py-2">
+            <div className="w-fit mb-5 lg:mb-5 overflow-hidden tracking-[3px] text-xs md:px-3 md:py-1 lg:text-xs uppercase bg-gradient-to-r from-blue-300 to-purple-400 text-white rounded-full px-4 py-2">
                 <span>Survey
                 </span>
               </div>
-              <h2 className="text-2xl w-full text-center font-bold mb-4 text-[#334155]">{survey?.title}</h2>
+              <h2 className="text-2xl text-center font-bold mb-4 text-[#334155]">{survey?.title}</h2>
               <p className="text-center text-gray-500 mb-5">{survey.description}</p>
            </div>
-          </section>
-          <section className=" shadow rounded-lg">
-            <InviteSurvey />
-          </section>                 
-        </div>
-      </main>
-      
+          </div>
+            <InviteSurvey />                
+        </div>     
     </div>
   )
 }

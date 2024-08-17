@@ -29,7 +29,7 @@ import { IconMailAi } from "@tabler/icons-react"
 
 export function InviteSurvey() {
   return (
-    <Card className="w-full bg-transparent border-none">
+    <Card className="w-full bg-white border-none">
       <CardHeader>
         <div className="space-y-1.5">
           <CardTitle>Invite Collaborators</CardTitle>
@@ -42,14 +42,14 @@ export function InviteSurvey() {
           
           <div className="space-y-2 flex gap-2">
             <DropdownMenu>
-              <DropdownMenuTrigger className="w-full relative bg-gradient-to-r from-blue-300 to-purple-400 rounded-2xl px-2 " asChild>
-                  <span className="flex items-center justify-between">
+              <DropdownMenuTrigger className="w-full cursor-pointer relative bg-gradient-to-r from-blue-300 to-purple-400 rounded-md px-2 " asChild>
+                  <span className="flex items-center text-white text-xs font-bold justify-between">
                     Add collaborators
                   <ChevronDownIcon className="h-4 w-4" />
                   </span>
                   
               </DropdownMenuTrigger>
-              <DropdownMenuContent className="w-full bg-zinc-400">
+              <DropdownMenuContent className="w-full bg-white shadow-2xl shadow-purple-400">
                 <DropdownMenuLabel>Collaborators</DropdownMenuLabel>
                 <DropdownMenuSeparator />
                 <Command>
@@ -90,10 +90,10 @@ export function InviteSurvey() {
                 </Command>
               </DropdownMenuContent>
             </DropdownMenu>
-            <button className="px-8 py-2  rounded-full relative bg-slate-700 text-white text-sm hover:shadow-2xl hover:shadow-white/[0.1] transition duration-200 border border-slate-600">
+            <button className="px-8 py-2  rounded-md relative bg-slate-700 text-white text-sm hover:shadow-2xl hover:shadow-white/[0.1] transition duration-200 border border-slate-600">
             <div className="absolute inset-x-0 h-px w-1/2 mx-auto -top-px shadow-2xl  bg-gradient-to-r from-transparent via-teal-500 to-transparent" />
             <span className="relative flex items-center gap-1 z-20">
-              Invite <IconMailAi />
+              Invite
             </span>
           </button>
           </div>

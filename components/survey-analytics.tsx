@@ -35,18 +35,18 @@ export function SurveyAnalytics() {
     <div className="min-h-screen w-full ">
       <div className="flex flex-col">
        
-        <main className="flex flex-1 flex-col gap-4 p-4 md:gap-8 md:p-6">
+        <main className="flex flex-1 flex-col gap-4 p-4 lg:gap-8 lg:p-6">
           <div className="flex items-center gap-4">
-            <h1 className="font-semibold text-lg md:text-xl">Statistics</h1>
+            <h1 className="font-semibold text-lg lg:text-xl">Statistics</h1>
           </div>
           <div className="grid gap-6">
-            <div className="grid md:grid-cols-2 gap-6">
+            <div className="grid lg:grid-cols-2 gap-6">
               <Card>
                 <CardHeader>
                   <CardDescription>How long its taking to complete the Questionnaire</CardDescription>
                   <CardTitle>Average duration</CardTitle>
                 </CardHeader>
-                <CardContent>
+                <CardContent className="w-[70vw] lg:w-full overflow-x-auto">
                   <LinechartChart className="aspect-[4/3]" />
                 </CardContent>
               </Card>
@@ -55,14 +55,14 @@ export function SurveyAnalytics() {
                   <CardDescription>Total Questionnaires</CardDescription>
                   <CardTitle>3</CardTitle>
                 </CardHeader>
-                <CardContent className="w-full">
+                <CardContent className="w-[70vw] lg:w-full overflow-x-auto">
                   <BarchartChart className="aspect-[4/3]" />
                 </CardContent>
               </Card>
              
             </div>
             <div className="grid gap-6">
-              <div className="grid md:grid-cols-2 gap-6">
+              <div className="grid lg:grid-cols-2 gap-6">
                 <Card>
                   <CardHeader>
                     <CardTitle>Overview</CardTitle>

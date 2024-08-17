@@ -5,7 +5,7 @@ import { Button } from './ui/button'
 import { ArrowLeftRightIcon, BotMessageSquare, XCircleIcon } from 'lucide-react'
 import { cn } from '@/lib/utils'
 import axios from 'axios'
-import { BellIcon } from '@radix-ui/react-icons'
+import { BellIcon, Cross1Icon } from '@radix-ui/react-icons'
 
 export default function NotificationsList() {
 
@@ -24,7 +24,11 @@ export default function NotificationsList() {
        {
         'hidden':!isOpen
     })}>
-    <h3 className="text-lg font-semibold">Notifications</h3>
+      <div className='flex justify-between items-center'>
+        <h3 className="text-lg font-semibold">Notifications</h3>
+        <Cross1Icon onClick={()=>{setIsOpen((prev)=>!prev)}} className='cursor-pointer' />
+      </div>
+    
     <div className='mt-10'>
       <p>You dont have notifications</p>
     </div>

@@ -18,29 +18,19 @@ To read more about using these font, please visit the Next.js documentation:
 - Pages Directory: https://nextjs.org/docs/pages/building-your-application/optimizing/fonts
 **/
 "use client"
-import Link from "next/link"
+
 import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
-import { DropdownMenu, DropdownMenuTrigger, DropdownMenuContent, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuItem } from "@/components/ui/dropdown-menu"
-import { Popover, PopoverTrigger, PopoverContent } from "@/components/ui/popover"
-import { Calendar } from "@/components/ui/calendar"
 import { Card, CardHeader, CardDescription, CardTitle, CardContent } from "@/components/ui/card"
 import { CartesianGrid, XAxis, Area, AreaChart, Pie, PieChart, Line, LineChart } from "recharts"
 import { ChartTooltipContent, ChartTooltip, ChartContainer } from "@/components/ui/chart"
-import { RelatedResearch } from "./related-research"
-import { CloudOffIcon, DoorOpenIcon } from "lucide-react"
-import { useState } from "react"
-import axios from "axios"
+import { CloudOffIcon, } from "lucide-react"
 
 export function ResearchAnalytics({file_url, researchId}:{file_url:string, researchId:string}) {
 
   return (
-    <div className="grid min-h-screen w-full">
-      <div className="flex flex-col">
-        <main className="flex flex-1 flex-col gap-4 p-4 md:gap-8 md:p-6">
-          
-          <div className="grid gap-6">
-            <div className="grid md:grid-cols-3 gap-6">
+    <div className="min-h-screen">
+        <main className="flex flex-col gap-4 p-4 lg:gap-8 lg:p-6">
+            <div className="grid lg:grid-cols-3 gap-6">
               <Card>
                 <CardHeader className="flex flex-row justify-between items-center">
                   <div>
@@ -53,8 +43,8 @@ export function ResearchAnalytics({file_url, researchId}:{file_url:string, resea
                     <CardTitle>100</CardTitle>
                   </div>
                 </CardHeader>
-                <CardContent>
-                  <AreachartgradientChart className="aspect-[4/3]" />
+                <CardContent className="w-[70vw] lg:w-full overflow-x-auto">
+                  <AreachartgradientChart className="" />
                 </CardContent>
               </Card>
               <Card>
@@ -62,7 +52,7 @@ export function ResearchAnalytics({file_url, researchId}:{file_url:string, resea
                   <CardDescription>Total Expenses</CardDescription>
                   <CardTitle>$3,780.00</CardTitle>
                 </CardHeader>
-                <CardContent>
+                <CardContent className="w-[70vw] lg:w-full overflow-x-auto">
                   <AreachartstackedChart className="aspect-[4/3]" />
                 </CardContent>
               </Card>
@@ -71,13 +61,13 @@ export function ResearchAnalytics({file_url, researchId}:{file_url:string, resea
                   <CardDescription>Contributions</CardDescription>
                   <CardTitle></CardTitle>
                 </CardHeader>
-                <CardContent>
+                <CardContent className="w-[70vw] lg:w-full overflow-x-auto">
                   <PiechartlabelChart className="aspect-[4/3]" />
                 </CardContent>
               </Card>
             </div>
             <div className="grid gap-6">
-              <div className="grid md:grid-cols-2 gap-6">
+              <div className="grid lg:grid-cols-2 gap-6">
                 <Card>
                   <CardHeader>
                     <CardTitle>Your Document</CardTitle>
@@ -159,9 +149,7 @@ export function ResearchAnalytics({file_url, researchId}:{file_url:string, resea
               </div>
              
             </div>
-          </div>
         </main>
-      </div>
     </div>
   )
 }

@@ -17,7 +17,7 @@ const Edit = ({ handleAdd, handleDelete, show }: any) => {
         
         className="md:border-b md:border-r-0 border-r pr-4 md:px-0 py-2 border-gray-400 cursor-pointer hover:text-[#29A0B1]"
       >
-        <BotIcon className='font-light' />
+        <BotIcon className='font-light h-4 w-4' />
       </div>
       {!show && (
         <div

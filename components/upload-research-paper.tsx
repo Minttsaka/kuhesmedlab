@@ -89,12 +89,12 @@ export function UploadResearchPaper({researchId}:{researchId:string}) {
   });
 
   return (
-    <section className="w-full bg-white p-8 rounded-3xl space-y-5">
+    <section className="w-full bg-white p-8 rounded-md space-y-5">
       <p className=" text-muted-foreground ">
       Share your latest research with the world! Simply upload your paper and fill out the details below. Our expert researchers will meticulously
        analyze and review your work to ensure its validity and quality, giving you the recognition and credibility you deserve.
           </p>
-          <div>
+          <div className="space-y-5">
          
           <div className="space-y-2">
             <Label htmlFor="keywords">

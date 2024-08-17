@@ -79,19 +79,21 @@
   
   .typewriter {
     display: inline-block;
-    white-space: nowrap;
-    overflow: hidden;
-    border-right: 2px solid black;
+   
+    
+  }
+
+  .blinker {
     animation: blink-caret 0.75s step-end infinite;
   }
   
   @keyframes blink-caret {
     from,
     to {
-      border-color: transparent;
+      text: black;
     }
     50% {
-      border-color: black;
+      text: white;
     }
   }
 

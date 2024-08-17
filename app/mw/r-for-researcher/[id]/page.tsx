@@ -43,17 +43,17 @@ export default async function page({params:{ id} }:{params:{id:string}}) {
   ])
 
   return (
-    <div className='w-full min-h-screen m-6'>
+    <div className='p-2'>
       <ResearchGreeting id={id} />
       <CreateResearchForm id={id}/>
       <NotificationsList />
       {isResearchExist  && (
-        <>
+        <div>
           <ResearchAnalytics file_url={file_url?.url!} researchId={isResearchExist.id} />
           <ResearchAnalysis file_url={file_url?.url!} researchId={isResearchExist.id}  />
           <RelatedResearch title={isResearchExist.title} />
           <ResearchDashboard file_url={file_url?.url! } id={id} surveys={surveys} />
-        </>
+        </div>
       )}
       
     </div>

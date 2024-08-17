@@ -92,7 +92,7 @@ const Question = ({
           />
           <Select
             placeholder="Select Question Type"
-            style={{ width: 300 }}
+            className="w-full"
             onChange={handleTypeChange}
             value={type}
             defaultValue={type}
@@ -102,7 +102,7 @@ const Question = ({
             ]}
           />
         </div>
-        {qType && <div className="w-full">{qType.file}</div>}
+        {qType && <div className="">{qType.file}</div>}
       </div>
       {isActiveQuestion && (
         <Edit handleAdd={addQuestion} handleDelete={handleDelete} />

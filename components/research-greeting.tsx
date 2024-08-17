@@ -64,7 +64,7 @@ export  async function ResearchGreeting({ id }:{ id:string }) {
 
   ])
   return (
-    <div className="w-full p-8 text-green-900 rounded-3xl ">
+    <div className=" text-green-900 ">
       <div className="grid md:grid-cols-2 gap-8">
         <div className="grid gap-4">
           <div className="flex items-center gap-2">

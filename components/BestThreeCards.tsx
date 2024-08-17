@@ -115,7 +115,7 @@ export default function BestThreeCards() {
 
             <GlareCard className="h-40 w-40 md:h-full md:w-full">
                 <img
-                className="h-full w-full absolute inset-0 object-cover"
+                className=" absolute inset-0 object-cover"
                 src="/img/learn.png"
                 />
             </GlareCard>

@@ -38,197 +38,190 @@ import {
   DropdownMenuSubTrigger,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
-import { Cloud, CreditCard, Github, Keyboard, LifeBuoy, LogOut, Mail, MessageSquare, Plus, PlusCircle, Settings, User, UserPlus, Users } from "lucide-react"
+import { Cloud, CreditCard, Github, Keyboard, LifeBuoy, LogOut, Mail, MenuSquareIcon, MessageSquare, Plus, PlusCircle, Search, Settings, User, UserPlus, Users } from "lucide-react"
+import { BellIcon, Component1Icon, QuestionMarkCircledIcon } from "@radix-ui/react-icons"
+import { Input } from "./ui/input"
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover"
+import Notifications from "./Notifications"
 
 
 export function DashboardNav() {
   return (
-    <header className="sticky flex justify-between items-center px-10 top-0 z-50 w-full bg-[#2a2e7c] text-white">
-      <div className="flex h-16 items-center gap-10 justify-between ">
-        <Link href="#" className="flex items-center gap-2" prefetch={false}>
-          <span className="text-lg font-semibold">  Kuhesmedlab</span>
-        </Link>
-        <nav className="hidden items-center gap-6 md:flex">
-          <Link href="#" className="text-sm hover:text-primary" prefetch={false}>
-            My Research Projects
-          </Link>
-          <Link href="#" className="text-sm hover:text-primary" prefetch={false}>
-          My Research Group
-          </Link>
-          <Link href="#" className="text-sm hover:text-primary" prefetch={false}>
-            Events
-          </Link>
-          <Link href="#" className="text-sm hover:text-primary" prefetch={false}>
-            Pricing
-          </Link>
-          <Link href="#" className="text-sm hover:text-primary" prefetch={false}>
-            Documentation
-          </Link>
-          <Link href="#" className="text-sm hover:text-primary" prefetch={false}>
-            Learn
-          </Link>
-          <Link href="#" className="text-sm hover:text-primary" prefetch={false}>
-            Partner Network
-          </Link>
-          <Link href="#" className="text-sm hover:text-primary" prefetch={false}>
-          kuhes Marketplace
-          </Link>
-          <Link href="#" className="text-sm hover:text-primary" prefetch={false}>
-            Customer Enablement
-          </Link>
-          <Link href="#" className="text-sm hover:text-primary" prefetch={false}>
-            Events
-          </Link>
-          <Link href="#" className="text-sm hover:text-primary" prefetch={false}>
-            Explore More
-          </Link>
-        </nav>
-        <p className="cursor-pointer text-sm" onClick={()=>signOut()}>
-          Logout
-        </p>
-        <Sheet>
-          <SheetTrigger asChild>
-            <Button variant="outline" size="icon" className="md:hidden">
-              <MenuIcon className="h-6 w-6" />
-              <span className="sr-only">Toggle navigation menu</span>
-            </Button>
-          </SheetTrigger>
-          <SheetContent side="right" className="w-[300px]">
-            <div className="flex h-16 items-center justify-between px-4">
-              <Link href="#" className="flex items-center gap-2" prefetch={false}>
-                <MountainIcon className="h-6 w-6" />
-                <span className="text-lg font-semibold">Acme Inc</span>
-              </Link>
-              <SheetClose>
-                <XIcon className="h-6 w-6" />
-              </SheetClose>
-            </div>
-            <nav className="grid gap-4 px-4 py-6">
-              <Link href="#" className="text-sm hover:text-primary" prefetch={false}>
-                My Account
-              </Link>
-              <Link href="#" className="text-sm hover:text-primary" prefetch={false}>
-                My research Projects
-              </Link>
-              <Link href="#" className="text-sm hover:text-primary" prefetch={false}>
-              My research Group
-              </Link>
-              <Link href="#" className="text-sm hover:text-primary" prefetch={false}>
-                Events
-              </Link>
-              <Link href="#" className="text-sm hover:text-primary" prefetch={false}>
-                Documentation
-              </Link>
-              <Link href="#" className="text-sm hover:text-primary" prefetch={false}>
-                Learn
-              </Link>
-              <Link href="#" className="text-sm hover:text-primary" prefetch={false}>
-                Partner Network
-              </Link>
-              <Link href="#" className="text-sm hover:text-primary" prefetch={false}>
-                kuhesS Marketplace
-              </Link>
-              <Link href="#" className="text-sm hover:text-primary" prefetch={false}>
-                Customer Enablement
-              </Link>
-              <Link href="#" className="text-sm hover:text-primary" prefetch={false}>
-                Events
-              </Link>
-              <Link href="#" className="text-sm hover:text-primary" prefetch={false}>
-                Explore More
-              </Link>
-            </nav>
-          </SheetContent>
-        </Sheet>
+    <header>
+     <div className="bg-gradient-to-r from-purple-300 to-blue-400">
+        <div className="container mx-auto">
+          <p className="font-bold p-2 text-xs text-white">Lorem ipsum dolor sit amet consectetur adipisicing elit. Dignissimos, maxime.</p>
+        </div>
+     </div>
+     <div className="flex justify-between gap-2 items-center bg-blue-100 p-2">
+      <div>
+        <Avatar>
+          <AvatarImage src='/img/official-logo.png' className="object-cover" />
+      </Avatar>
       </div>
-      <DropdownMenu>
-      <DropdownMenuTrigger asChild>
-          <Avatar>
-            <AvatarImage src="https://github.com/shadcn.png" />
-            <AvatarFallback>CN</AvatarFallback>
-          </Avatar>
-      </DropdownMenuTrigger>
-      <DropdownMenuContent className="w-56">
-        <DropdownMenuLabel>My Account</DropdownMenuLabel>
-        <DropdownMenuSeparator />
-        <DropdownMenuGroup>
-          <DropdownMenuItem>
-            <User className="mr-2 h-4 w-4" />
-            <span>Profile</span>
-            <DropdownMenuShortcut>⇧⌘P</DropdownMenuShortcut>
-          </DropdownMenuItem>
-          <DropdownMenuItem>
-            <CreditCard className="mr-2 h-4 w-4" />
-            <span>Billing</span>
-            <DropdownMenuShortcut>⌘B</DropdownMenuShortcut>
-          </DropdownMenuItem>
-          <DropdownMenuItem>
-            <Settings className="mr-2 h-4 w-4" />
-            <span>Settings</span>
-            <DropdownMenuShortcut>⌘S</DropdownMenuShortcut>
-          </DropdownMenuItem>
-          <DropdownMenuItem>
-            <Keyboard className="mr-2 h-4 w-4" />
-            <span>Keyboard shortcuts</span>
-            <DropdownMenuShortcut>⌘K</DropdownMenuShortcut>
-          </DropdownMenuItem>
-        </DropdownMenuGroup>
-        <DropdownMenuSeparator />
-        <DropdownMenuGroup>
-          <DropdownMenuItem>
-            <Users className="mr-2 h-4 w-4" />
-            <span>Team</span>
-          </DropdownMenuItem>
-          <DropdownMenuSub>
-            <DropdownMenuSubTrigger>
-              <UserPlus className="mr-2 h-4 w-4" />
-              <span>Invite users</span>
-            </DropdownMenuSubTrigger>
-            <DropdownMenuPortal>
-              <DropdownMenuSubContent>
+      <div className="w-full flex items-center bg-white shadow-xl gap-3 px-5 rounded-xl">
+        <Input className="w-full bg-transparent border-none" />
+        <Search  className="text-gray-500 "/>
+      </div>
+     
+      <div className="flex gap-2 items-center">
+      <div className="w-fit p-1 rounded-full hover:bg-gray-100 bg-white">
+      <Popover>
+      <PopoverTrigger asChild>
+        <Component1Icon className="h-6 w-6 text-gray-500"  />
+      </PopoverTrigger>
+      <PopoverContent className="w-80">
+        <div className="space-y-3 ">
+          <div className="grid grid-cols-2 gap-2">
+            <Link className="p-5 bg-blue-100 text-blue-500 rounded-md" href={'/mw/r-for-researcher'}>
+              Your Research
+            </Link>
+
+            <Link className="p-5 bg-purple-100 text-purple-500 rounded-md" href={''}>
+              Your Surveys
+            </Link>
+
+            <Link className="p-5 bg-purple-100 text-purple-500 rounded-md" href={''}>
+              Your Surveys
+            </Link>
+
+            <Link className="p-5 bg-purple-100 text-purple-500 rounded-md" href={''}>
+              Your Surveys
+            </Link>
+          </div>
+          <h2>Other Services</h2>
+          <div className="grid grid-cols-3 gap-2">
+              <div className="space-y-2  w-full">
+                <div className="bg-purple-100 w-fit rounded p-2">
+                  <QuestionMarkCircledIcon className="h-5 w-5 text-purple-600" />
+                  </div>
+                  <div>
+                    <p className="text-xs text-gray-500">Voice Matters</p>
+                  </div>
+                </div>
+
+                <div className="space-y-2 w-full">
+                <div className="bg-purple-100 w-fit rounded p-2">
+                  <QuestionMarkCircledIcon className="h-5 w-5 text-purple-600" />
+                  </div>
+                  <div>
+                    <p className="text-xs text-gray-500">Library</p>
+                  </div>
+                </div>
+
+                <div className="space-y-2  w-full">
+                <div className="bg-purple-100 w-fit rounded p-2">
+                  <QuestionMarkCircledIcon className="h-5 w-5 text-purple-600" />
+                  </div>
+                  <div>
+                    <p className="text-xs text-gray-500 text-wrap">Voice Matters</p>
+                  </div>
+                </div>
+          </div>
+          
+        </div>
+      </PopoverContent>
+    </Popover>
+        </div>
+      <Notifications />
+            
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+                <Avatar>
+                  <AvatarImage src="https://github.com/shadcn.png" />
+                  <AvatarFallback>CN</AvatarFallback>
+                </Avatar>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent className="w-56">
+              <DropdownMenuLabel>My Account</DropdownMenuLabel>
+              <DropdownMenuSeparator />
+              <DropdownMenuGroup>
                 <DropdownMenuItem>
-                  <Mail className="mr-2 h-4 w-4" />
-                  <span>Email</span>
+                  <Link href={'/mw/profile'}>
+                    <User className="mr-2 h-4 w-4" />
+                  </Link>
+                  <span>Profile</span>
+                  <DropdownMenuShortcut>⇧⌘P</DropdownMenuShortcut>
                 </DropdownMenuItem>
                 <DropdownMenuItem>
-                  <MessageSquare className="mr-2 h-4 w-4" />
-                  <span>Message</span>
+                  <CreditCard className="mr-2 h-4 w-4" />
+                  <span>Billing</span>
+                  <DropdownMenuShortcut>⌘B</DropdownMenuShortcut>
                 </DropdownMenuItem>
-                <DropdownMenuSeparator />
                 <DropdownMenuItem>
-                  <PlusCircle className="mr-2 h-4 w-4" />
-                  <span>More...</span>
+                  <Settings className="mr-2 h-4 w-4" />
+                  <span>Settings</span>
+                  <DropdownMenuShortcut>⌘S</DropdownMenuShortcut>
                 </DropdownMenuItem>
-              </DropdownMenuSubContent>
-            </DropdownMenuPortal>
-          </DropdownMenuSub>
-          <DropdownMenuItem>
-            <Plus className="mr-2 h-4 w-4" />
-            <span>New Team</span>
-            <DropdownMenuShortcut>⌘+T</DropdownMenuShortcut>
-          </DropdownMenuItem>
-        </DropdownMenuGroup>
-        <DropdownMenuSeparator />
-        <DropdownMenuItem>
-          <Github className="mr-2 h-4 w-4" />
-          <span>GitHub</span>
-        </DropdownMenuItem>
-        <DropdownMenuItem>
-          <LifeBuoy className="mr-2 h-4 w-4" />
-          <span>Support</span>
-        </DropdownMenuItem>
-        <DropdownMenuItem disabled>
-          <Cloud className="mr-2 h-4 w-4" />
-          <span>API</span>
-        </DropdownMenuItem>
-        <DropdownMenuSeparator />
-        <DropdownMenuItem>
-          <LogOut className="mr-2 h-4 w-4" />
-          <span>Log out</span>
-          <DropdownMenuShortcut>⇧⌘Q</DropdownMenuShortcut>
-        </DropdownMenuItem>
-      </DropdownMenuContent>
-    </DropdownMenu>
+                <DropdownMenuItem>
+                  <Keyboard className="mr-2 h-4 w-4" />
+                  <span>Keyboard shortcuts</span>
+                  <DropdownMenuShortcut>⌘K</DropdownMenuShortcut>
+                </DropdownMenuItem>
+              </DropdownMenuGroup>
+              <DropdownMenuSeparator />
+              <DropdownMenuGroup>
+                <DropdownMenuItem>
+                  <Users className="mr-2 h-4 w-4" />
+                  <span>Team</span>
+                </DropdownMenuItem>
+                <DropdownMenuSub>
+                  <DropdownMenuSubTrigger>
+                    <UserPlus className="mr-2 h-4 w-4" />
+                    <span>Invite users</span>
+                  </DropdownMenuSubTrigger>
+                  <DropdownMenuPortal>
+                    <DropdownMenuSubContent>
+                      <DropdownMenuItem>
+                        <Mail className="mr-2 h-4 w-4" />
+                        <span>Email</span>
+                      </DropdownMenuItem>
+                      <DropdownMenuItem>
+                        <MessageSquare className="mr-2 h-4 w-4" />
+                        <span>Message</span>
+                      </DropdownMenuItem>
+                      <DropdownMenuSeparator />
+                      <DropdownMenuItem>
+                        <PlusCircle className="mr-2 h-4 w-4" />
+                        <span>More...</span>
+                      </DropdownMenuItem>
+                    </DropdownMenuSubContent>
+                  </DropdownMenuPortal>
+                </DropdownMenuSub>
+                <DropdownMenuItem>
+                  <Plus className="mr-2 h-4 w-4" />
+                  <span>New Team</span>
+                  <DropdownMenuShortcut>⌘+T</DropdownMenuShortcut>
+                </DropdownMenuItem>
+              </DropdownMenuGroup>
+              <DropdownMenuSeparator />
+              <DropdownMenuItem>
+                <Github className="mr-2 h-4 w-4" />
+                <span>GitHub</span>
+              </DropdownMenuItem>
+              <DropdownMenuItem>
+                <LifeBuoy className="mr-2 h-4 w-4" />
+                <span>Support</span>
+              </DropdownMenuItem>
+              <DropdownMenuItem disabled>
+                <Cloud className="mr-2 h-4 w-4" />
+                <span>API</span>
+              </DropdownMenuItem>
+              <DropdownMenuSeparator />
+              <DropdownMenuItem>
+                <LogOut className="mr-2 h-4 w-4" />
+                <span>Log out</span>
+                <DropdownMenuShortcut>⇧⌘Q</DropdownMenuShortcut>
+              </DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
+      </div>
+            
+          </div>
 
     </header>
   )

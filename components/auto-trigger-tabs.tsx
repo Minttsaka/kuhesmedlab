@@ -36,7 +36,7 @@ export function AutoTriggerTabs() {
     return () => clearInterval(interval)
   }, [])
   return (
-    <div className="relative container mx-auto min-h-screen py-20">
+    <div className="relative container mx-auto min-h-screen py-10">
       <div className="flex flex-col gap-5 max-w-3xl mr-auto">
         <div className="w-fit mb-5 lg:mb-5 overflow-hidden tracking-[3px] text-xs md:px-5 md:py-2 lg:text-xs uppercase bg-gradient-to-r from-blue-300 to-purple-400 text-white rounded-full px-4 py-2">
                 <span>Center of Innovation

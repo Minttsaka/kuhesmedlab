@@ -3,21 +3,24 @@ import React from 'react'
 import { TooltipProvider, Tooltip, TooltipTrigger, TooltipContent } from "@/components/ui/tooltip"
 import Link from "next/link"
 import { BarChartIcon, ClipboardIcon, PlusIcon } from '@radix-ui/react-icons'
-import { CircleHelpIcon, LayoutTemplateIcon, SettingsIcon } from 'lucide-react'
+import { Bell, CircleHelpIcon, LayoutTemplateIcon, SettingsIcon } from 'lucide-react'
 import { signOut } from 'next-auth/react'
+import { Avatar, AvatarImage } from './ui/avatar'
 
-export default function ResearchSideBar() {
+export default function ResearchNavBar() {
   return (
-    <div className='hidden md:block'>
-        <aside className="  w-14 flex-col border-r rounded-s-3xl bg-white sm:flex">
-        <nav className="flex flex-col items-center gap-4 px-2 sm:py-5">
+    <div className='bg-white rounded-t-3xl py-2  md:hidden'>
+        <aside className="  w-14 sm:flex">
+        <nav className="flex items-center gap-4 px-2 sm:py-5">
           <TooltipProvider>
             <Link
               href="#"
-              className="group flex h-9 w-9 shrink-0 items-center justify-center gap-2 rounded-full bg-primary text-lg font-semibold text-primary-foreground md:h-8 md:w-8 md:text-base"
+              className="group flex h-9 w-9 shrink-0 items-center justify-center gap-2 rounded-full text-lg font-semibold text-primary-foreground md:h-8 md:w-8 md:text-base"
               prefetch={false}
             >
-              <ClipboardIcon className="h-4 w-4 transition-all group-hover:scale-110" />
+               <Avatar>
+                    <AvatarImage src='/img/official-logo.png' className="object-cover" />
+                </Avatar>
               <span className="sr-only">Surveys</span>
             </Link>
             <Tooltip>
@@ -72,10 +75,19 @@ export default function ResearchSideBar() {
               </TooltipTrigger>
               <TooltipContent side="right">Settings</TooltipContent>
             </Tooltip>
-          </TooltipProvider>
-        </nav>
-        <nav className="mt-auto flex flex-col items-center gap-4 px-2 sm:py-5">
-          <TooltipProvider>
+            <Tooltip>
+              <TooltipTrigger asChild>
+                <Link
+                  href="#"
+                  className="flex h-9 w-9 items-center justify-center rounded-lg text-muted-foreground transition-colors hover:text-foreground md:h-8 md:w-8"
+                  prefetch={false}
+                >
+                  <Bell className="h-5 w-5" />
+                  <span className="sr-only">Notifications</span>
+                </Link>
+              </TooltipTrigger>
+              <TooltipContent side="right">Notifications</TooltipContent>
+            </Tooltip>
             <Tooltip>
               <TooltipTrigger asChild>
                 <Link
@@ -91,6 +103,23 @@ export default function ResearchSideBar() {
             </Tooltip>
           </TooltipProvider>
         </nav>
+        {/* <nav className="mt-auto flex  items-center gap-4 px-2 sm:py-5">
+          <TooltipProvider>
+            <Tooltip>
+              <TooltipTrigger asChild>
+                <Link
+                  href="#"
+                  className="flex h-9 w-9 items-center justify-center rounded-lg text-muted-foreground transition-colors hover:text-foreground md:h-8 md:w-8"
+                  prefetch={false}
+                >
+                  <CircleHelpIcon className="h-5 w-5" />
+                  <span className="sr-only">Help</span>
+                </Link>
+              </TooltipTrigger>
+              <TooltipContent side="right">Help</TooltipContent>
+            </Tooltip>
+          </TooltipProvider>
+        </nav> */}
       </aside>
         
     </div>
