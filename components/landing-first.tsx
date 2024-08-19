@@ -98,7 +98,7 @@ export function LandingFirst() {
           </div>
           <div>
             <div className="p-6 shadow-2xl shadow-gray-200 rounded-lg bg-opacity-20 bg-white">
-              <img src="/img/libray.jpg" className="w-full h-full rounded-lg" />
+              <img src="/library.jpg" className="w-full h-full rounded-lg" />
             </div>
           </div>
           <Trustedby />
