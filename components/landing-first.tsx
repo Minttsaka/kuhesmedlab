@@ -98,7 +98,7 @@ export function LandingFirst() {
           </div>
           <div>
             <div className="p-6 shadow-2xl shadow-gray-200 rounded-lg bg-opacity-20 bg-white">
-              <img src="https://scontent.fblz1-1.fna.fbcdn.net/v/t39.30808-6/455265995_921894826636112_1523723343655404444_n.jpg?_nc_cat=105&ccb=1-7&_nc_sid=833d8c&_nc_eui2=AeERLiR-SlN6FYioRJCDK-xcq1DtVCVakYCrUO1UJVqRgIx5NPPUwhwKVSto1_MHmEJHdN2TUwNbvc2GzVC1xEjy&_nc_ohc=7eUHtHegNUsQ7kNvgFCz7cy&_nc_pt=5&_nc_zt=23&_nc_ht=scontent.fblz1-1.fna&oh=00_AYAuRQPBSBtr-_XL_q5u1ARtvLGE9OkjoTJ-eEAYjrQIdw&oe=66C233E6" className="w-full h-full rounded-lg" />
+              <img src="/img/libray.jpg" className="w-full h-full rounded-lg" />
             </div>
           </div>
           <Trustedby />
