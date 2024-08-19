@@ -37,24 +37,17 @@ import { Card } from "./ui/card"
 import { useState } from "react"
 import { Cross1Icon, HamburgerMenuIcon } from "@radix-ui/react-icons"
 import 'animate.css';
-
-
-type SurveyFormQuestion = {
-  id: string
-  title: string
-  image: string | null
-  choices:SurveyFormAnswer[]
-  formId: string
-  author: string
-  createdAt: Date
-}
+import { Textarea } from "./ui/textarea"
+import { Switch } from "./ui/switch"
 
 const FormSchema = z.object({
   title: z
     .string()
     .min(2, "First name must be at least 2 characters"),
   description: z.string()
-  .min(2, "First name must be at least 2 characters")
+  .min(2, "First name must be at least 2 characters"),
+  recommendation: z.string()
+  .min(2, "First name must be at least 2 characters"),
 });
 
 type InputType = z.infer<typeof FormSchema>;
@@ -71,6 +64,7 @@ const fetcher = async (url:string) => {
 export function SurveyFormLists({surveyId}:{surveyId:string}) {
 
     const [open, setOPen] = useState(false)
+    const [isChecked, setIsChecked] = useState<boolean>()
 
   const {
     register,
@@ -106,11 +100,13 @@ export function SurveyFormLists({surveyId}:{surveyId:string}) {
 
     console.log(surveyId,  "second")
 
-    const {title, description} = data
+    const {title,  recommendation, description} = data
   try {
     const response= await axios.post('/api/form',{
       title,
       description,
+      recommendation,
+      identity:isChecked,
       surveyId
         })
       mutate();
@@ -121,6 +117,11 @@ export function SurveyFormLists({surveyId}:{surveyId:string}) {
   }
 };
 
+const handleCheck =(e:boolean)=>{
+  setIsChecked(e)
+
+}
+
 const formList = Array.isArray(data) ? data : [];
 
   return (
@@ -128,53 +129,61 @@ const formList = Array.isArray(data) ? data : [];
         <HamburgerMenuIcon onClick={()=>setOPen((prev)=>!prev)} className="lg:hidden" />
         {
             open && 
-            <div className="md:hidden fixed inset-y-0 right-0 lg:block bg-white mr-6 p-6 rounded-2xl space-y-5 w-[70%] animate__animated animate__fadeInRight">
+            <div className=" fixed inset-y-0 right-0 md:hidden bg-white mr-6 p-6 rounded-2xl space-y-5 w-[70%] animate__animated animate__fadeInRight">
                 <div className="flex justify-between items-center">
                 <Dialog>
-                <DialogTrigger asChild>
-                    <button className="px-8 py-2 rounded-full relative bg-gradient-to-r from-blue-400 to-purple-500 text-white text-sm hover:shadow-2xl hover:shadow-white/[0.1] transition duration-200 ">
-                    <div className="absolute inset-x-0 h-px w-1/2 mx-auto -top-px shadow-2xl  bg-gradient-to-r from-transparent via-teal-500 to-transparent" />
-                    <span className="relative z-20">
-                    Create new form
-                    </span>
-                    </button>
-                </DialogTrigger>
-                <DialogContent className="bg-[#c8f2f3] sm:max-w-[425px]">
-                    <DialogTitle>
-                    <h2 className='text-gray-600 font-bold space-y-5 text-center'>Create New survey Form</h2>
-                    </DialogTitle>
-                    <form onSubmit={handleSubmit(saveform)} className="grid gap-4 py-4">
-                    <div className="">
-                        <Label htmlFor="title" className="text-right">
-                        Title
-                        </Label>
-                        <Input
-                        id="title"
-                        {...register("title")}
-                        className="bg-transparent border-b-2 focus:outline-0 border-b-[green]"
-                        />
-                    </div>
-                    <div className="">
-                        <Label htmlFor="description" className="text-right">
-                        Description
-                        </Label>
-                        <Input
-                        {...register("description")}
-                        id="description"
-                        className="bg-transparent border-b-2 focus:outline-0 border-b-[green]"
-                        />
-                    </div>
-                    <button type='submit' className="px-8 py-2 rounded-full relative bg-gradient-to-r from-blue-400 to-purple-500 text-white text-sm hover:shadow-2xl hover:shadow-white/[0.1] transition duration-200"
-                    disabled={isSubmitting}
-                    >
-                        <div className="absolute inset-x-0 h-px w-1/2 mx-auto -top-px shadow-2xl  bg-gradient-to-r from-transparent via-teal-500 to-transparent" />
-                        <span className="relative z-20">
-                            {isSubmitting ? (<Loader2 className=" animate-spin h-4 w-4"/>) : "Create New form"}
-                        </span>
-                        </button>
-                    </form>
-                </DialogContent>
-                </Dialog>
+          <DialogTrigger asChild>
+            <button className="px-8 py-2 rounded-full relative bg-gradient-to-r from-blue-400 to-purple-500 text-white text-sm hover:shadow-2xl hover:shadow-white/[0.1] transition duration-200 ">
+              <div className="absolute inset-x-0 h-px w-1/2 mx-auto -top-px shadow-2xl  bg-gradient-to-r from-transparent via-teal-500 to-transparent" />
+              <span className="relative z-20">
+              Create new form
+              </span>
+            </button>
+          </DialogTrigger>
+          <DialogContent className="bg-white shadow-2xl shadow-purple-500 sm:max-w-[425px]">
+            <DialogTitle>
+              <h2 className='text-gray-600 font-bold space-y-5 text-center'>Create New survey Form</h2>
+            </DialogTitle>
+            <form onSubmit={handleSubmit(saveform)} className="grid gap-4 py-4">
+              <div className="">
+                <Label htmlFor="title" className="text-right">
+                  Title
+                </Label>
+                <Input
+                  id="title"
+                  {...register("title")}
+                  className="bg-transparent border-b-2 focus:outline-0 border-b-blue-900"
+                />
+              </div>
+              <div className="">
+                <Label htmlFor="description" className="text-right">
+                Description
+                </Label>
+                <Input
+                {...register("description")}
+                  id="description"
+                  className="bg-transparent border-b-2 focus:outline-0 border-b-blue-900"
+                />
+              </div>
+              <div className="space-y-2">
+                <Label htmlFor="recommendation">Recommendation</Label>
+                <Textarea {...register("recommendation")} className="border-b-2 border-b-blue-900" id="recommendation" placeholder="Any recommendations or instructions for participants" />
+              </div>
+              <div className="flex items-center space-x-2">
+                <Switch onCheckedChange={handleCheck} id="identity-required" />
+                <Label htmlFor="identity-required">Identity Required</Label>
+              </div>
+              <button type='submit' className="px-8 py-2 rounded-full relative bg-gradient-to-r from-blue-400 to-purple-500 text-white text-sm hover:shadow-2xl hover:shadow-white/[0.1] transition duration-200"
+              disabled={isSubmitting}
+              >
+                <div className="absolute inset-x-0 h-px w-1/2 mx-auto -top-px shadow-2xl  bg-gradient-to-r from-transparent via-teal-500 to-transparent" />
+                <span className="relative z-20">
+                    {isSubmitting ? (<Loader2 className=" animate-spin h-4 w-4"/>) : "Create New form"}
+                </span>
+                </button>
+            </form>
+          </DialogContent>
+        </Dialog>
                 <Cross1Icon onClick={()=>setOPen((prev)=>!prev)} />
                 </div>
                
@@ -192,7 +201,7 @@ const formList = Array.isArray(data) ? data : [];
                                 </div>
                                 <div className="grid md:grid-cols-2 gap-4">
                                 <div className="bg-muted rounded-md p-4 flex flex-col gap-2">
-                                    <span className="text-2xl font-bold">25</span>
+                                    <span className="text-2xl font-bold">{form.questions.length}</span>
                                     <span className="text-muted-foreground text-sm">Questions</span>
                                 </div>
                                 <div className="bg-muted rounded-md p-4 flex flex-col gap-2">
@@ -212,6 +221,7 @@ const formList = Array.isArray(data) ? data : [];
                                     href={`/mw/survey/create/${form.id}`}
                                     className="inline-flex h-10 items-center justify-center rounded-md bg-[green] px-6 text-sm font-medium text-primary-foreground shadow transition-colors hover:bg-primary/90 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50"
                                     prefetch={false}
+                                    target="__blank"
                                 >
                                     Edit
                                 </Link>

@@ -19,7 +19,7 @@ To read more about using these font, please visit the Next.js documentation:
 **/
 export function AboutTeam() {
   return (
-    <div className="relative py-10">
+    <div className="relative py-10" id="team">
       <section className="w-full ">
         <div className="container space-y-10 xl:space-y-16">
           <div className="flex flex-col items-center space-y-4 text-center">
@@ -34,27 +34,27 @@ export function AboutTeam() {
           </div>
           <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
             <div className="flex flex-col items-center space-y-4 rounded-lg bg-background p-6 shadow-lg transition-transform duration-300 ease-in-out hover:-translate-y-2 hover:shadow-xl">
-              <img src="https://plus.unsplash.com/premium_photo-1680658096480-7ca2fe809317?q=80&w=1974&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="Team Member" width={120} height={120} className="rounded-full" />
+              <img src="/img/kuhes.png" alt="Team Member" width={120} height={120} className="rounded-full w-[8rem] h-[10rem] object-cover" />
               <div className="space-y-2 text-center">
                 <h3 className="text-xl font-bold">Chikumbutso Mzumara</h3>
                 <p className="text-muted-foreground">Founder</p>
                 <p className="text-sm text-muted-foreground">
-                  John is the visionary behind our company, leading the team to new heights.
+                Chikumbutso Mzumara is the visionary behind our company, leading the team to new heights.
                 </p>
               </div>
             </div>
             <div className="flex flex-col items-center space-y-4 rounded-lg bg-background p-6 shadow-lg transition-transform duration-300 ease-in-out hover:-translate-y-2 hover:shadow-xl">
-              <img src="https://plus.unsplash.com/premium_photo-1680658096480-7ca2fe809317?q=80&w=1974&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="Team Member" width={120} height={120} className="rounded-full" />
+              <img src="/img/halima.jpeg" alt="Team Member" width={120} height={120} className="rounded-full w-[8rem] h-[10rem] object-cover" />
               <div className="space-y-2 text-center">
-                <h3 className="text-xl font-bold">DL Banda</h3>
+                <h3 className="text-xl font-bold">Halima Kaipirani </h3>
                 <p className="text-muted-foreground">CO-Founder</p>
                 <p className="text-sm text-muted-foreground">
-                  Jane is our technical mastermind, driving innovation and engineering excellence.
+                Halima is our technical mastermind, driving innovation and engineering excellence.
                 </p>
               </div>
             </div>
             <div className="flex flex-col items-center space-y-4 rounded-lg bg-background p-6 shadow-lg transition-transform duration-300 ease-in-out hover:-translate-y-2 hover:shadow-xl">
-              <img src="https://plus.unsplash.com/premium_photo-1680658096480-7ca2fe809317?q=80&w=1974&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="Team Member" width={120} height={120} className="rounded-full" />
+              <img src="https://scontent.fblz2-1.fna.fbcdn.net/v/t39.30808-6/305030602_439353398223941_6631272509062160820_n.jpg?_nc_cat=108&ccb=1-7&_nc_sid=a5f93a&_nc_eui2=AeFMBSVfv43yYDzbRbYhKb362lXTT-Ahx3zaVdNP4CHHfOxK8DFSzxjMdz4r1CRwvRnQSg80191Reu1HDzeHOvzv&_nc_ohc=w2TUY7C6UUkQ7kNvgFJ8Yyp&_nc_zt=23&_nc_ht=scontent.fblz2-1.fna&oh=00_AYAkDoI2q49x4NOJulycmRULTmDvmf7qDqTVusSOZi5JXQ&oe=66C95305" alt="Team Member" width={120} height={120} className="rounded-full w-[8rem] h-[10rem] object-cover" />
               <div className="space-y-2 text-center">
                 <h3 className="text-xl font-bold">Edna Nsulupi </h3>
                 <p className="text-muted-foreground">CO-Founder</p>
@@ -64,12 +64,12 @@ export function AboutTeam() {
               </div>
             </div>
             <div className="flex flex-col items-center space-y-4 rounded-lg bg-background p-6 shadow-lg transition-transform duration-300 ease-in-out hover:-translate-y-2 hover:shadow-xl">
-              <img src="https://plus.unsplash.com/premium_photo-1680658096480-7ca2fe809317?q=80&w=1974&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="Team Member" width={120} height={120} className="rounded-full" />
+              <img src="https://scontent.fblz2-1.fna.fbcdn.net/v/t39.30808-6/327172508_2575550429249865_2546110133230094783_n.jpg?_nc_cat=102&ccb=1-7&_nc_sid=833d8c&_nc_eui2=AeEAQsGDi-HscUb4fEASneKxKQI3eSwzuxspAjd5LDO7GwOxNo-62Hx8APB5fa1MAn2j6SMl4vEFgKIIsF-NTLRr&_nc_ohc=DtBN0LDbCrUQ7kNvgHKIv7_&_nc_zt=23&_nc_ht=scontent.fblz2-1.fna&oh=00_AYBPE8sXNcMsNB1_-MsCtBdD_C45-CFUzJ4LPv4aIFmy6A&oe=66C969D5" alt="Team Member" width={120} height={120} className="rounded-full w-[8rem] h-[10rem] object-cover" />
               <div className="space-y-2 text-center">
                 <h3 className="text-xl font-bold">Nyasha Nguluwe</h3>
                 <p className="text-muted-foreground">Product Manager</p>
                 <p className="text-sm text-muted-foreground">
-                  Emily is our user-centric product expert, ensuring our solutions meet the needs of our customers.
+                  Nyasha is our user-centric product expert, ensuring our solutions meet the needs of our customers.
                 </p>
               </div>
             </div>

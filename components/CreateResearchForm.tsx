@@ -63,21 +63,6 @@ const fetcher = async (url:string) => {
 
 export default function CreateResearchForm({ id }:{ id:string }) {
 
-  const [researchField, setResearchField] = useState("");
-
-    const router = useRouter();
-  const {
-    register,
-    handleSubmit,
-    reset,
-    control,
-    watch,
-    formState: { errors,isSubmitting },
-  } = useForm<InputType>({
-    resolver: zodResolver(FormSchema),
-  });
-
-
   const { data, mutate, isLoading, error } = useSWR(
     `/api/research`,
     fetcher
@@ -93,34 +78,12 @@ export default function CreateResearchForm({ id }:{ id:string }) {
     return <div>Error loading data</div>;
   }
 
-  const saveResearch: SubmitHandler<InputType> = async (data) => {
-
-      const {title, abstract ,keyWords, affiliation,doi, journal, conference} = data
-    try {
-      const response= await axios.post('/api/research',{
-        title,
-        abstract,
-        keyWords,
-        affiliation,
-        researchField,
-        doi,
-        journal,
-        conference,
-      })
-      router.push(`/mw/r-for-researcher/${response.data}`)
-        mutate();
-        toast.success("The User Registered Successfully.");
-        
-    } catch (error) {
-      console.log(error)
-    }
-  };
 
   const researchList = Array.isArray(data) ? data : [];
 
 //href={`/mw/r-for-researcher/${research.id}
   return (
-    <div className=' my-8'>
+    <div className='rounded-lg my-8'>
         <div className='mb-10'>
             <h2 className='text-xl md:text-3xl font-bold text-green-900'>Your Research List</h2>
             <p className='max-w-md'>All the details for individual research can be found by scrolling down below research list</p>
@@ -142,7 +105,7 @@ export default function CreateResearchForm({ id }:{ id:string }) {
           )}
  
           {(researchList as Research[])?.map((research,index) => (
-                <Link  href={`/mw/r-for-researcher/${research.id}`} key={research.id} className={cn(' bg-white p-10 rounded-3xl space-y-0',{
+                <Link  href={`/mw/publication/${research.id}`} key={research.id} className={cn(' bg-white p-10 rounded-3xl space-y-0',{
                   "border border-green-500":research.id===id
                 })}>
                   <div className='font-bold md:text-xl'>
@@ -161,117 +124,7 @@ export default function CreateResearchForm({ id }:{ id:string }) {
           ))}
 
         </div>
-      <Dialog>
-      <DialogTrigger className=' p-2 rounded-full bg-green-300' asChild>
-        <PlusIcon className='h-10 w-10 font-bold text-white' />
-      </DialogTrigger>
-      <DialogContent className="bg-[#c8f2f3] max-w-7xl h-[95vh] overflow-y-auto">
-        <h2 className='text-gray-600 font-bold space-y-5 text-center'>Create New Research Workspace</h2>
-        <form onSubmit={handleSubmit(saveResearch)} className="grid gap-4 py-4">
-          <div className="">
-            <Label htmlFor="title" className="text-right">
-              Title
-            </Label>
-            <Input
-              id="title"
-              {...register("title")}
-              className="bg-transparent border-b-2 focus:outline-0 border-b-[green]"
-            />
-          </div>
-          <div className="">
-            <Label htmlFor="Abstract" className="text-right">
-             Abstract
-            </Label>
-            <Textarea
-            {...register("abstract")}
-              id="abstract"
-              className="bg-transparent border-b-2 focus:outline-0 border-b-[green]"
-            />
-          </div>
-          <div className="">
-            <Label htmlFor="keyWords" className="text-right">
-              Enter key Words separated by comma
-            </Label>
-            <Input
-              id="keyWords"
-              {...register("keyWords")}
-              className="bg-transparent border-b-2 focus:outline-0 border-b-[green]"
-            />
-          </div>
-          <div className="">
-            <Label htmlFor="field" className="text-right">
-             Field
-            </Label>
-            <Select onValueChange={(e)=>setResearchField(e)}>
-              <SelectTrigger className='bg-transparent border-b-2 border-b-green-400'>
-                <SelectValue placeholder="Select country" />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="us">Life</SelectItem>
-                <SelectItem value="Plants">Plants</SelectItem>
-                <SelectItem value="Animal">Animal</SelectItem>
-                <SelectItem value="river">river</SelectItem>
-                <SelectItem value="lake">lake</SelectItem>
-              </SelectContent>
-            </Select>
-           
-          </div>
 
-          <div>
-        <label className="block text-sm font-medium text-gray-700">Authors</label>
-        <div className="">
-            <Label htmlFor="doi" className="text-right">
-              doi
-            </Label>
-            <Input
-              id="doi"
-              {...register("doi")}
-              className="bg-transparent border-b-2 focus:outline-0 border-b-[green]"
-            />
-          </div>
-          <div className="">
-            <Label htmlFor="journal" className="text-right">
-              journal
-            </Label>
-            <Input
-              id="journal"
-              {...register("journal")}
-              className="bg-transparent border-b-2 focus:outline-0 border-b-[green]"
-            />
-          </div>
-          <div className="">
-            <Label htmlFor="conference" className="text-right">
-              conference
-            </Label>
-            <Input
-              id="conference"
-              {...register("conference")}
-              className="bg-transparent border-b-2 focus:outline-0 border-b-[green]"
-            />
-          </div>
-        <div className="">
-            <Label htmlFor="affiliation" className="text-right">
-              affiliation
-            </Label>
-            <Input
-              id="affiliation"
-              {...register("affiliation")}
-              className="bg-transparent border-b-2 focus:outline-0 border-b-[green]"
-            />
-          </div>
-        
-      </div>
-          <button type='submit' className="px-8 py-2 rounded-full relative bg-slate-700 text-white text-sm hover:shadow-2xl hover:shadow-white/[0.1] transition duration-200 border border-slate-600"
-          disabled={isSubmitting}
-          >
-            <div className="absolute inset-x-0 h-px w-1/2 mx-auto -top-px shadow-2xl  bg-gradient-to-r from-transparent via-teal-500 to-transparent" />
-            <span className="relative z-20">
-                {isSubmitting ? "Creating.." : "Create New Research"}
-            </span>
-            </button>
-        </form>
-      </DialogContent>
-    </Dialog>
     </div>
   )
 }

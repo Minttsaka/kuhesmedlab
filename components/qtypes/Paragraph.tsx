@@ -1,6 +1,6 @@
 import React from 'react'
 
-const Paragraph = () => {
+const Paragraph = ({id}:{id:string}) => {
   return (
     <div className="w-full px-6 py-1 mb-6">
       <textarea

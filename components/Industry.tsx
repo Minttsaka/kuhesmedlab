@@ -15,38 +15,40 @@ export function Industry() {
         <div className='flex flex-col md:flex-row gap-5 '>
         <Card className='shadow-2xl grid md:grid-cols-2'>
             <CardHeader className='bg-gray-100 m-2 rounded-2xl  pl-40 '>
-                <img src='https://plus.unsplash.com/premium_photo-1681842934644-0d05b05e3348?q=80&w=2061&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D' className='rounded-2xl' alt='this is good' />
+                <img src='/icons/effective.png' className='rounded-2xl' alt='this is good' />
             </CardHeader>
             <CardContent>
                 
                 <div className='flex flex-col gap-4 mt-5'>
                     <Badge className='flex gap-2 rounded-xl bg-gradient-to-r from-blue-300 to-purple-400 text-gray-100 w-fit'>
-                        <HelpCircle className='h-4 w-4' />
-                        SUPPORT
+                        Mission
                     </Badge>
-                    <h2 className='text-2xl uppercase font-bold'>Outstanding </h2>
-                    <p> with the right support system, resources, and expertise to fuel the growth and success of this innovative platform.</p>
-                    
-                    
-                    <Link className='text-[#3f3f74] mt-10 text-xs flex gap-2 items-center' href={'#'}>
-                        Read More <ArrowRightIcon className='h-3 w-3' />
-                    </Link>
+                    <h2 className='text-2xl uppercase font-bold'>Empowering healthcare through research and technology. </h2>
+                    <p>
+                    Our mission at KUHESMedLab is to bridge the gap between medical research and real-world applications. We strive 
+                    to provide a comprehensive platform that supports the entire research lifecycle—from initial
+                     hypothesis to final publication—while ensuring that the findings have a tangible impact on healthcare delivery.
+                    </p>
                 </div>
             </CardContent>
         </Card>
         <Card className='shadow-2xl grid md:grid-cols-2 bg-[#425466] text-gray-100'>
             <CardHeader className='bg-gray-100 m-2 rounded-2xl  pl-40'>
-                <img src='https://plus.unsplash.com/premium_photo-1681842934644-0d05b05e3348?q=80&w=2061&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D' className='rounded-2xl' alt='this is good' />
+                <img src='/icons/vision.png' className='rounded-2xl' alt='this is good' />
             </CardHeader>
             <CardContent>
                 
                 <div className='flex flex-col gap-4 mt-5'>
                     <Badge className='flex gap-2 rounded-xl bg-gradient-to-r from-blue-300 to-purple-400 text-gray-100 w-fit'>
-                        <HelpCircle className='h-4 w-4' />
-                        SUPPORT
+                    Vision
                     </Badge>
-                    <h2 className='text-2xl uppercase font-bold'>Outstanding </h2>
-                    <p> with the right support system, resources, and expertise to fuel the growth and success of this innovative platform.</p>
+                    <h2 className='text-2xl uppercase font-bold'>
+                    Shaping the future of healthcare through innovative research.
+                    </h2>
+                    <p> 
+                    We envision a world where healthcare is continually improved through rigorous research and innovation. Our vision is to become a global leader in medical research, 
+                    providing the tools, resources, and community needed to drive discoveries that enhance the quality of life for all.
+                    </p>
                     
                     
                     <Link className='text-[#3f3f74] mt-10 text-xs flex gap-2 items-center' href={'#'}>

@@ -5,6 +5,8 @@ import { Card, CardContent, CardHeader } from './ui/card'
 import { Badge } from './ui/badge'
 import Link from 'next/link'
 import { StarFilledIcon } from '@radix-ui/react-icons'
+import { AspectRatio } from './ui/aspect-ratio'
+import Image from 'next/image'
 
 export default function Finisher() {
   return (
@@ -49,17 +51,59 @@ export default function Finisher() {
     <div className='container mx-auto grid md:grid-cols-3 gap-5 mt-10 border-x'>
     <Card className='shadow-2xl'>
             <CardHeader className='bg-gray-100 m-2 rounded-2xl  pl-40 pt-20'>
-                <img src='https://plus.unsplash.com/premium_photo-1681842934644-0d05b05e3348?q=80&w=2061&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D' className='rounded-2xl' alt='this is good' />
+            <AspectRatio ratio={16 / 16} className="bg-muted">
+              <Image
+                src="/img/kuhes.png"
+                alt="Photo by Drew Beamer"
+                fill
+                className="rounded-md object-cover object-top"
+              />
+            </AspectRatio>
             </CardHeader>
             <CardContent>
                 
                 <div className='space-y-2  mt-5'>
                     <Badge className='flex gap-2 p-2 hover:bg-transparent rounded-xl bg-gray-100 text-gray-500 w-fit'>
                        
-                    Halima Kaipirani
+                    Chikumbutso Mzumara / Founder 
                     </Badge>
                     
-                    <p className='text-gray-500'>Discover the essential support system to propel this platform forward! dentify and connect with the right support system, resources, and expertise to fuel the growth and success of this innovative platform.</p>
+                    <blockquote className='text-gray-500 font-mono'>
+                      &ldquo; Innovation in healthcare requires tools that not only meet current needs but also anticipate future challenges. KUHES MediLab is built to evolve with the ever-changing landscape of medical technology, ensuring that 
+                      our users are always at the forefront of advancements. &rdquo;
+                    </blockquote>
+                     <div className='flex gap-3 items-center'>
+                    <StarFilledIcon className=" text-green-500" />
+                    <StarFilledIcon className=" text-green-500" />
+                    <StarFilledIcon className=" text-green-500" />
+                  </div>
+                </div>
+            </CardContent>
+        </Card>
+        <Card className='shadow-2xl'>
+            <CardHeader className='bg-gray-100 m-2 rounded-2xl  pl-40 pt-20'>
+            <AspectRatio ratio={16 / 16} className="bg-muted">
+              <Image
+                src="/img/mint.png"
+                alt="Photo by Drew Beamer"
+                fill
+                className="rounded-md object-cover object-center"
+              />
+            </AspectRatio>
+            </CardHeader>
+            <CardContent>
+                
+                <div className='space-y-2  mt-5'>
+                    <Badge className='flex gap-2 p-2 hover:bg-transparent rounded-xl bg-gray-100 text-gray-500 w-fit'>
+                      Miracle Tsaka / Web Developer & ML engineer
+                    </Badge>
+
+                    <blockquote className='text-gray-500 font-mono'>
+                      &ldquo; The trust placed in us by healthcare providers is something we take very seriously. 
+                      That is why KUHES MediLab is not just a platform, but a commitment
+                       to security, reliability, and continuous improvement. &rdquo;
+                    </blockquote>
+                     
                      <div className='flex gap-3 items-center'>
                     <StarFilledIcon className=" text-green-500" />
                     <StarFilledIcon className=" text-green-500" />
@@ -70,38 +114,28 @@ export default function Finisher() {
         </Card>
       <Card className='shadow-2xl'>
             <CardHeader className='bg-gray-100 m-2 rounded-2xl  pl-40 pt-20'>
-                <img src='https://plus.unsplash.com/premium_photo-1681842934644-0d05b05e3348?q=80&w=2061&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D' className='rounded-2xl' alt='this is good' />
+            <AspectRatio ratio={16 / 16} className="bg-muted">
+              <Image
+                src="/img/halima.jpeg"
+                alt="Photo by Drew Beamer"
+                fill
+                className="rounded-md object-cover object-center"
+              />
+            </AspectRatio>
             </CardHeader>
             <CardContent>
                 
                 <div className='space-y-2  mt-5'>
                     <Badge className='flex gap-2 p-2 hover:bg-transparent rounded-xl bg-gray-100 text-gray-500 w-fit'>
                        
-                    DL Banda
+                    Halima Kaipirani / Co - founder
                     </Badge>
-                    
-                    <p className='text-gray-500'>Discover the essential support system to propel this platform forward! dentify and connect with the right support system, resources, and expertise to fuel the growth and success of this innovative platform.</p>
-                     <div className='flex gap-3 items-center'>
-                    <StarFilledIcon className=" text-green-500" />
-                    <StarFilledIcon className=" text-green-500" />
-                    <StarFilledIcon className=" text-green-500" />
-                  </div>
-                </div>
-            </CardContent>
-        </Card>
-      <Card className='shadow-2xl'>
-            <CardHeader className='bg-gray-100 m-2 rounded-2xl  pl-40 pt-20'>
-                <img src='https://plus.unsplash.com/premium_photo-1681842934644-0d05b05e3348?q=80&w=2061&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D' className='rounded-2xl' alt='this is good' />
-            </CardHeader>
-            <CardContent>
-                
-                <div className='space-y-2  mt-5'>
-                    <Badge className='flex gap-2 p-2 hover:bg-transparent rounded-xl bg-gray-100 text-gray-500 w-fit'>
-                       
-                    Chikumbutso Mzumara 
-                    </Badge>
-                    
-                    <p className='text-gray-500'>Discover the essential support system to propel this platform forward! dentify and connect with the right support system, resources, and expertise to fuel the growth and success of this innovative platform.</p>
+
+                    <blockquote className='text-gray-500 font-mono'>
+                      &ldquo; Our vision for KUHES MediLab is to create a seamless experience for medical professionals, where technology complements their expertise and amplifies
+                       their ability to deliver life-saving care. &rdquo;
+                    </blockquote>
+                     
                      <div className='flex gap-3 items-center'>
                     <StarFilledIcon className=" text-green-500" />
                     <StarFilledIcon className=" text-green-500" />

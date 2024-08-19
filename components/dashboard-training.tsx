@@ -28,7 +28,7 @@ export function DashboardTraining() {
       <div className="grid md:grid-cols-2 gap-4 " >
       <div className="relative overflow-hidden rounded-3xl shadow-lg group hover:shadow-xl">
         <img
-          src="https://plus.unsplash.com/premium_photo-1680658096480-7ca2fe809317?q=80&w=1974&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+          src="https://dbdmedical.com/wp-content/uploads/2023/02/black-history-health-large.jpg"
           alt="Card 1"
           // width={800}
           // height={400}
@@ -37,7 +37,7 @@ export function DashboardTraining() {
         <div className="absolute inset-0 bg-gradient-to-t from-white to-transparent" />
         <div className="absolute inset-0 flex flex-col justify-between space-y-10 p-6 ">
           <Badge className='bg-gradient-to-r w-fit from-blue-200 to-purple-300 text-xs text-gray-500'>
-              Industry
+              Medical
           </Badge>
           <div>
             <h3 className="text-2xl mb-2">Lorem, ipsum dolor sit amet consectetur adipisicing elit. Totam, minima!</h3>
@@ -55,7 +55,7 @@ export function DashboardTraining() {
       <div className="grid md:grid-rows-2 gap-4">
         <div className="relative overflow-hidden rounded-3xl shadow-lg group hover:shadow-xl">
           <img
-            src="https://plus.unsplash.com/premium_photo-1680658096480-7ca2fe809317?q=80&w=1974&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+            src="https://dbdmedical.com/wp-content/uploads/2023/02/black-history-health-large.jpg"
             alt="Card 2"
             width={400}
             height={200}
@@ -64,7 +64,7 @@ export function DashboardTraining() {
           <div className="absolute inset-0 bg-gradient-to-t from-white to-transparent" />
           <div className="absolute inset-0 flex flex-col justify-between space-y-10 p-6 ">
           <Badge className='bg-gradient-to-r w-fit from-blue-200 to-purple-300 text-xs text-gray-500'>
-              Industry
+              Medical
           </Badge>
           <div>
             <h3 className="text-2xl mb-2">Lorem, ipsum dolor sit amet consectetur adipisicing elit. Totam, minima!</h3>
@@ -81,7 +81,7 @@ export function DashboardTraining() {
         </div>
         <div className="relative overflow-hidden rounded-3xl shadow-lg group hover:shadow-xl">
           <img
-            src="https://plus.unsplash.com/premium_photo-1680658096480-7ca2fe809317?q=80&w=1974&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+            src="https://dbdmedical.com/wp-content/uploads/2023/02/black-history-health-large.jpg"
             alt="Card 3"
             width={400}
             height={200}
@@ -90,7 +90,7 @@ export function DashboardTraining() {
           <div className="absolute inset-0 bg-gradient-to-t from-white to-transparent" />
           <div className="absolute inset-0 flex flex-col justify-between space-y-10 p-6 ">
           <Badge className='bg-gradient-to-r w-fit from-blue-200 to-purple-300 text-xs text-gray-500'>
-              Industry
+              Medical
           </Badge>
           <div>
             <h3 className="text-2xl mb-2">Lorem, ipsum dolor sit amet consectetur adipisicing elit. Totam, minima!</h3>

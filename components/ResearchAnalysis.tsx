@@ -17,7 +17,7 @@ export default function ResearchAnalysis({file_url, researchId}:{file_url:string
       try {
         const result = await axios.get(`/api/openai/${researchId}`);
         setResponse(result.data.completion);
-        localStorage.setItem('ai_response', result.data.completion);
+        //localStorage.setItem('ai_response', result.data.completion);
       } catch (error) {
         console.error('Error generating completion:', error);
         setResponse('Error generating completion');
@@ -27,7 +27,7 @@ export default function ResearchAnalysis({file_url, researchId}:{file_url:string
     };
   
 
-    const storedResponse = localStorage.getItem('ai_response');
+    const storedResponse = true // localStorage.getItem('ai_response');
   return (
     <div>
         <div className="fixed bottom-5 right-5 h-12 w-12 rounded-full bg-gradient-to-r from-blue-300 to-purple-500 p-2  flex items-center justify-center">

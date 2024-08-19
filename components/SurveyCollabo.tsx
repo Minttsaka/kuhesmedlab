@@ -26,7 +26,7 @@ import { Input } from "./ui/input"
 import axios from "axios"
 import { z } from "zod"
 import { zodResolver } from "@hookform/resolvers/zod";
-import { SubmitHandler, useForm } from "react-hook-form";
+import { SubmitHandler, useController, useForm } from "react-hook-form";
 import useSWR from "swr"
 import { Label } from "./ui/label"
 import { toast } from "sonner"
@@ -34,24 +34,18 @@ import { SurveyFormAnswer } from "@prisma/client"
 import { Loader2 } from "lucide-react"
 import Link from "next/link"
 import { Card } from "./ui/card"
-
-
-type SurveyFormQuestion = {
-  id: string
-  title: string
-  image: string | null
-  choices:SurveyFormAnswer[]
-  formId: string
-  author: string
-  createdAt: Date
-}
+import { Switch } from "@/components/ui/switch"
+import { Textarea } from "./ui/textarea"
+import { useState } from "react"
 
 const FormSchema = z.object({
   title: z
     .string()
     .min(2, "First name must be at least 2 characters"),
   description: z.string()
-  .min(2, "First name must be at least 2 characters")
+  .min(2, "First name must be at least 2 characters"),
+  recommendation: z.string()
+  .min(2, "First name must be at least 2 characters"),
 });
 
 type InputType = z.infer<typeof FormSchema>;
@@ -66,6 +60,8 @@ const fetcher = async (url:string) => {
 
 
 export function SurveyForms({surveyId}:{surveyId:string}) {
+
+  const [isChecked, setIsChecked] = useState<boolean>()
 
   const {
     register,
@@ -86,12 +82,9 @@ export function SurveyForms({surveyId}:{surveyId:string}) {
     fetcher
   );
 
-  if (isLoading) {
-    return <div>Loading...</div>;
-  }
 
   if (error) {
-    return <div>Error loading data</div>;
+    toast.error("Error loading data")
 
 
   }
@@ -99,13 +92,15 @@ export function SurveyForms({surveyId}:{surveyId:string}) {
 
   const saveform: SubmitHandler<InputType> = async (data) => {
 
-    console.log(surveyId,  "second")
+    console.log(data,  "data")
 
-    const {title, description} = data
+    const {title,  recommendation, description} = data
   try {
     const response= await axios.post('/api/form',{
       title,
       description,
+      recommendation,
+      identity:isChecked,
       surveyId
         })
       mutate();
@@ -116,6 +111,10 @@ export function SurveyForms({surveyId}:{surveyId:string}) {
   }
 };
 
+const handleCheck =(e:boolean)=>{
+  setIsChecked(e)
+
+}
 const formList = Array.isArray(data) ? data : [];
 
   return (
@@ -129,7 +128,7 @@ const formList = Array.isArray(data) ? data : [];
               </span>
             </button>
           </DialogTrigger>
-          <DialogContent className="bg-[#c8f2f3] sm:max-w-[425px]">
+          <DialogContent className="bg-white shadow-2xl shadow-purple-500 sm:max-w-[425px]">
             <DialogTitle>
               <h2 className='text-gray-600 font-bold space-y-5 text-center'>Create New survey Form</h2>
             </DialogTitle>
@@ -141,7 +140,7 @@ const formList = Array.isArray(data) ? data : [];
                 <Input
                   id="title"
                   {...register("title")}
-                  className="bg-transparent border-b-2 focus:outline-0 border-b-[green]"
+                  className="bg-transparent border-b-2 focus:outline-0 border-b-blue-900"
                 />
               </div>
               <div className="">
@@ -151,8 +150,16 @@ const formList = Array.isArray(data) ? data : [];
                 <Input
                 {...register("description")}
                   id="description"
-                  className="bg-transparent border-b-2 focus:outline-0 border-b-[green]"
+                  className="bg-transparent border-b-2 focus:outline-0 border-b-blue-900"
                 />
+              </div>
+              <div className="space-y-2">
+                <Label htmlFor="recommendation">Recommendation</Label>
+                <Textarea {...register("recommendation")} className="border-b-2 border-b-blue-900" id="recommendation" placeholder="Any recommendations or instructions for participants" />
+              </div>
+              <div className="flex items-center space-x-2">
+                <Switch onCheckedChange={handleCheck} id="identity-required" />
+                <Label htmlFor="identity-required">Identity Required</Label>
               </div>
               <button type='submit' className="px-8 py-2 rounded-full relative bg-gradient-to-r from-blue-400 to-purple-500 text-white text-sm hover:shadow-2xl hover:shadow-white/[0.1] transition duration-200"
               disabled={isSubmitting}
@@ -179,7 +186,7 @@ const formList = Array.isArray(data) ? data : [];
                     </div>
                     <div className="grid grid-cols-2 gap-4">
                       <div className="bg-muted rounded-md p-4 flex flex-col gap-2">
-                        <span className="text-2xl font-bold">25</span>
+                        <span className="text-2xl font-bold">{form.questions.length}</span>
                         <span className="text-muted-foreground text-sm">Questions</span>
                       </div>
                       <div className="bg-muted rounded-md p-4 flex flex-col gap-2">
@@ -199,6 +206,7 @@ const formList = Array.isArray(data) ? data : [];
                         href={`/mw/survey/create/${form.id}`}
                         className="inline-flex h-10 items-center justify-center rounded-md bg-[green] px-6 text-sm font-medium text-primary-foreground shadow transition-colors hover:bg-primary/90 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50"
                         prefetch={false}
+                        target="__blank"
                       >
                         Edit
                       </Link>

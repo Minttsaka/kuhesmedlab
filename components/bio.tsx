@@ -144,10 +144,9 @@ export function Bio({name}:{name:String}) {
       >
         {currentMessage} {!isFinished && <span className='h-10 w-1 blinker'>|</span>}
       </p>
-          {isFinished && messages.length > 5  && (
+          {isFinished && messages.length > 3  && (
             <form onSubmit={handleSubmit(onSubmit)} className="grid gap-4 py-4 w-full">
             <Textarea  {...register("bio")} placeholder="Enter your description here...who you are or want you like" className="min-h-[150px] text-white min-w-xl bg-transparent border placeholder:text-gray-200" />
-
             <Button size={'icon'} type="submit" className="w-full rounded-full bg-green-400" disabled={isSubmitting}>{ isSubmitting ? <LoadingSpinner /> : <CheckIcon />}</Button>
           </form>
           )}

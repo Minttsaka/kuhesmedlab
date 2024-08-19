@@ -1,7 +1,6 @@
 import BeautifulCard from "@/components/BeautifulCard";
 import BestThreeCards from "@/components/BestThreeCards";
 import BlackBg from "@/components/BlackBg";
-import CNBICards from "@/components/CNBICards";
 import Finisher from "@/components/Finisher";
 import Footer from "@/components/Footer";
 import GlobalConnection from "@/components/GlobalConnection";
@@ -17,7 +16,6 @@ export default function Home() {
     <main className="">
       <LandingNav />
      <LandingFirst />
-     <CNBICards />
      <BestThreeCards />
      <HeroParallaxDemo />
      <GlobalConnection />

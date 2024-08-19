@@ -90,7 +90,7 @@ export function RelatedResearch({title}:{title:string}) {
     <LoadingSpinner />
   </div>
   return (
-    <section className=" bg-background py-10 px-2 md:px-6">
+    <section className=" bg-background py-10 px-2 md:px-6" id="related">
         <div className="mb-8">
           <h2 className="text-2xl font-bold tracking-tight">Related Research</h2>
           <p className="text-muted-foreground">Discover related research papers and content based on your interests.</p>

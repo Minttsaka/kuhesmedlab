@@ -9,17 +9,10 @@ import Paragraph from "./qtypes/Paragraph";
 import Edit from "./Edit";
 import { RootState } from "@/redux/store";
 import { Loader2 } from "lucide-react";
+import Options from "./qtypes/Options";
+import Rating from "./qtypes/Rating";
 
-const data = [
-  {
-    title: "Short_Answer",
-    file: <ShortAnswer />,
-  },
-  {
-    title: "Paragraph",
-    file: <Paragraph />,
-  },
-];
+
 
 const Question = ({
   name,
@@ -59,6 +52,26 @@ const Question = ({
   const activeQuestionIndex = useSelector(
     (state: RootState) => state.form.activeQuestionIndex
   );
+
+  const data = [
+    {
+      title: "Short_Answer",
+      file: <ShortAnswer id={id} />,
+    },
+    {
+      title: "Paragraph",
+      file: <Paragraph id={id} />,
+    },
+    {
+      title: "Multiple_Choice",
+      file: <Options  id={id} />,
+    },
+    {
+      title: "Rating",
+      file: <Rating id={id} />,
+    },
+  ];
+
   const qType = data.find((elem) => elem.title === type);
 
   return (
@@ -69,7 +82,7 @@ const Question = ({
       <div
         className={` rounded-md my-6 ${
           activeQuestionIndex === index
-            ? "border-l-4 border-[#29A0B1]"
+            ? "border-l-4 border-blue-900"
             : "border border-gray-300"
         }  bg-white max-w-2xl shadow w-full grid place-items-center lg:place-items-start lg:ml-10 mx-auto`}
 
@@ -99,6 +112,8 @@ const Question = ({
             options={[
               { value: "Short_Answer", label: "Short Answer" },
               { value: "Paragraph", label: "Paragraph" },
+              { value: "Multiple_Choice", label: "Multiple Choice" },
+              { value: "Rating", label: "Rating" },
             ]}
           />
         </div>

@@ -5,11 +5,11 @@ import { StarFilledIcon } from '@radix-ui/react-icons'
 
 export default function AboutFirst() {
   return (
-    <div className='bg-white'>
+    <div className='bg-white' id='more'>
         <div className='container mx-auto py-20'>
         <Card className='shadow-2xl grid md:grid-cols-2'>
             <CardHeader className='bg-gray-100 m-2 rounded-2xl  pl-40 pt-20'>
-                <img src='https://plus.unsplash.com/premium_photo-1681842934644-0d05b05e3348?q=80&w=2061&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D' className='rounded-2xl' alt='this is good' />
+                <img src='/img/official-logo.png' className='rounded-2xl' alt='this is good' />
             </CardHeader>
             <CardContent>
                 

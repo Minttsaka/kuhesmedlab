@@ -14,23 +14,25 @@ export default function BlogFirst() {
       <div className='relative container mx-auto'>
       <Card className='shadow-2xl grid md:grid-cols-2'>
             <CardHeader className='bg-gray-100 m-2 rounded-2xl  pl-40 pt-20'>
-                <img src='https://plus.unsplash.com/premium_photo-1681842934644-0d05b05e3348?q=80&w=2061&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D' className='rounded-2xl' alt='this is good' />
+                <img src='https://www.wipo.int/global_innovation_index/images/titleslides_title_ogp_3-2.jpg' className='rounded-2xl' alt='this is good' />
             </CardHeader>
             <CardContent>
                 
                 <div className='flex flex-col gap-4 mt-5'>
                     <Badge className='flex gap-2 rounded-xl bg-gradient-to-r from-blue-300 to-purple-400 text-gray-100 w-fit'>
-                        <HelpCircle className='h-4 w-4' />
-                        SUPPORT
+                        Medicine
                     </Badge>
-                    <h2 className='text-2xl uppercase font-bold'>Outstanding support</h2>
-                    <p>Discover the essential support system to propel this platform forward! dentify and connect with the right support system, resources, and expertise to fuel the growth and success of this innovative platform.</p>
+                    <h2 className='text-2xl uppercase font-bold'>Empowering Health Through Innovation: The Future of Medical Laboratories</h2>
+                    <p className='line-clamp-6'>
+                    In todays rapidly evolving healthcare landscape, medical laboratories are at the forefront of transforming patient care. The integration of cutting-edge technology, advanced diagnostics, and innovative research is driving a new era in medicine—one where accurate, timely, and personalized care is within reach for everyone. At [Your Platform Name], we are proud to be a part of this revolution, empowering health through 
+                    innovation and delivering the future of medical laboratories.
+                        </p>
                     <div className='flex gap-2 items-center'>
                         <Avatar>
-                            <AvatarImage src='/placeholder.svg' />
+                            <AvatarImage src='/img/halima.jpeg' className='object-cover'/>
                         </Avatar>
                         <div>
-                            <p className='text-gray-600 '>Miracle Tsaka</p>
+                            <p className='text-gray-600 '>Halima</p>
                             <p className='text-xs text-gray-500'>Product Manager</p>
                         </div>
                     </div>

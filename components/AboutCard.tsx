@@ -1,10 +1,28 @@
-import { BotIcon, Cloud, SearchCheck, Store } from 'lucide-react'
-import React from 'react'
+import { BotIcon, Cloud, LibraryBig, SearchCheck, SearchIcon, Store, Users2 } from 'lucide-react'
+import React, { ReactNode } from 'react'
 import { Button } from './ui/button'
 import { StarFilledIcon } from '@radix-ui/react-icons'
 import { Card } from './ui/card'
 
 export default function AboutCard() {
+
+  const iconSize = 80
+  const iconColor = "white"
+
+  const IconWrapper = ({ children, gradient, label }:{ children:ReactNode, gradient:string, label:string }) => (
+    <div className="flex flex-col items-center">
+      <div 
+        className="p-8 rounded-full shadow-lg hover:shadow-xl transition-all duration-300 cursor-pointer transform hover:scale-105 mb-2"
+        style={{
+          background: gradient,
+          boxShadow: '0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05), inset 0 0 0 2px rgba(255, 255, 255, 0.2)'
+        }}
+      >
+        {children}
+      </div>
+      <span className="text-sm font-medium text-gray-700">{label}</span>
+    </div>
+  )
   return (
     <div className='container mx-auto'>
        <div className='container mx-auto grid md:grid-cols-2 gap-8  items-center'>
@@ -53,43 +71,40 @@ export default function AboutCard() {
           <div className="container px-4 md:px-6">
             <div className="space-y-8">
               <div className="space-y-5">
-                <Card className="w-full md:max-w-md bg-white shadow border-s-2 border-s-green-500  p-6 space-y-4 rounded-none">
+                <Card className="w-full md:max-w-md bg-white shadow border-s-2 border-s-orange-500  p-6 space-y-4 rounded-none">
                   <div className='flex gap-3 items-center'>
-                    <StarFilledIcon className=" text-green-500" />
-                    <StarFilledIcon className=" text-green-500" />
-                    <StarFilledIcon className=" text-green-500" />
+                    <StarFilledIcon className=" text-orange-500" />
+                    <StarFilledIcon className=" text-orange-500" />
+                    <StarFilledIcon className=" text-orange-500" />
                   </div>
                   
-                  <h3 className="text-xl font-bold">Pharmaceutical Research</h3>
-                  <p className="text-muted-foreground max-w-sm">
-                   collaborates with leading pharmaceutical companies to support drug discovery and
-                  </p>
+                  <IconWrapper gradient="linear-gradient(135deg, #ff9a9e 0%, #fad0c4 99%, #fad0c4 100%)" label="//\\">
+                    <SearchIcon size={iconSize} color={iconColor} strokeWidth={1.5} />
+                  </IconWrapper>
                   
                 </Card>
-                <Card className="w-full md:max-w-md bg-white shadow border-s-2 border-s-green-500  p-6 space-y-4 rounded-none">
+                <Card className="w-full md:max-w-md bg-white shadow border-s-2 border-s-orange-500  p-6 space-y-4 rounded-none">
                   <div className='flex gap-3 items-center'>
-                    <StarFilledIcon className=" text-green-500" />
-                    <StarFilledIcon className=" text-green-500" />
-                    <StarFilledIcon className=" text-green-500" />
+                    <StarFilledIcon className=" text-orange-500" />
+                    <StarFilledIcon className=" text-orange-500" />
+                    <StarFilledIcon className=" text-orange-500" />
                   </div>
                   
-                  <h3 className="text-xl font-bold">Pharmaceutical Research</h3>
-                  <p className="text-muted-foreground max-w-sm">
-                   collaborates with leading pharmaceutical companies to support drug discovery and
-                  </p>
+                  <IconWrapper gradient="linear-gradient(135deg, #84fab0 0%, #8fd3f4 100%)" label="//\\">
+                    <Users2 size={iconSize} color={iconColor} strokeWidth={1.5} />
+                  </IconWrapper>
                   
                 </Card>
-                <Card className="w-full md:max-w-md bg-white shadow border-s-2 border-s-green-500  p-6 space-y-4 rounded-none">
+                <Card className="w-full md:max-w-md bg-white shadow border-s-2 border-s-orange-500  p-6 space-y-4 rounded-none">
                   <div className='flex gap-3 items-center'>
-                    <StarFilledIcon className=" text-green-500" />
-                    <StarFilledIcon className=" text-green-500" />
-                    <StarFilledIcon className=" text-green-500" />
+                    <StarFilledIcon className=" text-orange-500" />
+                    <StarFilledIcon className=" text-orange-500" />
+                    <StarFilledIcon className=" text-orange-500" />
                   </div>
                   
-                  <h3 className="text-xl font-bold">Pharmaceutical Research</h3>
-                  <p className="text-muted-foreground max-w-sm">
-                   collaborates with leading pharmaceutical companies to support drug discovery and
-                  </p>
+                  <IconWrapper gradient="linear-gradient(135deg, #667eea 0%, #764ba2 100%)" label="//\\">
+                    <LibraryBig size={iconSize} color={iconColor} strokeWidth={1.5} />
+                  </IconWrapper>
                   
                 </Card>
                 

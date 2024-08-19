@@ -18,7 +18,7 @@ To read more about using these font, please visit the Next.js documentation:
 - Pages Directory: https://nextjs.org/docs/pages/building-your-application/optimizing/fonts
 **/
 
-"use client"
+
 import Link from "next/link"
 import { Sheet, SheetTrigger, SheetContent, SheetClose } from "@/components/ui/sheet"
 import { Button } from "@/components/ui/button"
@@ -47,9 +47,40 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover"
 import Notifications from "./Notifications"
+import { getServerSession } from "next-auth"
+import { authOptions } from "@/lib/auth"
+import { prisma } from "@/lib/prisma"
+
+type User = {
+  id: string;
+  email: string;
+  name: string;
+  country: string | null;
+  bio: string | null;
+  password: string;
+  emailVerified: Date | null;
+  phone: string | null;
+  image: string | null;
+  researchId: string | null;
+}
 
 
-export function DashboardNav() {
+export async function DashboardNav() {
+
+
+  const session:any = await getServerSession(authOptions);
+  const user= session.user as User;
+
+  const firstResearch = await prisma.research.findFirst({
+    where:{
+      creatorId:user.id
+    }
+    ,
+    orderBy:{
+      createdAt:"desc"
+    }
+  })
+
   return (
     <header>
      <div className="bg-gradient-to-r from-purple-300 to-blue-400">
@@ -75,28 +106,28 @@ export function DashboardNav() {
         <Component1Icon className="h-6 w-6 text-gray-500"  />
       </PopoverTrigger>
       <PopoverContent className="w-80">
-        <div className="space-y-3 ">
+        <div className="space-y-3 font-bold">
           <div className="grid grid-cols-2 gap-2">
-            <Link className="p-5 bg-blue-100 text-blue-500 rounded-md" href={'/mw/r-for-researcher'}>
-              Your Research
+            <Link className="flex items-center justify-center p-5 bg-blue-100 text-blue-500 rounded-md" href={`/mw/publication/${firstResearch?.id}`}>
+              Research
             </Link>
 
-            <Link className="p-5 bg-purple-100 text-purple-500 rounded-md" href={''}>
-              Your Surveys
+            <Link className=" flex items-center justify-center p-5 bg-purple-100 text-purple-500 rounded-md" href={'/mw/survey'} >
+              Surveys
             </Link>
 
-            <Link className="p-5 bg-purple-100 text-purple-500 rounded-md" href={''}>
-              Your Surveys
+            <Link className="flex items-center justify-center p-5 bg-yellow-100 text-yellow-500 rounded-md" href={'/publications'} target="__blank">
+              Library
             </Link>
 
-            <Link className="p-5 bg-purple-100 text-purple-500 rounded-md" href={''}>
-              Your Surveys
+            <Link className="flex items-center justify-center p-5 bg-green-100 text-green-500 rounded-md" href={'/community'}>
+              Community
             </Link>
           </div>
           <h2>Other Services</h2>
-          <div className="grid grid-cols-3 gap-2">
-              <div className="space-y-2  w-full">
-                <div className="bg-purple-100 w-fit rounded p-2">
+          <div className="grid gap-2 bg-gray-100 p-2 rounded-lg">
+              <div className="space-y-2  w-full flex items-center gap-1">
+                <div className="bg-purple-100 w-fit rounded p-2 ">
                   <QuestionMarkCircledIcon className="h-5 w-5 text-purple-600" />
                   </div>
                   <div>
@@ -104,8 +135,8 @@ export function DashboardNav() {
                   </div>
                 </div>
 
-                <div className="space-y-2 w-full">
-                <div className="bg-purple-100 w-fit rounded p-2">
+                <div className="space-y-2 w-full flex items-center gap-1">
+                <div className="bg-purple-100 w-fit rounded p-2 ">
                   <QuestionMarkCircledIcon className="h-5 w-5 text-purple-600" />
                   </div>
                   <div>
@@ -113,8 +144,8 @@ export function DashboardNav() {
                   </div>
                 </div>
 
-                <div className="space-y-2  w-full">
-                <div className="bg-purple-100 w-fit rounded p-2">
+                <div className="space-y-2  w-full flex items-center gap-1">
+                <div className="bg-purple-100 w-fit rounded p-2 ">
                   <QuestionMarkCircledIcon className="h-5 w-5 text-purple-600" />
                   </div>
                   <div>
@@ -136,7 +167,7 @@ export function DashboardNav() {
                   <AvatarFallback>CN</AvatarFallback>
                 </Avatar>
             </DropdownMenuTrigger>
-            <DropdownMenuContent className="w-56">
+            <DropdownMenuContent className="w-56 mr-5">
               <DropdownMenuLabel>My Account</DropdownMenuLabel>
               <DropdownMenuSeparator />
               <DropdownMenuGroup>
@@ -145,69 +176,17 @@ export function DashboardNav() {
                     <User className="mr-2 h-4 w-4" />
                   </Link>
                   <span>Profile</span>
-                  <DropdownMenuShortcut>⇧⌘P</DropdownMenuShortcut>
                 </DropdownMenuItem>
-                <DropdownMenuItem>
-                  <CreditCard className="mr-2 h-4 w-4" />
-                  <span>Billing</span>
-                  <DropdownMenuShortcut>⌘B</DropdownMenuShortcut>
-                </DropdownMenuItem>
+                
                 <DropdownMenuItem>
                   <Settings className="mr-2 h-4 w-4" />
                   <span>Settings</span>
-                  <DropdownMenuShortcut>⌘S</DropdownMenuShortcut>
+
                 </DropdownMenuItem>
-                <DropdownMenuItem>
-                  <Keyboard className="mr-2 h-4 w-4" />
-                  <span>Keyboard shortcuts</span>
-                  <DropdownMenuShortcut>⌘K</DropdownMenuShortcut>
-                </DropdownMenuItem>
-              </DropdownMenuGroup>
-              <DropdownMenuSeparator />
-              <DropdownMenuGroup>
-                <DropdownMenuItem>
-                  <Users className="mr-2 h-4 w-4" />
-                  <span>Team</span>
-                </DropdownMenuItem>
-                <DropdownMenuSub>
-                  <DropdownMenuSubTrigger>
-                    <UserPlus className="mr-2 h-4 w-4" />
-                    <span>Invite users</span>
-                  </DropdownMenuSubTrigger>
-                  <DropdownMenuPortal>
-                    <DropdownMenuSubContent>
-                      <DropdownMenuItem>
-                        <Mail className="mr-2 h-4 w-4" />
-                        <span>Email</span>
-                      </DropdownMenuItem>
-                      <DropdownMenuItem>
-                        <MessageSquare className="mr-2 h-4 w-4" />
-                        <span>Message</span>
-                      </DropdownMenuItem>
-                      <DropdownMenuSeparator />
-                      <DropdownMenuItem>
-                        <PlusCircle className="mr-2 h-4 w-4" />
-                        <span>More...</span>
-                      </DropdownMenuItem>
-                    </DropdownMenuSubContent>
-                  </DropdownMenuPortal>
-                </DropdownMenuSub>
-                <DropdownMenuItem>
-                  <Plus className="mr-2 h-4 w-4" />
-                  <span>New Team</span>
-                  <DropdownMenuShortcut>⌘+T</DropdownMenuShortcut>
-                </DropdownMenuItem>
+               
               </DropdownMenuGroup>
               <DropdownMenuSeparator />
               <DropdownMenuItem>
-                <Github className="mr-2 h-4 w-4" />
-                <span>GitHub</span>
-              </DropdownMenuItem>
-              <DropdownMenuItem>
-                <LifeBuoy className="mr-2 h-4 w-4" />
-                <span>Support</span>
-              </DropdownMenuItem>
-              <DropdownMenuItem disabled>
                 <Cloud className="mr-2 h-4 w-4" />
                 <span>API</span>
               </DropdownMenuItem>
@@ -215,7 +194,6 @@ export function DashboardNav() {
               <DropdownMenuItem>
                 <LogOut className="mr-2 h-4 w-4" />
                 <span>Log out</span>
-                <DropdownMenuShortcut>⇧⌘Q</DropdownMenuShortcut>
               </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>

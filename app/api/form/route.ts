@@ -16,6 +16,8 @@ export async function POST(req: NextRequest) {
     const {
       title,
       description,
+      recommendation,
+      identity:isChecked,
       surveyId
     } = formdata
 
@@ -37,6 +39,8 @@ export async function POST(req: NextRequest) {
         creatorId:user.id,
         creatorName:user.name,
         description,
+        recommendation,
+        identity:isChecked,
         survey: {
           connect: {
             id: surveyId,

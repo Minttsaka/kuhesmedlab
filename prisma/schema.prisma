@@ -75,8 +75,16 @@ model Research {
   author      Author[]
   surveys     Survey[]
   files       File[]
+  authors       Authors[]
   participants User[]
   createdAt   DateTime   @default(now())
+}
+
+model Authors {
+  id           String    @id @default(auto()) @map("_id") @db.ObjectId
+  name          String
+  researchId    String
+  research      Research @relation(fields: [researchId], references:[id])
 }
 
 model File {
@@ -110,7 +118,6 @@ enum QuestionType {
   Paragraph
   Multiple_Choice
   Short_Answer
-  Checkbox
   Rating
 }
 
@@ -130,6 +137,8 @@ model SurveyForm {
   id          String        @id @default(auto()) @map("_id") @db.ObjectId
   title       String
   description String
+  recommendation String
+  identity        Boolean
   creatorId   String
   creatorName String
   questions   SurveyFormQuestion[]
@@ -143,6 +152,8 @@ model SurveyFormQuestion {
   title    String
   image    String?
   type     QuestionType
+  rating   Int?
+  options  Option[]
   choices  SurveyFormAnswer[]
   formId   String
   author   String
@@ -151,6 +162,12 @@ model SurveyFormQuestion {
   createdAt   DateTime   @default(now())
 }
 
+model Option {
+  id         String   @id @default(auto()) @map("_id") @db.ObjectId
+  text       String
+  question   SurveyFormQuestion @relation(fields: [questionId], references: [id])
+  questionId String
+}
 
 model SurveyFormAnswer {
   id         String      @id @default(auto()) @map("_id") @db.ObjectId

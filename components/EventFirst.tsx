@@ -1,4 +1,4 @@
-import { ArrowRight, Stars } from 'lucide-react'
+import { ArrowRight, StarIcon, Stars } from 'lucide-react'
 import React from 'react'
 import { Button } from './ui/button'
 import Link from 'next/link'
@@ -22,20 +22,16 @@ export default function EventFirst() {
           </div>
         <div className='space-y-6'>
             <div className='flex gap-2 items-center text-start text-xs'>
-                <Stars className='h-8 w-8 text-purple-400' />
-                <div className='space-y-1 '>
-                    <h2 className='font-bold'>
-                        5 stars
-                    </h2>
-                    <p>Read our events</p>
-                </div>
+            <StarIcon className='text-yellow-400 fill-yellow-400' />
+            <StarIcon className='text-yellow-400 fill-yellow-400' />
+            <StarIcon className='text-yellow-400 fill-yellow-400' />
+              
             </div>
             <h2 className='text-5xl md:text-7xl max-w-lg font-bold'>
-                Host lovely events to next level
+            Empowering Health Through Innovation
             </h2>
-            <p className='max-w-lg'>Lorem ipsum dolor, 
-                Lorem ipsum dolor sit amet consectetur adipisicing elit. Illo, unde?
-                sit amet consectetur adipisicing elit. Sequi, repellat.
+            <p className='max-w-lg'>Exploring the Future of Medicine Together and 
+            Bridging the Gap Between Research and Clinical Practice
                 </p>
                 <div className='flex justify-center md:justify-start gap-2'>
                 <button className="bg-slate-800 no-underline group cursor-pointer relative shadow-2xl shadow-zinc-900 rounded-full p-px text-xs font-semibold leading-6  text-white inline-block">

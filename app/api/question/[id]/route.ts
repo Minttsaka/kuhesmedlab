@@ -38,8 +38,6 @@ export async function POST(req: NextRequest) {
     const url = new URL(req.url);
     const id = url.pathname.split("/").pop();
 
-
-
     if (!id) {
       return NextResponse.json({ error: "ID parameter is missing" }, { status: 400 });
     }
@@ -53,7 +51,7 @@ export async function POST(req: NextRequest) {
        data
     });
 
-    console.log("fupdate question", updateQuestion)
+    console.log("update question", updateQuestion)
 
     if (!updateQuestion) {
       throw new Error("question not found");

@@ -16,6 +16,8 @@ export default async function page({ params: { slug } }: Props) {
 
   const [surveyId, researchId] = slug
 
+  console.log(surveyId, researchId)
+
   const survey = await prisma.survey.findUnique({
     where:{
       id:surveyId

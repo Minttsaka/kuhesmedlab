@@ -1,7 +1,26 @@
-import React from 'react'
-import { GlareCard } from './ui/glare-card'
+import React, { ReactNode } from 'react'
+import { Upload, Download, BookOpen } from "lucide-react"
+
+
 
 export default function BestThreeCards() {
+
+  const iconSize = 80
+  const iconColor = "white"
+
+  const IconWrapper = ({ children, gradient }:{ children:ReactNode, gradient:string}) => (
+    <div 
+      className="p-8 rounded-full shadow-lg hover:shadow-xl transition-all duration-300 cursor-pointer transform hover:scale-105"
+      style={{
+        background: gradient,
+        boxShadow: '0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05), inset 0 0 0 2px rgba(255, 255, 255, 0.2)'
+      }}
+    >
+      {children}
+    </div>
+  )
+
+  
   return (
     <div className='relative px-5 md:px-0'>
         
@@ -20,15 +39,11 @@ export default function BestThreeCards() {
             />
           </div>
 
-            <GlareCard className="h-40 w-40 md:h-full md:w-full">
-                
-                <img
-                className="h-full w-full absolute inset-0 object-cover"
-                src="/img/upload.png"
-                />
-            </GlareCard>
+          <IconWrapper gradient="linear-gradient(135deg, #ff9a9e 0%, #fad0c4 99%, #fad0c4 100%)">
+        <Upload size={iconSize} color={iconColor} strokeWidth={1.5} />
+      </IconWrapper>
             <div className='max-w-sm'>
-                <h2 className='text-2xl'>
+                <h2 className='text-4xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-pink-500 via-red-500 to-yellow-500'>
                 Upload research papers to KUHESMEDLAB DB
                 </h2>
                 <p className='text-gray-500 font-light'>
@@ -51,15 +66,11 @@ export default function BestThreeCards() {
             />
           </div>
 
-            <GlareCard className="h-full w-full">
-                
-                <img
-                className="h-full w-full absolute inset-0 object-cover"
-                src="/img/download.png"
-                />
-            </GlareCard>
+          <IconWrapper gradient="linear-gradient(135deg, #667eea 0%, #764ba2 100%)">
+            <Download size={iconSize} color={iconColor} strokeWidth={1.5} />
+          </IconWrapper>
             <div className='max-w-sm'>
-                <h2 className='text-2xl'>
+                <h2 className='text-4xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-blue-500 via-red-500 to-purple-500'>
                 Download research papers from KUHESMEDLAB DB
                 </h2>
                 <p className='text-gray-500 font-light'>
@@ -83,7 +94,7 @@ export default function BestThreeCards() {
             />
           </div>
             <div className='max-w-sm'>
-                <h2 className='text-2xl'>
+                <h2 className='text-4xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-blue-500 via-purple-300 to-purple-500'>
                 Download research papers from KUHESMEDLAB DB
                 </h2>
                 <p className='text-gray-500 font-light'>
@@ -91,12 +102,9 @@ export default function BestThreeCards() {
                  and best practices in enhancing healthcare outcomes.
                 </p>
             </div>
-            <GlareCard className="h-40 w-40 md:h-full md:w-full">
-                <img
-                className="h-full w-full absolute inset-0 object-cover"
-                src="/img/download.png"
-                />
-            </GlareCard>
+            <IconWrapper gradient="linear-gradient(135deg, #667eea 0%, #764ba2 100%)">
+              <Download size={iconSize} color={iconColor} strokeWidth={1.5} />
+            </IconWrapper>
             
             </div>
 
@@ -113,14 +121,11 @@ export default function BestThreeCards() {
             />
           </div>
 
-            <GlareCard className="h-40 w-40 md:h-full md:w-full">
-                <img
-                className=" absolute inset-0 object-cover"
-                src="/img/learn.png"
-                />
-            </GlareCard>
+          <IconWrapper gradient="linear-gradient(135deg, #fbc2eb 0%, #a6c1ee 100%)">
+            <BookOpen size={iconSize} color={iconColor} strokeWidth={1.5} />
+          </IconWrapper>
             <div className='max-w-sm'>
-                <h2 className='text-2xl'>
+                <h2 className='text-4xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-pink-500 via-pink-300 to-purple-500'>
                 Learn from KUHESMEDLAB Site
                 </h2>
                 <p className='text-gray-500 font-light'>

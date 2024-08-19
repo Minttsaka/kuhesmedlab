@@ -28,7 +28,7 @@ import { CloudOffIcon, } from "lucide-react"
 export function ResearchAnalytics({file_url, researchId}:{file_url:string, researchId:string}) {
 
   return (
-    <div className="min-h-screen">
+    <div className="min-h-screen" id='analytics'>
         <main className="flex flex-col gap-4 p-4 lg:gap-8 lg:p-6">
             <div className="grid lg:grid-cols-3 gap-6">
               <Card>

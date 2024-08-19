@@ -8,62 +8,8 @@ export default function SuccessStories() {
         <div className="absolute inset-x-0 top-40 bottom-0 h-[30rem] bg-[#A3CCE5] skew-y-12 origin-bottom-right" />
       <div className='container mx-auto space-y-5 py-20'>
        
-      <div className="bg-white rounded-2xl  shadow-2xl shadow-gray-300 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 relative z-10 py-10">
-    <div className="flex flex-col lg:border-r py-10 relative group lg:border-l lg:border-b dark:border-neutral-800">
-        <div className="opacity-0 group-hover:opacity-100 transition duration-200 group absolute inset-0 h-full w-full bg-gradient-to-t from-neutral-100 dark:from-neutral-800 to-transparent pointer-events-none"></div>
-        <div className="mb-4 relative z-10 px-10">
-            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" className="tabler-icon tabler-icon-terminal-2">
-                <path d="M8 9l3 3l-3 3"></path>
-                <path d="M13 15l3 0"></path>
-                <path d="M3 4m0 2a2 2 0 0 1 2 -2h14a2 2 0 0 1 2 2v12a2 2 0 0 1 -2 2h-14a2 2 0 0 1 -2 -2z"></path>
-            </svg>
-        </div>
-        <div className="text-lg font-bold mb-2 relative z-10 px-10">
-            <div className="absolute left-0 inset-y-0 h-6 w-1 rounded-tr-full rounded-br-full bg-neutral-300 dark:bg-neutral-700 group-hover:bg-blue-500 transition duration-200"></div>
-            <span className="group-hover:translate-x-2 transition duration-200 inline-block">Global Research Impact</span>
-        </div>
-        <p className="text-sm text-gray-500 dark:text-muted-dark max-w-xs mx-auto relative z-10 px-10">
-        Published numerous research papers in reputable international journals, contributing to the advancement of medical laboratory science globally. Our research has been recognized and respected worldwide, positioning KUHESMEDLAB as a leader in the field.
-        </p>
-    </div>
-    <div className="flex flex-col lg:border-r py-10 relative group lg:border-b dark:border-neutral-800">
-        <div className="opacity-0 group-hover:opacity-100 transition duration-200 group absolute inset-0 h-full w-full bg-gradient-to-t from-neutral-100 dark:from-neutral-800 to-transparent pointer-events-none"></div>
-        <div className="mb-4 relative z-10 px-10">
-            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" className="tabler-icon tabler-icon-ease-in-out">
-                <path d="M3 20c8 0 10 -16 18 -16"></path>
-            </svg>
-        </div>
-        <div className="text-lg font-bold mb-2 relative z-10 px-10">
-            <div className="absolute left-0 inset-y-0 h-6 w-1 rounded-tr-full rounded-br-full bg-neutral-300 dark:bg-neutral-700 group-hover:bg-blue-500 transition duration-200"></div>
-            <span className="group-hover:translate-x-2 transition duration-200 inline-block">Ease of use</span>
-        </div>
-        <p className="text-sm text-gray-500 dark:text-muted-dark max-w-xs mx-auto relative z-10 px-10">Its as easy as using an Apple, and as expensive as buying one.</p>
-    </div>
-    <div className="flex flex-col lg:border-r py-10 relative group lg:border-b dark:border-neutral-800">
-        <div className="opacity-0 group-hover:opacity-100 transition duration-200 group absolute inset-0 h-full w-full bg-gradient-to-t from-neutral-100 dark:from-neutral-800 to-transparent pointer-events-none"></div>
-        <div className="mb-4 relative z-10 px-10">
-            <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="24"
-                height="24"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                stroke-width="2"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                className="tabler-icon tabler-icon-currency-dollar"
-            >
-                <path d="M16.7 8a3 3 0 0 0 -2.7 -2h-4a3 3 0 0 0 0 6h4a3 3 0 0 1 0 6h-4a3 3 0 0 1 -2.7 -2"></path>
-                <path d="M12 3v3m0 12v3"></path>
-            </svg>
-        </div>
-        <div className="text-lg font-bold mb-2 relative z-10 px-10">
-            <div className="absolute left-0 inset-y-0 h-6 w-1 rounded-tr-full rounded-br-full bg-neutral-300 dark:bg-neutral-700 group-hover:bg-blue-500 transition duration-200"></div>
-            <span className="group-hover:translate-x-2 transition duration-200 inline-block">Pricing like no other</span>
-        </div>
-        <p className="text-sm text-gray-500 dark:text-muted-dark max-w-xs mx-auto relative z-10 px-10">Our prices are best in the market. No cap, no lock, no credit card required.</p>
-    </div>
+      <div className="bg-white rounded-2xl  shadow-2xl shadow-gray-300 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 relative z-10 py-10">
+
     <div className="flex flex-col lg:border-r py-10 relative group lg:border-b dark:border-neutral-800">
         <div className="opacity-0 group-hover:opacity-100 transition duration-200 group absolute inset-0 h-full w-full bg-gradient-to-t from-neutral-100 dark:from-neutral-800 to-transparent pointer-events-none"></div>
         <div className="mb-4 relative z-10 px-10">
@@ -75,9 +21,12 @@ export default function SuccessStories() {
         </div>
         <div className="text-lg font-bold mb-2 relative z-10 px-10">
             <div className="absolute left-0 inset-y-0 h-6 w-1 rounded-tr-full rounded-br-full bg-neutral-300 dark:bg-neutral-700 group-hover:bg-blue-500 transition duration-200"></div>
-            <span className="group-hover:translate-x-2 transition duration-200 inline-block">100% Uptime guarantee</span>
+            <span className="group-hover:translate-x-2 transition duration-200 inline-block">Revolutionizing Research Globally</span>
         </div>
-        <p className="text-sm text-gray-500 dark:text-muted-dark max-w-xs mx-auto relative z-10 px-10">We just cannot be taken down by anyone.</p>
+        <p className="text-sm text-gray-500 dark:text-muted-dark max-w-xs mx-auto relative z-10 px-10">
+        KUHESMedLab is transforming the global research landscape by providing a platform that connects researchers from around the world, 
+        fostering collaboration, and accelerating scientific breakthroughs across borders.
+        </p>
     </div>
     <div className="flex flex-col lg:border-r py-10 relative group lg:border-l dark:border-neutral-800">
         <div className="opacity-0 group-hover:opacity-100 transition duration-200 group absolute inset-0 h-full w-full bg-gradient-to-b from-neutral-100 dark:from-neutral-800 to-transparent pointer-events-none"></div>
@@ -93,9 +42,12 @@ export default function SuccessStories() {
         </div>
         <div className="text-lg font-bold mb-2 relative z-10 px-10">
             <div className="absolute left-0 inset-y-0 h-6 w-1 rounded-tr-full rounded-br-full bg-neutral-300 dark:bg-neutral-700 group-hover:bg-blue-500 transition duration-200"></div>
-            <span className="group-hover:translate-x-2 transition duration-200 inline-block">Multi-tenant Architecture</span>
+            <span className="group-hover:translate-x-2 transition duration-200 inline-block">Advancing Global Health Initiatives</span>
         </div>
-        <p className="text-sm text-gray-500 dark:text-muted-dark max-w-xs mx-auto relative z-10 px-10">You can simply share passwords instead of buying new seats</p>
+        <p className="text-sm text-gray-500 dark:text-muted-dark max-w-xs mx-auto relative z-10 px-10">
+        Through KUHESMedLab, researchers are making strides in global health initiatives, from combating infectious
+         diseases to addressing chronic conditions, impacting lives in every corner of the globe.
+        </p>
     </div>
     <div className="flex flex-col lg:border-r py-10 relative group dark:border-neutral-800">
         <div className="opacity-0 group-hover:opacity-100 transition duration-200 group absolute inset-0 h-full w-full bg-gradient-to-b from-neutral-100 dark:from-neutral-800 to-transparent pointer-events-none"></div>
@@ -108,9 +60,12 @@ export default function SuccessStories() {
         </div>
         <div className="text-lg font-bold mb-2 relative z-10 px-10">
             <div className="absolute left-0 inset-y-0 h-6 w-1 rounded-tr-full rounded-br-full bg-neutral-300 dark:bg-neutral-700 group-hover:bg-blue-500 transition duration-200"></div>
-            <span className="group-hover:translate-x-2 transition duration-200 inline-block">24/7 Customer Support</span>
+            <span className="group-hover:translate-x-2 transition duration-200 inline-block">Bridging Gaps in Medical Research</span>
         </div>
-        <p className="text-sm text-gray-500 dark:text-muted-dark max-w-xs mx-auto relative z-10 px-10">We are available a 100% of the time. Atleast our AI Agents are.</p>
+        <p className="text-sm text-gray-500 dark:text-muted-dark max-w-xs mx-auto relative z-10 px-10">
+        KUHESMedLab is bridging the gap between developing and developed nations by offering equal access to cutting-edge research tools,
+         enabling groundbreaking studies that address local and global health challenges.
+        </p>
     </div>
     <div className="flex flex-col lg:border-r py-10 relative group dark:border-neutral-800">
         <div className="opacity-0 group-hover:opacity-100 transition duration-200 group absolute inset-0 h-full w-full bg-gradient-to-b from-neutral-100 dark:from-neutral-800 to-transparent pointer-events-none"></div>
@@ -141,9 +96,12 @@ export default function SuccessStories() {
         </div>
         <div className="text-lg font-bold mb-2 relative z-10 px-10">
             <div className="absolute left-0 inset-y-0 h-6 w-1 rounded-tr-full rounded-br-full bg-neutral-300 dark:bg-neutral-700 group-hover:bg-blue-500 transition duration-200"></div>
-            <span className="group-hover:translate-x-2 transition duration-200 inline-block">Money back guarantee</span>
+            <span className="group-hover:translate-x-2 transition duration-200 inline-block">Empowering Researchers Worldwide</span>
         </div>
-        <p className="text-sm text-gray-500 dark:text-muted-dark max-w-xs mx-auto relative z-10 px-10">If you donot like EveryAI, we will convince you to like us.</p>
+        <p className="text-sm text-gray-500 dark:text-muted-dark max-w-xs mx-auto relative z-10 px-10">
+        With its powerful and accessible platform, KUHESMedLab empowers researchers worldwide to conduct high-quality studies,
+         share knowledge, and contribute to the global scientific community.
+        </p>
     </div>
     <div className="flex flex-col lg:border-r py-10 relative group dark:border-neutral-800">
         <div className="opacity-0 group-hover:opacity-100 transition duration-200 group absolute inset-0 h-full w-full bg-gradient-to-b from-neutral-100 dark:from-neutral-800 to-transparent pointer-events-none"></div>
@@ -154,9 +112,27 @@ export default function SuccessStories() {
         </div>
         <div className="text-lg font-bold mb-2 relative z-10 px-10">
             <div className="absolute left-0 inset-y-0 h-6 w-1 rounded-tr-full rounded-br-full bg-neutral-300 dark:bg-neutral-700 group-hover:bg-blue-500 transition duration-200"></div>
-            <span className="group-hover:translate-x-2 transition duration-200 inline-block">And everything else</span>
+            <span className="group-hover:translate-x-2 transition duration-200 inline-block">Driving Innovation Across Continents</span>
         </div>
-        <p className="text-sm text-gray-500 dark:text-muted-dark max-w-xs mx-auto relative z-10 px-10">I just ran out of copy ideas. Accept my sincere apologies</p>
+        <p className="text-sm text-gray-500 dark:text-muted-dark max-w-xs mx-auto relative z-10 px-10">KUHESMedLab is driving innovation across continents, bringing together diverse perspectives 
+            and expertise to tackle the worlds most pressing medical challenges</p>
+    </div>
+
+    <div className="flex flex-col lg:border-r py-10 relative group dark:border-neutral-800">
+        <div className="opacity-0 group-hover:opacity-100 transition duration-200 group absolute inset-0 h-full w-full bg-gradient-to-b from-neutral-100 dark:from-neutral-800 to-transparent pointer-events-none"></div>
+        <div className="mb-4 relative z-10 px-10">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" className="tabler-icon tabler-icon-heart">
+                <path d="M19.5 12.572l-7.5 7.428l-7.5 -7.428a5 5 0 1 1 7.5 -6.566a5 5 0 1 1 7.5 6.572"></path>
+            </svg>
+        </div>
+        <div className="text-lg font-bold mb-2 relative z-10 px-10">
+            <div className="absolute left-0 inset-y-0 h-6 w-1 rounded-tr-full rounded-br-full bg-neutral-300 dark:bg-neutral-700 group-hover:bg-blue-500 transition duration-200"></div>
+            <span className="group-hover:translate-x-2 transition duration-200 inline-block">Creating a Global Network of Collaboration</span>
+        </div>
+        <p className="text-sm text-gray-500 dark:text-muted-dark max-w-xs mx-auto relative z-10 px-10">
+        By facilitating collaboration between institutions, researchers, and organizations, KUHESMedLab is creating a global network 
+        of innovation and knowledge-sharing that is advancing medical research at an unprecedented pace.
+            </p>
     </div>
 </div>
       </div>

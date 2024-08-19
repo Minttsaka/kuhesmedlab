@@ -54,9 +54,12 @@ export default function SuccessIntro() {
                     <StarFilledIcon className=" text-green-500" />
                   </div>
                   
-                  <h3 className="text-xl font-bold">Pharmaceutical Research</h3>
+                  <h3 className="text-xl font-bold">A comprehensive tool for medical research.</h3>
                   <p className="text-muted-foreground max-w-sm">
-                   collaborates with leading pharmaceutical companies to support drug discovery and
+                  KUHESMedLab offers a range of features designed
+                   to support the needs of the medical research community. From data management
+                   and analysis tools to collaboration spaces and 
+                   publication support, our platform is built to facilitate every step of the research process.
                   </p>
                   
                 </Card>
@@ -67,26 +70,15 @@ export default function SuccessIntro() {
                     <StarFilledIcon className=" text-green-500" />
                   </div>
                   
-                  <h3 className="text-xl font-bold">Pharmaceutical Research</h3>
+                  <h3 className="text-xl font-bold">Guiding principles that define who we are.</h3>
                   <p className="text-muted-foreground max-w-sm">
-                   collaborates with leading pharmaceutical companies to support drug discovery and
+                  Integrity, Innovation, Collaboration, and Excellence are the core 
+                  values that drive everything we do at KUHESMedLab. We believe in conducting our work with the highest ethical
+                   standards, embracing new ideas, working together to achieve common 
+                   goals, and striving for excellence in all our endeavors.
                   </p>
                   
                 </Card>
-                <Card className="max-w-md bg-white shadow border-s-2 border-s-green-500  p-6 space-y-4 rounded-none">
-                  <div className='flex gap-3 items-center'>
-                    <StarFilledIcon className=" text-green-500" />
-                    <StarFilledIcon className=" text-green-500" />
-                    <StarFilledIcon className=" text-green-500" />
-                  </div>
-                  
-                  <h3 className="text-xl font-bold">Pharmaceutical Research</h3>
-                  <p className="text-muted-foreground max-w-sm">
-                   collaborates with leading pharmaceutical companies to support drug discovery and
-                  </p>
-                  
-                </Card>
-                
               </div>
             </div>
           </div>

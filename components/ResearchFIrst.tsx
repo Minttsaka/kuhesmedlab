@@ -1,11 +1,27 @@
-import React from 'react'
+import React, { ReactNode } from 'react'
 import { Badge } from './ui/badge'
 import { Plus } from 'lucide-react'
 import { IconArrowNarrowRight } from '@tabler/icons-react'
 import Link from 'next/link'
 import { BackgroundGradientAnimation } from './ui/background-gradient-animation'
+import { SearchIcon, ClipboardListIcon, BarChart2Icon, MessageCircleIcon } from "lucide-react"
 
 export default function ResearchFIrst() {
+
+  const iconSize = 80
+  const iconColor = "white"
+
+  const IconWrapper = ({ children, gradient }:{children:ReactNode,gradient:string}) => (
+    <div 
+      className="w-fit p-8 rounded-full shadow-lg hover:shadow-xl transition-all duration-300 cursor-pointer transform hover:scale-105"
+      style={{
+        background: gradient,
+        boxShadow: '0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05), inset 0 0 0 2px rgba(255, 255, 255, 0.2)'
+      }}
+    >
+      {children}
+    </div>
+  )
   return (
     <div className='relative'>
       <BackgroundGradientAnimation className=" -skew-y-12 origin-top-left" />
@@ -52,9 +68,11 @@ export default function ResearchFIrst() {
                   Powered by AI
                   </h2>
             </div>
-            <img className='rounded-3xl w-1/2' alt='' src='https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR-Dn-VoXd2K3v9zpcST3ykSeSoMAFbS-qJ0g&s' />
+            <IconWrapper  gradient="linear-gradient(135deg, #667eea 0%, #764ba2 100%)">
+          <SearchIcon size={iconSize} color={iconColor} strokeWidth={1.5} />
+        </IconWrapper>
            
-            <Link href={'/mw/r-for-researcher'}
+            <Link href={'/mw/research'}
             className="absolute hover:bg-blue-300 bottom-3 right-5 z-40 h-10 w-10 rounded-full bg-blue-400 flex items-center justify-center disabled:opacity-50"
   
           >
@@ -67,7 +85,9 @@ export default function ResearchFIrst() {
                 <Badge className='text-gray-100 bg-gradient-to-r from-blue-400 to-purple-500 uppercase'>Survey</Badge>
                 <h2 className='text-3xl max-w-md font-bold text-gray-800'>Contribute to Medical Laboratory Science: Participate in Survey</h2>
             </div>
-            <img className='rounded-3xl w-1/2' alt='' src='https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR-Dn-VoXd2K3v9zpcST3ykSeSoMAFbS-qJ0g&s' />
+            <IconWrapper  gradient="linear-gradient(135deg, #ff9a9e 0%, #fad0c4 99%, #fad0c4 100%)">
+          <ClipboardListIcon size={iconSize} color={iconColor} strokeWidth={1.5} />
+        </IconWrapper>
            
             <button
             className="absolute bottom-3 right-5 z-40 h-10 w-10 rounded-full bg-blue-400 flex items-center justify-center disabled:opacity-50"
@@ -94,7 +114,9 @@ export default function ResearchFIrst() {
                 <Badge className='text-gray-100 bg-gradient-to-r from-blue-400 to-purple-500 uppercase'>Data Analysis</Badge>
                 <h2 className='text-3xl max-w-md font-bold text-gray-800'>Unlocking Insights: Data Analysis in Survey and Research</h2>
             </div>
-            <img className='rounded-3xl w-1/2' alt='' src='https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR-Dn-VoXd2K3v9zpcST3ykSeSoMAFbS-qJ0g&s' />
+            <IconWrapper gradient="linear-gradient(135deg, #84fab0 0%, #8fd3f4 100%)">
+              <BarChart2Icon size={iconSize} color={iconColor} strokeWidth={1.5} />
+            </IconWrapper>
            
             <button
             className="absolute bottom-3 right-5 z-40 h-10 w-10 rounded-full bg-blue-400 flex items-center justify-center disabled:opacity-50"
@@ -109,7 +131,9 @@ export default function ResearchFIrst() {
                 <Badge className='text-gray-100 bg-gradient-to-r from-blue-400 to-purple-500 uppercase'>Chatbot</Badge>
                 <h2 className='text-3xl max-w-md font-bold text-gray-800'>Smart Survey Solutions: Chatbot-Enabled Data Collection and Analysis</h2>
             </div>
-            <img className='rounded-3xl w-1/2' alt='' src='https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR-Dn-VoXd2K3v9zpcST3ykSeSoMAFbS-qJ0g&s' />
+            <IconWrapper  gradient="linear-gradient(135deg, #a18cd1 0%, #fbc2eb 100%)">
+          <MessageCircleIcon size={iconSize} color={iconColor} strokeWidth={1.5} />
+        </IconWrapper>
            
             <button
             className="absolute bottom-3 right-5 z-40 h-10 w-10 rounded-full bg-blue-400 flex items-center justify-center disabled:opacity-50"

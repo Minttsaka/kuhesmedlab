@@ -13,13 +13,9 @@ export default function NotificationsList() {
 
   return (
     <div>
-        <div className="fixed bottom-20 right-5 h-12 w-12 rounded-full bg-white shadow  flex items-center justify-center">
-            <span  onClick={()=>{
-                setIsOpen((prev)=>!prev)
-                }} className="text-gray-700">
-            <BellIcon />
-            </span>
-        </div>
+        <BellIcon className='h-5 w-5 text-muted-foreground'  onClick={()=>{
+            setIsOpen((prev)=>!prev)
+            }}  />
        <aside className={cn("fixed w-[70%] md:w-[40%] inset-y-0 left-0 z-20 flex flex-col overflow-hidden rounded-r-2xl bg-white shadow p-6 ",
        {
         'hidden':!isOpen

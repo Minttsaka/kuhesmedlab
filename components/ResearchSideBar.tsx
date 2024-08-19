@@ -2,9 +2,11 @@
 import React from 'react'
 import { TooltipProvider, Tooltip, TooltipTrigger, TooltipContent } from "@/components/ui/tooltip"
 import Link from "next/link"
-import { BarChartIcon, ClipboardIcon, PlusIcon } from '@radix-ui/react-icons'
-import { CircleHelpIcon, LayoutTemplateIcon, SettingsIcon } from 'lucide-react'
+import { BarChartIcon, ClipboardCopyIcon, ClipboardIcon, PlusIcon } from '@radix-ui/react-icons'
+import { CircleHelpIcon, Clipboard, LayoutTemplateIcon, SettingsIcon, Upload } from 'lucide-react'
 import { signOut } from 'next-auth/react'
+import { Avatar, AvatarImage } from './ui/avatar'
+import NotificationsList from './notifications-list'
 
 export default function ResearchSideBar() {
   return (
@@ -14,29 +16,31 @@ export default function ResearchSideBar() {
           <TooltipProvider>
             <Link
               href="#"
-              className="group flex h-9 w-9 shrink-0 items-center justify-center gap-2 rounded-full bg-primary text-lg font-semibold text-primary-foreground md:h-8 md:w-8 md:text-base"
+              className="group flex h-9 w-9 shrink-0 items-center justify-center gap-2 rounded-full text-lg font-semibold text-primary-foreground md:h-8 md:w-8 md:text-base"
               prefetch={false}
             >
-              <ClipboardIcon className="h-4 w-4 transition-all group-hover:scale-110" />
-              <span className="sr-only">Surveys</span>
+              <Avatar>
+                    <AvatarImage src='/img/official-logo.png' className="object-cover" />
+                </Avatar>
             </Link>
             <Tooltip>
               <TooltipTrigger asChild>
                 <Link
-                  href="#"
-                  className="flex h-9 w-9 items-center justify-center rounded-lg bg-accent text-accent-foreground transition-colors hover:text-foreground md:h-8 md:w-8"
+                  href="#dashboard"
+                  className="flex h-9 w-9 items-center justify-center rounded-lg text-muted-foreground transition-colors hover:text-foreground md:h-8 md:w-8"
                   prefetch={false}
                 >
-                  <PlusIcon className="h-5 w-5" />
-                  <span className="sr-only">New Survey</span>
+                  <LayoutTemplateIcon className="h-5 w-5" />
+                  <span className="sr-only">Dashboard</span>
                 </Link>
               </TooltipTrigger>
-              <TooltipContent side="right">New Survey</TooltipContent>
+              <TooltipContent side="right">Dashboard</TooltipContent>
             </Tooltip>
+ 
             <Tooltip>
               <TooltipTrigger asChild>
                 <Link
-                  href="#"
+                  href="#analytics"
                   className="flex h-9 w-9 items-center justify-center rounded-lg text-muted-foreground transition-colors hover:text-foreground md:h-8 md:w-8"
                   prefetch={false}
                 >
@@ -46,36 +50,65 @@ export default function ResearchSideBar() {
               </TooltipTrigger>
               <TooltipContent side="right">Analytics</TooltipContent>
             </Tooltip>
+            
             <Tooltip>
               <TooltipTrigger asChild>
                 <Link
-                  href="#"
+                  href="#files"
                   className="flex h-9 w-9 items-center justify-center rounded-lg text-muted-foreground transition-colors hover:text-foreground md:h-8 md:w-8"
                   prefetch={false}
                 >
-                  <LayoutTemplateIcon className="h-5 w-5" />
-                  <span className="sr-only">Templates</span>
+                  <Clipboard className="h-5 w-5" />
+                  <span className="sr-only">Files</span>
                 </Link>
               </TooltipTrigger>
-              <TooltipContent side="right">Templates</TooltipContent>
+              <TooltipContent side="right">Files</TooltipContent>
             </Tooltip>
             <Tooltip>
               <TooltipTrigger asChild>
                 <Link
-                  href="#"
+                  href="#related"
                   className="flex h-9 w-9 items-center justify-center rounded-lg text-muted-foreground transition-colors hover:text-foreground md:h-8 md:w-8"
                   prefetch={false}
                 >
-                  <SettingsIcon className="h-5 w-5" />
-                  <span className="sr-only">Settings</span>
+                  <ClipboardCopyIcon className="h-5 w-5" />
+                  <span className="sr-only">Related</span>
                 </Link>
               </TooltipTrigger>
-              <TooltipContent side="right">Settings</TooltipContent>
+              <TooltipContent side="right">Related</TooltipContent>
             </Tooltip>
+            <Tooltip>
+              <TooltipTrigger asChild>
+                <Link
+                  href="#upload"
+                  className="flex h-9 w-9 items-center justify-center rounded-lg text-muted-foreground transition-colors hover:text-foreground md:h-8 md:w-8"
+                  prefetch={false}
+                >
+                  <Upload className="h-5 w-5" />
+                  <span className="sr-only">Upload</span>
+                </Link>
+              </TooltipTrigger>
+              <TooltipContent side="right">Upload</TooltipContent>
+            </Tooltip>
+            
           </TooltipProvider>
         </nav>
         <nav className="mt-auto flex flex-col items-center gap-4 px-2 sm:py-5">
           <TooltipProvider>
+         
+          <Tooltip>
+              <TooltipTrigger asChild>
+                <Link
+                  href="#"
+                  className="flex h-9 w-9 items-center justify-center rounded-lg text-muted-foreground transition-colors hover:text-foreground md:h-8 md:w-8"
+                  prefetch={false}
+                >
+                  <NotificationsList />
+                  <span className="sr-only">Notifications</span>
+                </Link>
+              </TooltipTrigger>
+              <TooltipContent side="right">Notifications</TooltipContent>
+            </Tooltip>
             <Tooltip>
               <TooltipTrigger asChild>
                 <Link

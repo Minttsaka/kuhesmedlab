@@ -9,6 +9,7 @@ const FormSchema = z.object({
     title: z.string().min(2, "First name must be at least 2 characters"),
     abstract: z.string().min(2, "First name must be at least 2 characters"),
     doi: z.string().min(2, "Last name must be at least 2 characters"),
+    authors: z.array(z.string()).min(2, "Last name must be at least 2 characters"),
     journal: z.string().min(2, "Last name must be at least 2 characters"),
     conference: z.string().min(2, "Last name must be at least 2 characters"),
     keyWords: z.string().min(2, "Last name must be at least 2 characters"),
@@ -39,6 +40,7 @@ export const POST = async (req: Request,res:Response) => {
       researchField,
       doi,
       journal,
+      authors,
       conference
     } = FormSchema.parse(body)
 
@@ -52,21 +54,26 @@ export const POST = async (req: Request,res:Response) => {
 
     if(!checkUser) throw new Error("You have to loggin in first. This an unauthorized operation")
 
-    const newResearch = await prisma.research.create({
-        data:{
-            title,
-            abstract,
-            keyWords,
-            doi,
-            journal,
-            conference,
-            affiliation,
-            researchField,
-            creatorId:checkUser?.id,
-            creatorName:checkUser?.name
-        }
-    })
-
+      const newResearch = await prisma.research.create({
+        data: {
+          title,
+          abstract,
+          keyWords,
+          doi,
+          journal,
+          conference,
+          affiliation,
+          authors: {
+            create: authors.map((author: string) => ({
+              name: author,
+            })),
+          },
+          researchField,
+          creatorId: checkUser?.id,
+          creatorName: checkUser?.name,
+        },
+      });
+      
    
     console.log("success",newResearch)
 

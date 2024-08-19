@@ -46,7 +46,6 @@ export default async function page({params:{ id} }:{params:{id:string}}) {
     <div className='p-2'>
       <ResearchGreeting id={id} />
       <CreateResearchForm id={id}/>
-      <NotificationsList />
       {isResearchExist  && (
         <div>
           <ResearchAnalytics file_url={file_url?.url!} researchId={isResearchExist.id} />

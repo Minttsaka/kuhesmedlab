@@ -98,7 +98,7 @@ export function ResearchDashboard({ file_url , id, surveys }:{ id:string, survey
         <UploadResearchPaper researchId={id}/>
       }
  
-      <div className="space-y-5 bg-white rounded-md p-8">
+      <div className="space-y-5 bg-white rounded-md p-8" id='upload'>
         <div className="text-xs lg:flex justify-between items-center">
           <p className="font-bold">
             Survey
@@ -111,7 +111,7 @@ export function ResearchDashboard({ file_url , id, surveys }:{ id:string, survey
             </span>
           </button>
       </DialogTrigger>
-      <DialogContent className="bg-[#c8f2f3] sm:max-w-[425px]">
+      <DialogContent className="bg-white shadow-2xl shadow-purple-500 sm:max-w-[425px]">
         <h2 className='text-gray-600 font-bold space-y-5 text-center'>Create New Survey</h2>
         <form onSubmit={handleSubmit(saveSurvey)} className="grid gap-4 py-4">
           <div className="">
@@ -121,7 +121,7 @@ export function ResearchDashboard({ file_url , id, surveys }:{ id:string, survey
             <Input
               id="title"
               {...register("title")}
-              className="bg-transparent border-b-2 focus:outline-0 border-b-[green]"
+              className="bg-transparent border-b-2 focus:outline-0 border-b-blue-900"
             />
           </div>
           <div className="">
@@ -131,7 +131,7 @@ export function ResearchDashboard({ file_url , id, surveys }:{ id:string, survey
             <Input
             {...register("description")}
               id="description"
-              className="bg-transparent border-b-2 focus:outline-0 border-b-[green]"
+              className="bg-transparent border-b-2 focus:outline-0 border-b-blue-900"
             />
           </div>
           <button type='submit' className="px-8 py-2 rounded-full relative bg-slate-700 text-white text-sm hover:shadow-2xl hover:shadow-white/[0.1] transition duration-200 border border-slate-600"
