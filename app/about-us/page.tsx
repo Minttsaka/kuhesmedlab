@@ -5,6 +5,7 @@ import AboutFirst from '@/components/AboutFirst'
 import AboutFooter from '@/components/AboutFooter'
 import AboutUs from '@/components/AboutUs'
 import AobutSec from '@/components/AobutSec'
+import LandingMobileNav from '@/components/LandingMobileNav'
 import { AboutTeam } from '@/components/about-team'
 import { LandingNav } from '@/components/landing-nav'
 import { Button } from '@/components/ui/button'
@@ -15,6 +16,7 @@ export default function page() {
   return (
     <div>
       <LandingNav />
+      <LandingMobileNav />
         <div className='h-screen bg-gradient-to-tr from-[#8686ce] via-blue-400 to-[blue] flex justify-center items-center'>
             <div className='space-y-10 container mx-auto text-white text-center '>
                 <h5 className='flex justify-center text-xs text-center capitalize tracking-[3px]'><span className='rounded-2xl bg-gradient-to-r from-blue-300 to-purple-400 w-fit  py-1 px-5 uppercase'>About Us</span></h5>

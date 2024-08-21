@@ -3,24 +3,25 @@ import { ScrollArea } from "@/components/ui/scroll-area"
 import { Separator } from "@/components/ui/separator"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
+import { Research } from '@prisma/client'
 
-export default function PublicationContent() {
+export default function PublicationContent({research}:{research:Research}) {
   return (
     <div className="container max-w-5xl mx-auto p-4 space-y-4">
     <header className="space-y-2">
-      <h1 className="text-3xl font-bold max-w-xl">The Effects of Climate Change on Biodiversity: A Comprehensive Review</h1>
+      <h1 className="text-3xl font-bold max-w-xl">{research.title}</h1>
       <div className="flex flex-wrap gap-2 text-sm text-muted-foreground">
-        <span>John Doe, PhD</span>
+        <span>{research.creatorName}, PhD</span>
         <span>•</span>
         <span>Jane Smith, MSc</span>
         <span>•</span>
-        <span>Department of Environmental Sciences, University of Example</span>
+        <span>{research.affiliation}</span>
       </div>
       <div className="flex items-center gap-2 text-sm">
         <span className="font-semibold">Published:</span>
-        <span>June 15, 2023</span>
+        <span>{research.createdAt.toDateString()}</span>
         <span className="font-semibold ml-4">DOI:</span>
-        <a href="#" className="text-blue-600 hover:underline">10.1234/example.2023.001</a>
+        <a href="#" className="text-blue-600 hover:underline">{research.doi}</a>
       </div>
     </header>
 
@@ -30,15 +31,9 @@ export default function PublicationContent() {
       </CardHeader>
       <CardContent className='flex flex-col md:flex-row items-start gap-2'>
         <p>
-          This comprehensive review examines the current state of knowledge regarding the impacts of climate change
-          on global biodiversity. Through an extensive analysis of peer-reviewed literature and case studies, we
-          explore how rising temperatures, changing precipitation patterns, and extreme weather events are affecting
-          species distribution, phenology, and ecosystem dynamics. Our findings indicate significant shifts in
-          biodiversity across various biomes, with particularly pronounced effects in polar and tropical regions.
-          This paper aims to synthesize these findings and discuss their implications for conservation strategies
-          and policy-making in the face of ongoing climate change.
+          {research.abstract}
         </p>
-        <img alt='' className='h-80 w-80' src='https://media.springernature.com/full/springer-static/image/art%3A10.1038%2Fs41467-024-44824-z/MediaObjects/41467_2024_44824_Fig1_HTML.png' />
+        <img alt='' className='h-80 w-80' src={research.image!} />
       </CardContent>
     </Card>
 
@@ -138,7 +133,7 @@ export default function PublicationContent() {
         <CardContent>
           <div className="space-y-2">
             <div>
-              <span className="font-semibold">Journal:</span> Nature Climate Change
+              <span className="font-semibold">Journal:</span> {research.journal}
             </div>
             <div>
               <span className="font-semibold">Volume:</span> 15

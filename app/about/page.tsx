@@ -4,6 +4,7 @@ import Footer from '@/components/Footer'
 import { Industry } from '@/components/Industry'
 import IndustryFinisher from '@/components/IndustryFinisher'
 import { LandingNav } from '@/components/landing-nav'
+import LandingMobileNav from '@/components/LandingMobileNav'
 import SuccessIntro from '@/components/SuccessIntro'
 import SuccessNav from '@/components/SuccessNav'
 import CarouselFadeExample from '@/components/SuccessStories'
@@ -14,6 +15,7 @@ export default function page() {
   return (
     <div>
       <LandingNav />
+      <LandingMobileNav />
         <Industry />
         {/* <SuccessNav /> */}
         <SuccessIntro />

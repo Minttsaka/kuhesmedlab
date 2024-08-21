@@ -94,9 +94,7 @@ export function ResearchDashboard({ file_url , id, surveys }:{ id:string, survey
 
   return (
     <div className="grid lg:grid-cols-2 gap-5 my-5">
-      {!file_url &&
-        <UploadResearchPaper researchId={id}/>
-      }
+        <UploadResearchPaper researchId={id} file_url={file_url}/>
  
       <div className="space-y-5 bg-white rounded-md p-8" id='upload'>
         <div className="text-xs lg:flex justify-between items-center">

@@ -26,7 +26,7 @@ export default function DashboardSolutions() {
                      easily access and organize your papers, collaborations,
                       and resources, helping you work more efficiently and make new discoveries.
                     </p>
-                    <Link className='underline flex items-center' href={'/mw/r-for-researcher'}>
+                    <Link className='underline flex items-center' href={'/mw/research'}>
                         View this Solution
                     </Link>
                 </CardContent>

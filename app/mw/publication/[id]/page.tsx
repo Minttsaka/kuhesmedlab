@@ -6,6 +6,7 @@ import { ResearchAnalytics } from '@/components/research-analytics'
 import { ResearchDashboard } from '@/components/research-dashboard'
 import { ResearchGreeting } from '@/components/research-greeting'
 import ResearchAnalysis from '@/components/ResearchAnalysis'
+import ResearchReferencesSection from '@/components/ResearchReference'
 import { authOptions } from '@/lib/auth'
 import { prisma } from '@/lib/prisma'
 import { File, User } from '@prisma/client'
@@ -48,8 +49,9 @@ export default async function page({params:{ id} }:{params:{id:string}}) {
       <CreateResearchForm id={id}/>
       {isResearchExist  && (
         <div>
-          <ResearchAnalytics file_url={file_url?.url!} researchId={isResearchExist.id} />
-          <ResearchAnalysis file_url={file_url?.url!} researchId={isResearchExist.id}  />
+          <ResearchAnalytics file_url={file_url?.url!} researchId={isResearchExist.id} image_url={isResearchExist.image!}  />
+          <ResearchAnalysis file_url={file_url?.url!} researchId={isResearchExist.id} />
+          <ResearchReferencesSection file_url={file_url?.url!} researchId={isResearchExist.id}/>
           <RelatedResearch title={isResearchExist.title} />
           <ResearchDashboard file_url={file_url?.url! } id={id} surveys={surveys} />
         </div>

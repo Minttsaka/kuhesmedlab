@@ -25,36 +25,23 @@ import { Button } from "@/components/ui/button"
 import { useDropzone } from "react-dropzone";
 import { uploadToS3 } from '@/lib/s3'
 import { toast } from "sonner"
-import { Loader2, UploadIcon } from "lucide-react"
+import { Loader2, Upload, UploadIcon } from "lucide-react"
 import { useState } from "react"
 import axios from "axios"
 import { useRouter } from "next/navigation"
+import { ImageIcon } from "@radix-ui/react-icons"
 
-export function UploadResearchPaper({researchId}:{researchId:string}) {
+export function UploadResearchPaper({researchId,file_url}:{researchId:string,file_url:string}) {
+
+  // const searchParams = useSearchParams()
+
+  // const slug = searchParams.get('cat')
 
   const router = useRouter()
 
   const [uploading, setIsUploading] = useState(false)
-
-  const [fileKey, setIsfileKey] = useState<string>()
+  const [imgUrl, setImgUrl] = useState<string>()
   const [keyWords, setKeyWords] = useState<string>()
-
-  const uploadFile =async () => {
-
-    console.log(researchId, "this is research id")
-
-    await axios.post('/api/files',{
-      fileKey,
-      keyWords,
-      researchId
-    })
-
-    toast.success("successfully uploaded")
-
-    router.refresh()
-
-  }
-
 
   const { getRootProps, getInputProps } = useDropzone({
     accept: { "application/pdf": [".pdf"] },
@@ -77,8 +64,14 @@ export function UploadResearchPaper({researchId}:{researchId:string}) {
           return;
         }
 
-        setIsfileKey(data?.fileKey)
-        
+        const response = await axios.post('/api/files',{
+          fileKey:data.fileKey,
+          keyWords,
+          researchId
+        })
+
+        if (response.data==="success") toast.success("Successfully uploaded the file");
+        router.push(`/mw/publication/${researchId}#files`)
  
       } catch (error) {
         console.log(error);
@@ -88,6 +81,27 @@ export function UploadResearchPaper({researchId}:{researchId:string}) {
     },
   });
 
+
+  const uploadImg = async (file:{format:string,file:File})=>{
+
+    try {
+
+      setIsUploading(true);
+      const data = await uploadToS3(file.file);
+      if(!data?.fileKey) return toast.error("error when uploading");
+      const response = await axios.post(`/api/files/${researchId}`,{
+        image:data.fileKey
+      })
+  
+     if (response.data==="success") toast.success("Successfully uploaded the file");
+      router.push(`/mw/publication/${researchId}#files`)
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setIsUploading(false);
+    }
+  }
+
   return (
     <section className="w-full bg-white p-8 rounded-md space-y-5">
       <p className=" text-muted-foreground ">
@@ -95,56 +109,70 @@ export function UploadResearchPaper({researchId}:{researchId:string}) {
        analyze and review your work to ensure its validity and quality, giving you the recognition and credibility you deserve.
           </p>
           <div className="space-y-5">
-         
-          <div className="space-y-2">
-            <Label htmlFor="keywords">
-              <TagIcon className="mr-2 h-5 w-5 text-muted-foreground" />
-              Keywords
-            </Label>
-            <Input id="keywords" onChange={(e)=>setKeyWords(e.target.value)} placeholder="Enter keywords separated by commas" />
-          </div>
-          <div className="space-y-2">
-            <Label htmlFor="file">
-              <PaperclipIcon className="mr-2 h-5 w-5 text-muted-foreground" />
-              Research Paper
-            </Label>
-            <div
-            {...getRootProps({
-              className:
-                "flex items-center justify-center rounded-lg border-2 border-dashed border-muted px-6 py-10 transition-colors hover:border-primary hover:bg-muted",
-            })}
-          >
-            <input {...getInputProps()} />
-            {uploading  ? (
-                  <>
-                    {/* loading state */}
-                    <Loader2 className="h-10 w-10 text-blue-500 animate-spin" />
-                    <p className="mt-2 text-sm text-slate-400">
-                      uploading...
-                    </p>
-                  </>
-                ) : (
-                  <>
-                     <div className="text-center">
-                        <CloudUploadIcon className="mx-auto h-10 w-10 text-muted-foreground" />
-                        <p className="mt-4 text-sm font-medium text-muted-foreground">
-                          Drag and drop your file here
-                          
+          <div className="m-2 flex items-center justify-between ">
+                  <Input
+                    type="file"
+                    id="image"
+                    onChange={(e) => uploadImg({
+                        format:"image",
+                        file:e.target.files?.[0]!
+
+                      })}
+                    style={{ display: "none" }}
+                    accept="image/*"
+                  />
+                 
+                  <div className='grid grid-cols-3 bg-white p-1 gap-5'>
+                    <label className="flex gap-2 items-center"  htmlFor="image">
+                    <ImageIcon className='text-blue-500 h-4 w-4 cursor-pointer  '  />
+                    
+                    Click here to Upload Supporting image
+                    </label>
+                  </div>
+                 
+                </div>
+                {!file_url && 
+                <div className="space-y-2">
+                <Label htmlFor="file">
+                  <PaperclipIcon className="mr-2 h-5 w-5 text-muted-foreground" />
+                  Research Paper
+                </Label>
+                <div
+                {...getRootProps({
+                  className:
+                    "flex items-center justify-center rounded-lg border-2 border-dashed border-muted px-6 py-10 transition-colors hover:border-primary hover:bg-muted",
+                })}
+              >
+                <input {...getInputProps()} />
+                {uploading  ? (
+                      <>
+                        {/* loading state */}
+                        <Loader2 className="h-10 w-10 text-blue-500 animate-spin" />
+                        <p className="mt-2 text-sm text-slate-400">
+                          uploading...
                         </p>
-                        <p className="mt-2 text-xs text-muted-foreground">PDF, DOC, DOCX, or TXT files up to 50MB</p>
-                      </div>
-                  </>
-                )}
-             
-            </div>
-          </div>
-          <Button onClick={uploadFile} className="w-full">
-            Submit Paper
-          </Button>
-        </div>
-    </section>
-  )
-}
+                      </>
+                    ) : (
+                      <>
+                        <div className="text-center">
+                            <CloudUploadIcon className="mx-auto h-10 w-10 text-muted-foreground" />
+                            <p className="mt-4 text-sm font-medium text-muted-foreground">
+                              Drag and drop your file here
+                              
+                            </p>
+                            <p className="mt-2 text-xs text-muted-foreground">PDF, DOC, DOCX, or TXT files up to 50MB</p>
+                          </div>
+                      </>
+                    )}
+                
+                </div>
+              </div>
+                }
+                  
+                </div>
+            </section>
+          )
+        }
 
 function CloudUploadIcon(props:any) {
   return (

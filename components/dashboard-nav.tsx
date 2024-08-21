@@ -38,7 +38,7 @@ import {
   DropdownMenuSubTrigger,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
-import { Cloud, CreditCard, Github, Keyboard, LifeBuoy, LogOut, Mail, MenuSquareIcon, MessageSquare, Plus, PlusCircle, Search, Settings, User, UserPlus, Users } from "lucide-react"
+import { Cloud, CreditCard, Github, Keyboard, LifeBuoy, LogOut, Mail, MenuSquareIcon, MessageSquare, Plus, PlusCircle, Search, Settings, User, UserPlus, Users, VolumeIcon } from "lucide-react"
 import { BellIcon, Component1Icon, QuestionMarkCircledIcon } from "@radix-ui/react-icons"
 import { Input } from "./ui/input"
 import {
@@ -108,7 +108,7 @@ export async function DashboardNav() {
       <PopoverContent className="w-80">
         <div className="space-y-3 font-bold">
           <div className="grid grid-cols-2 gap-2">
-            <Link className="flex items-center justify-center p-5 bg-blue-100 text-blue-500 rounded-md" href={`/mw/publication/${firstResearch?.id}`}>
+            <Link className="flex items-center justify-center p-5 bg-blue-100 text-blue-500 rounded-md" href={firstResearch ? `/mw/publication/${firstResearch.id}`:"/mw/research"}>
               Research
             </Link>
 
@@ -128,7 +128,7 @@ export async function DashboardNav() {
           <div className="grid gap-2 bg-gray-100 p-2 rounded-lg">
               <div className="space-y-2  w-full flex items-center gap-1">
                 <div className="bg-purple-100 w-fit rounded p-2 ">
-                  <QuestionMarkCircledIcon className="h-5 w-5 text-purple-600" />
+                  <VolumeIcon className="h-5 w-5 text-purple-600" />
                   </div>
                   <div>
                     <p className="text-xs text-gray-500">Voice Matters</p>
@@ -140,7 +140,7 @@ export async function DashboardNav() {
                   <QuestionMarkCircledIcon className="h-5 w-5 text-purple-600" />
                   </div>
                   <div>
-                    <p className="text-xs text-gray-500">Library</p>
+                    <p className="text-xs text-gray-500">Support</p>
                   </div>
                 </div>
 

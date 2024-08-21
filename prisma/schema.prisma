@@ -61,6 +61,7 @@ model User {
 model Research {
   id          String        @id @default(auto()) @map("_id") @db.ObjectId
   title       String
+  image       String?
   creatorId   String
   keyWords    String
   abstract      String?
@@ -69,6 +70,10 @@ model Research {
   doi           String     @unique
   journal       String
   conference    String
+  volume        String?
+  issue         String?
+  downloadCount Int       @default(0)
+  citationCount Int       @default(0)
   updatedAt     DateTime    @updatedAt
   creatorName String
   affiliation String
@@ -77,7 +82,28 @@ model Research {
   files       File[]
   authors       Authors[]
   participants User[]
+  reference    Reference[]
   createdAt   DateTime   @default(now())
+}
+
+model Reference {
+  id            String   @id @default(auto()) @map("_id") @db.ObjectId
+  researchId     String 
+  research       Research  @relation(fields: [researchId], references: [id]) 
+  title         String
+  authors       String
+  fullReference String?
+  journal       String?  
+  bookTitle     String?  
+  publisher     String?   
+  volume        String? 
+  issue         String?  
+  pages         String? 
+  year          String?      
+  doi           String?  
+  url           String?  
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
 }
 
 model Authors {
@@ -90,7 +116,6 @@ model Authors {
 model File {
   id           String    @id @default(auto()) @map("_id") @db.ObjectId
   url          String    // URL or path to the file
-  keyWords     String
   filename     String    // Original file name
   mimetype     String?    // MIME type of the file (e.g., application/pdf)
   researchId   String

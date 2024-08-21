@@ -6,42 +6,24 @@ import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { SearchIcon, ChevronLeftIcon, ChevronRightIcon } from 'lucide-react'
+import { Research } from '@prisma/client'
+import Link from 'next/link'
+//.join(", ")
 
-// Mock data for demonstration
-const mockArticles = [
-  {
-    id: 1,
-    title: "The Impact of Climate Change on Biodiversity",
-    authors: ["John Doe", "Jane Smith"],
-    journal: "Nature Climate Change",
-    publicationDate: "2023-05-15",
-    doi: "10.1038/s41558-023-1234-5",
-    keywords: ["climate change", "biodiversity", "ecology"],
-    abstract: "This study examines the effects of global climate change on biodiversity across various ecosystems...",
-  },
-  {
-    id: 2,
-    title: "Advancements in Quantum Computing",
-    authors: ["Alice Johnson", "Bob Williams"],
-    journal: "Physical Review Letters",
-    publicationDate: "2023-06-01",
-    doi: "10.1103/PhysRevLett.130.123456",
-    keywords: ["quantum computing", "physics", "computer science"],
-    abstract: "We present a novel approach to quantum error correction that significantly improves the stability of qubits...",
-  },
-  // Add more mock articles as needed
-]
-
-export default function PublicationSearch() {
+export default function PublicationSearch({researchList}:{researchList:Research[]}) {
   const [searchTerm, setSearchTerm] = useState("")
   const [currentPage, setCurrentPage] = useState(1)
-  const articlesPerPage = 5
+  const articlesPerPage = 3
 
-  const filteredArticles = mockArticles.filter(article =>
+  const keywordsParse = (keywords:string):string[] =>{
+    return keywords.split(',').map(word => word.trim())
+  }
+
+  const filteredArticles = researchList.filter(article =>
     article.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    article.authors.some(author => author.toLowerCase().includes(searchTerm.toLowerCase())) ||
+    article?.abstract?.toLowerCase().includes(searchTerm.toLowerCase()) ||
     article.journal.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    article.keywords.some(keyword => keyword.toLowerCase().includes(searchTerm.toLowerCase()))
+    keywordsParse(article.keyWords).some(keyword => keyword.toLowerCase().includes(searchTerm.toLowerCase()))
   )
 
   const indexOfLastArticle = currentPage * articlesPerPage
@@ -84,18 +66,20 @@ export default function PublicationSearch() {
             </CardHeader>
             <CardContent>
               <p className="text-sm text-muted-foreground mb-2">
-                {article.authors.join(", ")} | {article.journal} | Published: {article.publicationDate}
+                {article.creatorName} | {article.journal} | Published: {article.createdAt.toDateString()}
               </p>
               <p className="text-sm mb-4">DOI: {article.doi}</p>
               <div className="flex flex-wrap gap-2 mb-4">
-                {article.keywords.map((keyword, index) => (
+                {keywordsParse(article.keyWords).map((keyword, index) => (
                   <Badge key={index} variant="secondary">{keyword}</Badge>
                 ))}
               </div>
               <p className="text-sm">{article.abstract}</p>
             </CardContent>
             <CardFooter>
-              <Button variant="outline">Read Full Article</Button>
+              <Link href={`/publications/${article.id}`}>
+                <Button variant="outline">Read Full Article</Button>
+              </Link>
             </CardFooter>
           </Card>
         ))}

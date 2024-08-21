@@ -9,7 +9,7 @@ import { ArrowRightIcon } from '@radix-ui/react-icons'
 
 export function Industry() {
   return (
-    <div className='pt-10 md:pt-40 pb-10 bg-gray-100'>
+    <div className='pt-40 pb-10 bg-gray-100'>
       <BackgroundGradientAnimation className=" skew-y-12 origin-top-right" />
       <div className='relative container mx-auto'>
         <div className='flex flex-col md:flex-row gap-5 '>

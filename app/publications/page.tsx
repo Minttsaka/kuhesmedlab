@@ -2,13 +2,22 @@
 import { LandingNav } from '@/components/landing-nav'
 import PublicationsFooter from '@/components/PublicationFooter'
 import PublicationSearch from '@/components/PublicationSearch'
+import { prisma } from '@/lib/prisma'
 import React from 'react'
 
-export default function page() {
+export default async function page() {
+
+  const researchList = await prisma.research.findMany({
+    orderBy:{
+      createdAt:"desc"
+    }
+  })
+
+  console.log(researchList[2])
   return (
     <div>
       <LandingNav />
-      <PublicationSearch />
+      <PublicationSearch researchList={researchList} />
       <PublicationsFooter />
     </div>
   )

@@ -20,7 +20,7 @@ export default function EventFirst() {
               className='relative left-[calc(50%-11rem)] aspect-[1155/678] w-[36.125rem] -translate-x-1/2 rotate-[30deg] bg-gradient-to-tr from-[#ff80b5] to-[#9089fc] opacity-30 sm:left-[calc(50%-30rem)] sm:w-[72.1875rem]'
             />
           </div>
-        <div className='space-y-6'>
+        <div className='space-y-6 mt-20'>
             <div className='flex gap-2 items-center text-start text-xs'>
             <StarIcon className='text-yellow-400 fill-yellow-400' />
             <StarIcon className='text-yellow-400 fill-yellow-400' />

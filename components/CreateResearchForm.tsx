@@ -1,87 +1,30 @@
-"use client"
-
 import React from 'react'
-import { GroupMembers } from './GroupMembers'
-import { Progress } from './ui/progress'
 import { Card, CardHeader, CardTitle, CardDescription, CardContent, CardFooter } from "@/components/ui/card"
-import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from "@/components/ui/select"
-import { Checkbox } from "@/components/ui/checkbox"
-import { Button } from "@/components/ui/button"
-import Link from "next/link"
-import { zodResolver } from "@hookform/resolvers/zod";
-import { SubmitHandler, useForm } from "react-hook-form";
-import { z } from "zod";
-import axios from "axios";
-import { toast } from "sonner";
-import { BriefcaseIcon, CalendarIcon, Loader2, LocateIcon } from "lucide-react";
-import { useRouter } from "next/navigation";
-import { useState } from "react"
-import useSWR from "swr"
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogFooter,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from "@/components/ui/dialog"
-import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
-import { PlusIcon } from '@radix-ui/react-icons'
-import { Research } from '@prisma/client'
+import { Research, User } from '@prisma/client'
 import { cn } from '@/lib/utils'
-import { Textarea } from './ui/textarea'
+import Link from 'next/link';
+import { getServerSession } from 'next-auth';
+import { authOptions } from '@/lib/auth';
+import { prisma } from '@/lib/prisma';
 
-const FormSchema = z.object({
-    title: z
-      .string()
-      .min(2, "First name must be at least 2 characters"),
-    abstract: z.string()
-    .min(2, "First name must be at least 2 characters"),
-    keyWords: z.string()
-    .min(2, "First name must be at least 2 characters"),
-    affiliation: z.string()
-    .min(2, "First name must be at least 2 characters"),
-    doi: z.string()
-    .min(2, "First name must be at least 2 characters"),
-    journal: z.string()
-    .min(2, "First name must be at least 2 characters"),
-    conference: z.string()
-    .min(2, "First name must be at least 2 characters"),
-    });
-  
-  type InputType = z.infer<typeof FormSchema>;
-
-
-const fetcher = async (url:string) => {
-    const res = await axios.get(url);
-
-    return res.data;
-  };
   
 
-export default function CreateResearchForm({ id }:{ id:string }) {
+export default async function CreateResearchForm({ id }:{ id:string }) {
 
-  const { data, mutate, isLoading, error } = useSWR(
-    `/api/research`,
-    fetcher
-  );
+  const session:any = await getServerSession(authOptions);
+    const sessionUser = (session.user as User);
+  
+    const user = await prisma.user.findUnique({
+      where:{
+        id:sessionUser.id
+      }
+    })
 
-  if (isLoading) {
-    return <div className='w-full flex items-center justify-center'>
-      <LoadingSpinner />
-    </div>;
-  }
-
-  if (error) {
-    return <div>Error loading data</div>;
-  }
-
-
-  const researchList = Array.isArray(data) ? data : [];
-
-//href={`/mw/r-for-researcher/${research.id}
+    const researchList = await prisma.research.findMany({
+      where:{
+        creatorId:user?.id
+      }
+    })
   return (
     <div className='rounded-lg my-8'>
         <div className='mb-10'>

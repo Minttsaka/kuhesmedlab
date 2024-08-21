@@ -5,6 +5,7 @@ import Finisher from "@/components/Finisher";
 import Footer from "@/components/Footer";
 import GlobalConnection from "@/components/GlobalConnection";
 import { HeroParallaxDemo } from "@/components/HeroParallaxDemo";
+import LandingMobileNav from "@/components/LandingMobileNav";
 import { AutoTriggerTabs } from "@/components/auto-trigger-tabs";
 import { Faq } from "@/components/faq";
 import { LandingFirst } from "@/components/landing-first";
@@ -15,6 +16,7 @@ export default function Home() {
   return (
     <main className="">
       <LandingNav />
+      <LandingMobileNav />
      <LandingFirst />
      <BestThreeCards />
      <HeroParallaxDemo />

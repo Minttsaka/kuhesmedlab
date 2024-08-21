@@ -36,8 +36,7 @@ export async function POST(req: NextRequest) {
     const savedFile = await prisma.file.create({
       data:{
         filename:fileKey,
-        keyWords,
-        url:process.env.AWS_URL + "/" + fileKey,
+        url:fileKey,
         uploadedBy:{
           connect: {
             id: user.id,

@@ -17,7 +17,7 @@ function Navbar({ className }: { className?: string }) {
   const [active, setActive] = useState<string | null>(null);
   return (
     <div
-      className={cn("fixed top-10 inset-x-0 hidden max-w-2xl mx-auto lg:flex justify-between items-center px-1 z-50 bg-black bg-opacity-5 border border-white rounded-full backdrop-blur-3xl", className)}
+      className={cn("fixed top-10 inset-x-0 hidden max-w-2xl mx-auto lg:flex justify-between items-center px-1 z-50 bg-black/70 backdrop-blur-sm border border-white rounded-full", className)}
     >
         <Link className="w-fit  mb-1 flex items-center justify-center" href={'/'}>
             <Avatar>

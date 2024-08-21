@@ -5,7 +5,7 @@ import { Facebook, Twitter, Instagram, Linkedin, Mail } from 'lucide-react'
 import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
 
-export default function Component() {
+export default function Footer() {
   return (
     <footer className="relative mt-16 bg-gradient-to-b from-blue-50 to-blue-100 text-blue-900">
       <svg

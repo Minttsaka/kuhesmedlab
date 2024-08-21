@@ -18,7 +18,7 @@ import { SubmitHandler, useForm } from "react-hook-form";
 import { z } from "zod";
 import axios from "axios";
 import { toast } from "sonner";
-import { BriefcaseIcon, CalendarIcon, Loader2, LocateIcon, X } from "lucide-react";
+import { BriefcaseIcon, CalendarIcon, Loader2, LocateIcon, PlusIcon, X } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useState } from "react"
 
@@ -122,7 +122,7 @@ export default function CreateResearchWorkspace() {
                     
                     <div className="space-y-2">
                     <Label className='text-gray-100' htmlFor="abstract">Abstract</Label>
-                    <Textarea {...register("abstract")} className='bg-transparent text-white' id="abstract" placeholder="Enter the research abstract" />
+                    <Textarea {...register("abstract")} className='bg-transparent text-white placeholder:text-gray-100' id="abstract" placeholder="Enter the research abstract" />
                     </div>
                     
                     <div className="space-y-2">
@@ -134,7 +134,7 @@ export default function CreateResearchWorkspace() {
                     <div className="space-y-2">
                         <Label className='text-gray-100' htmlFor="field">field</Label>
                         <Select  onValueChange={(e)=>setResearchField(e)}>
-                        <SelectTrigger className='bg-transparent placeholder:text-gray-200' id="field">
+                        <SelectTrigger className='bg-transparent text-gray-200' id="field">
                             <SelectValue placeholder="Select field" className='' />
                         </SelectTrigger>
                         <SelectContent>
@@ -180,7 +180,7 @@ export default function CreateResearchWorkspace() {
                             ))}
                         </AnimatePresence>
                         <Button type="button" variant="outline" size="icon" onClick={addAuthor} className="mt-2 rounded-full bg-[green] border-none text-white">
-                            <PlusCircledIcon />
+                            <PlusIcon />
                         </Button>
                     </div>
 

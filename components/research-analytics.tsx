@@ -24,8 +24,9 @@ import { Card, CardHeader, CardDescription, CardTitle, CardContent } from "@/com
 import { CartesianGrid, XAxis, Area, AreaChart, Pie, PieChart, Line, LineChart } from "recharts"
 import { ChartTooltipContent, ChartTooltip, ChartContainer } from "@/components/ui/chart"
 import { CloudOffIcon, } from "lucide-react"
+import { AspectRatio } from "./ui/aspect-ratio"
 
-export function ResearchAnalytics({file_url, researchId}:{file_url:string, researchId:string}) {
+export function ResearchAnalytics({file_url, researchId,image_url}:{file_url:string, researchId:string,image_url:string}) {
 
   return (
     <div className="min-h-screen" id='analytics'>
@@ -70,16 +71,26 @@ export function ResearchAnalytics({file_url, researchId}:{file_url:string, resea
               <div className="grid lg:grid-cols-2 gap-6">
                 <Card>
                   <CardHeader>
-                    <CardTitle>Your Document</CardTitle>
-                    <CardDescription>This is the uploded document of your research</CardDescription>
+                    <CardTitle>Your Files</CardTitle>
+                    <CardDescription>These are the uploded uploaded files to your research</CardDescription>
                   </CardHeader>
-                  <CardContent>
+                  <CardContent className="space-y-5">
                   {file_url && (
                       <iframe
                       src={`https://docs.google.com/gview?url=${file_url}&embedded=true`}
                       className="w-full h-full"
                     ></iframe>
-                    )} 
+                    )} {image_url && 
+                      <div>
+    
+                        <img
+                          src={image_url}
+                          alt="Photo by Drew Beamer"
+                          className="rounded-md object-cover h-64 w-full "
+                        />
+             
+                      </div>}
+                    
                   </CardContent>
                 </Card>
                 <Card>
@@ -88,50 +99,7 @@ export function ResearchAnalytics({file_url, researchId}:{file_url:string, resea
                     <CardDescription>View your document in google docs</CardDescription>
                   </CardHeader>
                   <CardContent className="space-y-2">
-                    {/* <div className="rounded-lg p-4 bg-gray-100 hover:shadow-lg transition-shadow">
-                      <h3 className="text-lg  truncate">Quarterly Financial Report Q4 2023</h3>
-                      <div className="flex items-center justify-between">
-                        <p className="text-sm text-muted-foreground line-clamp-2">
-                          Comprehensive financial report for Q4 2023, including revenue, expenses, and key metrics.
-                        </p>
-                        <time dateTime="2023-12-31" className="text-sm text-muted-foreground">
-                          Dec 31, 2023
-                        </time>
-                      </div>
-                      <div className="mt-4">
-                        <Link
-                          href="#"
-                          target="_blank"
-                          className="inline-flex items-center gap-2 px-4 py-2 rounded-md bg-secondary text-secondary-foreground  hover:bg-secondary/90 focus:outline-none focus:ring-1 focus:ring-secondary/50"
-                          prefetch={false}
-                        >
-                          
-                          Open in Google Docs
-                        </Link>
-                      </div>
-                    </div>
-        <div className="rounded-lg p-4 bg-gray-100 hover:shadow-lg transition-shadow">
-          <h3 className="text-lg  truncate">Quarterly Financial Report Q4 2023</h3>
-          <div className="flex items-center justify-between">
-            <p className="text-sm text-muted-foreground line-clamp-2">
-              Comprehensive financial report for Q4 2023, including revenue, expenses, and key metrics.
-            </p>
-            <time dateTime="2023-12-31" className="text-sm text-muted-foreground">
-              Dec 31, 2023
-            </time>
-          </div>
-          <div className="mt-4">
-            <Link
-              href="#"
-              target="_blank"
-              className="inline-flex items-center gap-2 px-4 py-2 rounded-md bg-secondary text-secondary-foreground  hover:bg-secondary/90 focus:outline-none focus:ring-1 focus:ring-secondary/50"
-              prefetch={false}
-            >
-              
-              Open in Google Docs
-            </Link>
-          </div>
-        </div> */} <Card className="w-full bg-primary text-primary-foreground p-8 flex flex-col items-center justify-center text-center">
+                    <Card className="w-full bg-primary text-primary-foreground p-8 flex flex-col items-center justify-center text-center">
                       <div className="bg-primary-foreground/10 rounded-full p-4 mb-4">
                         <CloudOffIcon className="w-8 h-8" />
                       </div>
