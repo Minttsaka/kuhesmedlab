@@ -10,6 +10,9 @@ export default async function page({params:{id}}:{params:{id:string}}) {
   const research = await prisma.research.findUnique({
     where:{
       id
+    },
+    include:{
+      files:true,
     }
   })
   return (

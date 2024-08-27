@@ -14,10 +14,13 @@ export async function POST(req: NextRequest) {
     const session:any = await getServerSession(authOptions);
     const user= (session.user as User);
 
+    console.log("formdata", formdata)
+
 
     const {
-        fileKey,
-        keyWords,
+        url,
+        filename,
+        fileType,
         researchId
     } = formdata
 
@@ -35,8 +38,9 @@ export async function POST(req: NextRequest) {
 
     const savedFile = await prisma.file.create({
       data:{
-        filename:fileKey,
-        url:fileKey,
+        filename,
+        url,
+        fileType,
         uploadedBy:{
           connect: {
             id: user.id,
@@ -52,8 +56,7 @@ export async function POST(req: NextRequest) {
       ;
 
     return NextResponse.json(
-      { message: "Form Created Successfully", success: true, savedFile },
-      { status: 201 }
+     "success"
     );
   } catch (error: any) {
     console.error("Error creating form:", error);
@@ -64,8 +67,7 @@ export async function GET() {
   try {
     const files = await prisma.file.findMany();
     return NextResponse.json(
-      { files },
-      { status: 200 }
+      files
     );
   } catch (error: any) {
     console.log(error)

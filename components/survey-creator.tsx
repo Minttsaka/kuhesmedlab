@@ -26,7 +26,7 @@ To read more about using these font, please visit the Next.js documentation:
 
 import { InviteSurvey } from "./invite-survey"
 import { Research, Survey,  } from "@prisma/client"
-import { SurveyFormLists } from "./SurveyFormLists"
+//import { SurveyFormLists } from "./SurveyFormLists"
 
 //
 
@@ -36,7 +36,7 @@ export function SurveyCreator({survey, research}:{ survey:Survey, research:Resea
       <header className=" text-gray-500 py-4 px-6 ">
         <div className="flex justify-between w-full ">
           <h1 className="text-2xl font-bold">Survey Builder</h1>
-          <SurveyFormLists surveyId={survey.id} />
+          {/* <SurveyFormLists surveyId={survey.id} /> */}
         </div>
       </header>
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 m-10">

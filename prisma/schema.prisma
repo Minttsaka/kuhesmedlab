@@ -43,19 +43,31 @@ model User {
   id      String   @id @default(auto()) @map("_id") @db.ObjectId
   email   String   @unique
   name    String
-  country String?
+  country String
   bio     String?
+  age     String
   password String
+  institutionId String
+  institution Institution   @relation(fields: [institutionId], references: [id])
+  department  String?
+  role        String  @default("researcher")
   emailVerified DateTime?
-   phone        String?
+  phone        String? 
   image         String?
   researchId    String?
   reviews     Review[]
   files       File[]
-  researchPapers ResearchPaper[]
+  research Research[]
+  notifications  Notification[]
   accounts      Account[]
   sessions      Session[]
-  research      Research?     @relation(fields: [researchId], references: [id])
+}
+
+enum ResearchStatus {
+  DEVELOPMENT
+  APPROVED
+  PENDING
+  DISAPPROVED
 }
 
 model Research {
@@ -64,12 +76,16 @@ model Research {
   image       String?
   creatorId   String
   keyWords    String
+  field       String
   abstract      String?
-  researchField  String
+  Published DateTime?
   publicationDate DateTime?
-  doi           String     @unique
-  journal       String
-  conference    String
+  status      ResearchStatus  @default(DEVELOPMENT)
+  doi           String?
+  journal       String?
+  conference    String?
+  institutionId String
+  tag           Tag[]
   volume        String?
   issue         String?
   downloadCount Int       @default(0)
@@ -77,13 +93,34 @@ model Research {
   updatedAt     DateTime    @updatedAt
   creatorName String
   affiliation String
-  author      Author[]
+  review      Review[]
   surveys     Survey[]
+  authors     String
   files       File[]
-  authors       Authors[]
-  participants User[]
+  user        User   @relation(fields: [creatorId], references: [id])
+  institution  Institution @relation(fields: [institutionId], references: [id])
+  collaborator  Collaborator[]
   reference    Reference[]
   createdAt   DateTime   @default(now())
+}
+
+model Collaborator {
+  id            String              @id @default(auto()) @map("_id") @db.ObjectId
+  firstName     String
+  lastName      String
+  email         String            @unique
+  affiliation   String
+  role          CollaboratorRole
+  researchId    String
+  research    Research        @relation(fields: [researchId], references: [id])
+  createdAt     DateTime          @default(now())
+  updatedAt     DateTime          @updatedAt
+}
+
+enum CollaboratorRole {
+  LEAD
+  CO_AUTHOR
+  CONTRIBUTOR
 }
 
 model Reference {
@@ -106,18 +143,12 @@ model Reference {
   updatedAt     DateTime  @updatedAt
 }
 
-model Authors {
-  id           String    @id @default(auto()) @map("_id") @db.ObjectId
-  name          String
-  researchId    String
-  research      Research @relation(fields: [researchId], references:[id])
-}
-
 model File {
   id           String    @id @default(auto()) @map("_id") @db.ObjectId
   url          String    // URL or path to the file
   filename     String    // Original file name
   mimetype     String?    // MIME type of the file (e.g., application/pdf)
+  fileType     String
   researchId   String
   research     Research  @relation(fields: [researchId], references: [id])
   uploadedById String
@@ -126,19 +157,6 @@ model File {
   updatedAt    DateTime  @updatedAt
 }
 
-model Author {
-  id          String   @id @default(auto()) @map("_id") @db.ObjectId
-  firstName   String
-  lastName    String
-  email       String   @unique
-  researchId  String
-  affiliation String?
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
-  research    Research @relation(fields: [researchId], references: [id])
-}
-
-
 enum QuestionType {
   Paragraph
   Multiple_Choice
@@ -146,10 +164,18 @@ enum QuestionType {
   Rating
 }
 
+enum SurveyStatus {
+  draft
+  active
+  archived
+}
+
 model Survey {
    id         String        @id @default(auto()) @map("_id") @db.ObjectId
   title       String
   description String
+  label       String
+  status      SurveyStatus  @default(draft)
   creatorId   String?
   creatorName String
   surveyForm  SurveyForm[]
@@ -162,14 +188,23 @@ model SurveyForm {
   id          String        @id @default(auto()) @map("_id") @db.ObjectId
   title       String
   description String
-  recommendation String
-  identity        Boolean
+  label       String
+  status      SurveyStatus @default(draft)
+  identity    Boolean
+  guildelines  String
   creatorId   String
   creatorName String
+  importance  Importance @default(high)
   questions   SurveyFormQuestion[]
   surveyId    String
   survey      Survey    @relation(fields: [surveyId], references: [id])
   createdAt   DateTime   @default(now())
+}
+
+enum Importance {
+  low
+  medium
+  high
 }
 
 model SurveyFormQuestion {
@@ -203,83 +238,57 @@ model SurveyFormAnswer {
   createdAt  DateTime @default(now())
 }
 
-model ResearchPaper {
-  id            String      @id @default(auto()) @map("_id") @db.ObjectId
-  title         String
-  abstract      String?
-  publicationDate DateTime?
-  fileUrl       String
-  doi           String?     @unique
-  journal       String?
-  conference    String?
-  createdAt     DateTime    @default(now())
-  updatedAt     DateTime    @updatedAt
-  authorId      String
-  author        User      @relation(fields: [authorId], references: [id])
-  categories    PaperCategory[]
-  tags          PaperTag[]
-  citations     Citation[]
-  reviews       Review[]
-}
-
-model Category {
-  id          String         @id @default(auto()) @map("_id") @db.ObjectId
-  name        String         @unique
-  description String?
-  createdAt   DateTime       @default(now())
-  updatedAt   DateTime       @updatedAt
-  papers      PaperCategory[]
-}
 
 model Tag {
   id        String      @id @default(auto()) @map("_id") @db.ObjectId
   name      String      @unique
   createdAt DateTime    @default(now())
   updatedAt DateTime    @updatedAt
-  papers    PaperTag[]
-}
-
-model PaperCategory {
-  id         String         @id @default(auto()) @map("_id") @db.ObjectId
-  paperId    String
-  categoryId String
-  paper      ResearchPaper  @relation(fields: [paperId], references: [id])
-  category   Category       @relation(fields: [categoryId], references: [id])
-}
-
-model PaperTag {
-  id      String        @id @default(auto()) @map("_id") @db.ObjectId
-  paperId String
-  tagId   String
-  paper   ResearchPaper @relation(fields: [paperId], references: [id])
-  tag     Tag           @relation(fields: [tagId], references: [id])
-}
-
-model Citation {
-  id          String        @id @default(auto()) @map("_id") @db.ObjectId
-  paperId     String
-  citationText String
-  authorId      String
-  citationLink String?
-  paper       ResearchPaper @relation(fields: [paperId], references: [id])
+  researchId  String
+  research    Research @relation(fields: [researchId], references: [id])
 }
 
 model Review {
   id        String        @id @default(auto()) @map("_id") @db.ObjectId
-  paperId   String
+  researchId   String
   reviewerId String
   comment   String?
   rating    Int?
   createdAt DateTime      @default(now())
   updatedAt DateTime      @updatedAt
-  paper     ResearchPaper @relation(fields: [paperId], references: [id])
+  research  Research @relation(fields: [researchId], references: [id])
   reviewer  User          @relation(fields: [reviewerId], references: [id])
 }
 
 model Institution {
   id        String      @id @default(auto()) @map("_id") @db.ObjectId
   name      String
-  location  String?
+  research  Research[]
+  members   User[]
+  location  String
+  type      String
+  website   String?
+  logo   String?
   createdAt DateTime    @default(now())
   updatedAt DateTime    @updatedAt
 }
+
+model Notification {
+  id            String        @id @default(auto()) @map("_id") @db.ObjectId
+  receiverId    String
+  from          String
+  senderId    String
+  title       String
+  description String
+  to            User          @relation(fields: [receiverId], references: [id])
+  status        NotificationStatus
+  content       String
+  createdAt     DateTime    @default(now())
+  readAt        DateTime?
+}
+
+enum NotificationStatus {
+  UNREAD
+  READ
+}
+

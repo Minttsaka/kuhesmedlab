@@ -16,9 +16,11 @@ export async function POST(req: NextRequest) {
     const {
       title,
       description,
-      recommendation,
+      label,
       identity:isChecked,
-      surveyId
+      surveyId,
+      guildelines,
+      importance
     } = formdata
 
     const survey = await prisma.survey.findUnique({
@@ -39,7 +41,9 @@ export async function POST(req: NextRequest) {
         creatorId:user.id,
         creatorName:user.name,
         description,
-        recommendation,
+        guildelines,
+        importance,
+        label,
         identity:isChecked,
         survey: {
           connect: {

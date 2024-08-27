@@ -6,7 +6,7 @@ import { BarChartIcon, ClipboardCopyIcon, ClipboardIcon, PlusIcon } from '@radix
 import { CircleHelpIcon, Clipboard, LayoutTemplateIcon, SettingsIcon, Upload } from 'lucide-react'
 import { signOut } from 'next-auth/react'
 import { Avatar, AvatarImage } from './ui/avatar'
-import NotificationsList from './notifications-list'
+import Notifications from './Notifications'
 
 export default function ResearchNavBar() {
   return (
@@ -103,7 +103,7 @@ export default function ResearchNavBar() {
                   className="flex h-9 w-9 items-center justify-center rounded-lg text-muted-foreground transition-colors hover:text-foreground md:h-8 md:w-8"
                   prefetch={false}
                 >
-                  <NotificationsList />
+                  <Notifications />
                   <span className="sr-only">Notifications</span>
                 </Link>
               </TooltipTrigger>

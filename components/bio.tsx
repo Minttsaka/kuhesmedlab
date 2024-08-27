@@ -60,8 +60,7 @@ export function Bio({name}:{name:String}) {
     "Welcome again!",
     "Now I want.",
     "to tell me",
-    "about yourself.",
-    "a little bit",
+    "about yourself."    "a little bit",
     "more text"
   ].
   Please replace the text with a more personalized and friendly welcoming message.
@@ -72,13 +71,13 @@ export function Bio({name}:{name:String}) {
 
   useEffect(() => {
     const aiWelcome = async(prompt:string)=>{
-      const response = await axios.post('/api/openai/',{
-          prompt,
-      })
-      console.log(response.data)
+      // const response = await axios.post('/api/openai/',{
+      //     prompt,
+      // })
+      // console.log(response.data)
   
       //setMessages(JSON.parse(response.data))
-      setMessages([...messages, ...JSON.parse(response.data)]);
+      //setMessages([...messages, ...JSON.parse(response.data)]);
     
     }
     aiWelcome(prompt)

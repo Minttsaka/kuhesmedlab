@@ -1,5 +1,6 @@
 import Typewriter from "@/components/Typewriter";
 import { Button } from "@/components/ui/button";
+import AdorableAIChatWelcome from "@/components/WelcomeToApp";
 import { activateUser } from "@/lib/authActions";
 import { verifyJwt } from "@/lib/jwt";
 import { Link } from "lucide-react";
@@ -14,11 +15,6 @@ interface Props {
 const ActivationPage = async ({ params }: Props) => {
   const result = await activateUser(params.jwt as any);
 
-  // if(result.data=="alreadyActivated"){
-  //   redirect("/signin")
-  // }else if (result.data=="userNotExist"){
-  //   redirect("/register")
-  // }
 
   return (
     <div className="h-screen flex flex-col items-center justify-center">
@@ -35,7 +31,7 @@ const ActivationPage = async ({ params }: Props) => {
               <p className="text-[green] text-2xl">You are already activated.<a className="text-[blue]" href="/signin">login</a></p>
             </div>
             
-          ) : result.data !== "alreadyActivated" && result.data !== "userNotExist" ? ( <Typewriter user={result.data} />) 
+          ) : result.data !== "alreadyActivated" && result.data !== "userNotExist" ? ( <AdorableAIChatWelcome user={result.data} />) 
           :(<p>Something went wrong</p>)
           }
           </div>

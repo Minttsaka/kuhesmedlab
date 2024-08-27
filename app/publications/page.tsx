@@ -8,6 +8,9 @@ import React from 'react'
 export default async function page() {
 
   const researchList = await prisma.research.findMany({
+    where:{
+      status:"APPROVED"
+    },
     orderBy:{
       createdAt:"desc"
     }

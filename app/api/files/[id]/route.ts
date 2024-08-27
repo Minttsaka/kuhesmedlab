@@ -12,26 +12,18 @@ export async function GET(req: NextRequest) {
 
     console.log("params", id);
 
-    const forms = await prisma.surveyForm.findMany({
-      where: { 
-        surveyId:id
-       },
-       include:{
-        questions:{
-          include:{
-            choices:true
-          }
-        }
-       }
+    const files = await prisma.file.findMany({
+      where:{
+        researchId:id
+      }
     });
 
-    console.log("forms", forms)
 
-    if (!forms) {
+    if (!files) {
       throw new Error("Form not found");
     }
 
-    return NextResponse.json(forms)
+    return NextResponse.json(files)
   } catch (error: any) {
     console.error("Error creating form:", error);
     return NextResponse.json({ error: error.message }, { status: 500 });

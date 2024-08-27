@@ -17,303 +17,182 @@ To read more about using these font, please visit the Next.js documentation:
 - App Directory: https://nextjs.org/docs/app/building-your-application/optimizing/fonts
 - Pages Directory: https://nextjs.org/docs/pages/building-your-application/optimizing/fonts
 **/
-import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar"
-import { Card, CardHeader, CardTitle, CardDescription, CardContent } from "@/components/ui/card"
-import { authOptions } from "@/lib/auth";
-import { prisma } from "@/lib/prisma"
-import { User } from "@prisma/client";
-import { getServerSession } from "next-auth";
 
-export  async function ResearchGreeting({ id }:{ id:string }) {
+
+
+
+import { useState, useEffect } from 'react'
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
+
+import { 
+  BookOpenIcon, 
+  ClockIcon, 
+  CheckCircleIcon, 
+  DownloadIcon, 
+} from 'lucide-react'
+import { prisma } from '@/lib/prisma'
+import { authOptions } from '@/lib/auth'
+import { getServerSession } from 'next-auth'
+import { Research, User } from '@prisma/client'
+import { cn } from '@/lib/utils'
+import Link from 'next/link';
+import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area"
+import { ChevronLeft, ChevronRight, ExternalLink } from 'lucide-react'
+import HandAnimation from '@/components/HandAnimation'
+
+interface StatCardProps {
+  title: string
+  value: number
+  icon: React.ComponentType<{ className?: string }>
+  change?: number
+}
+
+function ResearchCard({ item }: { item: Research; }) {
+  return (
+    <Card className='w-80 shrink-0 transition-all duration-300 bg-white shadow'>
+      <CardHeader>
+        <CardTitle className="text-lg font-semibold line-clamp-2">{item.title}</CardTitle>
+        <CardDescription className="text-sm text-blue-400">{item.status}</CardDescription>
+      </CardHeader>
+      <CardContent className="text-sm text-gray-500">
+        <p className='line-clamp-1'><span className="font-semibold">Journal:</span> {item.journal}</p>
+        {item.Published && <p><span className="font-semibold">Published Date:</span> {item.publicationDate?.toDateString()}</p>}
+        <p className='line-clamp-1'><span className="font-semibold">Field:</span> {item.field}</p>
+        <p className='line-clamp-1'><span className="font-semibold">Volume:</span> {item.volume}, <span className="font-semibold">Issue:</span> {item.issue}</p>
+        <p className='line-clamp-1'><span className="font-semibold">Affiliation:</span> {item.affiliation}</p>
+        <p className='line-clamp-1'><span className="font-semibold">Year Created:</span> {item.createdAt.toDateString()}</p>
+        <p className='line-clamp-1'> <span className="font-semibold">DOI:</span> {item.doi}</p>
+        <a
+          href={`/mw/publication/${item.id}`}
+
+          className="inline-flex items-center mt-2 hover:underline"
+        >
+          View Research <ExternalLink className="ml-1 h-4 w-4" />
+        </a>
+      </CardContent>
+    </Card>
+  )
+}
+
+const StatCard = ({ title, value, icon: Icon, change }:StatCardProps) => (
+  <Card className="overflow-hidden transition-all hover:shadow-lg">
+    <CardHeader className="flex flex-row items-center justify-between pb-2 space-y-0">
+      <CardTitle className="text-sm font-medium">{title}</CardTitle>
+      <Icon className="w-4 h-4 text-muted-foreground" />
+    </CardHeader>
+    <CardContent>
+      <div className="text-2xl font-bold">{value}</div>
+      {change && (
+        <p className={`text-xs ${change > 0 ? 'text-green-500' : 'text-red-500'}`}>
+          {change > 0 ? '↑' : '↓'} {Math.abs(change)}% from last month
+        </p>
+      )}
+    </CardContent>
+  </Card>
+)
+
+export default async function ResearchGreeting() {
 
   const session:any = await getServerSession(authOptions);
-  const user= (session.user as User);
+    const user = (session.user as User);
 
-  const [researchNo, surveyNo, researchPapers, approvedResearch, citations ]= await prisma.$transaction([
-    prisma.research.count({
-      where:{
-        creatorId:user.id
-      }
-    }),
+  const [
+    researchNo, 
+    publishedNo,
+     Pending, 
+     approved,
+     surveyNo
+    ]= await prisma.$transaction([
 
-    prisma.survey.count({
-      where:{
-        creatorId:user.id
-      }
-    }),
-
-     prisma.file.count({
-      where:{
-        uploadedById:user.id
-      }
-    }),
-
+    
+      prisma.research.count({
+        where:{
+          creatorId:user.id
+        }
+      }),
+      
+      prisma.research.findMany({
+        where:{
+          creatorId: user.id,
+          publicationDate: {
+            not: null,
+          }},
+      })
+    ,
     prisma.research.findMany({
       where:{
-        creatorId: user.id,
-        publicationDate: {
-          not: null,
-        }},
-    }),
-
-    prisma.citation.findMany({
-      where:{
-        authorId: user.id
+        creatorId:user.id,
+        status:"PENDING"
       }
-    })
+    }),
+    prisma.research.findMany({
+      where:{
+        creatorId:user.id,
+        status:"APPROVED"
+      }
+    }),
+      prisma.survey.count({
+        where:{
+          creatorId:user.id
+        }
+      }),
+    
+     
+    
+    ])
 
-  ])
+
   return (
-    <div className=" text-green-900 " id='dashboard'>
-      <div className="grid md:grid-cols-2 gap-8">
-        <div className="grid gap-4">
-          <div className="flex items-center gap-2">
-            <Avatar className="h-10 w-10 border-2 border-white">
-              <AvatarImage src="/placeholder-user.jpg" alt="@shadcn" />
-              <AvatarFallback>JS</AvatarFallback>
-            </Avatar>
-            <div className="grid gap-0.5">
-              <div className="text-xl font-bold text-green-900">Welcome back, {user.name}</div>
-              <div className="text-sm text-gray-500">Lets dive into your latest updates.</div>
-            </div>
-          </div>
-          <div className="grid md:grid-cols-2 gap-4">
-            <Card className="p-4 flex items-center gap-2  ">
-              <div className="rounded-md flex items-center justify-center aspect-square w-10">
-                <FileIcon className="w-5 h-5 text-green-900" />
-              </div>
-              <div className="grid gap-0.5">
-                <div className="text-2xl font-bold text-green-900">{researchPapers}</div>
-                <div className="text-sm text-gray-500">Research Papers</div>
-              </div>
-            </Card>
-            <Card className="p-4 flex items-center gap-2  ">
-              <div className="rounded-md flex items-center justify-center aspect-square w-10">
-                <UsersIcon className="w-5 h-5 text-green-900" />
-              </div>
-              <div className="grid gap-0.5">
-                <div className="text-2xl font-bold text-green-900">{surveyNo}</div>
-                <div className="text-sm text-gray-500">Surveys</div>
-              </div>
-            </Card>
-            <Card className="p-4 flex items-center gap-2  ">
-              <div className="rounded-md flex items-center justify-center aspect-square w-10">
-                <EyeIcon className="w-5 h-5 text-green-900" />
-              </div>
-              <div className="grid gap-0.5">
-                <div className="text-2xl font-bold text-green-900">{researchNo}</div>
-                <div className="text-sm text-gray-500">Research</div>
-              </div>
-            </Card>
-            <Card className="p-4 flex items-center gap-2  ">
-              <div className="rounded-md flex items-center justify-center aspect-square w-10">
-                <PaperclipIcon className="w-5 h-5 text-green-900" />
-              </div>
-              <div className="grid gap-0.5">
-                <div className="text-2xl font-bold text-green-900">{citations.length}</div>
-                <div className="text-sm text-gray-500">Citations</div>
-              </div>
-            </Card>
-          </div>
-        </div>
-        <div className="grid gap-4">
-          <Card className="p-4  ">
-            <CardHeader>
-              <CardTitle className="text-green-900">Recent Approved Research</CardTitle>
-              <CardDescription className="text-gray-500">These research has been recently approved.</CardDescription>
-            </CardHeader>
-            <CardContent>
-              <div className="grid gap-4 text-green-900">
-                {approvedResearch.length==0 && <p>No research Approved</p>}
-                {approvedResearch.map(research=>(
-                  <div key={research.id} className="flex items-center gap-2">
-                  <div className="bg-[#9b59b6] rounded-md flex items-center justify-center aspect-square w-10">
-                    <UploadIcon className="w-5 h-5 text-green-900" />
-                  </div>
-                  <div className="grid gap-0.5">
-                    <div className="text-sm font-medium text-green-900">
-                      New paper uploaded: Advances in Quantum Computing
-                    </div>
-                    <div className="text-xs text-gray-500">2 days ago</div>
-                  </div>
-                </div>
-                ))}
-              </div>
-            </CardContent>
-          </Card>
-          <Card className="p-4  ">
-            <CardHeader>
-              <CardTitle className="text-green-900">Citations</CardTitle>
-              <CardDescription className="text-gray-500">These citations need your your attention.</CardDescription>
-            </CardHeader>
-            <CardContent>
-              <div className="grid gap-4">
-              {citations.length==0 && <p>No citations</p>}
-                {citations.map(research=>(
-                  <div key={research.id} className="flex items-center gap-2">
-                  <div className="bg-[#9b59b6] rounded-md flex items-center justify-center aspect-square w-10">
-                    <UploadIcon className="w-5 h-5 text-green-900" />
-                  </div>
-                  <div className="grid gap-0.5">
-                    <div className="text-sm font-medium text-green-900">
-                      New paper uploaded: Advances in Quantum Computing
-                    </div>
-                    <div className="text-xs text-gray-500">2 days ago</div>
-                  </div>
-                </div>
-                ))}
-              </div>
-            </CardContent>
-          </Card>
-        </div>
+    <div className="w-full max-w-7xl mx-auto p-4 md:p-6 lg:p-8 space-y-8" id='overview'>
+      <HandAnimation />
+      
+      <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
+      <StatCard title="Total Research" value={researchNo} icon={BookOpenIcon} change={5} />
+        <StatCard title="Published Research" value={publishedNo.length} icon={BookOpenIcon} change={5} />
+        <StatCard title="Pending Research" value={Pending.length} icon={ClockIcon} change={-2} />
+        <StatCard title="Approved Research" value={approved.length} icon={CheckCircleIcon} change={8} />
+        <StatCard title="Suvery Number" value={surveyNo} icon={DownloadIcon} change={15} />
       </div>
+
+      <Tabs defaultValue="approved" className="w-full">
+        <TabsList className="grid w-full grid-cols-2">
+          <TabsTrigger value="approved">Approved Research</TabsTrigger>
+          <TabsTrigger value="pending">Pending Research</TabsTrigger>
+        </TabsList>
+        <TabsContent value="approved">
+          {
+            approved.length === 0 && <p>No Approve List</p>
+          }
+              <div className="relative">
+                <ScrollArea className="w-full whitespace-nowrap rounded-md border border-gray-200 bg-white bg-opacity-10 backdrop-blur-md">
+                  <div className="flex space-x-4 p-4">
+                    {approved.map((item, index) => (
+                      <ResearchCard key={index} item={item}  />
+                    ))}
+                  </div>
+                  <ScrollBar orientation="horizontal" />
+                </ScrollArea>
+                
+              </div>
+        </TabsContent>
+        <TabsContent value="pending">
+        {
+            Pending.length === 0 && <p>No Pending List</p>
+          }
+              <div className="relative">
+                <ScrollArea className="w-full whitespace-nowrap rounded-md border border-gray-200 bg-white bg-opacity-10 backdrop-blur-md">
+                  <div className="flex space-x-4 p-4">
+                    {Pending.map((item, index) => (
+                      <ResearchCard key={index} item={item} />
+                    ))}
+                  </div>
+                  <ScrollBar orientation="horizontal" />
+                </ScrollArea>
+                
+              </div>
+        </TabsContent>
+      </Tabs>
     </div>
-  )
-}
-
-function EyeIcon(props:any) {
-  return (
-    <svg
-      {...props}
-      xmlns="http://www.w3.org/2000/svg"
-      width="24"
-      height="24"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="2"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    >
-      <path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z" />
-      <circle cx="12" cy="12" r="3" />
-    </svg>
-  )
-}
-
-
-function FileIcon(props:any) {
-  return (
-    <svg
-      {...props}
-      xmlns="http://www.w3.org/2000/svg"
-      width="24"
-      height="24"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="2"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    >
-      <path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z" />
-      <path d="M14 2v4a2 2 0 0 0 2 2h4" />
-    </svg>
-  )
-}
-
-
-function MessageCircle(props:any) {
-  return (
-    <svg
-      {...props}
-      xmlns="http://www.w3.org/2000/svg"
-      width="24"
-      height="24"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="2"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    >
-      <path d="M7.9 20A9 9 0 1 0 4 16.1L2 22Z" />
-    </svg>
-  )
-}
-
-
-function PaperclipIcon(props:any) {
-  return (
-    <svg
-      {...props}
-      xmlns="http://www.w3.org/2000/svg"
-      width="24"
-      height="24"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="2"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    >
-      <path d="m21.44 11.05-9.19 9.19a6 6 0 0 1-8.49-8.49l8.57-8.57A4 4 0 1 1 18 8.84l-8.59 8.57a2 2 0 0 1-2.83-2.83l8.49-8.48" />
-    </svg>
-  )
-}
-
-
-function TrendingUpIcon(props:any) {
-  return (
-    <svg
-      {...props}
-      xmlns="http://www.w3.org/2000/svg"
-      width="24"
-      height="24"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="2"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    >
-      <polyline points="22 7 13.5 15.5 8.5 10.5 2 17" />
-      <polyline points="16 7 22 7 22 13" />
-    </svg>
-  )
-}
-
-
-function UploadIcon(props:any) {
-  return (
-    <svg
-      {...props}
-      xmlns="http://www.w3.org/2000/svg"
-      width="24"
-      height="24"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="2"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    >
-      <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
-      <polyline points="17 8 12 3 7 8" />
-      <line x1="12" x2="12" y1="3" y2="15" />
-    </svg>
-  )
-}
-
-
-function UsersIcon(props:any) {
-  return (
-    <svg
-      {...props}
-      xmlns="http://www.w3.org/2000/svg"
-      width="24"
-      height="24"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="2"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    >
-      <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2" />
-      <circle cx="9" cy="7" r="4" />
-      <path d="M22 21v-2a4 4 0 0 0-3-3.87" />
-      <path d="M16 3.13a4 4 0 0 1 0 7.75" />
-    </svg>
   )
 }

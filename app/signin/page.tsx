@@ -36,21 +36,8 @@ export default async function page() {
     redirect('/mw/dashboard')
   }
   return (
-      <div className="relative flex items-center justify-center h-screen bg-white w-full">
-        <div className="absolute inset-x-0  bottom-0 h-[10rem] bg-[#2a2e7c] -skew-y-12 origin-top-left" />
-        <div className="absolute inset-x-0  bottom-0 h-[10rem] bg-[#2a2e7c] origin-bottom-right" />
-        <div className="z-10 p-6 gap-6">
+ 
           <SigninForm />
-          <div className='flex justify-between items-end pt-5'>
-            <div className='flex gap-5 items-center'>
-                <Facebook className='h-4 w-4 text-white' />
-                <InstagramLogoIcon className='h-4 w-4 text-white' />
-                <TwitterLogoIcon className='h-4 w-4 text-white' />
-            </div>
-            <p className='text-xs text-white flex items-center'><Copyright className='h-4 w-4 font-extralight' /> Kuhesmedlab</p>
-        </div>
-        </div>
-      </div>
-    
+         
   )
 }

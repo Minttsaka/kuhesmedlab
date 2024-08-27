@@ -25,33 +25,31 @@ To read more about using these font, please visit the Next.js documentation:
 **/
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
+import { Mail } from 'lucide-react'
 
 export function VerifyEmail() {
   return (
-    <div className="flex min-h-[100dvh] items-center justify-center bg-gray-50 px-4 py-12 dark:bg-gray-950">
-      <div className="mx-auto w-full max-w-md space-y-6 rounded-xl bg-white p-8 shadow-lg dark:bg-gray-900">
-        <div className="space-y-2 text-center">
-          <MailIcon className="mx-auto h-12 w-12 text-primary-500" />
-          <h2 className="text-2xl font-bold tracking-tight">Verify Your Account</h2>
-          <p className="text-gray-500 dark:text-gray-400">
-            We have sent a verification email to your inbox. Please check your email and click the verification link to
-            activate your account.
-          </p>
-        </div>
-        <div>
-          <Button className="w-full">
+    <Card className="w-full max-w-md">
+          <CardHeader>
+            <CardTitle className="text-2xl text-yellow-400 font-bold text-center">Check Your Email</CardTitle>
+            <CardDescription className="text-center">We have sent a verification link to your email address</CardDescription>
+          </CardHeader>
+          <CardContent className="flex flex-col items-center space-y-4">
+            <div className="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center">
+              <Mail className="w-8 h-8 text-blue-600" />
+            </div>
+            <p className="text-center text-sm text-gray-600">
+              Please click on the link in the email to verify your account. If you dont see the email, check your spam folder.
+            </p>
             <Link className="flex items-center justify-center gap-2" href="https://accounts.google.com/b/0/AddMailService">
-              <MailIcon className="h-5 w-5" />
-              Verify Email
+            <Button className="w-full bg-blue-600 hover:bg-blue-700">
+              Resend Verification Email
+            </Button>
             </Link>
-          </Button>
-        </div>
-        <div className="text-center text-sm text-gray-500 dark:text-gray-400">
-          If you did not receive the email, please try again.
-          
-        </div>
-      </div>
-    </div>
+          </CardContent>
+        </Card>
+
   )
 }
 

@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { use, useEffect, useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
@@ -8,58 +8,86 @@ import { Label } from "@/components/ui/label"
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
 import { Textarea } from "@/components/ui/textarea"
 import { Progress } from "@/components/ui/progress"
-import { ChevronRightIcon } from 'lucide-react'
-import { Option, Survey, SurveyForm, } from '@prisma/client'
+import { ChevronRightIcon, Heart } from 'lucide-react'
+import { Option, Prisma, Survey, SurveyForm, User, } from '@prisma/client'
 import { StarIcon } from '@radix-ui/react-icons'
+import QuestionnaireGuidelines from './QuestionnaireGuidelines'
+import { v4 as uuidv4 } from 'uuid';
+import axios from 'axios'
+import { setCookie } from '@/lib/actions'
+import Link from 'next/link'
 
-interface SurveyQuestionsProps {
-  forms: Forms
-}
+export type ResearchWithAllRelations = Prisma.SurveyFormGetPayload<{
+  include:{
+    survey:true,
+    questions:{
+      include:{
+        options:true
+      }
+    }
+  }
+}>;
 
-type SurveyFormQuestion = {
-  id: string;
-  title: string;
-  image: string | null;
-  type: "Paragraph" |"Multiple_Choice"|"Short_Answer"|"Rating";
-  rating: number | null;
-  formId: string;
-  author: string;
-  options: Option[]
-  authorId: string;
-  createdAt: Date;
-}
 
-interface Forms {
-  id: string;
-  title: string;
-  description: string;
-  recommendation: string;
-  identity: boolean;
-  creatorId: string;
-  creatorName: string;
-  questions: SurveyFormQuestion[];
-  survey: Survey;
-  surveyId: string;
-  createdAt: Date;
-}
-
-export default function SurveyQuestions({ forms }: SurveyQuestionsProps) {
+export default function SurveyQuestions({ forms, sessionid ,user }: {forms:ResearchWithAllRelations, sessionid :string | undefined, user:User}) {
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0)
   const [answers, setAnswers] = useState<Record<string, string>>({})
   const [isCompleted, setIsCompleted] = useState(false)
+  const [id, setId]=useState<string>()
+  const [isIntro, setIsIntro] = useState<boolean>(true)
+  const [isAnswered, setIsAnswered] = useState<boolean>(false)
 
-  //const currentForm = forms.questions[currentQuestionIndex]; // Assuming you are dealing with the first form in the array.
+  const getActionToken =async()=>{
+    const idFromServer= await setCookie()
+    setId(idFromServer)
+  }
+
+
+  useEffect(() => {
+    const savedProgress = localStorage.getItem(forms.title);
+    if (savedProgress !== null) {
+      setCurrentQuestionIndex(parseInt(savedProgress, 10));
+    }
+  }, []);
+
+  useEffect(()=>{
+    if(sessionid){
+      setId(sessionid)
+    }
+    if(!user && sessionid===undefined){
+      getActionToken()
+    }
+    
+  },[])
+
   const currentQuestion = forms.questions[currentQuestionIndex]
   const progress = ((currentQuestionIndex + 1) / forms.questions.length) * 100
 
-  const handleAnswer = (answer: string) => {
+  const handleAnswer = async (answer: string) => {
+
+    console.log("actual answer: ",answer,"prev answer:",answers[currentQuestion.id])
+
+    try {
+      await axios.post('/api/answer',{
+       answer,
+       userId:id,
+       questionId:currentQuestion.id,
+       
+      })
+    } catch (error) {
+      
+    } finally{
+      setIsAnswered(true)
+    }
     setAnswers(prev => ({ ...prev, [currentQuestion.id]: answer }))
+    localStorage.setItem(forms.title, (currentQuestionIndex + 1).toString());
     
   }
 
   const handleNext = () => {
     if (currentQuestionIndex < forms.questions.length - 1) {
       setCurrentQuestionIndex(prev => prev + 1)
+      setIsAnswered(false)
     } else {
       setIsCompleted(true)
     }
@@ -71,14 +99,14 @@ export default function SurveyQuestions({ forms }: SurveyQuestionsProps) {
     }
   }
 
-  const array = Array.from({ length: currentQuestion.rating! }, (_, i) => i + 1);
+  const array = Array.from({ length: currentQuestion?.rating! }, (_, i) => i + 1);
 
   const renderQuestion = () => {
     switch (currentQuestion?.type) {
       case 'Rating':
         return (
           <>
-           <Label className='text-black' htmlFor="answer">{currentQuestion.title}</Label>
+           <Label className='text-indigo-700' htmlFor="answer">{currentQuestion.title}</Label>
            <div className="flex items-center space-x-1">
             {array.map((star) => (
               <StarIcon
@@ -97,7 +125,7 @@ export default function SurveyQuestions({ forms }: SurveyQuestionsProps) {
       case 'Short_Answer':
         return (
           <div className="space-y-2">
-            <Label className='text-black' htmlFor="answer">{currentQuestion.title}</Label>
+            <Label className='text-indigo-700' htmlFor="answer">{currentQuestion.title}</Label>
             <Input
               id="answer"
               placeholder="Type your answer here"
@@ -108,7 +136,7 @@ export default function SurveyQuestions({ forms }: SurveyQuestionsProps) {
       case 'Multiple_Choice':
         return (
           <div className="space-y-2">
-            <Label className='text-black'>{currentQuestion.title}</Label>
+            <Label className='text-indigo-700'>{currentQuestion.title}</Label>
             <RadioGroup onValueChange={handleAnswer}>
               {currentQuestion.options?.map((option) => (
                 <div key={option.id} className="flex items-center space-x-2">
@@ -122,7 +150,7 @@ export default function SurveyQuestions({ forms }: SurveyQuestionsProps) {
       case 'Paragraph':
         return (
           <div className="space-y-2">
-            <Label className='text-black' htmlFor="answer">{currentQuestion.title}</Label>
+            <Label className='text-indigo-700' htmlFor="answer">{currentQuestion.title}</Label>
             <Textarea
               id="answer"
               placeholder="Type your answer here"
@@ -136,19 +164,92 @@ export default function SurveyQuestions({ forms }: SurveyQuestionsProps) {
   }
 
   const renderSummary = () => (
-    <div className="space-y-4">
-      <h2 className=" font-bold">Survey Completed</h2>
-      <div className="space-y-2">
-        {forms.questions.map((question) => (
-          <div key={question.id} className="bg-white bg-opacity-75 p-4 rounded-md">
-            <p className="font-semibold">{question.title}</p>
-            <p className="text-gray-600">{answers[question.id]}</p>
-          </div>
-        ))}
+    <div className="flex items-center justify-center h-full">
+      <div>
+        {/* <div className="space-y-2">
+          {forms.questions.map((question) => (
+            <div key={question.id} className="bg-white bg-opacity-75 p-4 rounded-md">
+              <p className="font-semibold">{question.title}</p>
+              <p className="text-gray-600">{answers[question.id]}</p>
+            </div>
+          ))}
+        </div> */}
+        <motion.div
+          initial={{ opacity: 0, scale: 0.5 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ duration: 0.5 }}
+          className="bg-white rounded-lg max-w-md w-full text-center"
+        >
+          <motion.div
+            animate={{
+              scale: [1, 1.2, 1],
+            }}
+            transition={{
+              duration: 1,
+              repeat: Infinity,
+              repeatType: "reverse",
+            }}
+            className="inline-block"
+          >
+            <Heart className="w-16 h-16 text-red-500 mx-auto mb-4" />
+          </motion.div>
+          <motion.h2
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.3, duration: 0.5 }}
+            className="text-3xl font-bold text-gray-800 mb-4"
+          >
+            Thank You!
+          </motion.h2>
+          <motion.p
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.5, duration: 0.5 }}
+            className="text-lg text-gray-600 mb-6"
+          >
+            Your participation in our survey means the world to us. Your insights will help shape a better future.
+          </motion.p>
+          <motion.p
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.7, duration: 0.5 }}
+            className="text-sm text-gray-500 italic"
+          >
+            &lsquo;Alone we can do so little; together we can do so much.&rsquo;- Helen Keller
+          </motion.p>
+        </motion.div>
+        <div className='flex mt-2 justify-center'>
+          <Link href={'/survey'}>
+          <button className="bg-slate-800 no-underline group cursor-pointer relative shadow-2xl shadow-zinc-900 rounded-full p-px text-xs font-semibold leading-6  text-white inline-block">
+            <span className="absolute inset-0 overflow-hidden rounded-full">
+              <span className="absolute inset-0 rounded-full bg-[image:radial-gradient(75%_100%_at_50%_0%,rgba(56,189,248,0.6)_0%,rgba(56,189,248,0)_75%)] opacity-0 transition-opacity duration-500 group-hover:opacity-100" />
+            </span>
+            <div className="relative flex space-x-2 items-center z-10 rounded-full bg-zinc-950 py-0.5 px-4 ring-1 ring-white/10 ">
+              <span>
+                Exit
+              </span>
+              <svg
+                fill="none"
+                height="16"
+                viewBox="0 0 24 24"
+                width="16"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M10.75 8.75L14.25 12L10.75 15.25"
+                  stroke="currentColor"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth="1.5"
+                />
+              </svg>
+            </div>
+            <span className="absolute -bottom-0 left-[1.125rem] h-px w-[calc(100%-2.25rem)] bg-gradient-to-r from-emerald-400/0 via-emerald-400/90 to-emerald-400/0 transition-opacity duration-500 group-hover:opacity-40" />
+          </button>
+          </Link>
+        </div>
       </div>
-      <Button onClick={() => console.log('Submit survey:', answers)}>
-        Submit Survey
-      </Button>
+      
     </div>
   )
 
@@ -166,38 +267,41 @@ export default function SurveyQuestions({ forms }: SurveyQuestionsProps) {
       </svg>
       <div className="max-w-2xl w-full bg-white bg-opacity-90 p-8 rounded-lg shadow-lg space-y-8 relative z-10">
         <h1 className=" font-bold text-center text-gray-800">{forms.title}</h1>
-        {!isCompleted && (
+        {!isCompleted && !isIntro && (
           <Progress value={progress} className="w-full" />
         )}
         <AnimatePresence mode="wait">
-          {!isCompleted ? (
-            <motion.div
-              key={currentQuestionIndex}
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -20 }}
-              transition={{ duration: 0.3 }}
-              className="space-y-4"
-            >
-              {renderQuestion()}
-              <div className="mt-6 flex justify-between">
-              <Button onClick={handlePrevious} disabled={currentQuestionIndex === 0}>
-                Previous
-              </Button>
-             
-                <Button onClick={handleNext}>Next</Button>
-              
-            </div>
-            </motion.div>
-          ) : (
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.3 }}
-            >
-              {renderSummary()}
-            </motion.div>
-          )}
+            {!isCompleted ? (
+              !isIntro ? (
+                <motion.div
+                  key={currentQuestionIndex}
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -20 }}
+                  transition={{ duration: 0.3 }}
+                  className="space-y-4"
+                >
+                  {renderQuestion()}
+                  <div className="mt-6 flex justify-between">
+                    <Button onClick={handlePrevious} disabled={currentQuestionIndex === 0}>
+                      Previous
+                    </Button>
+                    <Button onClick={handleNext} disabled={!isAnswered}>Next</Button>
+                  </div>
+                </motion.div>
+              ) : (
+                <QuestionnaireGuidelines setIsIntro={setIsIntro!} />
+              )
+            ) : (
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.3 }}
+              >
+                {renderSummary()}
+              </motion.div>
+            )}
+
         </AnimatePresence>
       </div>
     </div>

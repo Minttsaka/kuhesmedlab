@@ -48,7 +48,7 @@ const people = [
 
 export function GroupMembers() {
   return (
-    <div className="flex flex-row items-center justify-center mb-10 w-full">
+    <div className="flex my-3 w-full">
       <AnimatedTooltip items={people} />
     </div>
   );

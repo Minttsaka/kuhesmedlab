@@ -3,10 +3,11 @@
 * @see https://v0.dev/t/Nj23XOUPrkD
 * Documentation: https://v0.dev/docs#integrating-generated-code-into-your-nextjs-app
 */
-
-import { RegisterForm } from "@/components/register-form";
-import { InstagramLogoIcon, StarFilledIcon, TwitterLogoIcon } from '@radix-ui/react-icons'
-import { Copyright, Facebook } from 'lucide-react'
+import Practice2 from "@/components/Practice2"
+//import { SignupBg } from "@/components/ui/SigninupBg"
+import { prisma } from "@/lib/prisma"
+import dynamic from "next/dynamic";
+import React from "react"
 
 
 /** Add fonts into your Next.js project:
@@ -22,55 +23,24 @@ To read more about using these font, please visit the Next.js documentation:
 - App Directory: https://nextjs.org/docs/app/building-your-application/optimizing/fonts
 - Pages Directory: https://nextjs.org/docs/pages/building-your-application/optimizing/fonts
 **/
-export default function page() {
+
+
+const DynamicHeader = dynamic(() => import('@/components/ui/SigninupBg'), {
+  ssr: false,
+})
+
+
+export default async function page() {
+
+  const institutions = await prisma.institution.findMany({
+    orderBy:{
+      createdAt:"desc"
+    }
+  })
   return (
-      <div className="relative h-screen bg-[#f7fafc] w-full">
-        <h2 className="absolute inset-x-2 top-2 hidden md:block text-9xl font-extrabold text-white">kuhesmedlab</h2>
-        <div className="absolute inset-x-0  bottom-0 h-[30rem] bg-white -skew-y-12 origin-top-left" />
-        <div className="absolute inset-x-0  bottom-0 h-[30rem] bg-white origin-bottom-right" />
-        <div className="relative max-w-7xl mx-auto z-10 md:grid grid-cols-2 items-center p-6 gap-6">
-          <div className="hidden max-w-lg md:flex flex-col gap-4 text-start ">
-            <h2 className="font-extrabold">Kuhesmedlab</h2>
-            <div className="flex gap-2 ">
-                <StarFilledIcon className="h-6 w-6 text-[green]" />
-                <div>
-                    <h2 className="font-bold mb-2 text-gray-700">Get Started with KUHESMEDLAB</h2>
-                    <p className=" text-gray-400">
-                    Join our community of medical laboratory professionals and researchers to access cutting-edge tools, 
-                    AI-driven insights, and collaboration opportunities.
-                     Start exploring our resources, sharing your expertise,
-                      and driving innovation in medical laboratory science today!
-                    </p>
-                </div>
-            </div>
-            <div className="flex gap-2 items-start">
-                <StarFilledIcon className="h-6 w-6 text-[green]" />
-                <div>
-                    <h2 className="font-bold mb-2 text-gray-700">Unlock New Insights, Drive Innovation</h2>
-                    <p className=" text-gray-400">Explore our AI-driven tools and resources, designed to help medical laboratory professionals and researchers.</p>
-                </div>
-            </div>
-            <div className="flex gap-2 items-start">
-                <StarFilledIcon className="h-6 w-6 text-[green]" />
-                <div>
-                    <h2 className="font-bold mb-2 text-gray-700">Collaborate and Share Knowledge</h2>
-                    <p className=" text-gray-400">
-                    Connect with peers, share expertise, and drive innovation in medical laboratory science
-                    </p>
-                </div>
-            </div>
-          </div>
-          <RegisterForm />
-          <div className='flex justify-between items-center pt-5'>
-            <div className='flex gap-5 items-center'>
-                <Facebook className='h-4 w-4 text-white' />
-                <InstagramLogoIcon className='h-4 w-4 text-white' />
-                <TwitterLogoIcon className='h-4 w-4 text-white' />
-            </div>
-            <p className=' text-gray-500 text-xs  gap-1 flex items-center'><Copyright className='h-4 w-4 font-extralight' /> Kuhesmedlab</p>
-        </div>
-        </div>
-      </div>
+      <DynamicHeader>
+        <Practice2 institutions={institutions!} />
+      </DynamicHeader>
     
   )
 }

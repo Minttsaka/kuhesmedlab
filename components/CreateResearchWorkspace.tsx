@@ -95,7 +95,7 @@ export default function CreateResearchWorkspace() {
       conference,
     })
     router.push(`/mw/publication/${response.data}`)
-      toast.success("The User Registered Successfully.");
+      toast.success("The research was successfully created.");
       
   } catch (error) {
     console.log(error)

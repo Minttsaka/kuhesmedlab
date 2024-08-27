@@ -8,6 +8,7 @@ import { z } from "zod";
 const FormSchema = z.object({
     title: z.string().min(2, "First name must be at least 2 characters"),
     description:z.string(),
+    label:z.string(),
     researchId:z.string()
   });
 
@@ -28,7 +29,7 @@ export const POST = async (req: Request,res:Response) => {
 
     const body = await req.json()
 
-    const {title ,description, researchId } = FormSchema.parse(body)
+    const {title ,description, researchId, label } = FormSchema.parse(body)
 
   try {
 
@@ -46,6 +47,7 @@ export const POST = async (req: Request,res:Response) => {
             creatorId:user?.id,
             creatorName:user?.name!,
             description,
+            label,
             research: {
                 connect: {
                   id: research.id,

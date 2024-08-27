@@ -19,15 +19,12 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <div className='bg-[#b6ebec] min-h-screen p-3 md:p-6 w-full'>
-    <div className='bg-white bg-opacity-20  w-full rounded-3xl md:p-6 border-2 border-white'>
-      <div className='flex min-h-screen bg-white bg-opacity-40  rounded-3xl pb-5'>
+    <div className='bg-[#b6ebec] w-full min-h-screen p-3 md:p-6'>
+    <div className='bg-white bg-opacity-20  rounded-3xl md:p-6 border-2 border-white'>
+      <div className='min-h-screen bg-white bg-opacity-40  rounded-3xl pb-5'>
         <ResearchSideBar />
-        <div className="w-full ">
           <ResearchNavBar />
-          {children}
-        </div>
-        
+          {children}       
         </div>
       </div>
     </div>

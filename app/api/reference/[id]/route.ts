@@ -17,22 +17,20 @@ export async function GET(req: NextRequest) {
       return NextResponse.json({ error: "ID parameter is missing" }, { status: 400 });
     }
 
-    console.log("params", id);
-
-    const formsQuestions = await prisma.surveyFormQuestion.findMany({
+    const reference = await prisma.reference.findMany({
       where: { 
-        formId:id
+        researchId:id
        },
        
     });
 
-    console.log("forms", formsQuestions )
+    console.log("forms", reference )
 
-    if (!formsQuestions ) {
+    if (!reference ) {
       throw new Error("Formquestions not found");
     }
 
-    return NextResponse.json(formsQuestions )
+    return NextResponse.json(reference )
   } catch (error: any) {
     console.error("Error creating form:", error);
     return NextResponse.json({ error: error.message }, { status: 500 });
@@ -71,8 +69,7 @@ export async function POST(req: NextRequest) {
     
     Reference Data:
     ${referenceString}
-    
-    Output:
+
     `;
 
   const response = await openai.createChatCompletion({

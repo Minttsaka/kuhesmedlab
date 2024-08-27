@@ -1,10 +1,10 @@
-import { VerifyEmail } from '@/components/verify-email'
 import React from 'react'
+import ContactFirst from '@/components/ContactFirst'
 
 export default function page() {
   return (
     <div>
-      <VerifyEmail />
+      <ContactFirst />
     </div>
   )
 }

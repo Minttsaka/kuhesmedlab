@@ -1,99 +1,101 @@
+"use client"
+
 import React from 'react'
-import { Card, CardHeader, CardTitle, CardDescription, CardContent, CardFooter } from "@/components/ui/card"
-import { Research, User } from '@prisma/client'
-import { cn } from '@/lib/utils'
-import Link from 'next/link';
-import { getServerSession } from 'next-auth';
-import { authOptions } from '@/lib/auth';
-import { prisma } from '@/lib/prisma';
-
+import { Card, CardHeader, CardTitle, CardDescription, CardContent, } from "@/components/ui/card"
+import { motion } from "framer-motion"
+import { Heart, AlertCircle } from "lucide-react"
+import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert"
   
 
-export default async function CreateResearchForm({ id }:{ id:string }) {
 
-  const session:any = await getServerSession(authOptions);
-    const sessionUser = (session.user as User);
-  
-    const user = await prisma.user.findUnique({
-      where:{
-        id:sessionUser.id
-      }
-    })
+import { useState, useEffect } from 'react'
+import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area"
+import { ChevronLeft, ChevronRight, ExternalLink } from 'lucide-react'
+import { Research } from '@prisma/client'
 
-    const researchList = await prisma.research.findMany({
-      where:{
-        creatorId:user?.id
-      }
-    })
+interface ResearchItem {
+  authors: string
+  title: string
+  journal: string
+  bookTitle: string
+  publisher: string
+  volume: string
+  issue: string
+  pages: string
+  year: string
+  doi: string
+  url: string
+}
+
+export default function CreateResearchForm({ researchList , id }:{ researchList:Research[], id:string }) {
+
   return (
-    <div className='rounded-lg my-8'>
-        <div className='mb-10'>
-            <h2 className='text-xl md:text-3xl font-bold text-green-900'>Your Research List</h2>
-            <p className='max-w-md'>All the details for individual research can be found by scrolling down below research list</p>
+    <div className="overflow-hidden z-20 relative bg-gradient-to-r from-background to-secondary p-6" id='list'>
+      <div className="relative z-10">
+        <h2 className="text-4xl font-extrabold tracking-tight mb-2">Your Research</h2>
+        <h4 className="text-gray-600">You will find the details of individual research when scrolling.</h4>
+      </div>
+      <div className="relative z-10">
+        <div className="relative">
+          <ScrollArea className="w-full ">
+            {researchList.length ===0 && 
+            <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.9, duration: 0.5 }}
+          >
+            <Alert variant="destructive">
+              <AlertCircle className="h-4 w-4" />
+              <AlertTitle>No Research Found</AlertTitle>
+              <AlertDescription>
+                We havent found any specific research matching your criteria yet. However, your input is still extremely valuable for our ongoing studies.
+              </AlertDescription>
+            </Alert>
+          </motion.div>}
+            <div className="flex space-x-4 p-4">
+              {researchList?.map((item, index) => (
+                <ResearchCard key={index} item={item} id={id} />
+              ))}
+            </div>
+            <ScrollBar orientation="horizontal" />
+          </ScrollArea>
+          
         </div>
-        <div className='max-h-[70vh] lg:max-h-full grid lg:flex overflow-y-auto lg:overflow-x-auto lg:w-full gap-1'>
-          {researchList.length===0 && (
-            <Card className="w-full max-w-md ">
-            <CardHeader>
-              <CardTitle>No Research Conducted</CardTitle>
-            </CardHeader>
-            <CardContent className="space-y-4">
-              <CardDescription>
-                It looks like you havent started your research yet. Get started by exploring our library of resources and
-                data to uncover valuable insights.
-              </CardDescription>
-              
-            </CardContent>
-          </Card>
-          )}
- 
-          {(researchList as Research[])?.map((research,index) => (
-                <Link  href={`/mw/publication/${research.id}`} key={research.id} className={cn(' bg-white p-10 rounded-3xl space-y-0',{
-                  "border border-green-500":research.id===id
-                })}>
-                  <div className='font-bold md:text-xl'>
-                      {research.title}
-                  </div>
-                  <div>
-                      <div className='text-gray-500'>
-                          {research.abstract}
-                      </div>
-                  </div>
-                  <div className='flex flex-col'>
-                      {/* <GroupMembers /> */}
-                      <p className='text-xs text-gray-500'>{new Date(research.createdAt).toDateString()}</p>
-                    </div>
-                  </Link>
-          ))}
-
-        </div>
-
+      </div>
+      <style jsx global>{`
+        @keyframes gradient {
+          0% { background-position: 0% 50%; }
+          50% { background-position: 100% 50%; }
+          100% { background-position: 0% 50%; }
+        }
+      `}</style>
     </div>
   )
 }
 
-const LoadingSpinner: React.FC = () => {
+function ResearchCard({ item, id }: { item: Research; id: string }) {
   return (
-    <svg
-      className="animate-spin h-10 w-10 text-gray-500"
-      xmlns="http://www.w3.org/2000/svg"
-      fill="none"
-      viewBox="0 0 24 24"
-    >
-      <circle
-        className="opacity-25"
-        cx="12"
-        cy="12"
-        r="10"
-        stroke="currentColor"
-        strokeWidth="4"
-      ></circle>
-      <path
-        className="opacity-75"
-        fill="currentColor"
-        d="M4 12a8 8 0 018-8v8H4z"
-      ></path>
-    </svg>
-  );
-};
+    <Card className={`w-80 shrink-0 transition-all duration-300 bg-white shadow ${id===item.id ? 'scale-105 shadow-lg' : 'scale-100 opacity-70'}`}>
+      <CardHeader>
+        <CardTitle className="text-lg font-semibold line-clamp-2">{item.title}</CardTitle>
+        <CardDescription className="text-sm text-blue-400">{item.status}</CardDescription>
+      </CardHeader>
+      <CardContent className="text-sm text-gray-500">
+        <p className='line-clamp-1'><span className="font-semibold">Journal:</span> {item.journal}</p>
+        {item.Published && <p><span className="font-semibold">Published Date:</span> {item.publicationDate?.toDateString()}</p>}
+        <p className='line-clamp-1'><span className="font-semibold">Field:</span> {item.field}</p>
+        <p className='line-clamp-1'><span className="font-semibold">Volume:</span> {item.volume}, <span className="font-semibold">Issue:</span> {item.issue}</p>
+        <p className='line-clamp-1'><span className="font-semibold">Affiliation:</span> {item.affiliation}</p>
+        <p className='line-clamp-1'><span className="font-semibold">Year Created:</span> {item.createdAt.toDateString()}</p>
+        <p className='line-clamp-1'> <span className="font-semibold">DOI:</span> {item.doi}</p>
+        <a
+          href={`/mw/publication/${item.id}`}
 
+          className="inline-flex items-center mt-2 hover:underline"
+        >
+          View Research <ExternalLink className="ml-1 h-4 w-4" />
+        </a>
+      </CardContent>
+    </Card>
+  )
+}

@@ -1,6 +1,12 @@
+
 import { SurveyAnalytics } from '@/components/survey-analytics';
 import { SurveyCreator } from '@/components/survey-creator'
 import { SurveyForms } from '@/components/SurveyCollabo';
+import SurveyDashboard from '@/components/SurveyDashboard';
+import SurveyHeader from '@/components/SurveyHeader';
+import SurveyOverallAnalysis from '@/components/SurveyOverallAnalysis';
+import SurveyQuestionnaire from '@/components/SurveyQuestionaires';
+import SurveyQuestionnaireList from '@/components/SurveyQuestionnaireList';
 import { prisma } from '@/lib/prisma';
 import React from 'react'
 
@@ -36,12 +42,15 @@ export default async function page({ params: { slug } }: Props) {
   })
 
   return (
-    <div className='lg:w-full flex'>
-      <div className=''>
-        <SurveyCreator survey={survey!} research={research!} />
+    <div className='lg:w-full min-h-screen'>
+      <SurveyHeader />
+      <SurveyQuestionnaireList surveyId={surveyId}  />
+        <SurveyDashboard />
+        <SurveyQuestionnaire />
+        <SurveyOverallAnalysis />
+        {/* <SurveyCreator survey={survey!} research={research!} />
         <SurveyAnalytics />
-      </div>
-      <SurveyForms surveyId={surveyId}  />
+      <SurveyForms surveyId={surveyId}  /> */}
       
     </div>
   )

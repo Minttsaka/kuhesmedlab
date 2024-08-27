@@ -46,6 +46,8 @@ const FormSchema = z.object({
   .min(2, "First name must be at least 2 characters"),
   recommendation: z.string()
   .min(2, "First name must be at least 2 characters"),
+  label: z.string()
+  .min(2, "First name must be at least 2 characters"),
 });
 
 type InputType = z.infer<typeof FormSchema>;
@@ -94,12 +96,13 @@ export function SurveyForms({surveyId}:{surveyId:string}) {
 
     console.log(data,  "data")
 
-    const {title,  recommendation, description} = data
+    const {title,  recommendation, description, label} = data
   try {
     const response= await axios.post('/api/form',{
       title,
       description,
       recommendation,
+      label,
       identity:isChecked,
       surveyId
         })
@@ -150,6 +153,16 @@ const formList = Array.isArray(data) ? data : [];
                 <Input
                 {...register("description")}
                   id="description"
+                  className="bg-transparent border-b-2 focus:outline-0 border-b-blue-900"
+                />
+              </div>
+              <div className="">
+                <Label htmlFor="label" className="text-right">
+                Label
+                </Label>
+                <Input
+                {...register("label")}
+                  id="label"
                   className="bg-transparent border-b-2 focus:outline-0 border-b-blue-900"
                 />
               </div>

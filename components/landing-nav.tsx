@@ -26,7 +26,7 @@ function Navbar({ className }: { className?: string }) {
         </Link>
       <Menu setActive={setActive}>
        
-        <MenuItem  setActive={setActive} active={active} item="Products">
+        <MenuItem  setActive={setActive} active={active} item="Research">
             <div className="bg-white p-10 mr-10 text-black rounded-e-2xl">
                     <div className="relative " data-flip-config='{"translate":true,"scale":true,"opacity":true}' data-flip-id="dropdown" data-portal-key="portal" >
                         <div className="flex gap-6 xl:gap-14" data-first-dropdown-section="true">
@@ -38,7 +38,7 @@ function Navbar({ className }: { className?: string }) {
                                             <div className="flex group font-normal transition-colors duration-300 ease" >
                                                 
                                                 <p className="transition-opacity  duration-300 opacity-90 group-hover:opacity-100">
-                                                    <span className="block text-xs font-bold  md:!text-base">Products</span>
+                                                    <span className="block text-xs font-bold  md:!text-base">Research</span>
                                                 </p>
                                             </div>
                                         </a>
@@ -46,6 +46,20 @@ function Navbar({ className }: { className?: string }) {
                                 </ul>
                                 <div className="flex-shrink-0 pl-[50px] mt-4">
                                     <ul className="grid grid-cols-2 gap-4">
+                                    <li className="DropdownItem_dropdownItem__iI2LA m-0 p-0 select-none lg:whitespace-nowrap">
+                                            <a href="#">
+                                                <div className="flex  gap-1.5 md:gap-3 group font-normal transition-colors duration-300 ease" >
+                                                    
+                                                    <div className="h-3 w-3 rounded-full bg-gradient-to-r from-black to-purple-400" />
+
+                                                    <p className="transition-opacity duration-300 opacity-90 group-hover:opacity-100">
+                                                    <Link href={'/publications'}>
+                                                        <span className="block text-gray-600 text-xs  md:!text-base">Publication</span><span className="block text-sm mt-px text-neutral-400">Find the published <br />Research with us</span>
+                                                    </Link>
+                                                    </p>
+                                                </div>
+                                            </a>
+                                        </li>
                                         <li className="DropdownItem_dropdownItem__iI2LA m-0 p-0 select-none lg:whitespace-nowrap">
                                             <a href="#">
                                                 <div className="flex  gap-1.5 md:gap-3 group font-normal transition-colors duration-300 ease" >
@@ -119,21 +133,6 @@ function Navbar({ className }: { className?: string }) {
                                                 </div>
                                             </a>
                                         </li>
-                                        <li className="DropdownItem_dropdownItem__iI2LA m-0 p-0 select-none lg:whitespace-nowrap">
-                                            <a href="/automation">
-                                                <div className="flex  gap-1.5 md:gap-2 group font-normal transition-colors duration-300 ease" >
-                                                    
-                                                    <div className="h-3 w-3 rounded-full bg-gradient-to-r from-black to-purple-400" />
-                                                  
-                                                    <p className="transition-opacity duration-300 opacity-90 group-hover:opacity-100">
-                                                    <Link href={'/automation'}>
-                                                        <span className="block text-gray-600 text-xs  md:!text-base">Automation</span><span className="block text-sm mt-px text-neutral-400">Streamlining repetitive tasks<br /> and processes through automation,<br />  freeing up professionals to<br /> focus on high-value tasks.</span>
-                                                    </Link>
-                                                    </p>
-                                                </div>
-                                            </a>
-                                        </li>
-                                     
                                     </ul>
                                 </div>
                             </div>

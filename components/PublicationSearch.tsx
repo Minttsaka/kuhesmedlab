@@ -22,7 +22,7 @@ export default function PublicationSearch({researchList}:{researchList:Research[
   const filteredArticles = researchList.filter(article =>
     article.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
     article?.abstract?.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    article.journal.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    article.journal?.toLowerCase().includes(searchTerm.toLowerCase()) ||
     keywordsParse(article.keyWords).some(keyword => keyword.toLowerCase().includes(searchTerm.toLowerCase()))
   )
 
@@ -68,7 +68,7 @@ export default function PublicationSearch({researchList}:{researchList:Research[
               <p className="text-sm text-muted-foreground mb-2">
                 {article.creatorName} | {article.journal} | Published: {article.createdAt.toDateString()}
               </p>
-              <p className="text-sm mb-4">DOI: {article.doi}</p>
+              {article.doi && <p className="text-sm mb-4">DOI: {article.doi}</p>}
               <div className="flex flex-wrap gap-2 mb-4">
                 {keywordsParse(article.keyWords).map((keyword, index) => (
                   <Badge key={index} variant="secondary">{keyword}</Badge>

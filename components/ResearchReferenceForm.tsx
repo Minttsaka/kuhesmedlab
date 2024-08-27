@@ -7,11 +7,12 @@ import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { toast } from 'sonner'
-import { Switch } from "@/components/ui/switch"
 import { Progress } from "@/components/ui/progress"
 import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog"
-import { MoonIcon, SunIcon, PlusIcon } from 'lucide-react'
+import { PlusIcon } from 'lucide-react'
 import axios from 'axios'
+import { KeyedMutator } from 'swr'
+import { Reference as Rf } from '@prisma/client'
 
 interface Reference {
   authors: string;
@@ -39,7 +40,7 @@ const useDOIFetch = (doi: string) => {
           setFetchedData({
             title: message.title[0],
             journal: message['container-title'][0],
-            year: message.published['date-parts'][0][0],
+            year: (message.published['date-parts'][0][0]).toString(),
             volume: message.volume,
             issue: message.issue,
             pages: message.page,
@@ -168,7 +169,7 @@ const ReferenceForm = ({
   )
 }
 
-export default function ResearchReferenceForm({researchId}:{researchId:string}) {
+export default function ResearchReferenceForm({researchId, mutate}:{researchId:string, mutate: KeyedMutator<Rf[]>}) {
   const [isOpen, setIsOpen] = useState(false)
   const [darkMode, setDarkMode] = useState(false)
   const [reference, setReference] = useState<Reference>({
@@ -185,7 +186,7 @@ export default function ResearchReferenceForm({researchId}:{researchId:string}) 
     url: ''
   })
 
-  const handleSubmit = async (submittedReference: Reference) => {
+  const handleSubmit = async () => {
     try {
 
       const res =await axios.post(`/api/reference/${researchId}`,{
@@ -196,7 +197,7 @@ export default function ResearchReferenceForm({researchId}:{researchId:string}) 
       } else {
         toast.error("Something went wrong")
       }
-      
+      await mutate()
     } catch (error) {
       console.log(error)
     } finally {

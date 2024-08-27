@@ -1,4 +1,5 @@
 import AboutFooter from '@/components/AboutFooter'
+import BioPractice from '@/components/BioPractice'
 import { BlogList } from '@/components/BlogList'
 import DashboardFinisher from '@/components/DashboarFInisher'
 import DashboaedAIAssist from '@/components/DashboardAIAssist'
@@ -26,14 +27,15 @@ export default async function page() {
   return (
     <div>
         <DashboardNav />
+        {!user?.bio && <BioPractice />}
         <DashboardCarousel />
         <DashboardSolutions />
         <DashboardTraining />
         <DashboardFinisher />
         <BlogList />
-        {!user?.bio
-        && <Bio name={user?.name!} />
-        }
+
+         
+        
         <AboutFooter />
         <DashboaedAIAssist />
     </div>

@@ -1,19 +1,27 @@
 import bcrypt from 'bcrypt';
 import { signJwt } from '@/lib/jwt';
 import { z } from 'zod';
-import { NextResponse } from 'next/server';
+import { NextRequest, NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
 import { compileActivationTemplate, sendMail } from '@/lib/mail';
+import { redirect } from 'next/navigation';
+import { revalidatePath } from 'next/cache';
   
 const FormSchema = z.object({
-  name: z
+  name: z.string().min(2, 'Full name must be at least 2 characters'),
+  email: z.string().email('Invalid email address'),
+  country:z.object({ value: z.string(), label: z.string() }),
+  password: z
     .string()
-    .min(2, "First name must be at least 2 characters")
-    .max(45, "First name must be less than 45 characters"),
-  country:z.string(),
-  email: z.string().email("Please enter a valid email address"),
-  password: z.string().min(4, "First name must be at least 2 characters"),
-});
+    .min(8, 'Password must be at least 8 characters')
+    .regex(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/, 
+      'Password must contain at least one uppercase letter, one lowercase letter, one number, and one special character'),
+  institution: z.object({
+    label: z.string().min(2, 'Institution name must be at least 2 characters'),
+    value: z.string()
+  }),
+  age: z.number().min(18, 'You must be at least 18 years old').max(120, 'Invalid age')
+})
 
   
 
@@ -22,11 +30,12 @@ const FormSchema = z.object({
     const body = await req.json()
 
     const { 
-      
-        email,
-        name,
-        country,
         password,
+        email,
+        institution,
+        age,
+        name,
+        country
 
     } = FormSchema.parse(body);
 
@@ -42,14 +51,26 @@ const FormSchema = z.object({
       }
     )
 
+    const existInstitution = await prisma.institution.findUnique({
+      where:{
+        id:institution.value
+      }
+    })
+
     if(alreadyUser) throw new Error("The email address has been used by another person.")
   
     const newUser = await prisma.user.create({
       data: {
         email,
-        name,
-        country,
         password:hashedPassword,
+        institution:{
+          connect:{
+            id:existInstitution?.id
+          }
+        },
+        age:age.toString(),
+        name,
+        country:country.label
       },
     });
 
@@ -61,12 +82,50 @@ const FormSchema = z.object({
     const activationUrl = `${process.env.NEXTAUTH_URL}/auth/activation/${jwtUserId}`;
     const body = compileActivationTemplate(newUser.name, activationUrl);
     await sendMail({ to: newUser.email, subject: "Activate Your Account", body });
+
+    await prisma.notification.create({
+      data: {
+        to:{
+          connect:{
+            id:newUser.id
+          }
+        },
+        senderId:"1234",
+        from:"KUHESMEDLAB",
+        title:"Welcome to KUHESMEDLAB!",
+        description:"a warm welcome to you",
+        status: 'UNREAD',
+        content:`<div style="font-family: Arial, sans-serif; padding: 20px; border-radius: 8px; border: 1px solid #ddd; max-width: 600px; margin: 0 auto; color: #333;">
+            <h1 style="font-size: 24px; color: #4a90e2; text-align: center; margin-bottom: 20px;">Welcome to kuhesmedlab!</h1>
+            
+            <p style="font-size: 16px; line-height: 1.6; margin-bottom: 20px;">
+              Hello <strong>${newUser.name}</strong>,
+            </p>
+            
+            <p style="font-size: 16px; line-height: 1.6; margin-bottom: 20px;">
+              We're excited to have you on board! Here at Kuhesmedlab, we are dedicated to helping you succeed in your journey. To get started, we have put together some useful links and resources just for you.
+            </p>
+            
+            <a href="[Link to Getting Started Guide]" style="display: inline-block; background-color: #4a90e2; color: #fff; padding: 10px 20px; text-decoration: none; border-radius: 4px; font-size: 16px; margin-bottom: 20px; text-align: center;">Get Started</a>
+            
+            <p style="font-size: 16px; line-height: 1.6; margin-top: 20px;">
+              If you have any questions, feel free to reach out to our support team at any time.
+            </p>
+            
+            <p style="font-size: 14px; line-height: 1.6; color: #888; margin-top: 30px; text-align: center;">
+              Best Regards,<br>
+              The Kuhesmedlab Team
+            </p>
+          </div>
+          `
+      },
+    });
     return NextResponse.json("success");
 
   } catch (error) {
     console.error('Error creating user:', error);
     throw error; 
   } finally {
-    await prisma.$disconnect(); // Disconnect from the Prisma client
+    await prisma.$disconnect(); 
   }
 }
