@@ -51,11 +51,24 @@ const FloatingBubble = ({ delay }: { delay: number }) => (
   />
 )
 
+const bubbleVariants = {
+  hidden: { opacity: 0, y: 20 },
+  visible: { opacity: 1, y: 0, transition: { duration: 0.5 } },
+}
+
+
+const messages = [
+  "Hello there! 👋 Welcome to Kuhesmedlab a research leader!",
+  "I'm your friendly AI assistant, here to make your day brighter! ☀️",
+  "Feel free to ask me anything - I'm full helpful tips!",
+  "Ready to start our delightful journey together? Let's sign in!"
+]
+
 export default function AdorableAIChatWelcome({user}:{user:string}) {
   const containerRef = useRef<HTMLDivElement>(null)
+  const [currentMessageIndex, setCurrentMessageIndex] = useState(0)
   const [dimensions, setDimensions] = useState({ width: 0, height: 0 })
   const [chatMessages, setChatMessages] = useState<string[]>([])
-  const [showSignIn, setShowSignIn] = useState(false)
 
   useEffect(() => {
     const updateDimensions = () => {
@@ -70,24 +83,15 @@ export default function AdorableAIChatWelcome({user}:{user:string}) {
     updateDimensions()
     window.addEventListener('resize', updateDimensions)
 
-    const messages = [
-      "Hello there! 👋 Welcome to our adorable AI app!",
-      "I'm your friendly AI assistant, here to make your day brighter! ☀️",
-      "Feel free to ask me anything - I'm full of fun facts and helpful tips!",
-      "Ready to start our delightful journey together? Let's sign in!"
-    ]
-
-    messages.forEach((message, index) => {
-      setTimeout(() => {
-        setChatMessages(prev => [...prev, message])
-        if (index === messages.length - 1) {
-          setTimeout(() => setShowSignIn(true), 1000)
-        }
-      }, (index + 1) * 2000)
-    })
+    if (currentMessageIndex < messages.length - 1) {
+      const timer = setTimeout(() => {
+        setCurrentMessageIndex(prev => prev + 1)
+      }, 3000)
+      return () => clearTimeout(timer)
+    }
 
     return () => window.removeEventListener('resize', updateDimensions)
-  }, [])
+  }, [currentMessageIndex])
 
   const gridSize = 50
   const horizontalLines = Math.ceil(dimensions.height / gridSize)
@@ -116,7 +120,7 @@ export default function AdorableAIChatWelcome({user}:{user:string}) {
       ))}
 
       <div className="relative z-10 flex items-center justify-center w-full h-full p-4">
-        <Card className="w-full max-w-md bg-white bg-opacity-80 backdrop-blur-md">
+        <Card className="w-full max-w-md bg-opacity-80 backdrop-blur-md">
           <CardContent className="flex flex-col items-start space-y-4 p-6">
             <motion.div
               className="w-16 h-16 text-6xl animate-first bg-gradient-to-br from-pink-400 to-purple-500 rounded-full flex items-center justify-center mb-4 shadow-lg"
@@ -125,18 +129,21 @@ export default function AdorableAIChatWelcome({user}:{user:string}) {
             >
                   👋
             </motion.div>
-            {chatMessages.map((message, index) => (
-              <motion.div
-                key={index}
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.5 }}
-                className="bg-gradient-to-r from-pink-100 to-purple-100 rounded-lg p-3 max-w-[80%] shadow-md"
-              >
-                <p className="text-sm text-gray-800">{message}</p>
-              </motion.div>
-            ))}
-            {showSignIn && (
+            {messages.slice(0, currentMessageIndex + 1).map((message, index) => (
+            <motion.div
+              key={index}
+              variants={bubbleVariants}
+              initial="hidden"
+              animate="visible"
+              className="mb-4"
+            >
+              <div className="bg-white rounded-2xl p-4 shadow-lg max-w-lg mx-auto relative">
+                <div className="absolute -left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 bg-white rounded-full" />
+                <p className="text-gray-800">{message}</p>
+              </div>
+            </motion.div>
+          ))}
+            {currentMessageIndex === messages.length - 1 && (
               <motion.div
                 initial={{ opacity: 0, scale: 0.8 }}
                 animate={{ opacity: 1, scale: 1 }}

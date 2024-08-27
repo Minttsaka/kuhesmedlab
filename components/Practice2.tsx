@@ -12,7 +12,7 @@ import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card'
 import { Progress } from '@/components/ui/progress'
-import { ArrowLeft, ArrowRight, Check, X } from 'lucide-react'
+import { ArrowLeft, ArrowRight, Check, Loader2, X } from 'lucide-react'
 import { Institution } from '@prisma/client'
 import { toast } from 'sonner'
 import axios from 'axios'
@@ -53,6 +53,7 @@ export default function Practice2({institutions}:{institutions:Institution[]}) {
   const [currentStep, setCurrentStep] = useState(0)
   const [passwordStrength, setPasswordStrength] = useState(0)
   const [isEmailVerify, setIsEmailVerify] = useState(false)
+  const [issubmitting, setissubmitting] = useState(false)
 
   const { control, handleSubmit, watch, formState: { errors } } = useForm<FormData>({
     resolver: zodResolver(formSchema),
@@ -103,6 +104,7 @@ export default function Practice2({institutions}:{institutions:Institution[]}) {
   } =data;
 
     try {
+      setissubmitting(true)
        await axios.post('/api/sign-up',{
         password,
         email,
@@ -117,6 +119,7 @@ export default function Practice2({institutions}:{institutions:Institution[]}) {
       console.log(error)
     }finally{
       setIsEmailVerify(true)
+      setissubmitting(false)
     }
  
     // Here you would typically send the data to your backend
@@ -277,8 +280,8 @@ export default function Practice2({institutions}:{institutions:Institution[]}) {
             <ArrowLeft className="w-4 h-4 mr-2" /> Previous
           </Button>
           {currentStep === steps.length - 1 ? (
-            <Button type='submit' onClick={handleSubmit(onSubmit)}>
-              Submit <Check className="w-4 h-4 ml-2" />
+            <Button type='submit' onClick={handleSubmit(onSubmit)} disabled={issubmitting}>
+              {issubmitting ? <Loader2  className="animate-spin" /> : <><span>Submit</span> <Check className="w-4 h-4 ml-2" /></>}
             </Button>
           ) : (
             <Button onClick={nextStep}>
