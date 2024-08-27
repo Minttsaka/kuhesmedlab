@@ -55,6 +55,7 @@ type User = {
   id: string;
   email: string;
   name: string;
+  role:string,
   country: string | null;
   bio: string | null;
   password: string;
@@ -171,8 +172,15 @@ export async function DashboardNav() {
               <DropdownMenuLabel>My Account</DropdownMenuLabel>
               <DropdownMenuSeparator />
               <DropdownMenuGroup>
-                <DropdownMenuItem>
+             {user.role==="admin" && 
+             <DropdownMenuItem>
                   <Link href={'/mw/profile'}>
+                    <User className="mr-2 h-4 w-4" />
+                  </Link>
+                  <span>Admin panel</span>
+                </DropdownMenuItem>}
+                <DropdownMenuItem>
+                  <Link target="__blank" href={'https://adminkuhesmedlab-minttsaka-gmailcoms-projects.vercel.app/a/dashboard'}>
                     <User className="mr-2 h-4 w-4" />
                   </Link>
                   <span>Profile</span>
