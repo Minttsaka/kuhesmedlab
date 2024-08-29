@@ -4,12 +4,12 @@ import { z } from 'zod';
 import { NextRequest, NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
 import { compileActivationTemplate, sendMail } from '@/lib/mail';
-import { redirect } from 'next/navigation';
-import { revalidatePath } from 'next/cache';
+
   
 const FormSchema = z.object({
   name: z.string().min(2, 'Full name must be at least 2 characters'),
   email: z.string().email('Invalid email address'),
+  gender: z.enum(["MALE", "FEMALE"]),
   country:z.object({ value: z.string(), label: z.string() }),
   password: z
     .string()
@@ -29,13 +29,16 @@ const FormSchema = z.object({
 
     const body = await req.json()
 
+    console.log(body)
+
     const { 
         password,
         email,
         institution,
         age,
         name,
-        country
+        country,
+        gender
 
     } = FormSchema.parse(body);
 
@@ -63,6 +66,7 @@ const FormSchema = z.object({
       data: {
         email,
         password:hashedPassword,
+        gender:gender,
         institution:{
           connect:{
             id:existInstitution?.id

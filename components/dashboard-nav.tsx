@@ -50,6 +50,7 @@ import Notifications from "./Notifications"
 import { getServerSession } from "next-auth"
 import { authOptions } from "@/lib/auth"
 import { prisma } from "@/lib/prisma"
+import Logout from "./Logout"
 
 type User = {
   id: string;
@@ -70,15 +71,21 @@ export async function DashboardNav() {
 
 
   const session:any = await getServerSession(authOptions);
-  const user= session.user as User;
+  const sessionuser= session.user as User;
 
   const firstResearch = await prisma.research.findFirst({
     where:{
-      creatorId:user.id
+      creatorId:sessionuser.id
     }
     ,
     orderBy:{
       createdAt:"desc"
+    }
+  })
+
+  const user = await prisma.user.findUnique({
+    where:{
+      id:sessionuser.id
     }
   })
 
@@ -164,44 +171,51 @@ export async function DashboardNav() {
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
                 <Avatar>
-                  <AvatarImage src="https://github.com/shadcn.png" />
-                  <AvatarFallback>CN</AvatarFallback>
+                  <AvatarImage src={user?.image!} className="object-cover"/>
+                  <AvatarFallback>{user?.name}</AvatarFallback>
                 </Avatar>
             </DropdownMenuTrigger>
             <DropdownMenuContent className="w-56 mr-5">
               <DropdownMenuLabel>My Account</DropdownMenuLabel>
               <DropdownMenuSeparator />
               <DropdownMenuGroup>
-             {user.role==="admin" && 
+             {user?.role==="ADMIN" && 
              <DropdownMenuItem>
-                  <Link href={'/mw/profile'}>
+                  <Link  className="flex items-center gap-2" target="__blank"  href={'https://adminkuhesmedlab-minttsaka-gmailcoms-projects.vercel.app/a/dashboard'} >
                     <User className="mr-2 h-4 w-4" />
-                  </Link>
+                  
                   <span>Admin panel</span>
+                  </Link>
                 </DropdownMenuItem>}
                 <DropdownMenuItem>
-                  <Link target="__blank" href={'https://adminkuhesmedlab-minttsaka-gmailcoms-projects.vercel.app/a/dashboard'}>
+                  <Link className="flex items-center gap-2" href={'/mw/profile'}>
                     <User className="mr-2 h-4 w-4" />
-                  </Link>
+                 
                   <span>Profile</span>
+                  </Link>
                 </DropdownMenuItem>
                 
                 <DropdownMenuItem>
+                  <Link className="flex items-center gap-2" href={'/404'}>
                   <Settings className="mr-2 h-4 w-4" />
                   <span>Settings</span>
+
+                  </Link>
 
                 </DropdownMenuItem>
                
               </DropdownMenuGroup>
               <DropdownMenuSeparator />
               <DropdownMenuItem>
-                <Cloud className="mr-2 h-4 w-4" />
-                <span>API</span>
+                
+                <Link className="flex items-center gap-2" href={'/404'}>
+                  <Cloud className="mr-2 h-4 w-4" />
+                  <span>API</span>
+                  </Link>
               </DropdownMenuItem>
               <DropdownMenuSeparator />
               <DropdownMenuItem>
-                <LogOut className="mr-2 h-4 w-4" />
-                <span>Log out</span>
+                <Logout />
               </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>

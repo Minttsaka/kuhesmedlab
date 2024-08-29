@@ -30,10 +30,12 @@ import { useRouter } from "next/navigation"
 import { SubmitHandler, useForm } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { signIn, useSession } from "next-auth/react"
-import { toast } from "sonner"
 import { Eye, EyeOff, Loader2, Lock, User } from "lucide-react"
 import SignupBg from "./ui/SigninupBg"
-import { useEffect, useState } from "react"
+import { useEffect, useState } 
+from "react"
+import { toast } from "./ui/use-toast"
+import{ LoadingState } from "./LoadingState"
 
 const FormSchema = z.object({
   email: z.string().email("Please enter a valid email address"),
@@ -44,23 +46,22 @@ const FormSchema = z.object({
 
 type InputType = z.infer<typeof FormSchema>;
 
-export function SigninForm() {
+export default function SigninForm() {
 
   const [showPassword, setShowPassword] = useState(false)
   const [loginSuccess, setLoginSuccess] = useState(false)
 
   const router=useRouter()
 
-  const {data:session , status} =useSession()
+  const {data:session , status, } =useSession()
 
-  console.log(session)
+  if (status ==="loading") {
+    LoadingState()
+  }
 
-  useEffect(() => {
-    if (status === "authenticated") {
-      router.push("/mw/dashboard");
-    }
-  }, [session, status]);
-  
+  if (status === "authenticated") {
+    router.push("/mw/dashboard");
+  }
 
   const {
     register,
@@ -79,21 +80,41 @@ export function SigninForm() {
         password: data.password,
       });
       if (!result?.ok) {
-        toast(result?.error);
+        toast({
+          title: "error",
+          description: "Something went wrong",
+          variant: "destructive",
+        })
         return;
       }
-      router.push("/mw/dashboard")
+
+      if(result.ok){
+        toast({
+          title: "Login",
+          description: "Success",
+          variant: "default",
+        })
+        setLoginSuccess(true)
+        router.push("/mw/dashboard")
+      }
+     
   
     } catch (error) {
-
-      console.log(error)
-      
-    }finally{
-      toast.success("Successfully login in");
-      setLoginSuccess(true)
+      if (error instanceof Error) {
+        toast({
+          title: "Error",
+          description: error.message,
+          variant: "destructive",
+        })
+      } else {
+        toast({
+          title: "Error",
+          description:"error",
+          variant: "destructive",
+        })
+      }
       
     }
-    
    
     
   };
@@ -142,11 +163,15 @@ export function SigninForm() {
           </div>
           <div className="w-full h-1 bg-gradient-to-r from-purple-500 via-pink-500 to-red-500 transform origin-left scale-x-0 transition-transform duration-500 ease-out login-progress"></div>
         </form>
-        {loginSuccess && (
-          <div className="mt-4 p-4 bg-green-500 flex items-center bg-opacity-90 text-white rounded-lg shadow-lg animate-fade-in-down">
-            <span>Login successful! Please wait</span> <Loader2 className="h-3 w-3 animate-spin" />
-          </div>
-        )}
+        <div className="flex justify-between text-xs text-gray-400 items-center">
+          <Link href={'/register'}>
+                Register
+          </Link>
+          <Link href={'/auth/forgotPassword'}>
+                Forgot password?
+          </Link>
+        </div>
+        {loginSuccess && <LoadingState />}
       </div>
     </SignupBg>
   )

@@ -41,12 +41,12 @@ export const authOptions: AuthOptions = {
             },
         });
    
-        if (!user) throw new Error("User name or password is not correct");
+        if (!user) throw new Error("The email does not exist");
     
         if (!credentials?.password) throw new Error("Please Provide Your Password");
         const isPasswordCorrect = await bcrypt.compare(credentials.password, user.password);
     
-        if (!isPasswordCorrect) throw new Error("User name or password is not correct");
+        if (!isPasswordCorrect) throw new Error("The password is not correct");
 
         if (!user.emailVerified)throw new Error ("Please verify your email first! using the link sent to your email!")
     

@@ -267,7 +267,7 @@ export default function Practice(
               <CardHeader>
                 <CardTitle className='line-clamp-1'>{research.abstract}</CardTitle>
                 <div className='flex items-center gap-3'>
-                <GroupMembers />
+                {/* <GroupMembers /> */}
                 <ResearchInvite />
                 </div>
                

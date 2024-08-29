@@ -91,7 +91,7 @@ export default function BeautifulCard() {
                         <Group className='h-4 w-4' />
                         FORUM
                     </Badge>
-                    <h2 className='uppercase text-xl'>Forum to discussion</h2>
+                    <h2 className='uppercase text-xl'>Discussion</h2>
                     <p className='text-gray-500'> Engage in discussions on the latest developments and trends in medical laboratory technologies and advancements.</p>
                     <Link className='text-gray-500 text-sm pt-5 flex gap-2 items-center' href={'#'}>
                         Explore Forum  <svg

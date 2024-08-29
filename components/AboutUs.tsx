@@ -6,7 +6,7 @@ export default function AboutUs() {
 
     const people = [
         {
-          id: 1,
+          id: "1",
           name: "Dctfusion",
           designation: "Malawian leading tech and ai company",
           image:
@@ -22,7 +22,7 @@ export default function AboutUs() {
                 <h2 className='text-3xl font-bold'>Shaping Digital Solutions That Transform ai in Research</h2>
                 <div className='bg-green-400 p-5 rounded grid md:grid-cols-2'>
                     <div className='flex flex-row items-center '>
-                    <AnimatedTooltip items={people} />
+                    {/* <AnimatedTooltip items={people } /> */}
                     </div>
                     <div>
                         <h2 className='md:text-4xl font-bold'>1</h2>

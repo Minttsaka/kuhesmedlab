@@ -37,7 +37,7 @@ export function InviteSurvey() {
         </div>
       </CardHeader>
       <CardContent>
-        <GroupMembers />
+        {/* <GroupMembers /> */}
         <form className="space-y-4">
           
           <div className="space-y-2 flex gap-2">

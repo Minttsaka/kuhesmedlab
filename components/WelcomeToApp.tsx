@@ -58,9 +58,9 @@ const bubbleVariants = {
 
 
 const messages = [
-  "Hello there! 👋 Welcome to Kuhesmedlab a research leader!",
+  "Hello there! 👋 Welcome to Kuhesmedlab, a research leader!",
   "I'm your friendly AI assistant, here to make your day brighter! ☀️",
-  "Feel free to ask me anything - I'm full helpful tips!",
+  "Feel free to ask me anything - I'm full of helpful tips!",
   "Ready to start our delightful journey together? Let's sign in!"
 ]
 

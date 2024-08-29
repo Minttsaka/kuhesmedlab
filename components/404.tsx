@@ -1,6 +1,9 @@
+"use client"
+
 import { useState, useEffect } from 'react'
 import { motion } from 'framer-motion'
 import { AlertCircle, Plus } from 'lucide-react'
+import Link from 'next/link'
 
 export default function NotFound() {
   const [particles, setParticles] = useState<
@@ -72,18 +75,19 @@ export default function NotFound() {
           >
             <AlertCircle className="w-10 h-10 text-blue-500" />
           </motion.div>
-          <h2 className="text-2xl md:text-3xl font-bold text-center text-gray-800 mb-2">No Questionnaires Found</h2>
+          <h2 className="text-2xl md:text-3xl font-bold text-center text-gray-800 mb-2">Request not found</h2>
           <p className="text-center text-gray-600 mb-6">
-            It looks like you have not created any questionnaires yet. Start by creating your first one!
+            We are still working on this page.
           </p>
-          <motion.button
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
-            className="w-full bg-blue-500 hover:bg-blue-600 text-white font-semibold py-3 px-6 rounded-lg shadow-md transition duration-300 ease-in-out flex items-center justify-center"
-          >
-            <Plus className="w-5 h-5 mr-2" />
-            Create New Questionnaire
-          </motion.button>
+          <Link href={'/mw/dashboard'}>
+            <motion.button
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+              className="w-full bg-blue-500 hover:bg-blue-600 text-white font-semibold py-3 px-6 rounded-lg shadow-md transition duration-300 ease-in-out flex items-center justify-center"
+            >
+              Go back
+            </motion.button>
+          </Link>
         </div>
       </motion.div>
     </div>

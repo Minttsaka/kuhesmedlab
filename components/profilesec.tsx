@@ -11,11 +11,55 @@ import { Table, TableHeader, TableRow, TableHead, TableBody, TableCell } from "@
 import { Button } from "@/components/ui/button"
 import { CartesianGrid, XAxis, Line, LineChart, Bar, BarChart } from "recharts"
 import { ChartTooltipContent, ChartTooltip, ChartContainer } from "@/components/ui/chart"
+import DeleteAccount from "./DeleteAccount"
+import { useState } from 'react'
+import { FileText, Download, Trash2, Upload } from 'lucide-react'
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
+import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area"
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog"
+import { Input } from "@/components/ui/input"
+import { Label } from "@/components/ui/label"
+import { File, Prisma } from "@prisma/client"
 
-export function Profilesec() {
+type UserWithAllRelations = Prisma.UserGetPayload<{
+  include:{
+    research:{
+      include:{
+        collaborator:true,
+        surveys:{
+          include:{
+            surveyForm:{
+              include:{
+                questions:true
+              }
+            }
+          }
+        }
+      }
+    },
+  }
+}>;
+
+type Document = {
+  id: string;
+  name: string;
+  size: string;
+  uploadDate: string;
+  url: string;
+}
+
+export function Profilesec({user, files}:{ user:UserWithAllRelations, files:File[] }) {
+
+  const handleDownload = (document: File) => {
+    // In a real application, this would trigger the file download
+    console.log(`Downloading ${document.filename}`);
+    // You might use window.open(document.url) or a similar method here
+  };
+
   return (
-    <div className="grid grid-cols-2 gap-5 mx-5 ">
-      <aside className=" p-10 rounded-3xl bg-white shadow">
+    <div>
+    <div className="grid md:grid-cols-2 gap-5 mx-5 ">
+      <div className=" p-10 rounded-3xl bg-white shadow">
         <div className="flex items-center space-x-4">
           <div className="h-5 w-5 rounded-full bg-purple-400" />
           <div>
@@ -26,13 +70,12 @@ export function Profilesec() {
         </div>
         <div className="mt-6 bg-green-50 rounded-3xl p-6">
           <h3 className="text-lg font-semibold">Glucose</h3>
-          <LinechartChart className="aspect-[4/3]" />
+          <ScrollArea className="w-full">
+          <LinechartChart className="aspect-[4/3] " />
+          <ScrollBar className="horizontal" />
+          </ScrollArea>
         </div>
-        <div className="mt-6">
-          <h3 className="text-lg font-semibold">Weight</h3>
-          <BarchartChart className="w-full aspect-[4/3]" />
-        </div>
-        <div className="mt-6 grid grid-cols-3 gap-4 text-center">
+        <div className="mt-6 grid md:grid-cols-3 gap-4 text-center">
           <div>
             <p className="text-sm font-semibold">Heart Rate</p>
             <p className="text-lg font-bold text-red-500">184 bpm</p>
@@ -46,129 +89,116 @@ export function Profilesec() {
             <p className="text-lg font-bold text-blue-500">140/90 mm/hg</p>
           </div>
         </div>
-      </aside>
-      <main className="w-full bg-white h-fit shadow rounded-3xl p-6">
-        <Tabs className="bg-blue-50 m-6 rounded-3xl p-6" defaultValue="overview">
-          <TabsList className="flex bg-white rounded-2xl space-x-4">
-            <TabsTrigger value="bio">BIO</TabsTrigger>
-            <TabsTrigger value="overview">OVERVIEW</TabsTrigger>
-            <TabsTrigger value="calendar">CALENDAR</TabsTrigger>
+      </div>
+      <main className="max-w-[100vw] bg-white h-fit shadow rounded-3xl md:p-6">
+        <Tabs className="bg-blue-50 md:m-6 rounded-3xl p-6" defaultValue="overview">
+          <TabsList className="grid grid-cols-2 md:grid-cols-4 h-20 md:h-fit bg-gray-100 rounded-2xl space-x-4">
+            <TabsTrigger value="survey">SURVEY</TabsTrigger>
+            <TabsTrigger value="overview">AI OVERVIEW</TabsTrigger>
+            <TabsTrigger value="danger">DANGER ZONE</TabsTrigger>
             <TabsTrigger value="documents">DOCUMENTS</TabsTrigger>
           </TabsList>
-          <TabsContent value="overview">
-            <div className="mt-6">
-              <h3 className="text-lg font-semibold">Diagnosis</h3>
-              <p className="text-sm text-black">
-                Patient reports she has never had his teeth cleaned and is anxious about great dental work. The patient
-                is not under the care. Patient reports she has never had his teeth cleaned and is anxious about great
-                dental work. The patient is not under the...
-                <a href="#" className="text-blue-500">
-                  more
-                </a>
-              </p>
-            </div>
-            <div className="mt-6">
-              <h3 className="text-lg font-semibold">Symptoms</h3>
-              <p className="text-sm text-black">
-                Patient reports she has never had his teeth cleaned and is anxious about great dental work. The patient
-                is not under the care. Patient reports she has never had his teeth cleaned and is...
-                <a href="#" className="text-blue-500">
-                  more
-                </a>
-              </p>
-            </div>
-            <div className="mt-6">
-              <h3 className="text-lg font-semibold">Reseach files</h3>
-              <Table>
+          <TabsContent value="survey">
+          <Table className="max-w-[50px] overflow-x-auto">
                 <TableHeader>
                   <TableRow>
-                    <TableHead>Doctor</TableHead>
-                    <TableHead>Date</TableHead>
-                    <TableHead>Time</TableHead>
+                    <TableHead>Title</TableHead>
+                    <TableHead>Number of QUestions</TableHead>
+                    <TableHead>CreatedAt</TableHead>
                     <TableHead>Status</TableHead>
                   </TableRow>
                 </TableHeader>
                 <TableBody>
                   <TableRow>
-                    <TableCell className="flex items-center space-x-2">
-                      <Avatar>
-                        <AvatarImage src="/placeholder-user.jpg" />
-                        <AvatarFallback>JO</AvatarFallback>
-                      </Avatar>
-                      <div>
-                        <p className="font-medium">Justin Olson</p>
-                        <p className="text-sm text-black">Orthodontics</p>
-                      </div>
-                    </TableCell>
-                    <TableCell>Aug 21, 2018</TableCell>
-                    <TableCell>10:00 am</TableCell>
-                    <TableCell>
-                      <CheckIcon className="w-5 h-5 text-green-500" />
-                    </TableCell>
-                  </TableRow>
-                  <TableRow>
-                    <TableCell className="flex items-center space-x-2">
-                      <Avatar>
-                        <AvatarImage src="/placeholder-user.jpg" />
-                        <AvatarFallback>FJ</AvatarFallback>
-                      </Avatar>
-                      <div>
-                        <p className="font-medium">Franklin Johnson</p>
-                        <p className="text-sm text-black">Surgeon</p>
-                      </div>
-                    </TableCell>
-                    <TableCell>Aug 21, 2018</TableCell>
-                    <TableCell>10:30 am</TableCell>
-                    <TableCell>
-                      <CheckIcon className="w-5 h-5 text-green-500" />
-                    </TableCell>
-                  </TableRow>
-                  <TableRow>
-                    <TableCell className="flex items-center space-x-2">
-                      <Avatar>
-                        <AvatarImage src="/placeholder-user.jpg" />
-                        <AvatarFallback>CM</AvatarFallback>
-                      </Avatar>
-                      <div>
-                        <p className="font-medium">Curtis Milner</p>
-                        <p className="text-sm text-black">Dentist</p>
-                      </div>
-                    </TableCell>
-                    <TableCell>Aug 21, 2018</TableCell>
-                    <TableCell>11:00 am</TableCell>
-                    <TableCell>
-                      <ClockIcon className="w-5 h-5 text-red-500" />
-                    </TableCell>
+                  {user?.research
+                  .map(research=>research.surveys
+                  .map(survey=>survey.surveyForm
+                  .map(form=>(
+                    <TableRow key={form.id}>
+                  <TableCell className="flex items-center space-x-2">
+                      {form.title}
+                      </TableCell>
+                      <TableCell className="flex items-center space-x-2">
+                      {form.questions.length}
+                      </TableCell>
+                      <TableCell className="flex items-center space-x-2">
+                      {form.createdAt.toDateString()}
+                      </TableCell>
+                      <TableCell className="flex items-center space-x-2">
+                      {form.status==="archived" ?<CheckIcon className="w-5 h-5 text-green-500" />:<ClockIcon className="w-5 h-5 text-red-500" /> }
+                      </TableCell>
+                    </TableRow>
+                    ))))}
+                   
                   </TableRow>
                 </TableBody>
               </Table>
-            </div>
-            <div className="mt-6">
-              <h3 className="text-lg font-semibold">Attachments</h3>
-              <div className="flex space-x-4">
-                <Button variant="outline" className="flex items-center space-x-2">
-                  <FileIcon className="w-5 h-5" />
-                  <span>Supplemental Info</span>
-                  <span className="text-sm text-black">IMG, 10/03/2017</span>
-                </Button>
-                <Button variant="outline" className="flex items-center space-x-2">
-                  <FileIcon className="w-5 h-5" />
-                  <span>Prev Analysis</span>
-                  <span className="text-sm text-black">DOC, 05/07/2017</span>
-                </Button>
+          </TabsContent>
+          <TabsContent value="overview">
+            <p>
+              Lorem ipsum, dolor sit amet consectetur adipisicing elit. Reiciendis,
+               nihil! Alias magnam ipsa, ut sapiente rerum nulla? Libero possimus sit 
+               voluptates incidunt, accusantium sed in, deleniti, doloribus quo nihil
+                quisquam?
+                </p>
+          </TabsContent>
+          <TabsContent value="danger">
+            <DeleteAccount />
+          </TabsContent>
+
+          <TabsContent value="documents">
+          <Card className="bg-gradient-to-br from-blue-50 to-indigo-50">
+        <CardHeader className="bg-gradient-to-r from-blue-100 to-indigo-100">
+          <CardTitle className="text-lg text-blue-800 flex items-center justify-between">
+            <span className="flex items-center gap-2">
+              <FileText className="h-6 w-6" />
+              Your Documents
+            </span>
+          </CardTitle>
+        </CardHeader>
+        <CardContent className="p-0">
+          <ScrollArea className="h-[70vh] px-4">
+            {files?.map((doc) => (
+              <div key={doc.id} className="flex items-center justify-between py-4 border-b border-blue-100 last:border-b-0">
+                <div className="flex items-center space-x-4">
+                  <FileText className="h-8 w-8 text-blue-500" />
+                  <div>
+                    <h3 className="font-medium text-blue-800">{doc.filename}</h3>
+                    <p className="text-sm text-blue-600">{doc.fileType} • Uploaded on {doc.createdAt.toDateString()}</p>
+                  </div>
+                </div>
+                <div className="flex space-x-2">
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    className="text-green-600 border-green-600 hover:bg-green-100"
+                    onClick={() => handleDownload(doc)}
+                  >
+                    <Download className="h-4 w-4" />
+                  </Button>
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    className="text-red-600 border-red-600 hover:bg-red-100"
+            
+                  >
+                    <Trash2 className="h-4 w-4" />
+                  </Button>
+                </div>
               </div>
-            </div>
+            ))}
+          </ScrollArea>
+        </CardContent>
+      </Card>
           </TabsContent>
         </Tabs>
-      </main>
-      <div className="fixed bottom-6 right-6 flex space-x-4">
-        <Button className="rounded-full p-4">
-          <PlusIcon className="w-6 h-6 text-white" />
-        </Button>
-        <Button className="rounded-full p-4">
-          <MessageCircleIcon className="w-6 h-6 text-white" />
-        </Button>
-      </div>
+      </main>    
+      
+    </div>
+      <div className="mt-6  bg-white">
+          <h3 className="text-lg font-semibold">Weight</h3>
+          <BarchartChart className=" aspect-[4/3] max-w-[100vw]" />
+        </div>  
     </div>
   )
 }
@@ -183,7 +213,7 @@ function BarchartChart(props:any) {
             color: "hsl(var(--chart-1))",
           },
         }}
-        className="min-h-[300px]"
+        className="min-h-[300px] w-full"
       >
         <BarChart
           accessibilityLayer
@@ -285,6 +315,7 @@ function LinechartChart(props:any) {
             color: "hsl(var(--chart-1))",
           },
         }}
+        className="w-full"
       >
         <LineChart
           accessibilityLayer

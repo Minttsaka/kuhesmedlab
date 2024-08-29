@@ -8,10 +8,10 @@ import { RegisterForm } from "@/components/register-form";
 import { ArrowRight, Star } from "lucide-react";
 import { InstagramLogoIcon, TwitterLogoIcon } from '@radix-ui/react-icons'
 import { Copyright, Facebook } from 'lucide-react'
-import { SigninForm } from "@/components/SigninForm";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
 import { redirect } from "next/navigation";
+import dynamic from "next/dynamic";
 
 /** Add fonts into your Next.js project:
 
@@ -26,18 +26,16 @@ To read more about using these font, please visit the Next.js documentation:
 - App Directory: https://nextjs.org/docs/app/building-your-application/optimizing/fonts
 - Pages Directory: https://nextjs.org/docs/pages/building-your-application/optimizing/fonts
 **/
+
+const SigninForm = dynamic(() => import('@/components/SigninForm'), {
+  ssr: false,
+})
+
 export default async function page() {
 
-  const session:any = await getServerSession(authOptions)
-
-  const user = session?.user
-
-  if(user){
-    redirect('/mw/dashboard')
-  }
   return (
  
-          <SigninForm />
+      <SigninForm />
          
   )
 }

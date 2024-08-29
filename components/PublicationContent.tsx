@@ -8,7 +8,7 @@ import PDFViewer from './PdfViewer'
 import { Prisma } from '@prisma/client'
 import { loadPdf } from '@/lib/pageNum'
 
-export type ResearchWithAllRelations = Prisma.ResearchGetPayload<{
+type ResearchWithAllRelations = Prisma.ResearchGetPayload<{
   include: {
     files: true;
 

@@ -1,6 +1,7 @@
 "use client";
 import React from "react";
 import { AnimatedTooltip } from "./ui/animated-tooltip";
+import { Collaborator } from "@prisma/client";
 const people = [
   {
     id: 1,
@@ -46,10 +47,10 @@ const people = [
   },
 ];
 
-export function GroupMembers() {
+export function GroupMembers({collaborator}:{collaborator:Collaborator[]}) {
   return (
     <div className="flex my-3 w-full">
-      <AnimatedTooltip items={people} />
+      <AnimatedTooltip items={collaborator} />
     </div>
   );
 }

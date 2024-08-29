@@ -12,7 +12,7 @@ import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card'
 import { Progress } from '@/components/ui/progress'
-import { ArrowLeft, ArrowRight, Check, Loader2, X } from 'lucide-react'
+import { ArrowLeft, ArrowRight, Check, Eye, EyeOff, Loader2, Lock, X } from 'lucide-react'
 import { Institution } from '@prisma/client'
 import { toast } from 'sonner'
 import axios from 'axios'
@@ -26,6 +26,7 @@ const countryOptions = Object.entries(countries).map(([code, country]) => ({
 const formSchema = z.object({
   fullName: z.string().min(2, 'Full name must be at least 2 characters'),
   email: z.string().email('Invalid email address'),
+  gender: z.object({ value: z.string(), label: z.string() }),
   country: z.object({ value: z.string(), label: z.string() }),
   password: z
     .string()
@@ -54,11 +55,13 @@ export default function Practice2({institutions}:{institutions:Institution[]}) {
   const [passwordStrength, setPasswordStrength] = useState(0)
   const [isEmailVerify, setIsEmailVerify] = useState(false)
   const [issubmitting, setissubmitting] = useState(false)
+  const [showPassword, setShowPassword] = useState(false)
 
   const { control, handleSubmit, watch, formState: { errors } } = useForm<FormData>({
     resolver: zodResolver(formSchema),
     defaultValues: {
       fullName: '',
+      gender:undefined,
       email: '',
       country: undefined,
       password: '',
@@ -91,12 +94,26 @@ export default function Practice2({institutions}:{institutions:Institution[]}) {
     label: institution.name
   }));
 
+  const gender = [
+    {
+      value:"FEMALE",
+      label:"Female"
+
+    },
+    {
+      value:"MALE",
+      label:"Male"
+
+  }
+]
+
   const onSubmit = async (data: FormData) => {
 
     const { 
       password,
       email,
       institution,
+      gender,
       age,
      fullName,
       country
@@ -109,6 +126,7 @@ export default function Practice2({institutions}:{institutions:Institution[]}) {
         password,
         email,
         institution,
+        gender:gender.value,
         age,
         name:fullName,
         country
@@ -140,7 +158,7 @@ export default function Practice2({institutions}:{institutions:Institution[]}) {
                 <Controller
                   name="fullName"
                   control={control}
-                  render={({ field }) => <Input {...field} id="fullName" placeholder="John Doe" />}
+                  render={({ field }) => <Input {...field} id="fullName" placeholder="Mint Tsaka" />}
                 />
                 {errors.fullName && <p className="text-sm text-red-500">{errors.fullName.message}</p>}
               </div>
@@ -149,7 +167,7 @@ export default function Practice2({institutions}:{institutions:Institution[]}) {
                 <Controller
                   name="email"
                   control={control}
-                  render={({ field }) => <Input {...field} id="email" type="email" placeholder="john@example.com" />}
+                  render={({ field }) => <Input {...field} id="email" type="email" placeholder="support@kuhesmedlab.com" />}
                 />
                 {errors.email && <p className="text-sm text-red-500">{errors.email.message}</p>}
               </div>
@@ -176,6 +194,24 @@ export default function Practice2({institutions}:{institutions:Institution[]}) {
               />
               {errors.country && <p className="text-sm text-red-500">{errors.country.message}</p>}
             </div>
+
+            <div className="space-y-2">
+              <Label htmlFor="country">Gender</Label>
+              <Controller
+                name="gender"
+                control={control}
+                render={({ field }) => (
+                  <Select
+                    {...field}
+                    options={gender}
+                    placeholder="Select your gender"
+                    className="react-select-container"
+                    classNamePrefix="react-select"
+                  />
+                )}
+              />
+              {errors.country && <p className="text-sm text-red-500">{errors.country.message}</p>}
+            </div>
           </div>
         )
       case 2:
@@ -186,12 +222,23 @@ export default function Practice2({institutions}:{institutions:Institution[]}) {
               <Controller
                 name="password"
                 control={control}
-                render={({ field }) => <Input {...field} id="password" type="password" />}
-              />
-              {errors.password && <p className="text-sm text-red-500">{errors.password.message}</p>}
-              <Progress value={passwordStrength} className="w-full" />
-              <p className="text-sm text-muted-foreground">Password strength: {passwordStrength}%</p>
-            </div>
+                render={({ field }) => 
+                  <div className="relative">
+                    <Input type={showPassword ? 'text' : 'password'} {...field} id="password"  />
+                    <button
+                      type="button"
+                      onClick={() => setShowPassword(!showPassword)}
+                      className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-300 hover:text-white transition duration-300"
+                    >
+                      {showPassword ? <EyeOff className="h-5 w-5" /> : <Eye className="h-5 w-5" />}
+                    </button>
+                  </div>
+                  }
+                />
+                {errors.password && <p className="text-sm text-red-500">{errors.password.message}</p>}
+                <Progress value={passwordStrength} className="w-full" />
+                <p className="text-sm text-muted-foreground">Password strength: {passwordStrength}%</p>
+              </div>
           </div>
         )
       case 3:

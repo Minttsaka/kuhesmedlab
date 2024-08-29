@@ -25,7 +25,7 @@ export function Surveyattendance() {
     <section className="w-full md:py-24 lg:py-32">
       <div className="">
         <h6 className="text-center font-bold underline mb-5">List of attended participants</h6>
-        <GroupMembers />
+        {/* <GroupMembers /> */}
       </div>
     </section>
   )

@@ -32,14 +32,6 @@ const fetcher = async (url:string) => {
   return res.data;
 };
 
-const mockFiles = [
-  { id: 1, name: 'Research Paper.pdf', type: 'document', size: '2.5 MB', url: '#' },
-  { id: 2, name: 'Experiment Setup.jpg', type: 'image', size: '1.8 MB', url: '/placeholder.svg?height=100&width=100' },
-  { id: 3, name: 'Data Analysis.xlsx', type: 'document', size: '500 KB', url: '#' },
-  { id: 4, name: 'Experiment Video.mp4', type: 'video', size: '15 MB', url: '/placeholder.svg?height=100&width=100' },
-  { id: 5, name: 'Literature Review.docx', type: 'document', size: '1.2 MB', url: '#' },
-]
-
 //React.ChangeEvent<HTMLInputElement>
 const FileTypeIcon = ({
    type,
