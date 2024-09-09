@@ -85,7 +85,7 @@ const StatCard = ({ title, value, icon: Icon, change }:StatCardProps) => (
       <div className="text-2xl font-bold">{value}</div>
       {change && (
         <p className={`text-xs ${change > 0 ? 'text-green-500' : 'text-red-500'}`}>
-          {change > 0 ? '↑' : '↓'} {Math.abs(change)}% from last month
+          Now
         </p>
       )}
     </CardContent>

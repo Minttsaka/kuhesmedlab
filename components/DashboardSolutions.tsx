@@ -45,7 +45,7 @@ export default function DashboardSolutions() {
                      connecting you with experts, innovations, and networking
                       opportunities to enhance your knowledge and professional growth.
                     </p>
-                    <Link className='underline flex items-center' href={'#'}>
+                    <Link className='underline flex items-center' href={'/events'}>
                         View this Solution
                     </Link>
                 </CardContent>
@@ -64,7 +64,7 @@ export default function DashboardSolutions() {
                         Access a vast collection of medical laboratory science research papers,
                          articles, and resources, curated to facilitate knowledge sharing, collaboration, and innovation.
                     </p>
-                    <Link className='underline flex items-center' href={'#'}>
+                    <Link className='underline flex items-center' href={'/publications'}>
                         View this Solution
                     </Link>
                 </CardContent>
@@ -83,7 +83,7 @@ export default function DashboardSolutions() {
                     Connect with experienced professionals in medical laboratory science, receiving personalized guidance,
                      mentorship, and expertise to overcome challenges, enhance your research, and achieve your goals.
                     </p>
-                    <Link className='underline flex items-center' href={'#'}>
+                    <Link className='underline flex items-center' href={'/support'}>
                         View this Solution
                     </Link>
                 </CardContent>
@@ -96,13 +96,13 @@ export default function DashboardSolutions() {
                         Connect
                     </Badge>
                     <h2  className='text-3xl'>
-                        Virtual Conference
+                        Community
                     </h2>
                     <p className=''>
-                    Attend a conference to meet and learn from other professionals
+                    Attend a researchers community and learn from other professionals
                      in medical laboratory science, share your research, and discuss new ideas.
                     </p>
-                    <Link className='underline flex items-center' href={'#'}>
+                    <Link className='underline flex items-center' href={'/community'}>
                         View this Solution
                     </Link>
                 </CardContent>
@@ -122,7 +122,7 @@ export default function DashboardSolutions() {
                      automated workflows, and custom applications to accelerate your medical 
                      laboratory science research and development.
                     </p>
-                    <Link className='text-xs underline flex items-center' href={'#'}>
+                    <Link className='text-xs underline flex items-center' href={'/404'}>
                         View this Solution
                     </Link>
                 </CardContent>

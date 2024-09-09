@@ -6,30 +6,6 @@ import { ChevronRightIcon, BarChartIcon, UsersIcon, ClipboardIcon } from 'lucide
 import Link from 'next/link'
 import { prisma } from '@/lib/prisma'
 
-const featuredSurveys = [
-  {
-    id: 1,
-    img:"https://optinmonster.com/wp-content/uploads/2019/11/survey-best-practices.png",
-    title: "Customer Satisfaction",
-    description: "Gain insights into your customers' experiences and preferences.",
-    category: "Customer Research",
-  },
-  {
-    id: 2,
-    img:"https://optinmonster.com/wp-content/uploads/2019/11/survey-best-practices.png",
-    title: "Employee Engagement",
-    description: "Measure and improve employee satisfaction and productivity.",
-    category: "HR Management",
-  },
-  {
-    id: 3,
-    img:"https://optinmonster.com/wp-content/uploads/2019/11/survey-best-practices.png",
-    title: "Market Research",
-    description: "Analyze market trends and consumer behavior for strategic decisions.",
-    category: "HR Management",
-  },
-]
-
 export default async function LandingSurvey() {
 
   const forms = await prisma.surveyForm.findMany({
@@ -148,9 +124,9 @@ export default async function LandingSurvey() {
                 <div className="flex items-start space-x-4">
                   <ClipboardIcon className="mt-1 h-6 w-6 text-purple-500" />
                   <div className="space-y-2">
-                    <h3 className="text-xl font-bold">Customizable Templates</h3>
+                    <h3 className="text-xl font-bold">AI Powered</h3>
                     <p className="text-gray-500">
-                      Choose from a wide range of professionally designed templates or create your own from scratch.
+                      Generate unbiased questions using ai assistance.
                     </p>
                   </div>
                 </div>
@@ -168,7 +144,8 @@ export default async function LandingSurvey() {
                 </p>
               </div>
               <div className="w-full max-w-sm space-y-2">
-              <button className="bg-slate-800 no-underline group cursor-pointer relative shadow-2xl shadow-zinc-900 rounded-full p-px text-xs font-semibold leading-6  text-white inline-block">
+                <Link href={'/register'}>
+                    <button className="bg-slate-800 no-underline group cursor-pointer relative shadow-2xl shadow-zinc-900 rounded-full p-px text-xs font-semibold leading-6  text-white inline-block">
                     <span className="absolute inset-0 overflow-hidden rounded-full">
                         <span className="absolute inset-0 rounded-full bg-[image:radial-gradient(75%_100%_at_50%_0%,rgba(56,189,248,0.6)_0%,rgba(56,189,248,0)_75%)] opacity-0 transition-opacity duration-500 group-hover:opacity-100" />
                     </span>
@@ -194,6 +171,7 @@ export default async function LandingSurvey() {
                     </div>
                     <span className="absolute -bottom-0 left-[1.125rem] h-px w-[calc(100%-2.25rem)] bg-gradient-to-r from-emerald-400/0 via-emerald-400/90 to-emerald-400/0 transition-opacity duration-500 group-hover:opacity-40" />
                     </button>
+                  </Link>
                 <p className="text-xs text-gray-500">
                   By signing up, you agree to our{" "}
                   <Link className="underline underline-offset-2 hover:text-primary" href="#">

@@ -43,7 +43,7 @@ export default function GlobalConnection() {
             <motion.div className='grid md:grid-cols-4 gap-2 text-white'>
               <div className='border-s border-[blue] pl-5'>
                 <motion.h1 className='text-2xl font-bold'>
-                  500+
+                  5+
                 </motion.h1>
                 <motion.p className='max-w-sm'>
                   Researchers Connected to Advance Their Skills. 
@@ -51,7 +51,7 @@ export default function GlobalConnection() {
               </div>
               <div className='border-s border-[blue] pl-5'>
                 <motion.h1 className='text-2xl font-bold'>
-                  500M+
+                  2+
                 </motion.h1>
                 <motion.p className='max-w-sm'>
                 Students Unveil Their Research Findings and Save the Nation
@@ -59,7 +59,7 @@ export default function GlobalConnection() {
               </div>
               <div className='border-s border-[blue] pl-5'>
                 <motion.h1 className='text-2xl font-bold '>
-                  20k+
+                  5+
                 </motion.h1>
                 <motion.p className='max-w-sm'>
                 Healthcare providers and researchers working together to find cures

@@ -34,15 +34,9 @@ export default async function page({params:{id}}:{params:{id:string}}) {
     }
   })
 
-  // if(forms?.identity && !user ){
-  //   redirect('/signin')
-  // } 
-
   if(forms?.identity && user){
     sessionId=user?.id
   }
-
-
 
   return (
     <div>

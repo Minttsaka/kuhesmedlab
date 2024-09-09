@@ -1,6 +1,6 @@
 
 "use client"
-import { useState } from 'react'
+import { KeyboardEvent, useState } from 'react'
 import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
@@ -8,45 +8,55 @@ import { Badge } from "@/components/ui/badge"
 import { SearchIcon, ChevronLeftIcon, ChevronRightIcon } from 'lucide-react'
 import { Research } from '@prisma/client'
 import Link from 'next/link'
+import { useRouter } from 'next/navigation'
 //.join(", ")
 
 export default function PublicationSearch({researchList}:{researchList:Research[]}) {
-  const [searchTerm, setSearchTerm] = useState("")
+  
+  const [searchQuery, setSearchQuery] = useState('')
   const [currentPage, setCurrentPage] = useState(1)
+  const router = useRouter()
+
+  const handleSearch = () => {
+    if (searchQuery.trim()) {
+      router.push(`/support/search?q=${encodeURIComponent(searchQuery.trim())}`)
+    }
+  }
+
+  const handleKeyDown = (event: KeyboardEvent<HTMLInputElement>) => {
+    if (event.key === 'Enter') {
+      handleSearch()
+    }
+  }
+
   const articlesPerPage = 3
 
   const keywordsParse = (keywords:string):string[] =>{
     return keywords.split(',').map(word => word.trim())
   }
 
-  const filteredArticles = researchList.filter(article =>
-    article.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    article?.abstract?.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    article.journal?.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    keywordsParse(article.keyWords).some(keyword => keyword.toLowerCase().includes(searchTerm.toLowerCase()))
-  )
-
   const indexOfLastArticle = currentPage * articlesPerPage
   const indexOfFirstArticle = indexOfLastArticle - articlesPerPage
-  const currentArticles = filteredArticles.slice(indexOfFirstArticle, indexOfLastArticle)
+  const currentArticles = researchList.slice(indexOfFirstArticle, indexOfLastArticle)
 
-  const totalPages = Math.ceil(filteredArticles.length / articlesPerPage)
+  const totalPages = Math.ceil(researchList.length / articlesPerPage)
 
   return (
     <div className="">
       <div className='h-[50vh] bg-blue-500 flex items-center justify-center text-white' >
       <div className='container text-center max-w-3xl space-y-5 mx-auto'>
-            <h1 className="text-3xl font-bold mb-8">Article Journal Search</h1>
-            <p>With 160+ million publication pages, 25+ million researchers and 1+ million questions, this is where everyone can access science</p>
+            <h1 className="text-3xl font-bold mb-8">Publications Search</h1>
+            <p>Your Gateway to a World of Scientific Knowledge, Discoveries, and Innovations. This is where everyone can access science</p>
             <div className="flex mb-6">
         <Input
           type="text"
           placeholder="Search articles..."
-          value={searchTerm}
-          onChange={(e) => setSearchTerm(e.target.value)}
+          value={searchQuery}
+          onChange={(e) => setSearchQuery(e.target.value)}
+          onKeyDown={handleKeyDown}
           className="flex-grow text-black rounded-none"
         />
-        <Button className="ml-2">
+        <Button className="ml-2 rounded-none" onClick={handleSearch}>
           <SearchIcon className="h-4 w-4 mr-2" />
           Search
         </Button>
@@ -84,7 +94,7 @@ export default function PublicationSearch({researchList}:{researchList:Research[
           </Card>
         ))}
       </div>
-      {filteredArticles.length > articlesPerPage && (
+      {researchList.length > articlesPerPage && (
         <div className="flex justify-between items-center mt-8">
           <Button
             onClick={() => setCurrentPage(prev => Math.max(prev - 1, 1))}

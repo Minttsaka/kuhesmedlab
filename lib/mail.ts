@@ -2,6 +2,7 @@ import Handlebars from "handlebars";
 import nodemailer from "nodemailer";
 import { activationTemplate } from "./emailTemplates/activation";
 import { resetPasswordTemplate } from "./emailTemplates/resetPass";
+import { collaborationTemplate } from "./emailTemplates/collaboration";
 
 export async function  sendMail({
   to,
@@ -59,4 +60,19 @@ export function compileResetPassTemplate(name: string, url: string) {
     url,
   });
   return htmlBody;
+}
+
+
+export function compileCollaborationTemplate(receiverName: string, url: string, senderName: string, senderEmail: string, senderImg: string) {
+  const template = Handlebars.compile(collaborationTemplate);
+  const htmlBody = template({
+    receiverName,
+    url,
+    senderName,
+    senderEmail,
+    senderImg,
+  });
+
+  return htmlBody
+
 }

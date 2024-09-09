@@ -2,9 +2,6 @@ import Typewriter from "@/components/Typewriter";
 import { Button } from "@/components/ui/button";
 import AdorableAIChatWelcome from "@/components/WelcomeToApp";
 import { activateUser } from "@/lib/authActions";
-import { verifyJwt } from "@/lib/jwt";
-import { Link } from "lucide-react";
-import { redirect } from "next/navigation";
 
 interface Props {
   params: {
@@ -13,7 +10,7 @@ interface Props {
 }
 
 const ActivationPage = async ({ params }: Props) => {
-  const result = await activateUser(params.jwt as any);
+const result = await activateUser(params.jwt as any);
 
 
   return (

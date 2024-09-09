@@ -9,7 +9,7 @@ import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
 const sidebarLinks = [
   { href: '/mw/profile/credential', label: 'Update Password', icon: LockKeyhole },
   { href: '/mw/research', label: 'Manage Research', icon: BookOpen },
-  { href: '/dashboard', label: 'Dashboard', icon: LayoutDashboard },
+  { href: '/mw/dashboard', label: 'Dashboard', icon: LayoutDashboard },
   { href: '/mw/help', label: 'Help', icon: HelpCircle },
 ]
 

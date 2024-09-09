@@ -1,5 +1,6 @@
 
 import { LandingNav } from '@/components/landing-nav'
+import LandingMobileNav from '@/components/LandingMobileNav'
 import PublicationsFooter from '@/components/PublicationFooter'
 import PublicationSearch from '@/components/PublicationSearch'
 import { prisma } from '@/lib/prisma'
@@ -16,10 +17,10 @@ export default async function page() {
     }
   })
 
-  console.log(researchList[2])
   return (
     <div>
       <LandingNav />
+      <LandingMobileNav />
       <PublicationSearch researchList={researchList} />
       <PublicationsFooter />
     </div>

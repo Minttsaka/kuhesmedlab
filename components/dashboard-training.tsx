@@ -7,6 +7,7 @@
 import { ArrowRight } from "lucide-react";
 import Link from "next/link";
 import { Badge } from "./ui/badge";
+import { Content } from "@prisma/client";
 
 /** Add fonts into your Next.js project:
 
@@ -21,28 +22,28 @@ To read more about using these font, please visit the Next.js documentation:
 - App Directory: https://nextjs.org/docs/app/building-your-application/optimizing/fonts
 - Pages Directory: https://nextjs.org/docs/pages/building-your-application/optimizing/fonts
 **/
-export function DashboardTraining() {
+export function DashboardTraining({blog}:{blog:Content[]}) {
   return (
-    <div className=" container space-y-10 my-20 mx-auto">
-      <h2 className="text-3xl font-sans ">Top Discoveries</h2>
-      <div className="grid md:grid-cols-2 gap-4 " >
+    <div className="bg-gray-100 py-10 space-y-10 mt-20 ">
+      <h2 className="container mx-auto text-3xl font-sans ">Top Discoveries</h2>
+      <div className="container  grid md:grid-cols-2 gap-4 " >
       <div className="relative overflow-hidden rounded-3xl shadow-lg group hover:shadow-xl">
         <img
-          src="https://dbdmedical.com/wp-content/uploads/2023/02/black-history-health-large.jpg"
+          src={blog[0]?.image!}
           alt="Card 1"
           // width={800}
           // height={400}
-          className="object-cover w-full max-h-full transition-transform duration-300 ease-in-out group-hover:scale-105"
+          className="object-cover w-full h-full transition-transform duration-300 ease-in-out group-hover:scale-105"
         />
         <div className="absolute inset-0 bg-gradient-to-t from-white to-transparent" />
         <div className="absolute inset-0 flex flex-col justify-between space-y-10 p-6 ">
           <Badge className='bg-gradient-to-r w-fit from-blue-200 to-purple-300 text-xs text-gray-500'>
-              Medical
+          {blog[0]?.category}
           </Badge>
           <div>
-            <h3 className="text-2xl mb-2">Lorem, ipsum dolor sit amet consectetur adipisicing elit. Totam, minima!</h3>
+            <h3 className="md:text-2xl text-blue-900 font-bold mb-2">{blog[0]?.title}</h3>
             <div>
-              <Link href={'#'}>
+              <Link href={`/blog/read/${blog[0]?.slug}`}>
                 <ArrowRight className="h-4 w-4" />
               </Link>
             </div>
@@ -55,7 +56,7 @@ export function DashboardTraining() {
       <div className="grid md:grid-rows-2 gap-4">
         <div className="relative overflow-hidden rounded-3xl shadow-lg group hover:shadow-xl">
           <img
-            src="https://dbdmedical.com/wp-content/uploads/2023/02/black-history-health-large.jpg"
+            src={blog[1]?.image!}
             alt="Card 2"
             width={400}
             height={200}
@@ -64,12 +65,12 @@ export function DashboardTraining() {
           <div className="absolute inset-0 bg-gradient-to-t from-white to-transparent" />
           <div className="absolute inset-0 flex flex-col justify-between space-y-10 p-6 ">
           <Badge className='bg-gradient-to-r w-fit from-blue-200 to-purple-300 text-xs text-gray-500'>
-              Medical
+          {blog[1]?.category!}
           </Badge>
           <div>
-            <h3 className="text-2xl mb-2">Lorem, ipsum dolor sit amet consectetur adipisicing elit. Totam, minima!</h3>
+            <h3 className="md:text-2xl font-bold text-blue-900 mb-2">{blog[1]?.title}</h3>
             <div>
-              <Link href={'#'}>
+              <Link href={`/blog/read/${blog[1]?.slug}`}>
                 <ArrowRight className="h-4 w-4" />
               </Link>
             </div>
@@ -81,21 +82,21 @@ export function DashboardTraining() {
         </div>
         <div className="relative overflow-hidden rounded-3xl shadow-lg group hover:shadow-xl">
           <img
-            src="https://dbdmedical.com/wp-content/uploads/2023/02/black-history-health-large.jpg"
+            src={`/blog/read/${blog[2]?.image}`}
             alt="Card 3"
             width={400}
             height={200}
-            className="object-cover md:max-h-[50vh] w-full transition-transform duration-300 ease-in-out group-hover:scale-105"
+            className="object-cover h-full md:max-h-[50vh] w-full transition-transform duration-300 ease-in-out group-hover:scale-105"
           />
           <div className="absolute inset-0 bg-gradient-to-t from-white to-transparent" />
           <div className="absolute inset-0 flex flex-col justify-between space-y-10 p-6 ">
           <Badge className='bg-gradient-to-r w-fit from-blue-200 to-purple-300 text-xs text-gray-500'>
-              Medical
+          {blog[2]?.category}
           </Badge>
           <div>
-            <h3 className="text-2xl mb-2">Lorem, ipsum dolor sit amet consectetur adipisicing elit. Totam, minima!</h3>
+            <h3 className="text-2xl mb-2">{blog[2]?.title}</h3>
             <div>
-              <Link href={'#'}>
+              <Link href={`/blog/read/${blog[2]?.slug}`}>
                 <ArrowRight className="h-4 w-4" />
               </Link>
             </div>

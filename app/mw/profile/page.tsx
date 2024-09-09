@@ -20,7 +20,11 @@ export default  async function page() {
       include:{
         research:{
           include:{
-            collaborator:true,
+            collaborator:{
+              include:{
+                user:true
+              }
+            },
             surveys:{
               include:{
                 surveyForm:{

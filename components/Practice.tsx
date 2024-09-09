@@ -1,6 +1,6 @@
 "use client"
 
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { ScrollArea } from "@/components/ui/scroll-area"
 import { Switch } from "@/components/ui/switch"
@@ -41,12 +41,20 @@ import {  Collaborator, Prisma, Research, SurveyForm } from '@prisma/client'
 import { UploadResearchPaper } from './upload-research-paper'
 import { GroupMembers } from './GroupMembers'
 import ResearchInvite from './ResearchInvite'
+import { useToast } from './ui/use-toast'
+import { getResearchTrends, saveSurveyData } from '@/lib/actions'
 
 
 export type ResearchWithAllRelations = Prisma.ResearchGetPayload<{
   include:{
+    citationTrend:true,
+    downloadTrend:true,
     files:true,
-    collaborator:true,
+    collaborator:{
+      include:{
+        user:true
+      }
+    },
     surveys:{
       include:{
         surveyForm:true
@@ -54,20 +62,6 @@ export type ResearchWithAllRelations = Prisma.ResearchGetPayload<{
     }
   }
 }>;
-
-
-const FormSchema = z.object({
-  title: z
-    .string()
-    .min(2, "First name must be at least 2 characters")
-    .max(45, "First name must be less than 45 characters"),
-  description: z.string()
-  .min(2, "First name must be at least 2 characters"),
-  label: z.string()
-  .min(2, "First name must be at least 2 characters")
-});
-
-type InputType = z.infer<typeof FormSchema>;
 
 
 const generateTimeSeriesData = (months:number, baseValue:number, trend:number, volatility:number) => {
@@ -78,37 +72,59 @@ const generateTimeSeriesData = (months:number, baseValue:number, trend:number, v
   })
 }
 
-const generateChartData = (paper:Research) => {
-  const citationData = generateTimeSeriesData(24, 10, 4, 10).map((value, index) => ({
-    month: `Month ${index + 1}`,
-    citations: value
-  }))
+const generateChartData = async(paper:Research) => {
+  const { 
+    citationTrends,
+    downloadTrends,
+    views,
+    citations,
+    downloads ,
+    subjectAreaData
+  } = await getResearchTrends(paper.id);
 
-  const downloadData = generateTimeSeriesData(24, 100, 15, 50).map((value, index) => ({
-    month: `Month ${index + 1}`,
-    downloads: value
-  }))
+  const citationData = citationTrends.map(trend => ({
+    month: `${trend.month} ${trend.year}`,
+    citations: trend.citations
+  }));
 
-  const subjectAreaData = [
-    { name: 'Computer Science', value: Math.random() * 400 + 100 },
-    { name: 'Physics', value: Math.random() * 300 + 100 },
-    { name: 'Mathematics', value: Math.random() * 200 + 100 },
-    { name: 'Engineering', value: Math.random() * 100 + 100 },
-    { name: 'Biology', value: Math.random() * 250 + 100 },
-  ]
+  const downloadData = downloadTrends.map(trend => ({
+    month: `${trend.month} ${trend.year}`,
+    downloads: trend.downloads
+  }));
 
   const impactMetrics = [
-    { subject: 'Citations', A: paper.citationCount, fullMark: 150 },
-    { subject: 'Downloads', A: paper.downloadCount / 50, fullMark: 150 },
-    { subject: 'Social Media', A: Math.random() * 100 + 50, fullMark: 150 },
-    { subject: 'News Mentions', A: Math.random() * 50 + 10, fullMark: 150 },
-    { subject: 'Policy Citations', A: Math.random() * 30 + 5, fullMark: 150 },
-  ]
+    { subject: 'Citations', A: citations, fullMark: 150 },
+    { subject: 'Downloads', A: downloads, fullMark: 150 },
+    { subject: 'Views', A: views, fullMark: 150 },
+  ];
 
+  
   return { citationData, downloadData, subjectAreaData, impactMetrics }
 }
 
 const COLORS = ['#FF6B6B', '#4ECDC4', '#45B7D1', '#FF`A07A', '#98D8C8']
+
+type Metrics = {
+
+
+  citationData: {
+    month: string;
+    citations: number;
+}[],
+   downloadData: {
+    month: string;
+    downloads: number;
+}[], 
+   subjectAreaData: {
+    name: string;
+    value: number;
+}[], 
+   impactMetrics:{
+    subject: string;
+    A: number;
+    fullMark: number;
+} []
+}
 
 export default function Practice(
   { 
@@ -118,44 +134,75 @@ export default function Practice(
     research:ResearchWithAllRelations,
 
   }) {
+    
   const [darkMode, setDarkMode] = useState(false)
-  const { citationData, downloadData, subjectAreaData, impactMetrics } = generateChartData(research)
+  const [title, setTitle] = useState('')
+  const [description, setDescription] = useState('')
+  const [label, setLabel] = useState('')
+  const [isSubmitting, setIsSubmitting] = useState(false)
+  const [metrics, setMetrics] = useState<Metrics>()
 
+  const { toast } = useToast()
   const router = useRouter();
-  const {
-    register,
-    handleSubmit,
-    reset,
-    control,
-    watch,
-    formState: { errors,isSubmitting },
-  } = useForm<InputType>({
-    resolver: zodResolver(FormSchema),
-  });
 
-
-
-  const saveSurvey: SubmitHandler<InputType> = async (data) => {
-
-      const {title, description, label} = data
-    try {
-      const response= await axios.post('/api/survey',{
-        title,
-        description,
-        researchId:research.id,
-        label
-      })
-      router.push(`/mw/survey/questionner/${response.data}/${research.id}`)
-      
-        toast.success("The workspace created.");
-        
-    } catch (error) {
-      console.log(error)
+  useEffect(()=>{
+    const getMetric = async()=>{
+      // const { citationData, downloadData, subjectAreaData, impactMetrics }
+      const data  = await generateChartData(research)
+    setMetrics(data)
     }
-  };
+    getMetric()
+  },[])
+
+  const handleSubmit = async() => {
+
+    const data={
+      title,
+      description,
+      label,
+      researchId:research.id
+    }
+    try {
+      setIsSubmitting(true)
+
+      const res:any = await saveSurveyData(data)
+
+      if(res==="label"){
+          toast({
+            title:"Status",
+            description:"Change the label"
+          })
+          setIsSubmitting(false)
+        } else {
+          toast({
+            title:"Survey",
+            description:"Successfully created"
+          })
+          router.push(`/mw/survey/questionner/${res.id!}/${research.id}`)
+  
+        }
+      
+    } catch (error) {
+      
+    } finally{
+      setIsSubmitting(false)
+    }
+  }
+
+  const inputVariants = {
+    focus: { scale: 1.02, transition: { type: 'spring', stiffness: 300 } },
+    blur: { scale: 1 }
+  }
+
+  const collaborators = research.collaborator.map(collaborator=>collaborator.user)
+
+  const totalCitations = research.citationTrend.reduce((sum, citation) => sum + citation.citations, 0);
+
+  // Calculate total downloads
+  const totalDownloads = research.downloadTrend.reduce((sum, download) => sum + download.downloads, 0);
 
   return (
-    <div className={`min-h-screen ${darkMode ? 'dark' : ''}`}>
+    <div className={`min-h-screen ${darkMode ? 'dark' : ''}`} id='analytics'>
       <div className="p-4 bg-gradient-to-r from-background to-secondary ">
         <div className="flex justify-between items-center mb-6">
           <h1 className="text-4xl bg-clip-text font-extrabold tracking-tight mb-2 text-transparent bg-gradient-to-r from-primary to-secondary line-clamp-1">{research.title}</h1>
@@ -178,55 +225,99 @@ export default function Practice(
                         </span>
                       </button>
                   </DialogTrigger>
-                  <DialogContent className="bg-white shadow-2xl shadow-purple-500 sm:max-w-[425px]">
+                  <DialogContent className="bg-gradient-to-br from-slate-800 to-slate-900 shadow-2xl border-none rounded-none  shadow-purple-500 ">
                     <h2 className='text-gray-600 font-bold space-y-5 text-center'>Create New Survey</h2>
-                    <form onSubmit={handleSubmit(saveSurvey)} className="grid gap-4 py-4">
-                      <div className="">
-                        <Label htmlFor="title" className="text-right">
-                          Title
-                        </Label>
-                        <Input
-                          id="title"
-                          {...register("title")}
-                          className="bg-transparent border-b-2 focus:outline-0 border-b-blue-900"
-                        />
-                      </div>
-                      <div className="">
-                        <Label htmlFor="description" className="text-right">
-                        Description
-                        </Label>
-                        <Input
-                        {...register("description")}
-                          id="description"
-                          className="bg-transparent border-b-2 focus:outline-0 border-b-blue-900"
-                        />
-                      </div>
-                      <div className="">
-                        <Label htmlFor="label" className="text-right">
-                        Label
-                        </Label>
-                        <Input
-                        {...register("label")}
-                          id="label"
-                          className="bg-transparent border-b-2 focus:outline-0 border-b-blue-900"
-                        />
-                      </div>
-                      <button type='submit' className="px-8 py-2 rounded-full relative bg-slate-700 text-white text-sm hover:shadow-2xl hover:shadow-white/[0.1] transition duration-200 border border-slate-600"
-                      disabled={isSubmitting}
+                    <div className="rounded-xl ">
+                      <motion.div
+                        initial={{ opacity: 0, y: 20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ duration: 0.5 }}
+                        className="grid gap-6"
                       >
-                        <div className="absolute inset-x-0 h-px w-1/2 mx-auto -top-px shadow-2xl  bg-gradient-to-r from-transparent via-teal-500 to-transparent" />
-                        <span className="relative z-20">
-                            {isSubmitting ? "Creating.." : "Create New Survey"}
-                        </span>
-                        </button>
-                    </form>
+                        <motion.div className="space-y-2">
+                          <Label htmlFor="title" className="text-sm font-medium text-slate-200">
+                            Title
+                          </Label>
+                          <motion.div variants={inputVariants} whileFocus="focus" >
+                            <Input
+                              id="title"
+                              value={title}
+                              onChange={(e) => setTitle(e.target.value)}
+                              className="bg-transparent border-b-2 border-blue-500 focus:border-teal-400 text-white placeholder-slate-400 focus:ring-0 focus:outline-none transition-colors duration-300"
+                              placeholder="Enter title"
+                            />
+                          </motion.div>
+                        </motion.div>
+
+                        <motion.div className="space-y-2">
+                          <Label htmlFor="description" className="text-sm font-medium text-slate-200">
+                            Description
+                          </Label>
+                          <motion.div variants={inputVariants} whileFocus="focus" >
+                            <Input
+                              id="description"
+                              value={description}
+                              onChange={(e) => setDescription(e.target.value)}
+                              className="bg-transparent border-b-2 border-blue-500 focus:border-teal-400 text-white placeholder-slate-400 focus:ring-0 focus:outline-none transition-colors duration-300"
+                              placeholder="Enter description"
+                            />
+                          </motion.div>
+                        </motion.div>
+
+                        <motion.div className="space-y-2">
+                          <Label htmlFor="label" className="text-sm font-medium text-slate-200">
+                            Label
+                          </Label>
+                          <motion.div variants={inputVariants} whileFocus="focus" >
+                            <Input
+                              id="label"
+                              value={label}
+                              onChange={(e) => setLabel(e.target.value)}
+                              className="bg-transparent border-b-2 border-blue-500 focus:border-teal-400 text-white placeholder-slate-400 focus:ring-0 focus:outline-none transition-colors duration-300"
+                              placeholder="Enter label"
+                            />
+                          </motion.div>
+                        </motion.div>
+
+                        <motion.button
+                          onClick={handleSubmit}
+                          disabled={isSubmitting}
+                          className="px-8 py-3 rounded-full relative bg-gradient-to-r from-blue-600 to-teal-400 text-white text-sm font-medium hover:shadow-2xl hover:shadow-teal-500/20 transition duration-300 overflow-hidden group"
+                          whileHover={{ scale: 1.05 }}
+                          whileTap={{ scale: 0.95 }}
+                        >
+                          <motion.div
+                            className="absolute inset-0 bg-gradient-to-r from-teal-400 to-blue-600"
+                            initial={{ x: '100%' }}
+                            animate={{ x: isSubmitting ? '0%' : '100%' }}
+                            transition={{ duration: 0.5, ease: 'easeInOut' }}
+                          />
+                          <span className="relative z-10 flex items-center justify-center">
+                            {isSubmitting ? (
+                              <>
+                                <Loader2 className="animate-spin mr-2 h-4 w-4" />
+                                Creating...
+                              </>
+                            ) : (
+                              'Create New Survey'
+                            )}
+                          </span>
+                          <motion.div
+                            className="absolute inset-x-0 h-1 bottom-0 bg-gradient-to-r from-transparent via-white to-transparent opacity-50"
+                            initial={{ scaleX: 0 }}
+                            animate={{ scaleX: 1 }}
+                            transition={{ duration: 0.5, ease: 'easeInOut' }}
+                          />
+                        </motion.button>
+                      </motion.div>
+                    </div>
                   </DialogContent>
                 </Dialog>
          
               </CardTitle>
             </CardHeader>
             <CardContent>
-              <ScrollArea className="h-[80vh]">
+              <ScrollArea className="md:h-full">
                 <AnimatePresence>
                   {research?.surveys.map((survey) => (
                     <motion.div
@@ -267,8 +358,8 @@ export default function Practice(
               <CardHeader>
                 <CardTitle className='line-clamp-1'>{research.abstract}</CardTitle>
                 <div className='flex items-center gap-3'>
-                {/* <GroupMembers /> */}
-                <ResearchInvite />
+                <GroupMembers collaborator={collaborators} />
+                <ResearchInvite id={research.id} />
                 </div>
                
               </CardHeader>
@@ -276,12 +367,12 @@ export default function Practice(
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
                   <div className="flex flex-col items-center justify-center p-4 bg-primary/10 rounded-lg">
                     <TrendingUpIcon className="w-8 h-8 mb-2 text-primary" />
-                    <span className="text-2xl font-bold">{research.citationCount}</span>
+                    <span className="text-2xl font-bold">{totalCitations}</span>
                     <span className="text-sm">Total Citations</span>
                   </div>
                   <div className="flex flex-col items-center justify-center p-4 bg-primary/10 rounded-lg">
                     <DownloadIcon className="w-8 h-8 mb-2 text-primary" />
-                    <span className="text-2xl font-bold">{research.downloadCount}</span>
+                    <span className="text-2xl font-bold">{totalDownloads}</span>
                     <span className="text-sm">Total Downloads</span>
                   </div>
                   <div className="flex flex-col items-center justify-center p-4 bg-primary/10 rounded-lg">
@@ -304,7 +395,7 @@ export default function Practice(
                 </CardHeader>
                 <CardContent>
                   <ResponsiveContainer width="100%" height={300}>
-                    <LineChart data={citationData}>
+                    <LineChart data={metrics?.citationData}>
                       <CartesianGrid strokeDasharray="3 3" />
                       <XAxis dataKey="month" />
                       <YAxis />
@@ -321,7 +412,7 @@ export default function Practice(
                 </CardHeader>
                 <CardContent>
                   <ResponsiveContainer width="100%" height={300}>
-                    <BarChart data={downloadData}>
+                    <BarChart data={metrics?.downloadData}>
                       <CartesianGrid strokeDasharray="3 3" />
                       <XAxis dataKey="month" />
                       <YAxis />
@@ -340,7 +431,7 @@ export default function Practice(
                   <ResponsiveContainer width="100%" height={300}>
                     <PieChart>
                       <Pie
-                        data={subjectAreaData}
+                        data={metrics?.subjectAreaData}
                         cx="50%"
                         cy="50%"
                         labelLine={false}
@@ -349,7 +440,7 @@ export default function Practice(
                         dataKey="value"
                         label={({ name, percent }) => `${name} ${(percent * 100).toFixed(0)}%`}
                       >
-                        {subjectAreaData.map((entry, index) => (
+                        {metrics?.subjectAreaData.map((entry, index) => (
                           <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
                         ))}
                       </Pie>
@@ -364,7 +455,7 @@ export default function Practice(
                 </CardHeader>
                 <CardContent>
                   <ResponsiveContainer width="100%" height={300}>
-                    <RadarChart cx="50%" cy="50%" outerRadius="80%" data={impactMetrics}>
+                    <RadarChart cx="50%" cy="50%" outerRadius="80%" data={metrics?.impactMetrics}>
                       <PolarGrid />
                       <PolarAngleAxis dataKey="subject" />
                       <PolarRadiusAxis angle={30} domain={[0, 150]} />

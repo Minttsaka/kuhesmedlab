@@ -7,6 +7,9 @@ import { Input } from '@/components/ui/input'
 import { Textarea } from '@/components/ui/textarea'
 import { Button } from '@/components/ui/button'
 import { ArrowRight, Mail, Phone, MapPin, Microscope, TrendingUp, Activity, Award, LucideProps } from 'lucide-react'
+import axios from 'axios'
+import { useToast } from './ui/use-toast'
+import { useRouter } from 'next/navigation'
 
 const AnimatedSVG = () => (
   <svg
@@ -92,10 +95,35 @@ export default function ContactFirst() {
   const [name, setName] = useState('')
   const [email, setEmail] = useState('')
   const [message, setMessage] = useState('')
+  const [isSubmitting, setIsSubmitting] = useState(false)
 
-  const handleSubmit = () => {
-    // Handle form submission here
-    console.log('Form submitted:', { name, email, message })
+  const {toast} = useToast()
+  const router =useRouter()
+  const handleSubmit = async() => {
+
+    try {
+      setIsSubmitting(true)
+      await axios.post('/api/notification',
+      { 
+        name, 
+        comments:message,
+        email,
+        feedbackType:"GENERAL"
+      }
+    )
+    toast({
+      title:'Success',
+      description:'Successfully sent the feedback'
+    })
+    } catch (error) {
+
+      console.log(error)
+      
+    } finally{
+      setIsSubmitting(false)
+      router.refresh()
+    }
+      
   }
 
   return (
@@ -125,7 +153,7 @@ export default function ContactFirst() {
 
         <div className="grid md:grid-cols-2 gap-12 items-start mb-24">
           <FadeInSection>
-            <form onSubmit={handleSubmit} className="space-y-6 bg-white p-8 rounded-2xl shadow-2xl">
+            <div className="space-y-6 bg-white p-8 rounded-2xl shadow-2xl">
               <h2 className="text-3xl font-semibold mb-6 text-indigo-900">Send us a message</h2>
               <div>
                 <label htmlFor="name" className="block text-sm font-medium text-gray-700 mb-1">
@@ -166,11 +194,11 @@ export default function ContactFirst() {
                   rows={4}
                 />
               </div>
-              <Button type="submit" className="w-full bg-indigo-600 hover:bg-indigo-700 text-lg py-6">
+              <Button  onClick={handleSubmit} type="button" className="w-full bg-indigo-600 hover:bg-indigo-700 text-lg py-6" disabled={isSubmitting}>
                 Send Message
                 <ArrowRight className="ml-2 h-5 w-5" />
               </Button>
-            </form>
+            </div>
           </FadeInSection>
           <FadeInSection>
             <div className="space-y-8">
@@ -183,33 +211,23 @@ export default function ContactFirst() {
                   </li>
                   <li className="flex items-center">
                     <Phone className="h-8 w-8 text-indigo-600 mr-4" />
-                    <span className="text-lg">+1 (555) 123-4567</span>
+                    <span className="text-lg">+256998970102</span>
                   </li>
                   <li className="flex items-center">
                     <MapPin className="h-8 w-8 text-indigo-600 mr-4" />
-                    <span className="text-lg">123 Medical Center Dr, Health City, HC 12345</span>
+                    <span className="text-lg">kuhes , blantyre</span>
                   </li>
                 </ul>
               </div>
-              <div className="bg-white p-8 rounded-2xl shadow-xl">
-                <h3 className="text-2xl font-semibold mb-6 text-indigo-900">Business Hours</h3>
+              <div className="bg-indigo-600 text-white p-8 rounded-2xl shadow-xl">
+                <h3 className="text-2xl font-semibold mb-6">Business Hours</h3>
                 <ul className="space-y-4 text-lg">
                   <li>Monday - Friday: 8:00 AM - 6:00 PM</li>
                   <li>Saturday: 9:00 AM - 2:00 PM</li>
                   <li>Sunday: Closed</li>
                 </ul>
               </div>
-              <motion.div
-                className="bg-indigo-600 text-white p-8 rounded-2xl shadow-xl"
-                whileHover={{ scale: 1.05 }}
-                transition={{ type: "spring", stiffness: 300 }}
-              >
-                <h3 className="text-2xl font-semibold mb-4">Emergency Services</h3>
-                <p className="text-lg mb-4">
-                  For urgent medical tests and results, please call our 24/7 emergency hotline:
-                </p>
-                <p className="text-3xl font-bold">+1 (555) 911-LABS</p>
-              </motion.div>
+             
             </div>
           </FadeInSection>
         </div>
@@ -236,7 +254,7 @@ export default function ContactFirst() {
               <CompanyFeature
                 icon={Award}
                 title="Accredited Excellence"
-                description="Our lab is nationally accredited, adhering to the highest standards of quality and patient care."
+                description="Our lab is nationally accredited, adhering to the highest standards of quality research."
               />
             </div>
           </div>
@@ -257,6 +275,90 @@ export default function ContactFirst() {
           </div>
         </FadeInSection>
       </div>
+      <div className="mt-12 grid grid-cols-1 md:grid-cols-3 gap-8">
+          <AnimatedLabDrawing />
+          <AnimatedMicroscopeDrawing />
+          <AnimatedDNADrawing />
+        </div>
     </div>
+  )
+}
+
+function AnimatedLabDrawing() {
+  const [offset, setOffset] = useState(0)
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setOffset((prevOffset) => (prevOffset + 1) % 100)
+    }, 50)
+    return () => clearInterval(interval)
+  }, [])
+
+  return (
+    <svg className="w-full h-48" viewBox="0 0 200 100">
+      <defs>
+        <linearGradient id="beakerGradient" x1="0%" y1="0%" x2="0%" y2="100%">
+          <stop offset="0%" stopColor="#3B82F6" stopOpacity="0.2" />
+          <stop offset="100%" stopColor="#3B82F6" stopOpacity="0.8" />
+        </linearGradient>
+      </defs>
+      <path d="M70,90 L90,20 L110,20 L130,90 Z" fill="none" stroke="#3B82F6" strokeWidth="2" />
+      <rect x="90" y="20" width="20" height="70" fill="url(#beakerGradient)">
+        <animate attributeName="height" values="0;70;0" dur="4s" repeatCount="indefinite" />
+      </rect>
+      <circle cx="100" cy="15" r="5" fill="#3B82F6" />
+    </svg>
+  )
+}
+
+function AnimatedMicroscopeDrawing() {
+  return (
+    <svg className="w-full h-48" viewBox="0 0 200 100">
+      <path d="M90,90 L110,90 L110,70 L90,70 Z" fill="#3B82F6" />
+      <path d="M95,70 L105,70 L105,50 L95,50 Z" fill="#3B82F6" />
+      <circle cx="100" cy="45" r="10" fill="none" stroke="#3B82F6" strokeWidth="2">
+        <animate attributeName="r" values="8;12;8" dur="2s" repeatCount="indefinite" />
+      </circle>
+      <path d="M85,90 L115,90" stroke="#3B82F6" strokeWidth="2" />
+    </svg>
+  )
+}
+
+function AnimatedDNADrawing() {
+  const [offset, setOffset] = useState(0)
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setOffset((prevOffset) => (prevOffset + 1) % 20)
+    }, 50)
+    return () => clearInterval(interval)
+  }, [])
+
+  return (
+    <svg className="w-full h-48" viewBox="0 0 200 100">
+      <path
+        d={`M50,${50 + offset} Q100,20 150,${50 + offset} T250,${50 + offset}`}
+        fill="none"
+        stroke="#3B82F6"
+        strokeWidth="2"
+      />
+      <path
+        d={`M50,${70 - offset} Q100,100 150,${70 - offset} T250,${70 - offset}`}
+        fill="none"
+        stroke="#3B82F6"
+        strokeWidth="2"
+      />
+      {[0, 20, 40, 60, 80].map((x) => (
+        <line
+          key={x}
+          x1={60 + x}
+          y1={50 + offset + Math.sin((x + offset) / 20) * 20}
+          x2={60 + x}
+          y2={70 - offset + Math.sin((x + offset) / 20) * 20}
+          stroke="#3B82F6"
+          strokeWidth="2"
+        />
+      ))}
+    </svg>
   )
 }

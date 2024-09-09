@@ -2,13 +2,13 @@
 
 import React, { useState, useEffect, useRef } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
-import { Bar, Pie } from 'react-chartjs-2'
-import { Chart as ChartJS, CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend, ArcElement } from 'chart.js'
+import {  CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Download, FileText, Filter, SortAsc, SortDesc, Moon, Sun, Maximize2, MessageSquare } from 'lucide-react'
 import * as THREE from 'three'
 import WordCloud from 'react-d3-cloud'
 import { Canvas } from '@react-three/fiber'
 import { OrbitControls, Sphere } from '@react-three/drei'
+import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, LineChart, Line, PieChart, Pie, Cell, AreaChart, Area } from 'recharts'
 import { Search, Plus, Edit, Trash2,Eye, X, Loader2 } from 'lucide-react'
 import { Button } from './ui/button'
 import {  ChevronLeft, ChevronRight } from 'lucide-react'
@@ -18,19 +18,17 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '.
 import useSWR from 'swr'
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from './ui/dropdown-menu'
 import { Textarea } from './ui/textarea'
-ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend, ArcElement)
 
 type DataItem = {
-  id: number;
+  responses:number,
   title: string;
-  responses: number;
   importance: string;
   completionRate: number;
-  avgTimeMinutes: number;
-  sentiment: number;
+  avgTime: number;
+  sentiment:string;
 };
 
-export default function SurveyOverallAnalysis() {
+export default function SurveyOverallAnalysis({formData, aiAnalyze}:{formData:DataItem[],aiAnalyze:string}) {
   const [sortBy, setSortBy] = useState('responses')
   const [sortOrder, setSortOrder] = useState('desc')
   const [filterImportance, setFilterImportance] = useState('all')
@@ -38,18 +36,22 @@ export default function SurveyOverallAnalysis() {
   const [aiAnalysis, setAiAnalysis] = useState('')
   const [expandedSurvey, setExpandedSurvey] = useState<string | number>('')
 
-  const surveyData:DataItem[] = [
-    { id: 1, title: 'COVID-19 Symptoms', responses: 1234, importance: 'high', completionRate: 92, avgTimeMinutes: 8, sentiment: 0.7 },
-    { id: 2, title: 'Mental Health Assessment', responses: 987, importance: 'high', completionRate: 88, avgTimeMinutes: 15, sentiment: -0.2 },
-    { id: 3, title: 'Dietary Habits', responses: 756, importance: 'medium', completionRate: 79, avgTimeMinutes: 12, sentiment: 0.3 },
-    { id: 4, title: 'Physical Activity', responses: 543, importance: 'medium', completionRate: 85, avgTimeMinutes: 10, sentiment: 0.5 },
-    { id: 5, title: 'Sleep Quality', responses: 890, importance: 'high', completionRate: 91, avgTimeMinutes: 7, sentiment: 0.1 },
-    { id: 6, title: 'Chronic Pain Assessment', responses: 432, importance: 'high', completionRate: 87, avgTimeMinutes: 14, sentiment: -0.4 },
-    { id: 7, title: 'Medication Side Effects', responses: 678, importance: 'medium', completionRate: 82, avgTimeMinutes: 11, sentiment: -0.1 },
-    { id: 8, title: 'Family Medical History', responses: 345, importance: 'low', completionRate: 76, avgTimeMinutes: 18, sentiment: 0.2 },
+  const COLORS = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042', '#A28DFF']
+
+  const questionData = [
+    { question: 'Product Quality', excellent: 40, good: 35, average: 15, poor: 7, veryPoor: 3 },
+    { question: 'Customer Service', excellent: 45, good: 30, average: 20, poor: 4, veryPoor: 1 },
+    { question: 'Value for Money', excellent: 35, good: 40, average: 18, poor: 5, veryPoor: 2 },
   ]
 
-  const filteredData = surveyData
+  const sentimentData = [
+    { name: 'Positive', value: 65 },
+    { name: 'Neutral', value: 25 },
+    { name: 'Negative', value: 10 },
+  ]
+
+ 
+  const filteredData = formData
     .filter(survey => filterImportance === 'all' || survey.importance === filterImportance)
     .sort((a, b) => {
       const order = sortOrder === 'asc' ? 1 : -1;
@@ -65,9 +67,9 @@ export default function SurveyOverallAnalysis() {
       return 0; 
     })
 
-  const totalResponses = surveyData.reduce((sum, survey) => sum + survey.responses, 0)
-  const avgCompletionRate = surveyData.reduce((sum, survey) => sum + survey.completionRate, 0) / surveyData.length
-  const avgTimeMinutes = surveyData.reduce((sum, survey) => sum + survey.avgTimeMinutes, 0) / surveyData.length
+  const totalResponses = formData.reduce((sum, survey) => sum + survey.responses, 0)
+  const avgCompletionRate = formData.reduce((sum, survey) => sum + survey.completionRate, 0) / formData.length
+  const avgTimeMinutes = formData.reduce((sum, survey) => sum + survey.avgTime, 0) / formData.length
 
   const barChartData = {
     labels: filteredData.map(survey => survey.title),
@@ -85,9 +87,9 @@ export default function SurveyOverallAnalysis() {
     datasets: [
       {
         data: [
-          surveyData.filter(s => s.importance === 'high').length,
-          surveyData.filter(s => s.importance === 'medium').length,
-          surveyData.filter(s => s.importance === 'low').length,
+          formData.filter(s => s.importance === 'high').length,
+          formData.filter(s => s.importance === 'medium').length,
+          formData.filter(s => s.importance === 'low').length,
         ],
         backgroundColor: ['#FF6384', '#36A2EB', '#FFCE56'],
         hoverBackgroundColor: ['#FF6384', '#36A2EB', '#FFCE56'],
@@ -95,24 +97,12 @@ export default function SurveyOverallAnalysis() {
     ],
   }
 
-  const wordCloudData = [
-    { text: 'Health', value: 64 },
-    { text: 'Wellness', value: 41 },
-    { text: 'COVID-19', value: 55 },
-    { text: 'Mental Health', value: 38 },
-    { text: 'Diet', value: 30 },
-    { text: 'Exercise', value: 35 },
-    { text: 'Sleep', value: 28 },
-    { text: 'Chronic Pain', value: 22 },
-    { text: 'Medication', value: 25 },
-    { text: 'Family History', value: 20 },
-  ]
-
+  
   useEffect(() => {
     // Simulating AI analysis generation
     const generateAnalysis = async () => {
       await new Promise(resolve => setTimeout(resolve, 1500)) // Simulating API call
-      setAiAnalysis(`Based on the comprehensive analysis of ${totalResponses.toLocaleString()} responses across ${surveyData.length} surveys, we've uncovered several key insights:
+      setAiAnalysis(`Based on the comprehensive analysis of ${totalResponses.toLocaleString()} responses across ${formData.length} surveys, we've uncovered several key insights:
 
 1. COVID-19 Symptom Tracking: This survey has garnered the highest response rate, indicating ongoing public concern and engagement with the pandemic situation.
 
@@ -146,67 +136,10 @@ These insights can guide future research directions, help in refining survey des
   return (
     <div className={`min-h-screen ${darkMode ? 'bg-gray-900 text-white' : 'bg-gray-100'} transition-colors duration-500`}>
       <div className="max-w-7xl mx-auto p-8">
-        <div className="flex justify-between items-center mb-8">
-          <h1 className="text-4xl font-bold">Survey Analysis Dashboard</h1>
-          <Button variant="outline" size="icon" onClick={() => setDarkMode(!darkMode)}>
-            {darkMode ? <Sun className="h-[1.2rem] w-[1.2rem]" /> : <Moon className="h-[1.2rem] w-[1.2rem]" />}
-          </Button>
-        </div>
-
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-          <Card className='bg-green-900' darkMode={darkMode}>
-            <h3 className="text-lg font-semibold mb-2">Total Responses</h3>
-            <p className="text-3xl font-bold">{totalResponses.toLocaleString()}</p>
-          </Card>
-          <Card className='bg-green-900' darkMode={darkMode}>
-            <h3 className="text-lg font-semibold mb-2">Avg. Completion Rate</h3>
-            <p className="text-3xl font-bold">{avgCompletionRate.toFixed(1)}%</p>
-          </Card>
-          <Card className='bg-green-900' darkMode={darkMode}>
-            <h3 className="text-lg font-semibold mb-2">Avg. Time to Complete</h3>
-            <p className="text-3xl font-bold">{avgTimeMinutes.toFixed(1)} minutes</p>
-          </Card>
-        </div>
-
-        <Card darkMode={darkMode} className="mb-8">
-          <h3 className="text-xl font-semibold mb-4">Key Terms Word Cloud</h3>
-          <WordCloud
-            data={wordCloudData}
-            width={500}
-            height={300}
-            font="Impact"
-            fontStyle="normal"
-            fontWeight="normal"
-            fontSize={(word) => Math.log2(word.value) * 5}
-            spiral="rectangular"
-            rotate={(word) => word.value % 360}
-            padding={5}
-            random={Math.random}
-            //fill={(d, i) => d3.schemeCategory10[i % 10]}
-          />
-        </Card>
-
-        <Card darkMode={darkMode} className="mb-8">
-          <h3 className="text-xl font-semibold mb-4">3D Data Visualization</h3>
-          <div style={{ height: '400px' }}>
-            <Canvas>
-              <OrbitControls enableZoom={false} />
-              <ambientLight intensity={0.5} />
-              <spotLight position={[10, 10, 10]} angle={0.15} penumbra={1} />
-              <pointLight position={[-10, -10, -10]} />
-              {surveyData.map((survey, index) => (
-                <Sphere key={survey.id} position={[index - 3.5, 0, 0]} args={[0.5, 32, 32]}>
-                  <meshStandardMaterial color={`hsl(${index * 45}, 70%, 50%)`} />
-                </Sphere>
-              ))}
-            </Canvas>
-          </div>
-        </Card>
-
         <Card darkMode={darkMode} className="mb-8">
           <div className="flex flex-wrap items-center justify-between mb-4">
             <h2 className="text-2xl font-bold">Survey Details</h2>
-            <div className="flex space-x-2">
+            <div className="md:flex space-x-2">
               <Select
                 value={filterImportance}
                 onValueChange={setFilterImportance}
@@ -253,53 +186,28 @@ These insights can guide future research directions, help in refining survey des
                   <th className="py-2 px-4 text-left">Completion Rate</th>
                   <th className="py-2 px-4 text-left">Avg. Time</th>
                   <th className="py-2 px-4 text-left">Sentiment</th>
-                  <th className="py-2 px-4 text-left">Actions</th>
                 </tr>
               </thead>
               <tbody>
-                {filteredData.map((survey) => (
-                  <tr key={survey.id} className="border-b last:border-b-0">
-                    <td className="py-2 px-4">{survey.title}</td>
+                {filteredData.map((survey, index) => (
+                  <tr key={index} className="border-b last:border-b-0">
+                    <td className="py-2 px-4 line-clamp-1">{survey.title}</td>
                     <td className="py-2 px-4">{survey.responses.toLocaleString()}</td>
                     <td className="py-2 px-4">
                       <Badge variant={survey.importance}>{survey.importance}</Badge>
                     </td>
                     <td className="py-2 px-4">{survey.completionRate}%</td>
-                    <td className="py-2 px-4">{survey.avgTimeMinutes} min</td>
+                    <td className="py-2 px-4">{survey.avgTime} sec</td>
                     <td className="py-2 px-4">
-                      <SentimentBar sentiment={survey.sentiment}/>
+                      {survey.sentiment}
                     </td>
-                    <td className="py-2 px-4">
-                      <Button variant="ghost" size="sm" onClick={() => setExpandedSurvey(survey.id === expandedSurvey ? '' : survey.id)}>
-                        <Maximize2 size={16} />
-                      </Button>
-                    </td>
+                    
                   </tr>
                 ))}
               </tbody>
             </table>
           </div>
         </Card>
-
-        <AnimatePresence>
-          {expandedSurvey && (
-            <motion.div
-              initial={{ opacity: 0, y: 50 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: 50 }}
-              className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50"
-            >
-              <Card darkMode={darkMode} className="w-full max-w-2xl">
-                <Button className="absolute top-2 right-2" variant="ghost" size="sm" onClick={() => setExpandedSurvey('')}>
-                  <X size={16} />
-                </Button>
-                <h3 className="text-2xl font-bold mb-4">{surveyData.find(s => s.id === expandedSurvey)?.title}</h3>
-                <p>Detailed analysis and insights for this survey would go here...</p>
-              </Card>
-            </motion.div>
-          )}
-        </AnimatePresence>
-
         <Card darkMode={darkMode} className="mb-8">
           <div className="flex items-center justify-between mb-4">
             <h3 className="text-2xl font-semibold">AI-Powered Descriptive Analysis</h3>
@@ -309,38 +217,19 @@ These insights can guide future research directions, help in refining survey des
             </div>
           </div>
           <div className="prose max-w-none">
-            {aiAnalysis ? (
+            {aiAnalysis && 
               <motion.div
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 transition={{ duration: 0.5 }}
               >
-                {aiAnalysis.split('\n\n').map((paragraph, index) => (
-                  <motion.p
-                    key={index}
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ delay: index * 0.1 }}
-                  >
-                    {paragraph}
-                  </motion.p>
-                ))}
+                <div dangerouslySetInnerHTML={{ __html: aiAnalyze }} />                
               </motion.div>
-            ) : (
-              <p>Generating analysis...</p>
-            )}
+              }
           </div>
         </Card>
 
         <div className="flex flex-wrap justify-between items-center">
-          <div className="space-y-2 mb-4 md:mb-0">
-            <h3 className="text-xl font-semibold">Quick Insights</h3>
-            <ul className="list-disc list-inside space-y-1">
-              <li>COVID-19 Symptoms survey has the highest response rate</li>
-              <li>Mental Health Assessment takes the longest to complete on average</li>
-              <li>Family Medical History survey has the lowest completion rate</li>
-            </ul>
-          </div>
           <div className="space-y-2">
             <Button onClick={handleDownload} className="w-full mb-2">
               <Download className="mr-2 h-4 w-4" /> Download Full Report
@@ -366,7 +255,7 @@ These insights can guide future research directions, help in refining survey des
           </div>
         </div>
 
-        <div className="mt-8 p-4 bg-blue-100 dark:bg-blue-900 rounded-lg">
+        <div className="mt-8 p-4 bg-blue-100 dark:bg-blue-900 rounded-lg" id="feedback">
           <h3 className="text-lg font-semibold mb-2 flex items-center">
             <MessageSquare className="mr-2" /> Feedback
           </h3>

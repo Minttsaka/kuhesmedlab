@@ -37,8 +37,8 @@ const navItems = [
 export default function ResearchSideBar() {
   return (
 
-       <header className="sticky top-0 z-50 w-full border-b bg-white rounded-t-xl shadow-sm">
-        <div className="container flex h-16 items-center bg-gray-100 rounded-lg p-1 my-1">
+       <header className="hidden md:block sticky top-0 z-50 w-full border-b bg-white rounded-t-xl shadow-sm">
+        <div className="container flex justify-between h-16 items-center bg-gray-100 rounded-lg p-1 my-1">
         <Avatar>
           <AvatarImage src='/img/official-logo.png' className="object-cover" />
       </Avatar>
@@ -54,33 +54,7 @@ export default function ResearchSideBar() {
                 </Link>
             ))}
           </nav>
-          <div className="flex flex-1 items-center justify-end space-x-4">
-            <DropdownMenu>
-              <DropdownMenuTrigger asChild>
-                <Button
-                  variant="ghost"
-                  size="icon"
-                  className="md:hidden"
-                >
-                  <Menu className="h-6 w-6" />
-                  <span className="sr-only">Toggle navigation menu</span>
-                </Button>
-              </DropdownMenuTrigger>
-              <DropdownMenuContent align="end" className="w-56 bg-white rounded-lg shadow-lg">
-                {navItems.map((item) => (
-                  <DropdownMenuItem key={item.name} asChild>
-                    <Link
-                      href={item.href}
-                      className={cn("flex items-center space-x-2 p-2", item.color)}
-                    >
-                      <item.icon className="h-4 w-4" />
-                      <span className="font-medium">{item.name}</span>
-                    </Link>
-                  </DropdownMenuItem>
-                ))}
-              </DropdownMenuContent>
-            </DropdownMenu>
-          </div>
+          
           <Notifications />
         </div>
       </header>

@@ -8,7 +8,23 @@ export default async function page({params:{id}}:{params:{id:string}}) {
 
     where:{
       id
-    }
+    },
+    include:{
+      questions:true,
+      survey:{
+        include:{
+          research:{
+            include:{
+              collaborator:{
+                include:{
+                  user:true
+                }
+              }
+            }
+          }
+        }
+      }
+     }
 
   })
 

@@ -10,37 +10,37 @@ import { TabsContent, TabsList, TabsTrigger, Tabs } from "@/components/ui/tabs"
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, LineChart, Line, PieChart, Pie, Cell, AreaChart, Area } from 'recharts'
 import { motion } from 'framer-motion'
 import { BarChartIcon, ClipboardListIcon, ClockIcon, MoonIcon, PercentIcon, SunIcon, TrendingUpIcon } from 'lucide-react'
+import Link from 'next/link'
+import { Avatar, AvatarImage } from './ui/avatar'
+import { useSession } from 'next-auth/react'
 
-export default function SurveyHeader() {
+export default function SurveyHeader({id}:{id:string}) {
 
-    const [darkMode, setDarkMode] = useState(false)
+    const {data:session} = useSession()
+    const user = session?.user
   return (
 
-       <header className="sticky top-0 z-50 w-full border-b border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-950 shadow-sm">
+       <header className="hidden md:block sticky top-0 z-50 w-full border-b border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-950 shadow-sm">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between h-16">
             <div className="flex items-center">
-              <a className="flex-shrink-0" href="#">
-                <BarChartIcon className="h-8 w-8 text-indigo-600 dark:text-indigo-400" />
-              </a>
+            <Link
+              href="/mw/dashboard"
+              className="group flex h-9 w-9 shrink-0 items-center justify-center gap-2 rounded-full text-lg font-semibold text-primary-foreground md:h-8 md:w-8 md:text-base"
+              prefetch={false}
+            >
+              <Avatar>
+                <AvatarImage src='/img/official-logo.png' className="object-cover" />
+            </Avatar>
+            </Link>
               <nav className="hidden md:ml-6 md:flex md:space-x-8">
-                <a className="text-gray-900 dark:text-gray-100 hover:text-indigo-600 dark:hover:text-indigo-400 px-3 py-2 rounded-md text-sm font-medium" href="#">Dashboard</a>
-                <a className="text-gray-500 dark:text-gray-400 hover:text-indigo-600 dark:hover:text-indigo-400 px-3 py-2 rounded-md text-sm font-medium" href="#">Surveys</a>
-                <a className="text-gray-500 dark:text-gray-400 hover:text-indigo-600 dark:hover:text-indigo-400 px-3 py-2 rounded-md text-sm font-medium" href="#">Reports</a>
-                <a className="text-gray-500 dark:text-gray-400 hover:text-indigo-600 dark:hover:text-indigo-400 px-3 py-2 rounded-md text-sm font-medium" href="#">Settings</a>
+                <a className="text-gray-900 dark:text-gray-100 hover:text-indigo-600 dark:hover:text-indigo-400 px-3 py-2 rounded-md text-sm font-medium" href="/mw/dashboard">Dashboard</a>
+                <a className="text-gray-500 dark:text-gray-400 hover:text-indigo-600 dark:hover:text-indigo-400 px-3 py-2 rounded-md text-sm font-medium" href="#overall">Overall survey analysis</a>
+                <a className="text-gray-500 dark:text-gray-400 hover:text-indigo-600 dark:hover:text-indigo-400 px-3 py-2 rounded-md text-sm font-medium" href={`/mw/publication/${id}`}>Research</a>
+                <a className="text-gray-500 dark:text-gray-400 hover:text-indigo-600 dark:hover:text-indigo-400 px-3 py-2 rounded-md text-sm font-medium" href="#feedback">Feedback</a>
               </nav>
             </div>
             <div className="flex items-center">
-              <div className="flex-shrink-0">
-                <Button
-                  className="ml-3"
-                  size="sm"
-                  variant="outline"
-                  onClick={() => setDarkMode(!darkMode)}
-                >
-                  {darkMode ? <SunIcon className="h-5 w-5" /> : <MoonIcon className="h-5 w-5" />}
-                </Button>
-              </div>
               <div className="ml-3 relative">
                 <div>
                   <Button variant="ghost" size="icon" className="rounded-full">
@@ -48,7 +48,7 @@ export default function SurveyHeader() {
                       alt="Avatar"
                       className="rounded-full"
                       height="32"
-                      src="/placeholder.svg"
+                      src={user?.image!}
                       style={{
                         aspectRatio: "32/32",
                         objectFit: "cover",

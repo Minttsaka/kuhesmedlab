@@ -18,7 +18,7 @@ import { z } from "zod"
 import { zodResolver } from "@hookform/resolvers/zod";
 import { SubmitHandler, useForm } from "react-hook-form";
 import ReactQuill from "react-quill";
-import { SurveyFormAnswer } from "@prisma/client"
+import { Importance, Prisma, SurveyFormAnswer } from "@prisma/client"
 import Link from "next/link"
 import { Card } from "./ui/card"
 
@@ -28,6 +28,9 @@ import { Textarea } from "./ui/textarea"
 import { Switch } from "./ui/switch"
 import "react-quill/dist/quill.bubble.css";
 import { formats, modules } from "@/lib/quillModules"
+import { saveQuestionnaireData } from '@/lib/actions'
+import { useToast } from './ui/use-toast'
+import SurveyPreviewModal from './QuestionnairePreview'
 
 
 
@@ -44,6 +47,21 @@ const FormSchema = z.object({
 type InputType = z.infer<typeof FormSchema>;
 
 
+type FormSchema = Prisma.SurveyFormGetPayload<{
+include:{
+  questions:{
+    include:{
+      options:true,
+      choices:{
+        include:{
+          user:true
+        }
+      }
+    }
+  }
+ }
+}
+ >
 
 const fetcher = async (url:string) => {
   const res = await axios.get(url);
@@ -55,51 +73,28 @@ const fetcher = async (url:string) => {
 export default function SurveyQuestionnaireList({ surveyId }:{ surveyId:string }) {
   const [open, setOPen] = useState(false)
     const [isChecked, setIsChecked] = useState<boolean>(false)
-    const [importance, setImportance] = useState('')
+    const [importance, setImportance] = useState<Importance>("high")
     const [searchTerm, setSearchTerm] = useState('')
     const [filter, setFilter] = useState('all')
     const scrollContainerRef = useRef(null)
     const [isModalOpen, setIsModalOpen] = useState(false)
-    const [newQuestionnaire, setNewQuestionnaire] = useState({
-      title: '',
-      status: 'draft',
-      importance: 'medium'
-    })
-    const [questionnaires, setQuestionnaires] = useState([
-      { id: 1, title: 'COVID-19 Symptoms Survey', status: 'active', importance: 'high', responses: 1234 },
-      { id: 2, title: 'Mental Health Assessment', status: 'draft', importance: 'medium', responses: 0 },
-      { id: 3, title: 'Dietary Habits Questionnaire', status: 'archived', importance: 'low', responses: 567 },
-      { id: 4, title: 'Physical Activity Tracker', status: 'active', importance: 'medium', responses: 890 },
-      { id: 5, title: 'Sleep Quality Evaluation', status: 'active', importance: 'high', responses: 432 },
-    ])
     const [value, setValue] = useState("");
+    const [isPreviewOpen, setIsPreviewOpen] = useState(false)
 
 
-  const { data, mutate, isLoading, error } = useSWR(
+  const { data, mutate, isLoading, error } = useSWR<FormSchema[]>(
     `/api/form/${surveyId}`,
     fetcher
   );
 
+  const { toast} = useToast()
     const formList = Array.isArray(data) ? data : [];
   
-    const filteredQuestionnaires = questionnaires.filter(q => 
+    const filteredQuestionnaires = formList.filter(q => 
       q.title.toLowerCase().includes(searchTerm.toLowerCase()) &&
       (filter === 'all' || q.status === filter)
     )
-  
-  
-    const handleCreateQuestionnaire = (e:React.ChangeEvent<HTMLInputElement>) => {
-      e.preventDefault()
-      const newId = Math.max(...questionnaires.map(q => q.id)) + 1
-      const createdQuestionnaire = {
-        ...newQuestionnaire,
-        id: newId,
-        responses: 0
-      }
-      setQuestionnaires([...questionnaires, createdQuestionnaire])
-      setIsModalOpen(false)
-      setNewQuestionnaire({ title: '', status: 'draft', importance: 'medium' })
-    }
+
   
     useEffect(() => {
       const handleKeyDown = (e:KeyboardEvent) => {
@@ -130,7 +125,7 @@ export default function SurveyQuestionnaireList({ surveyId }:{ surveyId:string }
 
     const {title,  description, label} = data
   try {
-    const response= await axios.post('/api/form',{
+    const response={
       title,
       description,
       label,
@@ -138,9 +133,22 @@ export default function SurveyQuestionnaireList({ surveyId }:{ surveyId:string }
       surveyId,
       guildelines:value,
       importance
-        })
+        }
+        const res = await saveQuestionnaireData(response)
+        if(res==="label"){
+          toast({
+            title:"Status",
+            description:"Change the label"
+          })
+  
+        } else {
+          toast({
+            title:"Survey FOrm",
+            description:"Successfully created"
+          })
+  
+        }
       mutate();
-      toast.success("The User Registered Successfully.");
       
   } catch (error) {
     console.log(error)
@@ -155,9 +163,9 @@ const handleCheck =(e:boolean)=>{
   return (
     <div className={`flex flex-col p-2 md:p-0 bg-gray-100 text-gray-900 transition-colors duration-500`}>
       <div className="max-w-7xl mx-auto">
-        <h1 className="text-xl lg:text-4xl font-bold text-gray-800 mb-8">Questionnaires</h1>
+        <h1 className="text-xl lg:text-4xl mt-5 font-bold text-gray-800 mb-8">Questionnaires</h1>
         
-        <div className="lg:flex space-y-2 justify-between items-center mb-6">
+        <div className="lg:flex justify-between items-center gap-3">
           <div className="relative">
             <input
               type="text"
@@ -175,20 +183,19 @@ const handleCheck =(e:boolean)=>{
               onChange={(e) => setFilter(e.target.value)}
             >
               <option value="all">All Status</option>
-              <option value="active">Active</option>
-              <option value="draft">Draft</option>
-              <option value="archived">Archived</option>
+              {data?.map(form=><option key={form.id} value={form.status}>{form.status}</option>)}
+            
             </select>
             <Button variant="default" className="flex items-center space-x-2" onClick={() => setIsModalOpen(true)}>
               <Plus size={20} />
-              <span>New Questionnaire</span>
+              <span>New</span>
             </Button>
           </div>
         </div>
 
-        <ScrollArea className="max-w-xs  md:max-w-lg lg:max-w-full overflow-hidden rounded-md border border-gray-200 bg-white bg-opacity-10 backdrop-blur-md">
+        <ScrollArea className="max-w-xs  md:max-w-lg lg:max-w-full overflow-hidden mt-2 rounded-md border border-gray-200 bg-white bg-opacity-10 backdrop-blur-md">
             <div className='flex  space-x-2 overflow-hidden p-4'>
-                {formList.map((questionnaire) => (
+                {filteredQuestionnaires.map((questionnaire) => (
               <motion.div
                 key={questionnaire.id}
                 layout
@@ -219,16 +226,15 @@ const handleCheck =(e:boolean)=>{
                         Edit
                       </Button>
                       </Link>
-                      <Button variant="outline" size="sm">
-                        <Eye size={16} className="mr-1" />
-                        Preview
-                      </Button>
+                        <SurveyPreviewModal 
+                          identity={questionnaire.identity}
+                          title={questionnaire.title}
+                          description={questionnaire.description}
+                          survey={questionnaire.questions} 
+                        />
                       
                     </div>
                     <div className="space-x-2">
-                      <Button variant="ghost" size="sm">
-                        <Option size={16} />
-                      </Button>
                       <Button variant="ghost" size="sm" className="text-red-600 hover:text-red-700">
                         <Trash2 size={16} />
                       </Button>
@@ -312,8 +318,8 @@ const handleCheck =(e:boolean)=>{
                   <div>
                     <Label htmlFor="importance">Importance</Label>
                     <Select
-                      value={newQuestionnaire.importance}
-                      onValueChange={(value) => setImportance(value)}
+                      value={importance}
+                      onValueChange={(value:Importance) => setImportance(value)}
                     >
                       <SelectTrigger>
                         <SelectValue placeholder="Select importance" />

@@ -7,11 +7,6 @@ import { getServerSession } from 'next-auth';
 import { authOptions } from '@/lib/auth';
 import { User } from '@prisma/client';
   
-const FormSchema = z.object({
-  answer: z.string(),
-  userId: z.string(),
-  questionId: z.string(),
-});
 
   
 
@@ -20,11 +15,16 @@ const FormSchema = z.object({
 
     const body = await req.json()
 
-    const { 
-      
-        answer, userId, questionId,
 
-    } = FormSchema.parse(body);
+    const {
+      answer,
+      userId,
+      questionId,
+      startTime,
+      endTime, 
+      timeTaken 
+    } = body
+
 
   try {
 
@@ -55,7 +55,10 @@ const FormSchema = z.object({
             id:answerAlreadySubmitted.id
           },
           data:{
-            answer
+            answer,
+            startTime,
+            endTime, 
+            timeTaken,
 
           }
         }
@@ -66,7 +69,14 @@ const FormSchema = z.object({
       await prisma.surveyFormAnswer.create({
         data:{
           answer,
-          userId,
+          startTime,
+          endTime, 
+          timeTaken,
+          user:{
+            connect:{
+              id:userId
+            }
+          },
           question:{
             connect:{
               id:question?.id

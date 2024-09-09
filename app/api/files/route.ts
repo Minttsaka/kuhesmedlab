@@ -14,9 +14,6 @@ export async function POST(req: NextRequest) {
     const session:any = await getServerSession(authOptions);
     const user= (session.user as User);
 
-    console.log("formdata", formdata)
-
-
     const {
         url,
         filename,

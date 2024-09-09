@@ -1,7 +1,11 @@
-import React, { Children, ReactNode, useState } from 'react'
+import React, { Children, ReactNode, useEffect, useState } from 'react'
 import { motion } from 'framer-motion'
 import { Search, X, UserPlus, ListPlus, XIcon } from 'lucide-react'
 import { GroupMembers } from './GroupMembers'
+import { User } from '@prisma/client'
+import axios from 'axios'
+import { inviteCollaboratior } from '@/lib/actions'
+import { useToast } from './ui/use-toast'
 
 const ParticleBackground = () => (
   <div className="absolute inset-0 overflow-hidden">
@@ -20,14 +24,14 @@ const ParticleBackground = () => (
   </div>
 )
 
-export default function ResearchInvite() {
+export default function ResearchInvite({id}:{id:string}) {
   const [searchTerm, setSearchTerm] = useState('')
-  const [selectedUsers, setSelectedUsers] = useState<{
-    id: string;
-    name: string;
-    email: string;
-    avatar: string;
-}[]>([])
+  const [all, setAll] = useState<User[]>([])
+  const [selectedUsers, setSelectedUsers] = useState<User[]>([])
+  const [isInviting, setIsInviting]= useState(false)
+
+
+  const { toast } = useToast()
 
 const [isOPen, setIsOpen] = useState(false)
 
@@ -39,23 +43,51 @@ const [isOPen, setIsOpen] = useState(false)
     { id: "d", name: 'Ethan Hunt', email: 'ethan@example.com', avatar: '/placeholder.svg?height=40&width=40' },
   ]
 
-  const filteredUsers = users.filter(
+  useEffect(()=>{
+    const fetchCollaborators = async()=>{
+      try {
+        const response = await axios.get("/api/collaborator")
+        setAll(response.data)
+
+      } catch (error) {
+        console.log(error)
+      }
+
+    }
+    fetchCollaborators()
+  },[])
+
+  const filteredUsers = all.filter(
     user =>
       user.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
       user.email.toLowerCase().includes(searchTerm.toLowerCase())
   )
 
-  const toggleUser = (user:{
-    id: string;
-    name: string;
-    email: string;
-    avatar: string;
-}) => {
+  const toggleUser = (user:User) => {
     setSelectedUsers(prev =>
       prev.some(u => u.id === user.id)
         ? prev.filter(u => u.id !== user.id)
         : [...prev, user]
     )
+  }
+
+  const sendInvite = async()=>{
+
+    setIsInviting(true)
+
+    try {
+      const status = await inviteCollaboratior(id,selectedUsers)
+      if(status===true){
+        toast({
+          title:"Invitation Successful",
+          description:"You have invited the team for collaboration"
+        })
+      }
+    } catch (error) {
+      
+    }finally{
+      setIsInviting(false)
+    }
   }
 
   return (
@@ -96,7 +128,7 @@ const [isOPen, setIsOpen] = useState(false)
                 className="flex items-center justify-between p-3 rounded-lg hover:bg-white hover:bg-opacity-10 transition-all duration-300 mb-2"
               >
                 <div className="flex items-center">
-                  <img src={user.avatar} alt={user.name} className="w-10 h-10 rounded-full mr-3" />
+                  <img src={user.image!} alt={user.name} className="w-10 h-10 rounded-full mr-3" />
                   <div>
                     <h3 className="text-white font-semibold">{user.name}</h3>
                     <p className="text-white text-opacity-75 text-sm">{user.email}</p>
@@ -119,7 +151,7 @@ const [isOPen, setIsOpen] = useState(false)
             <p className="text-white">
               {selectedUsers.length} user{selectedUsers.length !== 1 ? 's' : ''} selected
             </p>
-            <button className="px-6 py-2 bg-white text-purple-600 rounded-lg font-semibold hover:bg-opacity-90 transition-all duration-300">
+            <button onClick={sendInvite} className="px-6 py-2 bg-white text-purple-600 rounded-lg font-semibold hover:bg-opacity-90 transition-all duration-300" disabled={isInviting}>
               Invite
             </button>
           </div>

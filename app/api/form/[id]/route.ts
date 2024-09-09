@@ -10,8 +10,6 @@ export async function GET(req: NextRequest) {
       return NextResponse.json({ error: "ID parameter is missing" }, { status: 400 });
     }
 
-    console.log("params", id);
-
     const forms = await prisma.surveyForm.findMany({
       where: { 
         surveyId:id
@@ -19,14 +17,18 @@ export async function GET(req: NextRequest) {
        include:{
         questions:{
           include:{
-            choices:true
+            options:true,
+            choices:{
+              include:{
+                user:true
+              }
+            }
           }
         }
        }
     });
 
-    console.log("forms", forms)
-
+  
     if (!forms) {
       throw new Error("Form not found");
     }

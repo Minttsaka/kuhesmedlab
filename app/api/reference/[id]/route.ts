@@ -24,8 +24,6 @@ export async function GET(req: NextRequest) {
        
     });
 
-    console.log("forms", reference )
-
     if (!reference ) {
       throw new Error("Formquestions not found");
     }

@@ -6,30 +6,24 @@ import { Input } from "@/components/ui/input"
 import { Badge } from "@/components/ui/badge"
 import { ScrollArea } from "@/components/ui/scroll-area"
 import React from "react"
-import { Bell, X, Search, CheckCircle2, AlertCircle, InfoIcon, AlertTriangle, Trash2, MoreVertical, BellIcon, CheckCircle } from "lucide-react"
+import { Bell, X, Search, CheckCircle2, AlertCircle, InfoIcon, AlertTriangle, Trash2, MoreVertical, BellIcon, CheckCircle, Loader2 } from "lucide-react"
 import axios from "axios"
 import { Notification, User } from "@prisma/client"
 import { useSession } from "next-auth/react"
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog"
+import useSWR from "swr"
+import { deleteNotification, markAllAsReads, markAsReads } from "@/lib/actions"
 
-const notificationTypes = {
-  info: { icon: InfoIcon, color: "blue" },
-  success: { icon: CheckCircle2, color: "green" },
-  warning: { icon: AlertTriangle, color: "yellow" },
-  error: { icon: AlertCircle, color: "red" },
-}
 
-const initialNotifications = [
-  { id: 1, type: "info", title: "New feature available", message: "Check out our latest update!", time: "2 minutes ago", read: false },
-  { id: 2, type: "success", title: "Project completed", message: "Your project 'Awesome App' is now live.", time: "1 hour ago", read: false },
-  { id: 3, type: "warning", title: "Storage limit approaching", message: "You're using 80% of your storage space.", time: "3 hours ago", read: false },
-  { id: 4, type: "error", title: "Payment failed", message: "Your last payment couldn't be processed.", time: "1 day ago", read: false },
-  { id: 5, type: "info", title: "New message", message: "You have a new message from John Doe.", time: "2 days ago", read: true },
-]
+const fetcher = async (url:string) => {
+  const res = await axios.get(url);
+
+  return res.data;
+};
+
 
 export default function Notifications() {
   const [isOpen, setIsOpen] = useState(false)
-  const [notifications, setNotifications] = useState<Notification[]>([])
   const [searchTerm, setSearchTerm] = useState("")
   const [isDetailOpen, setIsDetailOpen] = useState(false);
   const [selectedNotification, setSelectedNotification] = useState<Notification | null>(null);
@@ -39,60 +33,65 @@ export default function Notifications() {
 
   const user = session?.user as User
 
-  console.log("this is user", user, "id",user?.id)
+  const { data, mutate, isLoading, error } = useSWR<Notification[]>(
+    `/api/notification`,
+    fetcher
+  );
 
-  useEffect(()=>{
-    const fetchNotifications = async() =>{
-      try {
-        const res =await axios.get(`/api/notification/${user?.id}`)
-        console.log(res.data, "notifications")
-        setNotifications(res.data)
-        
-      } catch (error) {
-        
-      }
-     
-    }
 
-    fetchNotifications()
-  },[user])
 
-  const unreadCount = notifications.filter(n => !n.readAt!==null).length
+  const unreadCount =  data?.filter(n => n.status==="READ").length
 
-  const filteredNotifications = notifications.filter(notification => {
+  const filteredNotifications = data?.filter(notification => {
     const matchesSearch = notification.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
     notification.description.toLowerCase().includes(searchTerm.toLowerCase())
     const matchesFilter = filter === "all" || (filter === "unread" && !notification.readAt)
     return matchesSearch && matchesFilter
   })
 
-  const markAsRead = (id:string) => {
-    setNotifications(notifications.map(n => n.id === id ? { ...n, read: true } : n))
-  }
+  const markAsRead = async(id:string) => {
 
-  const deleteNotification = (id:string) => {
-    setNotifications(notifications.filter(n => n.id !== id))
-  }
+    try {
 
-  const markAllAsRead = () => {
-    setNotifications(notifications.map(n => ({ ...n, read: true })))
-  }
-
-  useEffect(() => {
-    const handleEsc = (event:any) => {
-      if (event.keyCode === 27) setIsOpen(false)
+        await markAsReads(id)
+        mutate()
+      
+    } catch (error) {
+     
     }
-    window.addEventListener('keydown', handleEsc)
-    return () => {
-      window.removeEventListener('keydown', handleEsc)
+
+  }
+
+  const dltNotification = async(id:string) => {
+
+    try {
+
+        await deleteNotification(id)
+        mutate()
+    } catch (error) {
+     
     }
-  }, [])
+
+  }
+
+  const markAllAsRead = async() => {
+
+    try {
+
+        await markAllAsReads()
+        mutate()
+    } catch (error) {
+     
+    }
+
+  }
+
 
   return (
     <div className="relative">
       <Button onClick={() => setIsOpen(true)} variant="ghost" size="icon" className="relative bg-white text-gray-500">
         <BellIcon className="h-5 w-5" />
-        {unreadCount > 0 && (
+        {unreadCount! > 0 && (
           <Badge className="absolute -top-2 -right-2 bg-red-500 text-white rounded-full h-6 w-6 flex items-center justify-center text-xs">
             {unreadCount}
           </Badge>
@@ -136,7 +135,7 @@ export default function Notifications() {
                     <option value="all">All</option>
                     <option value="unread">Unread</option>
                   </select>
-                  <Button onClick={markAllAsRead} variant="outline" size="sm" className="text-sm">
+                  <Button onClick={markAllAsRead} variant="outline" size="sm" className="text-sm bg-gray-800 hover:bg-gray-800">
                     Mark all as read
                   </Button>
                 </div>
@@ -144,7 +143,7 @@ export default function Notifications() {
 
               <ScrollArea className="flex-grow">
                 <div className="p-4 space-y-4">
-                  {filteredNotifications.map((notification) => (
+                  {filteredNotifications?.map((notification) => (
                     <motion.div
                       key={notification.id}
                       initial={{ opacity: 0, y: 20 }}
@@ -153,14 +152,17 @@ export default function Notifications() {
                       transition={{ duration: 0.3 }}
                       className={`relative p-4 rounded-lg ${
                         notification.readAt ? 'bg-gray-800' : 'bg-gray-750'
-                      } hover:bg-gray-700 transition-colors duration-200`}
+                      } hover:bg-gray-700 cursor-pointer transition-colors duration-200`}
+                      onClick={() => {
+                        setSelectedNotification(notification);
+                        markAsRead(notification.id);
+                        setIsDetailOpen(true);
+                      }}
                     >
                       <div className="flex items-start space-x-4">
-                        {/* <div className={`p-2 rounded-full bg-${notificationTypes[notification.type].color}-500 bg-opacity-20`}>
-                          {React.createElement(notificationTypes[notification.type].icon, {
-                            className: `h-6 w-6 text-${notificationTypes[notification.type].color}-400`
-                          })}
-                        </div> */}
+                        <div className={`p-2 rounded-full bg-blue-500 bg-opacity-20`}>
+                          {isLoading && <Loader2 className="animate-spin" /> }
+                        </div>
                         <div className="flex-grow">
                           <h3 className="font-semibold">{notification.title}</h3>
                           <p className="text-sm text-gray-400">{notification.description}</p>
@@ -173,7 +175,7 @@ export default function Notifications() {
                             size="icon"
                             className="text-gray-400 hover:text-red-400"
                           >
-                            <Trash2 className="h-4 w-4" />
+                            <Trash2 onClick={()=>dltNotification(notification.id)} className="h-4 w-4" />
                           </Button>
                           <Button variant="ghost" size="icon" className="text-gray-400 hover:text-white">
                             <MoreVertical className="h-4 w-4" />
@@ -193,18 +195,6 @@ export default function Notifications() {
                         className="absolute bottom-0 left-0 right-0 h-1 bg-gradient-to-r from-blue-500 to-purple-500"
                       />
                       <div className="mt-2 flex justify-end">
-                      <Button
-                          onClick={() => {
-                            setSelectedNotification(notification);
-                            markAsRead(notification.id);
-                            setIsDetailOpen(true);
-                          }}
-                          variant="ghost"
-                          size="sm"
-                          className="text-xs text-gray-400 hover:text-white"
-                        >
-                          View
-                        </Button>
                         <Button
                           onClick={() => markAsRead(notification.id)}
                           variant="ghost"
@@ -238,7 +228,7 @@ export default function Notifications() {
                       />
                     <p className="text-sm text-gray-600">{new Date(selectedNotification.createdAt).toDateString()}</p>
                     <div className="flex justify-end mt-4 space-x-2">
-                      <Button
+                      {!selectedNotification.readAt && <Button
                         variant="outline"
                         size="sm"
                         className="text-green-600 border-green-600 hover:bg-green-100"
@@ -246,12 +236,12 @@ export default function Notifications() {
                       >
                         <CheckCircle className="h-4 w-4 mr-2" />
                         Mark as Read
-                      </Button>
+                      </Button>}
                       <Button
                         variant="outline"
                         size="sm"
                         className="text-red-600 border-red-600 hover:bg-red-100"
-                        onClick={() => deleteNotification(selectedNotification.id)}
+                        onClick={()=>dltNotification(selectedNotification.id)}
                       >
                         <Trash2 className="h-4 w-4 mr-2" />
                         Delete

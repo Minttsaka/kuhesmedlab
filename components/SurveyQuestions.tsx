@@ -14,7 +14,7 @@ import { StarIcon } from '@radix-ui/react-icons'
 import QuestionnaireGuidelines from './QuestionnaireGuidelines'
 import { v4 as uuidv4 } from 'uuid';
 import axios from 'axios'
-import { setCookie } from '@/lib/actions'
+import { aiSurveyAnalysis, setCookie, surveyAnalysis } from '@/lib/actions'
 import Link from 'next/link'
 
 export type ResearchWithAllRelations = Prisma.SurveyFormGetPayload<{
@@ -36,11 +36,23 @@ export default function SurveyQuestions({ forms, sessionid ,user }: {forms:Resea
   const [id, setId]=useState<string>()
   const [isIntro, setIsIntro] = useState<boolean>(true)
   const [isAnswered, setIsAnswered] = useState<boolean>(false)
+  const [questionTimes, setQuestionTimes] = useState<Record<string, { startTime: Date | null, endTime: Date | null }>>({});
 
   const getActionToken =async()=>{
     const idFromServer= await setCookie()
     setId(idFromServer)
   }
+
+  useEffect(() => {
+    const currentQuestionId = forms.questions[currentQuestionIndex]?.id;
+    setQuestionTimes(prev => ({
+      ...prev,
+      [currentQuestionId]: {
+        startTime: new Date(),
+        endTime: null
+      }
+    }));
+  }, [currentQuestionIndex]);
 
 
   useEffect(() => {
@@ -63,23 +75,77 @@ export default function SurveyQuestions({ forms, sessionid ,user }: {forms:Resea
   const currentQuestion = forms.questions[currentQuestionIndex]
   const progress = ((currentQuestionIndex + 1) / forms.questions.length) * 100
 
+
+  const aiAnalysis = async ()=>{
+
+    try {
+
+      const {
+        completionRate,
+        totalResponses,
+        demographicData,
+        responseTrends,
+        averageTimeTakenInMinutes,
+        formData
+      } = await surveyAnalysis(forms.survey.id)
+
+      const data = {
+        completionRate: completionRate,  
+        totalResponses: totalResponses, 
+        demographicData: demographicData, 
+        responseTrends: responseTrends,
+        averageTimeTakenInMinutes: averageTimeTakenInMinutes,
+        formData: formData,
+      };
+      
+      const inputData = JSON.stringify(data);
+      await aiSurveyAnalysis(forms.survey.id, inputData )
+      
+      
+    } catch (error) {
+
+      console.log(error)
+      
+    }
+
+  }
   const handleAnswer = async (answer: string) => {
 
-    console.log("actual answer: ",answer,"prev answer:",answers[currentQuestion.id])
+    setAnswers(prev => ({ ...prev, [currentQuestion.id]: answer }))
+
+    const endTime = new Date();
+    const currentQuestionId = currentQuestion.id;
+    const startTime = questionTimes[currentQuestionId]?.startTime || new Date(); // Default to now if no start time
+    const timeTaken = startTime ? (endTime.getTime() - startTime.getTime()) / 1000 : 0; // Time in seconds
+
+    setAnswers(prev => ({ ...prev, [currentQuestionId]: answer }));
+
+    // Update end time for the current question
+    setQuestionTimes(prev => ({
+      ...prev,
+      [currentQuestionId]: {
+        ...prev[currentQuestionId],
+        endTime: endTime
+      }
+    }));
 
     try {
       await axios.post('/api/answer',{
        answer,
        userId:id,
        questionId:currentQuestion.id,
+       startTime,
+       endTime, 
+       timeTaken 
        
       })
+      aiAnalysis()
     } catch (error) {
       
     } finally{
       setIsAnswered(true)
     }
-    setAnswers(prev => ({ ...prev, [currentQuestion.id]: answer }))
+   
     localStorage.setItem(forms.title, (currentQuestionIndex + 1).toString());
     
   }
@@ -100,6 +166,7 @@ export default function SurveyQuestions({ forms, sessionid ,user }: {forms:Resea
   }
 
   const array = Array.from({ length: currentQuestion?.rating! }, (_, i) => i + 1);
+  const rating = Number(answers[currentQuestion?.id])
 
   const renderQuestion = () => {
     switch (currentQuestion?.type) {
@@ -113,7 +180,7 @@ export default function SurveyQuestions({ forms, sessionid ,user }: {forms:Resea
                 key={star}
                 id='answer'
                 className={`w-8 h-8 cursor-pointer ${
-                  parseInt(answers[currentQuestionIndex]) >= star ? 'text-yellow-400 fill-yellow-400' : 'text-gray-300'
+                  star <= rating ? 'text-yellow-400 fill-yellow-400' : 'text-gray-300'
                 }`}
                 onClick={() => handleAnswer(star.toString())}
               />
@@ -290,7 +357,7 @@ export default function SurveyQuestions({ forms, sessionid ,user }: {forms:Resea
                   </div>
                 </motion.div>
               ) : (
-                <QuestionnaireGuidelines setIsIntro={setIsIntro!} />
+                <QuestionnaireGuidelines identity={forms.identity!} guides={forms.guildelines!} setIsIntro={setIsIntro!} />
               )
             ) : (
               <motion.div

@@ -3,19 +3,22 @@ import { motion, AnimatePresence } from 'framer-motion'
 import { ChevronRight, ChevronLeft, Check, Clock, Shield, List, Sun, Moon } from 'lucide-react'
 import { Button } from './ui/button'
 
-export default function QuestionnaireGuidelines({setIsIntro}:{setIsIntro:React.Dispatch<SetStateAction<boolean>>}) {
+export default function QuestionnaireGuidelines({identity, guides,setIsIntro}:{setIsIntro:React.Dispatch<SetStateAction<boolean>>,identity:boolean, guides:string}) {
   const [currentStep, setCurrentStep] = useState(0)
   const [darkMode, setDarkMode] = useState(false)
 
   const guidelines = [
     {
-      title: "Identity Verification",
-      description: "You'll need to provide a valid form of ID (e.g., driver's license, passport) to verify your identity before proceeding with the questionnaire.",
+      title:`${identity ? "Identity Verification" : "Identity is not Required"}`,
+      description: `${identity ? "This survey will require some of your personal identifications like your name or some other personal details. Your personal details will remain confidential." : "This survey will not require your personal or confidential identification"}`,
       icon: <Shield className="w-12 h-12 text-blue-500" />,
     },
     {
       title: "Questionnaire Process",
-      description: "The questionnaire consists of multiple-choice and short-answer questions. Answer honestly and to the best of your ability. You can review and change your answers before final submission.",
+      description: (<div
+      className="prose max-w-none"
+          dangerouslySetInnerHTML={{ __html: guides }}
+        />),
       icon: <List className="w-12 h-12 text-green-500" />,
     },
     {
@@ -40,14 +43,6 @@ export default function QuestionnaireGuidelines({setIsIntro}:{setIsIntro:React.D
         transition={{ duration: 0.5 }}
         className={`${darkMode ? 'bg-gray-800' : 'bg-white'} rounded-lg max-w-3xl w-full relative overflow-hidden`}
       >
-        <Button
-          variant="outline"
-          size="icon"
-          className="absolute top-4 right-4"
-          onClick={() => setDarkMode(!darkMode)}
-        >
-          {darkMode ? <Sun className="h-[1.2rem] w-[1.2rem]" /> : <Moon className="h-[1.2rem] w-[1.2rem]" />}
-        </Button>
         <h1 className={`text-3xl font-bold mb-6 text-center ${darkMode ? 'text-white' : 'text-gray-800'}`}>Questionnaire Guidelines</h1>
         <div className="mb-8">
           <div className="flex justify-between mb-2">

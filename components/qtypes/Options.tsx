@@ -2,23 +2,42 @@ import { AnimatePresence, motion } from 'framer-motion'
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Button } from "@/components/ui/button"
-import axios from "axios";
 import {  X } from "lucide-react";
 import { useEffect, useState } from "react"
 import { PlusIcon } from '@radix-ui/react-icons';
+import { saveOptions } from '@/lib/actions';
+import { Option, Prisma } from '@prisma/client';
+import { KeyedMutator} from 'swr';
 
-export default function Options({id}:{id:string}) {
+type Form = Prisma.SurveyFormQuestionGetPayload<{
+  include:{
+      choices:true,
+    options:true
+   }
+}>;
 
-    const [options, setOptions] = useState<string[]>([''])
-    const [lastSavedData, setLastSavedData] = useState<string[]>(['']);
+export default function Options({ id, optionList,mutate }:{ id:string, optionList:Option[], mutate:KeyedMutator<Form[]>}) {
+
+    const [options, setOptions] = useState<string[]>([])
+    const [lastSavedData, setLastSavedData] = useState<string[]>([]);
+
+    useEffect(()=>{
+      const filteredOptionsList = optionList.map(item => item.text);
+      setOptions(filteredOptionsList)
+
+    },[])
 
     const submitData = async () => {
 
+      console.log("data is submitting")
+
+      const filteredData = options.filter(item => item !== "");
+
         try {
-            await axios.post(`/api/options/${id}`,{
-                options
-            })
+            await saveOptions(id, filteredData)
+            mutate()
             setLastSavedData(options)
+            console.log("submitted")
 
         } catch (error) {
            console.log(error) 
@@ -27,13 +46,13 @@ export default function Options({id}:{id:string}) {
 
     useEffect(() => {
         const handler = setTimeout(() => {
-          if (options !== lastSavedData) {
+          if (options !== lastSavedData && options.length > 0) {
             submitData();
           }
         }, 1000);
 
         return () => clearTimeout(handler);
-      }, [options, lastSavedData]);
+      }, [options, lastSavedData, options.length > 0]);
     
 
     const addOption = () => {

@@ -6,6 +6,7 @@ import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/componen
 import { ScrollArea } from "@/components/ui/scroll-area"
 import { ChevronDownIcon, ChevronUpIcon, BookmarkIcon, ExternalLinkIcon, StarIcon, SunIcon, MoonIcon } from 'lucide-react'
 import { motion, AnimatePresence } from 'framer-motion'
+import Link from 'next/link'
 
 type Article = {
     id: string;
@@ -221,14 +222,13 @@ export default function RelatedResearchList({title}:{title:string}) {
                       </div>
                     </CardContent>
                     <CardFooter className="flex justify-between">
-                      <Button variant="outline" size="sm">
-                        <ExternalLinkIcon className="mr-2 h-4 w-4" />
-                        View Full Paper
-                      </Button>
-                      <Button variant="ghost" size="sm">
-                        <BookmarkIcon className="mr-2 h-4 w-4" />
-                        Save for Later
-                      </Button>
+                      <Link target='__blank' href={paper.link}>
+                        <Button variant="outline" size="sm">
+                          <ExternalLinkIcon className="mr-2 h-4 w-4" />
+                          View Full Paper
+                        </Button>
+                      </Link>
+                      
                     </CardFooter>
                   </Card>
                 </motion.div>

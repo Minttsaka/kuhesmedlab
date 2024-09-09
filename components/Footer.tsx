@@ -4,11 +4,42 @@ import Link from 'next/link'
 import { Facebook, Twitter, Instagram, Linkedin, Mail } from 'lucide-react'
 import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
+import { useState } from 'react'
+import { useToast } from './ui/use-toast'
+import { subscribeNewsletter } from '@/lib/actions'
+import { AvatarImage , Avatar} from './ui/avatar'
 
 export default function Footer() {
+
+  const [email, setEmail] = useState('');
+
+  const {toast} = useToast()
+
+  const handleSubscribe = async () => {
+    try {
+      const response = await subscribeNewsletter(email)
+      if (response==="exist") {
+        toast({
+          title:'Newsletter',
+          description:"The email is already subscribed"
+        })
+      } else {
+        toast({
+          title:'Newsletter',
+          description:"Successfully subcribed"
+        })
+      }
+    } catch (error) {
+      toast({
+        title:'Newsletter',
+        description:"Failed to subscribe"
+      })
+    }
+  };
+
   return (
     <footer className="relative mt-16 bg-gradient-to-b from-blue-50 to-blue-100 text-blue-900">
-      <svg
+        <svg
         className="absolute top-0 w-full h-6 -mt-5 sm:-mt-10 sm:h-16 text-blue-50"
         preserveAspectRatio="none"
         viewBox="0 0 1440 54"
@@ -22,21 +53,9 @@ export default function Footer() {
         <div className="grid gap-16 row-gap-10 mb-8 lg:grid-cols-6">
           <div className="md:max-w-md lg:col-span-2">
             <a href="/" aria-label="Go home" title="Company" className="inline-flex items-center">
-              <svg
-                className="w-8 text-blue-400"
-                viewBox="0 0 24 24"
-                strokeLinejoin="round"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeMiterlimit="10"
-                stroke="currentColor"
-                fill="none"
-              >
-                <rect x="3" y="1" width="7" height="12" />
-                <rect x="3" y="17" width="7" height="6" />
-                <rect x="14" y="1" width="7" height="6" />
-                <rect x="14" y="11" width="7" height="12" />
-              </svg>
+            <Avatar>
+                <AvatarImage src='/img/official-logo.png' className="object-cover" />
+            </Avatar>
               <span className="ml-2 text-xl font-bold tracking-wide text-blue-800 uppercase">
                 Kuhesmedlab
               </span>
@@ -54,9 +73,12 @@ export default function Footer() {
           <div className="grid grid-cols-2 gap-5 row-gap-8 lg:col-span-4 md:grid-cols-4">
             <div>
               <p className="font-semibold tracking-wide text-blue-900">
-                Products
+                Research
               </p>
               <ul className="mt-2 space-y-2">
+              <li>
+                  <Link href="/publications" className="footer-link">Publications</Link>
+                </li>
                 <li>
                   <Link href="/research" className="footer-link">Research</Link>
                 </li>
@@ -64,13 +86,13 @@ export default function Footer() {
                   <Link href="/survey" className="footer-link">Survey</Link>
                 </li>
                 <li>
-                  <Link href="/" className="footer-link">Cloud Storage</Link>
+                  <Link href="/mw/research" className="footer-link">Cloud Storage</Link>
                 </li>
                 <li>
-                  <Link href="/" className="footer-link">Artificial Intelligence</Link>
+                  <Link href="/about/technology" className="footer-link">Artificial Intelligence</Link>
                 </li>
                 <li>
-                  <Link href="/" className="footer-link">Data Analysis</Link>
+                  <Link href="/mw/research" className="footer-link">Data Analysis</Link>
                 </li>
 
               </ul>
@@ -79,13 +101,13 @@ export default function Footer() {
               <p className="font-semibold tracking-wide text-blue-900">Events</p>
               <ul className="mt-2 space-y-2">
                 <li>
-                  <Link href="/" className="footer-link">Organization Events</Link>
+                  <Link href="/events#organizational-events" className="footer-link">Organization Events</Link>
                 </li>
                 <li>
-                  <Link href="/" className="footer-link">Global Events</Link>
+                  <Link href="/events#global-events" className="footer-link">Global Events</Link>
                 </li>
                 <li>
-                  <Link href="/" className="footer-link">Institutional Events</Link>
+                  <Link href="/events#institutional-events" className="footer-link">Institutional Events</Link>
                 </li>
               </ul>
             </div>
@@ -116,10 +138,10 @@ export default function Footer() {
                 </li>
                 
                 <li>
-                  <Link href="/" className="footer-link">About Team</Link>
+                  <Link href="/about-us#team" className="footer-link">About Team</Link>
                 </li>
                 <li>
-                  <Link href="/" className="footer-link">About Technology</Link>
+                  <Link href="/about/technology" className="footer-link">About Technology</Link>
                 </li>
               </ul>
             </div>
@@ -137,9 +159,11 @@ export default function Footer() {
               <Input
                 placeholder="Enter your email"
                 type="text"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
                 className="flex-grow w-full h-12 px-4 mb-3 text-blue-900 transition duration-200 border-2 border-transparent rounded appearance-none md:mr-2 md:mb-0 bg-blue-50 focus:border-blue-400 focus:outline-none focus:shadow-outline"
               />
-              <Button type="submit" className="inline-flex items-center justify-center h-12 px-6 font-medium tracking-wide text-white transition duration-200 rounded shadow-md bg-blue-600 hover:bg-blue-700 focus:shadow-outline focus:outline-none">
+              <Button onClick={handleSubscribe} type="button" className="inline-flex items-center justify-center h-12 px-6 font-medium tracking-wide text-white transition duration-200 rounded shadow-md bg-blue-600 hover:bg-blue-700 focus:shadow-outline focus:outline-none">
                 Subscribe
               </Button>
             </div>

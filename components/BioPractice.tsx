@@ -22,8 +22,8 @@ const FormSchema = z.object({
 type InputType = z.infer<typeof FormSchema>;
 
 const messages = [
-  "Hello there! 👋 I'm MediBot, your adorable health companion!",
-  "Welcome toKuhesmedlab, where we make research fun and easy! 🌈",
+  "Hello there! 👋 I'm kuhesmedlab ai assistance, your adorable health companion!",
+  "Welcome to Kuhesmedlab, where we make research fun and easy! 🌈",
   "💊 Get your first start by describing who you are. (Your Biography!)",
   "🏃‍♀️ Track your research, survey and More events!",
   "🍎 Learn , collaborate, and make your research journey more good for you!",

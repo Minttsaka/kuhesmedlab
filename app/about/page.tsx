@@ -9,9 +9,17 @@ import SuccessIntro from '@/components/SuccessIntro'
 import SuccessNav from '@/components/SuccessNav'
 import CarouselFadeExample from '@/components/SuccessStories'
 import UseCase from '@/components/UseCase'
+import { prisma } from '@/lib/prisma'
 import React from 'react'
 
-export default function page() {
+export default async function page() {
+
+  const blog= await prisma.content.findMany({
+    where:{
+      type:"BLOG"
+    }
+  })
+  
   return (
     <div>
       <LandingNav />
@@ -21,7 +29,7 @@ export default function page() {
         <SuccessIntro />
         <UseCase />
         <CarouselFadeExample />
-        <BlogList />
+        <BlogList blog={blog!} />
         <IndustryFinisher />
         <Footer />
     </div>

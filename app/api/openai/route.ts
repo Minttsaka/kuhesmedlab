@@ -53,7 +53,6 @@ export async function POST(req: NextRequest) {
  
      const responseMessage = completion.data.choices[0].message?.content || '';
 
-     console.log("this is openai", responseMessage)
  
      return  NextResponse.json(responseMessage);
 

@@ -46,9 +46,9 @@ export default function CreateResearchForm({ researchList , id }:{ researchList:
           >
             <Alert variant="destructive">
               <AlertCircle className="h-4 w-4" />
-              <AlertTitle>No Research Found</AlertTitle>
+              <AlertTitle>You have not created a workspace so far</AlertTitle>
               <AlertDescription>
-                We havent found any specific research matching your criteria yet. However, your input is still extremely valuable for our ongoing studies.
+                We havent found any specific research for your account yet.
               </AlertDescription>
             </Alert>
           </motion.div>}

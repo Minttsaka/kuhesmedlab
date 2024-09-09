@@ -1,11 +1,10 @@
-import AboutFooter from '@/components/AboutFooter'
 import BioPractice from '@/components/BioPractice'
 import { BlogList } from '@/components/BlogList'
 import DashboardFinisher from '@/components/DashboarFInisher'
 import DashboaedAIAssist from '@/components/DashboardAIAssist'
 import DashboardCarousel from '@/components/DashboardCarousel'
 import DashboardSolutions from '@/components/DashboardSolutions'
-import { Bio } from '@/components/bio'
+import PublicationsFooter from '@/components/PublicationFooter'
 import { DashboardNav } from '@/components/dashboard-nav'
 import { DashboardTraining } from '@/components/dashboard-training'
 import { authOptions } from '@/lib/auth'
@@ -24,19 +23,25 @@ export default async function page() {
       id
     }
   })
+
+  const blog = await prisma.content.findMany({
+    where:{
+      type:"BLOG" 
+    },
+    orderBy:{
+      createdAt:"desc"
+    }
+  })
   return (
     <div>
         <DashboardNav />
         {!user?.bio && <BioPractice />}
-        <DashboardCarousel />
+        <DashboardCarousel blog={blog!} />
         <DashboardSolutions />
-        <DashboardTraining />
-        <DashboardFinisher />
-        <BlogList />
-
-         
+        <DashboardTraining blog={blog!} />
         
-        <AboutFooter />
+        <BlogList blog={blog!}/>
+        <DashboardFinisher />
         <DashboaedAIAssist />
     </div>
   )

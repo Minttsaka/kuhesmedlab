@@ -26,7 +26,7 @@ import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from "@
 import { Button } from "@/components/ui/button"
 import Link from "next/link"
 import { z } from "zod"
-import { useRouter } from "next/navigation"
+import { useRouter, useSearchParams } from "next/navigation"
 import { SubmitHandler, useForm } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { signIn, useSession } from "next-auth/react"
@@ -52,15 +52,20 @@ export default function SigninForm() {
   const [loginSuccess, setLoginSuccess] = useState(false)
 
   const router=useRouter()
+  const searchParams = useSearchParams()
+  const callbackUrl = searchParams.get('callbackUrl') || '/'
+  
 
   const {data:session , status, } =useSession()
+
+
 
   if (status ==="loading") {
     LoadingState()
   }
 
-  if (status === "authenticated") {
-    router.push("/mw/dashboard");
+  if(status==="authenticated"){
+    router.push(callbackUrl)
   }
 
   const {
@@ -95,7 +100,8 @@ export default function SigninForm() {
           variant: "default",
         })
         setLoginSuccess(true)
-        router.push("/mw/dashboard")
+        
+        router.push(callbackUrl)
       }
      
   

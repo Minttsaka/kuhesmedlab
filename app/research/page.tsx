@@ -5,16 +5,23 @@ import { ResearchFirth } from '@/components/ResearchFirth'
 import { ResearchLandingNav } from '@/components/ResearchLandingNav'
 import { Researchsec } from '@/components/researchsec'
 import { Researchthird } from '@/components/researchthird'
+import { prisma } from '@/lib/prisma'
 import React from 'react'
 
-export default function page() {
+export default async function page() {
+
+  const blog = await prisma.content.findMany({
+    orderBy:{
+      createdAt:"desc"
+    }
+  })
   return (
     <div>
       <ResearchLandingNav />
       <ResearchFIrst />
       <Researchsec />
       <Researchthird />
-      <BlogList />
+      <BlogList blog={blog!} />
       <ResearchFirth />
       <AboutFooter />
     </div>

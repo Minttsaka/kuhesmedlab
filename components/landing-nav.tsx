@@ -75,13 +75,13 @@ function Navbar({ className }: { className?: string }) {
                                             </a>
                                         </li>
                                         <li className="DropdownItem_dropdownItem__iI2LA m-0 p-0 select-none lg:whitespace-nowrap">
-                                            <a href="/evaluation/public-sector">
+                                            <a href="/event/#organizational-events">
                                                 <div className="flex  gap-1.5 md:gap-2 group font-normal transition-colors duration-300 ease" >
                                                     
                                                     <div className="h-3 w-3 rounded-full bg-gradient-to-r from-black to-purple-400" />
                                                   
                                                     <p className="transition-opacity duration-300 opacity-90 group-hover:opacity-100">
-                                                    <Link href={'/storage'}>
+                                                    <Link href={'/mw/research'}>
                                                         <span className="block text-gray-600 text-xs  md:!text-base">Cloud Storage</span><span className="block text-sm mt-px text-neutral-400 ">Secure and scalable<br /> storage of medical laboratory<br /> data and resources in a <br />cloud-based infrastructure.</span>
                                                     </Link>
                                                     </p>
@@ -90,7 +90,7 @@ function Navbar({ className }: { className?: string }) {
                                         </li>
 
                                         <li className="DropdownItem_dropdownItem__iI2LA m-0 p-0 select-none lg:whitespace-nowrap">
-                                            <a href="/evaluation/public-sector">
+                                            <a href="/event/#organizational-events">
                                                 <div className="flex  gap-1.5 md:gap-2 group font-normal transition-colors duration-300 ease" >
                                                     
                                                     <div className="h-3 w-3 rounded-full bg-gradient-to-r from-black to-purple-400" />
@@ -111,7 +111,7 @@ function Navbar({ className }: { className?: string }) {
                                                     <div className="h-3 w-3 rounded-full bg-gradient-to-r from-black to-purple-400" />
                                                   
                                                     <p className="transition-opacity duration-300 opacity-90 group-hover:opacity-100">
-                                                    <Link href={'/ai'}>
+                                                    <Link href={'/about/technology'}>
                                                         <span className="block text-gray-600 text-xs  md:!text-base">Artificial intelligence</span><span className="block text-sm mt-px text-neutral-400">Application of machine <br />learning and AI algorithms<br /> to analyze data, identify patterns,<br /> and make predictions. </span>
                                                     </Link>
                                                     </p>
@@ -126,7 +126,7 @@ function Navbar({ className }: { className?: string }) {
                                                     <div className="h-3 w-3 rounded-full bg-gradient-to-r from-black to-purple-400" />
                                                   
                                                     <p className="transition-opacity duration-300 opacity-90 group-hover:opacity-100">
-                                                    <Link href={'/analysis'}>
+                                                    <Link href={'/about/technology'}>
                                                         <span className="block text-gray-600 text-xs  md:!text-base">Data Analysis</span><span className="block text-sm mt-px text-neutral-400">Extraction of meaningful <br />patterns and insights<br /> from complex data sets <br />to inform decision-making. </span>
                                                     </Link>
                                                     </p>
@@ -177,7 +177,7 @@ function Navbar({ className }: { className?: string }) {
                                             </a>
                                         </li>
                                         <li className="DropdownItem_dropdownItem__iI2LA m-0 p-0 select-none lg:whitespace-nowrap">
-                                            <a href="/evaluation/public-sector">
+                                            <a href="/event/#institutional-events">
                                                 <div className="flex  gap-1.5 md:gap-2 group font-normal transition-colors duration-300 ease" >
                                                     
                                                     <div className="h-3 w-3 rounded-full bg-gradient-to-r from-black to-purple-400" />
@@ -192,7 +192,7 @@ function Navbar({ className }: { className?: string }) {
                                         </li>
 
                                         <li className="DropdownItem_dropdownItem__iI2LA m-0 p-0 select-none lg:whitespace-nowrap">
-                                            <a href="/evaluation/public-sector">
+                                            <a href="/event/#global-events">
                                                 <div className="flex  gap-1.5 md:gap-2 group font-normal transition-colors duration-300 ease" >
                                                     
                                                     <div className="h-3 w-3 rounded-full bg-gradient-to-r from-black to-purple-400" />
@@ -251,7 +251,7 @@ function Navbar({ className }: { className?: string }) {
                                             </a>
                                         </li>
                                         <li className="DropdownItem_dropdownItem__iI2LA m-0 p-0 select-none lg:whitespace-nowrap">
-                                            <a href="/evaluation/public-sector">
+                                            <a href="/support">
                                                 <div className="flex  gap-1.5 md:gap-2 group font-normal transition-colors duration-300 ease" >
                                                     
                                                     <div className="h-3 w-3 rounded-full bg-gradient-to-r from-black to-purple-400" />
@@ -266,7 +266,7 @@ function Navbar({ className }: { className?: string }) {
                                         </li> 
 
                                         <li className="DropdownItem_dropdownItem__iI2LA m-0 p-0 select-none lg:whitespace-nowrap">
-                                            <a href="/evaluation/public-sector">
+                                            <a href="/#faq">
                                                 <div className="flex  gap-1.5 md:gap-2 group font-normal transition-colors duration-300 ease" >
                                                     
                                                     <div className="h-3 w-3 rounded-full bg-gradient-to-r from-black to-purple-400" />
@@ -290,7 +290,7 @@ function Navbar({ className }: { className?: string }) {
 
         <Link 
           className="cursor-pointer text-white font-bold text-sm hover:opacity-[0.9] dark:text-white"
-          href={''}>
+          href={'/community'}>
           Community
         </Link>
 
@@ -329,7 +329,7 @@ function Navbar({ className }: { className?: string }) {
                                             </a>
                                         </li>
                                         <li className="DropdownItem_dropdownItem__iI2LA m-0 p-0 select-none lg:whitespace-nowrap">
-                                            <a href="/evaluation/public-sector">
+                                            <a href="/event/#organizational-events">
                                                 <div className="flex  gap-1.5 md:gap-2 group font-normal transition-colors duration-300 ease" >
                                                     
                                                     <div className="h-3 w-3 rounded-full bg-gradient-to-r from-black to-purple-400" />
@@ -344,7 +344,7 @@ function Navbar({ className }: { className?: string }) {
                                         </li> 
 
                                         <li className="DropdownItem_dropdownItem__iI2LA m-0 p-0 select-none lg:whitespace-nowrap">
-                                            <a href="/evaluation/public-sector">
+                                            <a href="/about-us#team">
                                                 <div className="flex  gap-1.5 md:gap-2 group font-normal transition-colors duration-300 ease" >
                                                     
                                                     <div className="h-3 w-3 rounded-full bg-gradient-to-r from-black to-purple-400" />
@@ -359,13 +359,13 @@ function Navbar({ className }: { className?: string }) {
                                         </li>
 
                                         <li className="DropdownItem_dropdownItem__iI2LA m-0 p-0 select-none lg:whitespace-nowrap">
-                                            <a href="/evaluation/public-sector">
+                                            <a href="/about/technology">
                                                 <div className="flex  gap-1.5 md:gap-2 group font-normal transition-colors duration-300 ease" >
                                                     
                                                     <div className="h-3 w-3 rounded-full bg-gradient-to-r from-black to-purple-400" />
                                                   
                                                     <p className="transition-opacity duration-300 opacity-90 group-hover:opacity-100">
-                                                    <Link href={'/technologies'}>
+                                                    <Link href={'/about/technology'}>
                                                         <span className="block text-gray-600 text-xs  md:!text-base">About Technology</span><span className="block text-sm mt-px text-neutral-400">The cutting-edge technologies<br />  and AI-driven solutions<br />  powering KUHESMEDLABs platform</span>
                                                     </Link>
                                                     </p>

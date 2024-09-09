@@ -150,7 +150,7 @@ export default function AdorableAIChatWelcome({user}:{user:string}) {
                 transition={{ duration: 0.5, type: 'spring' }}
                 className="w-full mt-4"
               >
-                <Link href={'/signin'}>
+                <Link href={'/mw/dashboard'}>
                   <Button
                     className="w-full bg-gradient-to-r from-pink-500 to-purple-600 hover:from-pink-600 hover:to-purple-700 text-white font-semibold py-2 px-4 rounded-full shadow-lg transition-all duration-300 transform hover:-translate-y-1"
                   >

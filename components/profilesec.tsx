@@ -16,9 +16,7 @@ import { useState } from 'react'
 import { FileText, Download, Trash2, Upload } from 'lucide-react'
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area"
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog"
-import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
+
 import { File, Prisma } from "@prisma/client"
 
 type UserWithAllRelations = Prisma.UserGetPayload<{
@@ -58,48 +56,16 @@ export function Profilesec({user, files}:{ user:UserWithAllRelations, files:File
 
   return (
     <div>
-    <div className="grid md:grid-cols-2 gap-5 mx-5 ">
-      <div className=" p-10 rounded-3xl bg-white shadow">
-        <div className="flex items-center space-x-4">
-          <div className="h-5 w-5 rounded-full bg-purple-400" />
-          <div>
-            <h2 className="text-xl font-bold">Sara Johansen</h2>
-            <p className="text-sm text-black">36 years old, Female</p>
-          </div>
-          
-        </div>
-        <div className="mt-6 bg-green-50 rounded-3xl p-6">
-          <h3 className="text-lg font-semibold">Glucose</h3>
-          <ScrollArea className="w-full">
-          <LinechartChart className="aspect-[4/3] " />
-          <ScrollBar className="horizontal" />
-          </ScrollArea>
-        </div>
-        <div className="mt-6 grid md:grid-cols-3 gap-4 text-center">
-          <div>
-            <p className="text-sm font-semibold">Heart Rate</p>
-            <p className="text-lg font-bold text-red-500">184 bpm</p>
-          </div>
-          <div>
-            <p className="text-sm font-semibold">Temperature</p>
-            <p className="text-lg font-bold text-red-500">36.6°C</p>
-          </div>
-          <div>
-            <p className="text-sm font-semibold">Blood Pressure</p>
-            <p className="text-lg font-bold text-blue-500">140/90 mm/hg</p>
-          </div>
-        </div>
-      </div>
+    <div className=" gap-5 mx-5 ">
       <main className="max-w-[100vw] bg-white h-fit shadow rounded-3xl md:p-6">
         <Tabs className="bg-blue-50 md:m-6 rounded-3xl p-6" defaultValue="overview">
           <TabsList className="grid grid-cols-2 md:grid-cols-4 h-20 md:h-fit bg-gray-100 rounded-2xl space-x-4">
             <TabsTrigger value="survey">SURVEY</TabsTrigger>
-            <TabsTrigger value="overview">AI OVERVIEW</TabsTrigger>
             <TabsTrigger value="danger">DANGER ZONE</TabsTrigger>
             <TabsTrigger value="documents">DOCUMENTS</TabsTrigger>
           </TabsList>
           <TabsContent value="survey">
-          <Table className="max-w-[50px] overflow-x-auto">
+          <Table className="max-w-full overflow-x-auto">
                 <TableHeader>
                   <TableRow>
                     <TableHead>Title</TableHead>
@@ -109,7 +75,7 @@ export function Profilesec({user, files}:{ user:UserWithAllRelations, files:File
                   </TableRow>
                 </TableHeader>
                 <TableBody>
-                  <TableRow>
+
                   {user?.research
                   .map(research=>research.surveys
                   .map(survey=>survey.surveyForm
@@ -130,23 +96,15 @@ export function Profilesec({user, files}:{ user:UserWithAllRelations, files:File
                     </TableRow>
                     ))))}
                    
-                  </TableRow>
+                 
                 </TableBody>
               </Table>
           </TabsContent>
-          <TabsContent value="overview">
-            <p>
-              Lorem ipsum, dolor sit amet consectetur adipisicing elit. Reiciendis,
-               nihil! Alias magnam ipsa, ut sapiente rerum nulla? Libero possimus sit 
-               voluptates incidunt, accusantium sed in, deleniti, doloribus quo nihil
-                quisquam?
-                </p>
-          </TabsContent>
-          <TabsContent value="danger">
+          <TabsContent className="max-w-2xl mx-auto" value="danger">
             <DeleteAccount />
           </TabsContent>
 
-          <TabsContent value="documents">
+          <TabsContent className="max-w-2xl mx-auto" value="documents">
           <Card className="bg-gradient-to-br from-blue-50 to-indigo-50">
         <CardHeader className="bg-gradient-to-r from-blue-100 to-indigo-100">
           <CardTitle className="text-lg text-blue-800 flex items-center justify-between">
@@ -195,49 +153,7 @@ export function Profilesec({user, files}:{ user:UserWithAllRelations, files:File
       </main>    
       
     </div>
-      <div className="mt-6  bg-white">
-          <h3 className="text-lg font-semibold">Weight</h3>
-          <BarchartChart className=" aspect-[4/3] max-w-[100vw]" />
-        </div>  
-    </div>
-  )
-}
-
-function BarchartChart(props:any) {
-  return (
-    <div {...props}>
-      <ChartContainer
-        config={{
-          desktop: {
-            label: "Desktop",
-            color: "hsl(var(--chart-1))",
-          },
-        }}
-        className="min-h-[300px] w-full"
-      >
-        <BarChart
-          accessibilityLayer
-          data={[
-            { month: "January", desktop: 186 },
-            { month: "February", desktop: 305 },
-            { month: "March", desktop: 237 },
-            { month: "April", desktop: 73 },
-            { month: "May", desktop: 209 },
-            { month: "June", desktop: 214 },
-          ]}
-        >
-          <CartesianGrid vertical={false} />
-          <XAxis
-            dataKey="month"
-            tickLine={false}
-            tickMargin={10}
-            axisLine={false}
-            tickFormatter={(value) => value.slice(0, 3)}
-          />
-          <ChartTooltip cursor={false} content={<ChartTooltipContent hideLabel />} />
-          <Bar dataKey="desktop" fill="var(--color-desktop)" radius={8} />
-        </BarChart>
-      </ChartContainer>
+      
     </div>
   )
 }

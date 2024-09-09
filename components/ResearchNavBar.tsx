@@ -10,12 +10,12 @@ import Notifications from './Notifications'
 
 export default function ResearchNavBar() {
   return (
-    <div className='bg-white rounded-t-3xl py-2  md:hidden'>
+    <div className='sticky top-0 z-50 bg-white md:rounded-t-3xl py-2  md:hidden'>
         <aside className="flex">
         <nav className="flex items-center gap-1 px-2 sm:py-5">
         <TooltipProvider>
             <Link
-              href="#"
+              href="/mw/dashboard"
               className="group flex h-9 w-9 shrink-0 items-center justify-center gap-2 rounded-full text-lg font-semibold text-primary-foreground md:h-8 md:w-8 md:text-base"
               prefetch={false}
             >
@@ -26,7 +26,7 @@ export default function ResearchNavBar() {
             <Tooltip>
               <TooltipTrigger asChild>
                 <Link
-                  href="#dashboard"
+                  href="#overview"
                   className="flex h-9 w-9 items-center justify-center rounded-lg text-muted-foreground transition-colors hover:text-foreground md:h-8 md:w-8"
                   prefetch={false}
                 >
@@ -50,20 +50,6 @@ export default function ResearchNavBar() {
               </TooltipTrigger>
               <TooltipContent side="right">Analytics</TooltipContent>
             </Tooltip>
-            
-            <Tooltip>
-              <TooltipTrigger asChild>
-                <Link
-                  href="#files"
-                  className="flex h-9 w-9 items-center justify-center rounded-lg text-muted-foreground transition-colors hover:text-foreground md:h-8 md:w-8"
-                  prefetch={false}
-                >
-                  <Clipboard className="h-5 w-5" />
-                  <span className="sr-only">Files</span>
-                </Link>
-              </TooltipTrigger>
-              <TooltipContent side="right">Files</TooltipContent>
-            </Tooltip>
             <Tooltip>
               <TooltipTrigger asChild>
                 <Link
@@ -80,7 +66,7 @@ export default function ResearchNavBar() {
             <Tooltip>
               <TooltipTrigger asChild>
                 <Link
-                  href="#upload"
+                  href="#files"
                   className="flex h-9 w-9 items-center justify-center rounded-lg text-muted-foreground transition-colors hover:text-foreground md:h-8 md:w-8"
                   prefetch={false}
                 >
@@ -112,7 +98,7 @@ export default function ResearchNavBar() {
             <Tooltip>
               <TooltipTrigger asChild>
                 <Link
-                  href="#"
+                  href="/support"
                   className="flex h-9 w-9 items-center justify-center rounded-lg text-muted-foreground transition-colors hover:text-foreground md:h-8 md:w-8"
                   prefetch={false}
                 >

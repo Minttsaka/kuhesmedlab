@@ -21,13 +21,18 @@ import axios from 'axios'
 import { updateUser } from '@/lib/actions'
 import { toast } from './ui/use-toast'
 import { useRouter } from 'next/navigation'
+import { uploadToS3 } from '@/lib/s3'
 
 
 type UserWithAllRelations = Prisma.UserGetPayload<{
   include:{
     research:{
       include:{
-        collaborator:true,
+        collaborator:{
+          include:{
+            user:true
+          }
+        },
         surveys:{
           include:{
             surveyForm:{
@@ -85,14 +90,11 @@ export default function UserFirstSec({ user }:{ user:UserWithAllRelations }) {
    
   };
 
-  const handleimageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleimageChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (file) {
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        setUserProfile(prev => ({ ...prev, image: reader.result as string }));
-      };
-      reader.readAsDataURL(file);
+      const data = await uploadToS3(file)
+      setUserProfile(prev => ({ ...prev, image: data?.fileKey as string }));
     }
   };
 
@@ -106,7 +108,7 @@ export default function UserFirstSec({ user }:{ user:UserWithAllRelations }) {
     return daysDifference;
   }
 
-  const signupDate = new Date('2023-06-01');
+  const signupDate = new Date(user.createdAt);
   const daysSinceSignup = calculateDaysSinceSignup(signupDate);
 
   const totalSurveyForms = user?.research.reduce((total, research) => {
@@ -249,7 +251,7 @@ export default function UserFirstSec({ user }:{ user:UserWithAllRelations }) {
             {research.abstract}
            </p>
            <div className="flex items-center gap-2 text-muted-foreground text-sm">
-            {user.research.map(research=><GroupMembers key={research.id} collaborator={research.collaborator} />)}
+            {user.research.map(research=><GroupMembers key={research.id} collaborator={research.collaborator.map(collab=>collab.user)} />)}
            </div>
            <Link href={`/mw/publication/${research.id}`}>
             <Button

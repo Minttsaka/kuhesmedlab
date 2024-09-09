@@ -1,54 +1,109 @@
 "use client"
 
-import { useState } from 'react'
+import React, { useCallback, useEffect, useState } from 'react'
 import { motion } from 'framer-motion'
 import { Search, Filter, Plus, Edit, Trash2, Download, Eye } from 'lucide-react'
 import { Button } from './ui/button'
+import { SurveyForm } from '@prisma/client'
+import Link from 'next/link'
 
-export default function SurveyQuestionnaire() {
-  const [searchTerm, setSearchTerm] = useState('')
-  const [darkMode, setDarkMode] = useState(false)
-  const [filter, setFilter] = useState('all')
 
-  const questionnaires = [
-    { id: 1, title: 'COVID-19 Symptoms Survey', status: 'active', importance: 'high', responses: 1234 },
-    { id: 2, title: 'Mental Health Assessment', status: 'draft', importance: 'medium', responses: 0 },
-    { id: 3, title: 'Dietary Habits Questionnaire', status: 'archived', importance: 'low', responses: 567 },
-    { id: 4, title: 'Physical Activity Tracker', status: 'active', importance: 'medium', responses: 890 },
-    { id: 5, title: 'Sleep Quality Evaluation', status: 'active', importance: 'high', responses: 432 },
-  ]
+const tokenize = (text:string) => text.toLowerCase().split(/\W+/).filter(token => token.length > 2)
+const removeStopWords = (tokens:string[]) => {
+  const stopWords = new Set(['the', 'a', 'an', 'in', 'on', 'at', 'for', 'to', 'of', 'and', 'or', 'but'])
+  return tokens.filter(token => !stopWords.has(token))
+}
 
-  const filteredQuestionnaires = questionnaires.filter(q => 
-    q.title.toLowerCase().includes(searchTerm.toLowerCase()) &&
-    (filter === 'all' || q.status === filter)
-  )
+const stemWord = (word:string) => {
+  // Very basic stemming (for demonstration purposes)
+  return word.replace(/ing$|s$|ed$/, '')
+}
+
+export default function SurveyQuestionnaire({relatedSurvey, title}:{relatedSurvey:SurveyForm[], title:string}) {
+
+  const [searchResults, setSearchResults] = useState<any>([])
+
+  useEffect(()=>{
+    const results = semanticSearch(title)
+    setSearchResults(results)
+  },[])
+
+  // Simulated semantic search function
+  const semanticSearch = useCallback((query:string) => {
+    const queryTokens = removeStopWords(tokenize(query)).map(stemWord)
+    
+    return relatedSurvey.map(survey => {
+      const concepts = survey.title.split(" ")
+      const titleTokens = removeStopWords(tokenize(survey.title)).map(stemWord)
+      const descriptionTokens = removeStopWords(tokenize(survey.description)).map(stemWord)
+      const conceptTokens = removeStopWords(tokenize(concepts.join(' '))).map(stemWord)
+      
+      let score = 0
+      let matchedTerms = new Set()
+      let excerpts:string[] = []
+
+      // Check title
+      queryTokens.forEach(queryToken => {
+        titleTokens.forEach(titleToken => {
+          if (titleToken.includes(queryToken) || queryToken.includes(titleToken)) {
+            score += 3
+            matchedTerms.add(titleToken)
+          }
+        })
+      })
+
+
+      // Check description
+      queryTokens.forEach(queryToken => {
+        descriptionTokens.forEach((descToken, index) => {
+          if (descToken.includes(queryToken) || queryToken.includes(descToken)) {
+            score += 2
+            matchedTerms.add(descToken)
+            // Extract a brief excerpt around the matched term
+            const start = Math.max(0, index - 3)
+            const end = Math.min(descriptionTokens.length, index + 4)
+            excerpts.push(descriptionTokens.slice(start, end).join(' '))
+          }
+        })
+      })
+
+      // Check concepts
+      queryTokens.forEach(queryToken => {
+        conceptTokens.forEach(conceptToken => {
+          if (conceptToken.includes(queryToken) || queryToken.includes(conceptToken)) {
+            score += 1
+            matchedTerms.add(conceptToken)
+          }
+        })
+      })
+
+      return { 
+        ...survey, 
+        score, 
+        matchedTerms: Array.from(matchedTerms), 
+        excerpts: excerpts.slice(0, 2) // Limit to 2 excerpts for brevity
+      }
+    }).filter(result => result.score > 0)
+      .sort((a, b) => b.score - a.score)
+  }, [])
+
+
+  const highlightMatches = (text:string, matches:string[]) => {
+    let highlightedText = text
+    matches.forEach(match => {
+      const regex = new RegExp(`\\b${match}\\b`, 'gi')
+      highlightedText = highlightedText.replace(regex, `<mark class="bg-yellow-200 rounded px-1">$&</mark>`)
+    })
+    return <span dangerouslySetInnerHTML={{ __html: highlightedText }} />
+  }
 
   return (
-    <div className={`flex flex-col min-h-screen p-2 md:p-0 ${darkMode ? 'bg-gray-900 text-white' : 'bg-gray-100 text-gray-900'} transition-colors duration-500`}>
+    <div className={`flex flex-col py-10  text-white bg-gray-100 transition-colors duration-500`}>
       <div className="max-w-6xl mx-auto">
-        <h1 className="lg:text-4xl font-bold text-gray-800 mb-8">Medical Research Questionnaires</h1>
-        
-        <div className="flex justify-between items-center mb-6">
-          <div className="flex items-center space-x-4">
-            <select
-              className="border border-gray-300 rounded-lg px-4 py-2 focus:ring-2 focus:ring-blue-400 focus:border-transparent"
-              value={filter}
-              onChange={(e) => setFilter(e.target.value)}
-            >
-              <option value="all">All Status</option>
-              <option value="active">Active</option>
-              <option value="draft">Draft</option>
-              <option value="archived">Archived</option>
-            </select>
-            <Button variant="default" className="flex items-center space-x-2">
-              <Plus size={20} />
-              <span>New Questionnaire</span>
-            </Button>
-          </div>
-        </div>
-        
+        <h1 className="lg:text-4xl font-bold text-gray-800 mb-8">Related Questionnaires</h1>        
         <motion.div layout className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {filteredQuestionnaires.map((questionnaire) => (
+          {searchResults.length ===0 && <p className="text-gray-500">No related survey found.</p>}
+          {searchResults?.map((questionnaire:any) => (
             <motion.div
               key={questionnaire.id}
               layout
@@ -60,36 +115,20 @@ export default function SurveyQuestionnaire() {
             >
               <div className="p-6">
                 <div className="flex justify-between items-start mb-4">
-                  <h2 className="text-xl font-semibold text-gray-800">{questionnaire.title}</h2>
+                  <h2 className="text-xl font-semibold text-gray-800">{highlightMatches(questionnaire.title, questionnaire.matchedTerms)}</h2>
                   <StatusBadge status={questionnaire.status} />
                 </div>
                 <div className="flex items-center space-x-2 text-sm text-gray-600 mb-4">
                   <ImportanceDot importance={questionnaire.importance} />
                   <span>{questionnaire.importance} importance</span>
                 </div>
-                <div className="text-3xl font-bold text-blue-600 mb-4">
-                  {questionnaire.responses.toLocaleString()}
-                  <span className="text-sm font-normal text-gray-600 ml-2">responses</span>
-                </div>
                 <div className="flex justify-between items-center">
-                  <div className="space-x-2">
+                  <Link href={`/survey/${questionnaire.id}`} className="space-x-2">
                     <Button variant="outline" size="sm">
                       <Edit size={16} className="mr-1" />
-                      Edit
+                      Explore
                     </Button>
-                    <Button variant="outline" size="sm">
-                      <Eye size={16} className="mr-1" />
-                      Preview
-                    </Button>
-                  </div>
-                  <div className="space-x-2">
-                    <Button variant="ghost" size="sm">
-                      <Download size={16} />
-                    </Button>
-                    <Button variant="ghost" size="sm" className="text-red-600 hover:text-red-700">
-                      <Trash2 size={16} />
-                    </Button>
-                  </div>
+                  </Link>
                 </div>
               </div>
             </motion.div>

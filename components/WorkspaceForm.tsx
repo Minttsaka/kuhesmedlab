@@ -33,8 +33,8 @@ import {
 } from "@/components/ui/tooltip"
 import { cn } from "@/lib/utils"
 import axios from "axios"
-import { toast } from "sonner"
 import { useRouter } from "next/navigation"
+import { useToast } from "./ui/use-toast"
 
 const formSchema = z.object({
   title: z.string().min(2, {
@@ -71,6 +71,7 @@ export default function ResearchWorkspaceForm() {
   const [isSubmitting,setIsSubmitting] = React.useState(false)
 
   const router = useRouter();
+  const {toast} = useToast()
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -112,9 +113,21 @@ export default function ResearchWorkspaceForm() {
           conference
         
         })
-        router.push(`/mw/publication/${response.data}`)
-          toast.success("The research was successfully created.");
-          
+        if(response.data===null || response.data===""){
+
+          toast({
+            title:"Error",
+            description:"Please try again. This occur due to ai unable to distribute subject area."
+          });
+
+        } else {
+          toast({
+            title:"Workspace created",
+            description:"The research was successfully created."
+          });
+          router.push(`/mw/publication/${response.data}`)
+        }
+
       } catch (error) {
         console.log(error)
       } finally {
@@ -370,7 +383,7 @@ export default function ResearchWorkspaceForm() {
                 ) : (
                   <Button type="submit" className="bg-green-500 hover:bg-green-600 text-white" disabled={isSubmitting}>
                     {isSubmitting ? <Loader2 className="animate-spin" />:'Submit and Continue! 🎉'}
-                    <Check className="w-4 h-4 ml-2" />
+                   
                   </Button>
                 )}
               </div>

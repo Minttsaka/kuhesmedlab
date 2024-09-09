@@ -2,7 +2,7 @@ import React from 'react'
 
 export default function BlackBg() {
   return (
-    <div className='relative my-40'>
+    <div className='relative '>
       <div className='absolute inset-x-0 skew-y-12 top-60 bottom-20 md:bottom-0 h-full bg-[#2a2e7c] origin-bottom-right ' />
       <div className='absolute inset-x-0  md:top-60 bottom-0 h-full bg-[#2a2e7c] origin-bottom-right ' />
       <div className="container mx-auto z-10 py-10 ">
