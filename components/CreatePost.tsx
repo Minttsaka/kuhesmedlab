@@ -52,7 +52,6 @@ export default function CreateBlogPost() {
     setNewPost({ ...newPost, [e.target.name]: e.target.value })
   }
 
-
   const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0]
     if (file) {

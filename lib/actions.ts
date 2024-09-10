@@ -106,11 +106,7 @@ export const savePost = async(post:Post)=>{
       }
     })
 
-    if(newPost){
-      console.log("saved",newPost)
-      revalidatePath("/community")
-      redirect("/community")
-    }
+    return true
   } catch (error) {
     if(error){
     console.log(error)
@@ -197,13 +193,14 @@ type QuestionnaireData ={
   surveyId:string, 
   identity:boolean,
   label:string,
+  img:string | undefined,
   guildelines:string,
   importance:Importance
 }
 
 export const saveQuestionnaireData = async(data:QuestionnaireData)=>{
 
-  const {title ,description,importance,guildelines, identity, surveyId, label} = data
+  const {title, img ,description,importance,guildelines, identity, surveyId, label} = data
 
   const session:any = await getServerSession(authOptions);
   const sessionUser= session.user as User
@@ -238,6 +235,7 @@ export const saveQuestionnaireData = async(data:QuestionnaireData)=>{
       data:{
           title,
           identity,
+          img,
           creatorId:user?.id!,
           creatorName:user?.name!,
           description,
@@ -285,9 +283,29 @@ export const newSurveyQuestion = async (id:string) =>{
       throw new Error(`Survey with id ${form } does not exist.`);
     }
 
+    const questions = await prisma.surveyFormQuestion.findMany({
+      where:{
+        formId:id
+      }
+    })
+
+    const filteredQuestions = questions.map(question=>question.title)
+
+    const prompt = `Generate the estimated time in minutes as integer that a 
+    respondent can take to answer the following survey questions
+    ${JSON.stringify(filteredQuestions)}. For example: 5 so that i can convert
+    it into number and save to db as number.
+    `
+    const completion = await openai.createChatCompletion({
+      model: 'gpt-3.5-turbo',
+      messages: [{ role: 'user', content: prompt }],
+    });
+
+    const estimatedTime = completion.data.choices[0].message?.content || '';
+
     const savedFormQuestion = await prisma.surveyFormQuestion.create({
       data:{
-        title:"Unntitled",
+        title:"Untitled",
         type:"Short_Answer",
         authorId:user.id,
         author:user.name,
@@ -296,6 +314,15 @@ export const newSurveyQuestion = async (id:string) =>{
             id: form.id,
           },
       }
+      }
+    })
+
+    await prisma.surveyForm.update({
+      where:{
+        id
+      },
+      data:{
+        estimatedTime:Number(estimatedTime)
       }
     })
 
@@ -367,8 +394,6 @@ export const updatedSurveyTitleAndDesc = async(id:string, data:any)=>{
 
 export const saveOptions = async(id:string, options:string[])=>{
 
-  console.log("this is options", options)
-
   try {
 
     const question = await prisma.surveyFormQuestion.findUnique({
@@ -418,9 +443,31 @@ export const aiGeneratedQuestion = async(id:string)=>{
 
   const existQ = form?.questions.map(question=>question.title)
 
+  const estimatedTime = async()=>{
+
+    const prompt = `Generate the estimated time in minutes as integer that a 
+    respondent can take to answer the following survey questions
+    ${JSON.stringify(existQ)}. For example: 5 so that i can convert
+    it into number and save to db as number.`
+    try {
+
+      const completion = await openai.createChatCompletion({
+        model: 'gpt-3.5-turbo',
+        messages: [{ role: 'user', content: prompt }],
+      });
+  
+      return completion.data.choices[0].message?.content || '';
+      
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
+  console.log("estimated time", await estimatedTime())
+
 
   const openAiPrompt = `
-    You are creating a survey questions having title of ${form?.title} and description of ${form?.description} given the following questions where already asked ${existQ} that fits the following structure. 
+    You are creating a survey questions having title of ${form?.title} and description of ${form?.description} given the following questions where already asked ${JSON.stringify(existQ)} that fits the following structure. 
     Please generate a question title, a question type (from 'Short_Answer', 'Paragraph', 'Multiple_Choice', or 'Rating'), an optional number of stars (if the type is 'Rating'),
      a list of options in array (if the type is 'Multiple_Choice').
 
@@ -472,6 +519,15 @@ export const aiGeneratedQuestion = async(id:string)=>{
         })),
       });
     }
+
+    await prisma.surveyForm.update({
+      where:{
+        id
+      },
+      data:{
+        estimatedTime:Number(await estimatedTime())
+      }
+    })
 
     
   } catch (error) {
@@ -555,92 +611,92 @@ export const inviteCollaboratior = async(id:string,collaborators:User[])=>{
           description:"Im inviting you to collaborate to my project",
           status: 'UNREAD',
           content:`<!DOCTYPE html>
-<html>
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #f4f4f4;
-            margin: 0;
-            padding: 0;
-        }
-        .email-container {
-            width: 100%;
-            max-width: 600px;
-            margin: 0 auto;
-            background-color: #ffffff;
-            padding: 20px;
-            border-radius: 10px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-        }
-        .email-header {
-            text-align: center;
-            padding: 20px 0;
-        }
-        .email-header img {
-            border-radius: 50%;
-            width: 100px;
-            height: 100px;
-            object-fit: cover;
-        }
-        .email-body {
-            padding: 20px;
-            color: #333333;
-            line-height: 1.6;
-        }
-        .email-body h1 {
-            color: #007bff;
-        }
-        .email-footer {
-            margin-top: 30px;
-            text-align: center;
-            font-size: 14px;
-            color: #777777;
-        }
-        .cta-button {
-            background-color: #007bff;
-            color: #ffffff;
-            text-decoration: none;
-            padding: 12px 24px;
-            border-radius: 5px;
-            font-size: 16px;
-            display: inline-block;
-            margin-top: 20px;
-        }
-        .cta-button:hover {
-            background-color: #0056b3;
-        }
-    </style>
-</head>
-<body>
-    <div class="email-container">
-        <div class="email-header">
-            <img src=${user.image} alt="Sender's Image">
-        </div>
-        <div class="email-body">
-            <h1>Hello, ${collaborator.name}!</h1>
-            <p>
-                We hope this email finds you well. I am ${user.name}, and I am excited to invite you to collaborate on a new research project.
-            </p>
-            <p>
-                Your expertise and insights would be incredibly valuable to this initiative. If you're interested, please click the button below to learn more about the project and how we can work together:
-            </p>
-            <p style="text-align: center;">
-                <a href="{{ url }}" class="cta-button">Join the Research Collaboration</a>
-            </p>
-            <p>
-                Should you have any questions, feel free to reach out to me directly at {{ senderEmail }}. I look forward to your positive response.
-            </p>
-            <p>Best regards,<br>${user.name}</p>
-        </div>
-        <div class="email-footer">
-            <p>&copy; {{ new Date().getFullYear() }} kuhesmedlab Research Collaboration. All rights reserved.</p>
-        </div>
-    </div>
-</body>
-</html>
+            <html>
+            <head>
+                <meta charset="UTF-8">
+                <meta name="viewport" content="width=device-width, initial-scale=1.0">
+                <style>
+                    body {
+                        font-family: Arial, sans-serif;
+                        background-color: #f4f4f4;
+                        margin: 0;
+                        padding: 0;
+                    }
+                    .email-container {
+                        width: 100%;
+                        max-width: 600px;
+                        margin: 0 auto;
+                        background-color: #ffffff;
+                        padding: 20px;
+                        border-radius: 10px;
+                        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+                    }
+                    .email-header {
+                        text-align: center;
+                        padding: 20px 0;
+                    }
+                    .email-header img {
+                        border-radius: 50%;
+                        width: 100px;
+                        height: 100px;
+                        object-fit: cover;
+                    }
+                    .email-body {
+                        padding: 20px;
+                        color: #333333;
+                        line-height: 1.6;
+                    }
+                    .email-body h1 {
+                        color: #007bff;
+                    }
+                    .email-footer {
+                        margin-top: 30px;
+                        text-align: center;
+                        font-size: 14px;
+                        color: #777777;
+                    }
+                    .cta-button {
+                        background-color: #007bff;
+                        color: #ffffff;
+                        text-decoration: none;
+                        padding: 12px 24px;
+                        border-radius: 5px;
+                        font-size: 16px;
+                        display: inline-block;
+                        margin-top: 20px;
+                    }
+                    .cta-button:hover {
+                        background-color: #0056b3;
+                    }
+                </style>
+            </head>
+            <body>
+                <div class="email-container">
+                    <div class="email-header">
+                        <img src=${user.image} alt="Sender's Image">
+                    </div>
+                    <div class="email-body">
+                        <h1>Hello, ${collaborator.name}!</h1>
+                        <p>
+                            We hope this email finds you well. I am ${user.name}, and I am excited to invite you to collaborate on a new research project.
+                        </p>
+                        <p>
+                            Your expertise and insights would be incredibly valuable to this initiative. If you're interested, please click the button below to learn more about the project and how we can work together:
+                        </p>
+                        <p style="text-align: center;">
+                            <a href="/invite/${id}" class="cta-button">Join the Research Collaboration</a>
+                        </p>
+                        <p>
+                            Should you have any questions, feel free to reach out to me directly at ${user.email}. I look forward to your positive response.
+                        </p>
+                        <p>Best regards,<br>${user.name}</p>
+                    </div>
+                    <div class="email-footer">
+                        <p>&copy;  kuhesmedlab Research Collaboration. All rights reserved.</p>
+                    </div>
+                </div>
+            </body>
+            </html>
 
             `
         },

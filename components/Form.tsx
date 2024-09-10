@@ -213,7 +213,7 @@ const Form = ({ form }:{ form:SurveyForm }) => {
         <div className="lg:flex items-center gap-4 space-y-2 lg:space-y-0 my-2 lg:my-0 bg-gray-100 p-2 rounded-md">
           <div className="flex items-center gap-1 text-sm text-muted-foreground">
             <ClockIcon className="h-4 w-4" />
-            <span>Estimated time: 10 min</span>
+            <span>Estimated time: {form.estimatedTime} min</span>
           </div>
           <div className="flex items-center gap-1 text-sm text-muted-foreground">
             <CalendarIcon className="h-4 w-4" />

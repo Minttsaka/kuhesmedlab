@@ -26,9 +26,7 @@ model Account {
   scope              String?
   id_token           String?
   session_state      String?
-
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
-
 }
 
 model Session {
@@ -165,7 +163,6 @@ model DownloadTrend {
   research    Research  @relation(fields: [researchId], references: [id], onDelete: Cascade)
 }
 
-
 model Collaborator {
   id            String              @id @default(auto()) @map("_id") @db.ObjectId
   userId        String              
@@ -251,6 +248,8 @@ model Survey {
 model SurveyForm {
   id          String        @id @default(auto()) @map("_id") @db.ObjectId
   title       String
+  img         String?
+  estimatedTime Int @default(0)
   description String
   label       String
   status      SurveyStatus @default(draft)
@@ -368,7 +367,8 @@ model Feedback {
 }
 
 enum FeedbackType {
-  GENERAL   
+  GENERAL 
+  SURVEY_ANALYSIS  
   BUG_REPORT 
   FEATURE_REQUEST
   OTHER

@@ -1,6 +1,6 @@
 'use client'
 
-import { use, useEffect, useState } from 'react'
+import { use, useCallback, useEffect, useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
@@ -16,6 +16,7 @@ import { v4 as uuidv4 } from 'uuid';
 import axios from 'axios'
 import { aiSurveyAnalysis, setCookie, surveyAnalysis } from '@/lib/actions'
 import Link from 'next/link'
+import { debounce } from 'lodash'
 
 export type ResearchWithAllRelations = Prisma.SurveyFormGetPayload<{
   include:{
@@ -109,18 +110,25 @@ export default function SurveyQuestions({ forms, sessionid ,user }: {forms:Resea
     }
 
   }
+
+  const debouncedHandleAnswer = useCallback(debounce((answer: string) => {
+    handleAnswer(answer);
+  }, 500), []);
+
+  const handleSentenceAnswer = (answer: string) => {
+    debouncedHandleAnswer(answer);
+  };
   const handleAnswer = async (answer: string) => {
 
     setAnswers(prev => ({ ...prev, [currentQuestion.id]: answer }))
 
     const endTime = new Date();
     const currentQuestionId = currentQuestion.id;
-    const startTime = questionTimes[currentQuestionId]?.startTime || new Date(); // Default to now if no start time
-    const timeTaken = startTime ? (endTime.getTime() - startTime.getTime()) / 1000 : 0; // Time in seconds
+    const startTime = questionTimes[currentQuestionId]?.startTime || new Date();
+    const timeTaken = startTime ? (endTime.getTime() - startTime.getTime()) / 1000 : 0;
 
     setAnswers(prev => ({ ...prev, [currentQuestionId]: answer }));
 
-    // Update end time for the current question
     setQuestionTimes(prev => ({
       ...prev,
       [currentQuestionId]: {
@@ -196,7 +204,7 @@ export default function SurveyQuestions({ forms, sessionid ,user }: {forms:Resea
             <Input
               id="answer"
               placeholder="Type your answer here"
-              onChange={(e) => handleAnswer(e.target.value)}
+              onChange={(e) => handleSentenceAnswer(e.target.value)}
             />
           </div>
         )
@@ -221,7 +229,7 @@ export default function SurveyQuestions({ forms, sessionid ,user }: {forms:Resea
             <Textarea
               id="answer"
               placeholder="Type your answer here"
-              onChange={(e) => handleAnswer(e.target.value)}
+              onChange={(e) => handleSentenceAnswer(e.target.value)}
             />
           </div>
         )
@@ -357,7 +365,7 @@ export default function SurveyQuestions({ forms, sessionid ,user }: {forms:Resea
                   </div>
                 </motion.div>
               ) : (
-                <QuestionnaireGuidelines identity={forms.identity!} guides={forms.guildelines!} setIsIntro={setIsIntro!} />
+                <QuestionnaireGuidelines identity={forms.identity!} time={forms.estimatedTime} guides={forms.guildelines!} setIsIntro={setIsIntro!} />
               )
             ) : (
               <motion.div

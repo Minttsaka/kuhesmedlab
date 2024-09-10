@@ -65,14 +65,7 @@ export default function Finisher({ averageRating, totalRatings }: RatingProps) {
                 } ${hoveredStar && star <= hoveredStar ? 'text-yellow-500' : ''} transition-colors duration-200`}
                 strokeWidth={1.5}
               />
-              {star === filledStars + 1 && hasHalfStar && (
-                <div
-                  className="absolute inset-0 overflow-hidden"
-                  style={{ width: `${(averageRating % 1) * 100}%` }}
-                >
-                  <Star className="w-8 h-8 text-yellow-400 fill-yellow-400" strokeWidth={1.5} />
-                </div>
-              )}
+              
             </motion.div>
           ))}
         </div>

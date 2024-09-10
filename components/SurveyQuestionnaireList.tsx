@@ -1,6 +1,6 @@
 "use client"
 
-import { Search, Filter, Plus, Edit, Trash2, Download, Eye, X, Loader2, Option } from 'lucide-react'
+import { Search, Filter, Plus, Edit, Trash2, Download, Eye, X, Loader2, Option, ImageIcon } from 'lucide-react'
 import { Button } from './ui/button'
 import React, { useState, useRef, useEffect } from 'react'
 import { AnimatePresence, motion } from 'framer-motion'
@@ -18,11 +18,8 @@ import { z } from "zod"
 import { zodResolver } from "@hookform/resolvers/zod";
 import { SubmitHandler, useForm } from "react-hook-form";
 import ReactQuill from "react-quill";
-import { Importance, Prisma, SurveyFormAnswer } from "@prisma/client"
+import { Importance, Prisma } from "@prisma/client"
 import Link from "next/link"
-import { Card } from "./ui/card"
-
-import { Cross1Icon, HamburgerMenuIcon } from "@radix-ui/react-icons"
 import 'animate.css';
 import { Textarea } from "./ui/textarea"
 import { Switch } from "./ui/switch"
@@ -31,8 +28,6 @@ import { formats, modules } from "@/lib/quillModules"
 import { saveQuestionnaireData } from '@/lib/actions'
 import { useToast } from './ui/use-toast'
 import SurveyPreviewModal from './QuestionnairePreview'
-
-
 
 const FormSchema = z.object({
   title: z
@@ -45,7 +40,6 @@ const FormSchema = z.object({
 });
 
 type InputType = z.infer<typeof FormSchema>;
-
 
 type FormSchema = Prisma.SurveyFormGetPayload<{
 include:{
@@ -77,6 +71,7 @@ export default function SurveyQuestionnaireList({ surveyId }:{ surveyId:string }
     const [searchTerm, setSearchTerm] = useState('')
     const [filter, setFilter] = useState('all')
     const scrollContainerRef = useRef(null)
+    const [img, setImg] = useState<string>()
     const [isModalOpen, setIsModalOpen] = useState(false)
     const [value, setValue] = useState("");
     const [isPreviewOpen, setIsPreviewOpen] = useState(false)
@@ -88,7 +83,18 @@ export default function SurveyQuestionnaireList({ surveyId }:{ surveyId:string }
   );
 
   const { toast} = useToast()
-    const formList = Array.isArray(data) ? data : [];
+  const formList = Array.isArray(data) ? data : [];
+
+  const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0]
+    if (file) {
+      const reader = new FileReader()
+      reader.onloadend = () => {
+        setImg(reader.result as string)
+      }
+      reader.readAsDataURL(file)
+    }
+  }
   
     const filteredQuestionnaires = formList.filter(q => 
       q.title.toLowerCase().includes(searchTerm.toLowerCase()) &&
@@ -104,7 +110,6 @@ export default function SurveyQuestionnaireList({ surveyId }:{ surveyId:string }
       return () => window.removeEventListener('keydown', handleKeyDown)
     }, [isModalOpen])
 
-
   const {
     register,
     handleSubmit,
@@ -118,10 +123,7 @@ export default function SurveyQuestionnaireList({ surveyId }:{ surveyId:string }
 
   console.log(errors)
 
-
   const saveform: SubmitHandler<InputType> = async (data) => {
-
-    console.log(surveyId,  "second")
 
     const {title,  description, label} = data
   try {
@@ -129,6 +131,7 @@ export default function SurveyQuestionnaireList({ surveyId }:{ surveyId:string }
       title,
       description,
       label,
+      img,
       identity:isChecked,
       surveyId,
       guildelines:value,
@@ -159,6 +162,24 @@ const handleCheck =(e:boolean)=>{
   setIsChecked(e)
 
 }
+
+const handleDelete = async(id:string)=>{
+  try {
+
+    await axios.post('/api/form',{
+      id
+    })
+    mutate()
+    
+  } catch (error) {
+
+    console.log(error)
+    
+  }
+
+}
+
+
 
   return (
     <div className={`flex flex-col p-2 md:p-0 bg-gray-100 text-gray-900 transition-colors duration-500`}>
@@ -235,7 +256,7 @@ const handleCheck =(e:boolean)=>{
                       
                     </div>
                     <div className="space-x-2">
-                      <Button variant="ghost" size="sm" className="text-red-600 hover:text-red-700">
+                      <Button onClick={()=>handleDelete(questionnaire.id)} variant="ghost" size="sm" className="text-red-600 hover:text-red-700">
                         <Trash2 size={16} />
                       </Button>
                     </div>
@@ -297,6 +318,21 @@ const handleCheck =(e:boolean)=>{
                       required
                     />
                   </div>
+                  <div className="flex space-x-2 mb-2">
+                    <Input
+                        type="file"
+                        id="image"
+                        onChange={handleImageUpload}
+                        style={{ display: "none" }}
+                        accept="image/*"
+                      />
+                      <Button type='button' variant="outline"  size="icon">
+                        <label htmlFor="image" className="cursor-pointer">
+                          <ImageIcon className="h-4 w-4" />
+                        </label>
+                      </Button>
+                      {img && <img src={img!} className='object-center h-10 w-10 rounded-lg object-cover'/>}
+                    </div>
                   <div className="grid items-center grid-cols-1 gap-4">
                   <Label htmlFor="guidlines" className="text-right">
                     Guidelines (This is rich text editor where by highlighting the text, you can customize your content.)

@@ -5,12 +5,24 @@ import { Badge } from "@/components/ui/badge"
 import { ChevronRightIcon, BarChartIcon, UsersIcon, ClipboardIcon } from 'lucide-react'
 import Link from 'next/link'
 import { prisma } from '@/lib/prisma'
+import { Avatar, AvatarImage } from './ui/avatar'
 
 export default async function LandingSurvey() {
 
   const forms = await prisma.surveyForm.findMany({
     orderBy:{
       createdAt:"desc"
+    },
+    include:{
+      survey:{
+        include:{
+          research:{
+            include:{
+              user:true
+            }
+          }
+        }
+      }
     }
   })
   return (
@@ -60,24 +72,29 @@ export default async function LandingSurvey() {
             <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3 lg:gap-10">
               {forms.map((survey) => (
                 <Card key={survey.id} className="flex flex-col overflow-hidden transition-all hover:shadow-lg">
-                  <CardHeader className="p-0">
+                  <CardHeader className="p-0 relative">
                     <img
                       alt={survey.title}
                       className="object-cover w-full h-60"
                       height={240}
-                      src={'https://optinmonster.com/wp-content/uploads/2019/11/survey-best-practices.png'}
+                      src={survey.img! ?? 'https://optinmonster.com/wp-content/uploads/2019/11/survey-best-practices.png'}
                       style={{
                         aspectRatio: "400/240",
                         objectFit: "cover",
                       }}
                       width={400}
                     />
+                    <div className='absolute bottom-1 left-1'>
+                      <Avatar>
+                        <AvatarImage src={survey.survey.research.user.image!} className='object-cover'/>
+                      </Avatar>
+                    </div>
                   </CardHeader>
                   <CardContent className="flex-1 p-6">
                     <CardTitle>{survey.title}</CardTitle>
                     <p className="text-sm text-gray-500 mt-2">{survey.description}</p>
                     <Badge className="mt-4" variant="secondary">
-                    HR Management
+                    {survey.survey.research.user.role}
                     </Badge>
                   </CardContent>
                   <CardFooter className="p-6 pt-0">

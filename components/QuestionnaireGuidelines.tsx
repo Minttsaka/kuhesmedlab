@@ -3,7 +3,7 @@ import { motion, AnimatePresence } from 'framer-motion'
 import { ChevronRight, ChevronLeft, Check, Clock, Shield, List, Sun, Moon } from 'lucide-react'
 import { Button } from './ui/button'
 
-export default function QuestionnaireGuidelines({identity, guides,setIsIntro}:{setIsIntro:React.Dispatch<SetStateAction<boolean>>,identity:boolean, guides:string}) {
+export default function QuestionnaireGuidelines({identity,time, guides,setIsIntro}:{setIsIntro:React.Dispatch<SetStateAction<boolean>>,identity:boolean,time:number, guides:string}) {
   const [currentStep, setCurrentStep] = useState(0)
   const [darkMode, setDarkMode] = useState(false)
 
@@ -23,7 +23,9 @@ export default function QuestionnaireGuidelines({identity, guides,setIsIntro}:{s
     },
     {
       title: "Estimated Time",
-      description: "The questionnaire typically takes 15-20 minutes to complete. Please ensure you have enough uninterrupted time to finish the process.",
+      description: `The questionnaire typically takes ${time} minutes to
+       complete. Please ensure you have enough uninterrupted
+        time to finish the process.`,
       icon: <Clock className="w-12 h-12 text-purple-500" />,
     },
     {

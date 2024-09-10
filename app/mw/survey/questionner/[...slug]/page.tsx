@@ -2,7 +2,6 @@
 import { SurveyAnalytics } from '@/components/survey-analytics';
 import { SurveyCreator } from '@/components/survey-creator'
 import SurveyBarAnalysis from '@/components/SurveyBarAnalysis';
-import { SurveyForms } from '@/components/SurveyCollabo';
 import SurveyDashboard from '@/components/SurveyDashboard';
 import SurveyHeader from '@/components/SurveyHeader';
 import SurveyOverallAnalysis from '@/components/SurveyOverallAnalysis';
@@ -193,8 +192,6 @@ surveyFormsList.forEach(form => {
   });
 });
 
-const today = new Date();
-const startDate = subDays(today, 30);
 
 const surveyFor = await prisma.surveyForm.findMany({
   where: {
@@ -337,10 +334,10 @@ const relatedSurvey = await prisma.surveyForm.findMany({
     <div className='lg:w-full min-h-screen'>
       <SurveyHeader id={research?.id!} />
       <SurveyQuestionnaireList surveyId={survey?.id!}  />
-        <SurveyDashboard surveyId={survey?.id!}/>
-        <SurveyQuestionnaire title={survey?.title!} relatedSurvey={relatedSurvey}/>
-        <SurveyBarAnalysis metrics={ surveyMetrics}  />
-        <SurveyOverallAnalysis aiAnalyze={survey?.aiAnalyze!} formData={await findFormData()} />      
+      <SurveyDashboard surveyId={survey?.id!}/>
+      <SurveyQuestionnaire title={survey?.title!} relatedSurvey={relatedSurvey}/>
+      <SurveyBarAnalysis metrics={ surveyMetrics}  />
+      <SurveyOverallAnalysis aiAnalyze={survey?.aiAnalyze!} formData={await findFormData()} />      
     </div>
   )
 }

@@ -15,7 +15,6 @@ import { User } from '@prisma/client';
 
     const body = await req.json()
 
-
     const {
       answer,
       userId,
@@ -89,7 +88,6 @@ import { User } from '@prisma/client';
 
     }
 
-    console.log("successfully saved the answer")
     return NextResponse.json("success");
 
   } catch (error) {

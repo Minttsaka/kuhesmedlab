@@ -4,20 +4,14 @@ import React, { useState, useEffect, useRef } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import {  CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Download, FileText, Filter, SortAsc, SortDesc, Moon, Sun, Maximize2, MessageSquare } from 'lucide-react'
-import * as THREE from 'three'
-import WordCloud from 'react-d3-cloud'
-import { Canvas } from '@react-three/fiber'
-import { OrbitControls, Sphere } from '@react-three/drei'
-import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, LineChart, Line, PieChart, Pie, Cell, AreaChart, Area } from 'recharts'
-import { Search, Plus, Edit, Trash2,Eye, X, Loader2 } from 'lucide-react'
 import { Button } from './ui/button'
-import {  ChevronLeft, ChevronRight } from 'lucide-react'
-import { ScrollArea, ScrollBar } from './ui/scroll-area'
-import { Label } from './ui/label'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from './ui/select'
-import useSWR from 'swr'
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from './ui/dropdown-menu'
 import { Textarea } from './ui/textarea'
+import axios from 'axios'
+import { useSession } from 'next-auth/react'
+import { useToast } from './ui/use-toast'
+import { useRouter } from 'next/navigation'
 
 type DataItem = {
   responses:number,
@@ -34,21 +28,16 @@ export default function SurveyOverallAnalysis({formData, aiAnalyze}:{formData:Da
   const [filterImportance, setFilterImportance] = useState('all')
   const [darkMode, setDarkMode] = useState(false)
   const [aiAnalysis, setAiAnalysis] = useState('')
+  const [message, setMessage] = useState('')
+  const [isSubmitting, setIsSubmitting] = useState(false)
   const [expandedSurvey, setExpandedSurvey] = useState<string | number>('')
 
+  const {data:session } = useSession()
+  const user = session?.user
+  const { toast } = useToast()
+  const router = useRouter()
+
   const COLORS = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042', '#A28DFF']
-
-  const questionData = [
-    { question: 'Product Quality', excellent: 40, good: 35, average: 15, poor: 7, veryPoor: 3 },
-    { question: 'Customer Service', excellent: 45, good: 30, average: 20, poor: 4, veryPoor: 1 },
-    { question: 'Value for Money', excellent: 35, good: 40, average: 18, poor: 5, veryPoor: 2 },
-  ]
-
-  const sentimentData = [
-    { name: 'Positive', value: 65 },
-    { name: 'Neutral', value: 25 },
-    { name: 'Negative', value: 10 },
-  ]
 
  
   const filteredData = formData
@@ -97,32 +86,6 @@ export default function SurveyOverallAnalysis({formData, aiAnalyze}:{formData:Da
     ],
   }
 
-  
-  useEffect(() => {
-    // Simulating AI analysis generation
-    const generateAnalysis = async () => {
-      await new Promise(resolve => setTimeout(resolve, 1500)) // Simulating API call
-      setAiAnalysis(`Based on the comprehensive analysis of ${totalResponses.toLocaleString()} responses across ${formData.length} surveys, we've uncovered several key insights:
-
-1. COVID-19 Symptom Tracking: This survey has garnered the highest response rate, indicating ongoing public concern and engagement with the pandemic situation.
-
-2. Mental Health Focus: The Mental Health Assessment, while having a high response rate, also takes the longest to complete. This suggests that respondents are dedicating significant time to mental health considerations, reflecting its growing importance in overall health discussions.
-
-3. Completion Rates: The Family Medical History survey has the lowest completion rate. This could indicate that users find it challenging to provide comprehensive family health information, or that the survey might benefit from restructuring for easier completion.
-
-4. Time Investment: On average, respondents spend ${avgTimeMinutes.toFixed(1)} minutes per survey. This demonstrates a substantial time investment from participants, underlining the value they place on contributing to medical research.
-
-5. High-Priority Health Areas: The prevalence of 'high importance' surveys in mental health, COVID-19, and sleep quality highlights these as key areas of focus in current medical research and public health concerns.
-
-6. Dietary and Physical Activity Insights: These surveys show moderate response rates, suggesting an ongoing interest in lifestyle factors affecting health. The slightly lower completion rates might indicate an opportunity to refine these surveys for better engagement.
-
-7. Sentiment Analysis: The COVID-19 Symptoms survey shows a surprisingly positive sentiment, which could reflect relief in having a platform to report symptoms or satisfaction with the survey's design. Conversely, the Chronic Pain Assessment has a more negative sentiment, potentially reflecting the challenging nature of the topic.
-
-These insights can guide future research directions, help in refining survey designs, and inform public health strategies. The high engagement rates across most surveys underscore the public's commitment to contributing to medical research, particularly in areas directly impacting daily life and overall well-being.`)
-    }
-    generateAnalysis()
-  }, [])
-
   const handleDownload = () => {
     // Implement report download logic here
     console.log('Downloading report...')
@@ -132,6 +95,35 @@ These insights can guide future research directions, help in refining survey des
     // Implement export logic here
     console.log(`Exporting data as ${format}...`)
   }
+
+  const handleSubmit = async() => {
+
+    try {
+      setIsSubmitting(true)
+      await axios.post('/api/notification',
+      { 
+        name, 
+        comments:message,
+        email:user?.email,
+        feedbackType:"SURVEY_ANALYSIS"
+      }
+    )
+    toast({
+      title:'Success',
+      description:'Successfully sent the feedback'
+    })
+    router.refresh()
+    } catch (error) {
+
+      console.log(error)
+      
+    } finally{
+      setIsSubmitting(false)
+     
+    }
+      
+  }
+
 
   return (
     <div className={`min-h-screen ${darkMode ? 'bg-gray-900 text-white' : 'bg-gray-100'} transition-colors duration-500`}>
@@ -260,8 +252,8 @@ These insights can guide future research directions, help in refining survey des
             <MessageSquare className="mr-2" /> Feedback
           </h3>
           <p>Your feedback is valuable! Please share your thoughts on the survey process and analysis dashboard.</p>
-          <Textarea className="mt-2" placeholder="Enter your feedback here..." />
-          <Button className="mt-2">Submit Feedback</Button>
+          <Textarea onChange={(e)=>setMessage(e.target.value)} className="mt-2" placeholder="Enter your feedback here..." />
+          <Button onClick={handleSubmit} className="mt-2" disabled={isSubmitting}>Submit Feedback</Button>
         </div>
       </div>
     </div>

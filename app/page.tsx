@@ -34,7 +34,7 @@ export default async function Home() {
      <BeautifulCard />
      <BlackBg />
      <BlogList blog={blog!} />
-     <Finisher  averageRating={4.5} totalRatings={1234}/>
+     <Finisher  averageRating={4} totalRatings={10}/>
      <Faq />
      <img alt="" src="https://www.kuhes.ac.mw/wp-content/uploads/2022/10/KUHES-Banner-3748x980.jpg" />
      <Footer/>
