@@ -37,6 +37,8 @@ export default async function page() {
       createdAt:"desc"
     }
   })
+
+  console.log(institutions)
   return (
       <DynamicHeader>
         <Practice2 institutions={institutions!} />
