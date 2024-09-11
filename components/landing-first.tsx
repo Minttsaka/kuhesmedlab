@@ -39,7 +39,7 @@ export function LandingFirst() {
         <div className="max-w-7xl text-center mx-auto z-10  p-6 md:p-0 ">
           <div className=" space-y-5 mt-20 mx-auto text-gray-100">
           <div className="max-w-3xl mx-auto text-center mb-5 lg:mb-5 overflow-hidden tracking-[3px] text-xs md:px-5 md:py-2 uppercase bg-black bg-opacity-10 text-white rounded-full px-4 py-2">
-            <span className="md:flex items-center gap-2 ">Explore how ai is advancing medical reseach in todays world of tech <ArrowRightIcon className="hidden md:block" /></span>
+            <Link href={'/about/technology'} className="md:flex items-center gap-2 ">Explore how ai is advancing medical reseach in todays world of tech <ArrowRightIcon className="hidden md:block" /></Link>
             </div>
             <h1 className="text-6xl lg:text-8xl font-bold text-black text-opacity-75 ">Advancing Medical Laboratory Science </h1>
             <p className="md:text-xl pb-10 max-w-4xl mx-auto text-balance">Empowering medical laboratory profession to drive innovation, collaboration,

@@ -93,7 +93,10 @@ export default function BlackBg() {
               Transforming Research with AI
             </h2>
             <p className="text-blue-100 mb-8">
-              AI is the key to unlocking new possibilities. Analyze vast amounts of complex data, identify hidden patterns, and uncover new research opportunities in medical laboratory science. With AI-driven discovery, we are accelerating the journey to life-changing innovations, empowering researchers to transform healthcare outcomes and improve lives in Malawi and beyond.
+              AI is the key to unlocking new possibilities. Analyze vast amounts of complex data, 
+              identify hidden patterns, and uncover new research opportunities in medical laboratory science.
+               With AI-driven discovery, we are accelerating the journey to life-changing innovations,
+                empowering researchers to transform healthcare outcomes and improve lives in Malawi and beyond.
             </p>
           </motion.div>
           <motion.div

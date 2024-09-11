@@ -28,7 +28,7 @@ export default function PublicationsFooter() {
             <ul className="space-y-2">
               <li><a href="/events" className="hover:text-primary">Events</a></li>
               <li><a href="/community/create" className="hover:text-primary">Create Post</a></li>
-              <li><a href="/community" className="hover:text-primary">Forum</a></li>
+              <li><a href="/community/feed" className="hover:text-primary">Forum</a></li>
             </ul>
           </div>
           <div className="space-y-4">

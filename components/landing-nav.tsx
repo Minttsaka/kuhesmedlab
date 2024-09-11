@@ -290,7 +290,7 @@ function Navbar({ className }: { className?: string }) {
 
         <Link 
           className="cursor-pointer text-white font-bold text-sm hover:opacity-[0.9] dark:text-white"
-          href={'/community'}>
+          href={'/community/feed'}>
           Community
         </Link>
 
