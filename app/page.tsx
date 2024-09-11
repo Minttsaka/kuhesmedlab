@@ -22,15 +22,22 @@ export default async function Home() {
     }
   })
 
+  const autoTrigger = await prisma.content.findMany({
+    where:{
+      type:"BLOG"
+    },
+    take:3
+  })
+
   return (
-    <main className="">
+    <main>
       <LandingNav />
       <LandingMobileNav />
      <LandingFirst />
      <BestThreeCards />
      <HeroParallaxDemo />
      <GlobalConnection />
-     <AutoTriggerTabs />
+     <AutoTriggerTabs autoTrigger={autoTrigger!} />
      <BeautifulCard />
      <BlackBg />
      <BlogList blog={blog!} />

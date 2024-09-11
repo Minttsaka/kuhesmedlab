@@ -10,7 +10,7 @@ const sidebarLinks = [
   { href: '/mw/profile/credential', label: 'Update Password', icon: LockKeyhole },
   { href: '/mw/research', label: 'Manage Research', icon: BookOpen },
   { href: '/mw/dashboard', label: 'Dashboard', icon: LayoutDashboard },
-  { href: '/mw/help', label: 'Help', icon: HelpCircle },
+  { href: '/mw/support', label: 'Help', icon: HelpCircle },
 ]
 
 export default function ProfileSideBar() {

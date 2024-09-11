@@ -73,7 +73,7 @@ export default function PublicationNav() {
         <DropdownMenu>
           <DropdownMenuTrigger>
             <Avatar>
-              <AvatarImage src={user.image!} alt="User" className="object-cover" />
+              <AvatarImage src={user.image! ?? "/img/avatar.png"} alt="User" className="object-cover" />
               <AvatarFallback>
                 <User className="h-5 w-5" />
               </AvatarFallback>

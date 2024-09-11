@@ -20,7 +20,7 @@ export default function DashboaedAIAssist() {
                 }} className="fixed  bottom-20 right-5">
             <img alt='' className=''  src='/img/message.png'/>
         </div>
-       <aside className={cn("fixed w-[90%] space-y-5 h-[80vh] md:w-[35%] lg:w-[25%] bottom-0 right-5 z-20 flex flex-col overflow-hidden bg-white shadow rounded-t-lg animate__animated animate__slideInUp",
+       <aside className={cn("fixed w-[90%] z-50 space-y-5 h-[80vh] md:w-[35%] lg:w-[25%] bottom-0 right-5 z-20 flex flex-col overflow-hidden bg-white shadow rounded-t-lg animate__animated animate__slideInUp",
        {
         'hidden':!isOpen
     })}>
@@ -54,8 +54,11 @@ export default function DashboaedAIAssist() {
                 </p>
              </div>
             </div>
+            <p className='text-[red]'>
+              Chatbot is Temporarily disabled
+            </p>
             <div className="absolute bottom-0 inset-x-0 p-2 flex items-center space-x-2">
-                <Input id="message" placeholder="Type your message..." className="flex-1" autoComplete="off" />
+                <Input id="message" placeholder="Type your message..." className="flex-1" autoComplete="off" disabled/>
                 <Button className='rounded-full' type="submit" size="icon">
                   <SendIcon className="h-4 w-4" />
                   <span className="sr-only">Send</span>

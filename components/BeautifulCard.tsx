@@ -1,159 +1,172 @@
 "use client"
 
-import React, { useState, useEffect } from 'react'
-import { Button } from './ui/button'
-import { HelpCircle, Group, Search, Book, Code, Zap, Cpu, LucideIcon } from 'lucide-react'
-import { Card, CardContent } from './ui/card'
-import { Badge } from './ui/badge'
-import { motion, AnimatePresence } from 'framer-motion'
-import Link from 'next/link'
+import React, { useState, useRef, useMemo } from 'react'
+import { Canvas, useFrame, useThree } from '@react-three/fiber'
+import { OrbitControls, Text, Html } from '@react-three/drei'
+import { Button } from "@/components/ui/button"
+import { Card, CardContent } from "@/components/ui/card"
+import { Badge } from "@/components/ui/badge"
+import * as THREE from 'three'
+import { HelpCircle, Group, Search, Book, Zap } from 'lucide-react'
 
 interface FeatureProps {
-  icon: LucideIcon;
+  icon: React.ElementType;
   color: string;
   title: string;
   description: string;
-  bgImage: string;
-  link:string
+  link: string;
+  position: [number, number, number];
 }
 
-const Feature: React.FC<FeatureProps> = ({ icon: Icon, color, title, description,link }) => {
+const Feature: React.FC<FeatureProps> = ({ icon: Icon, color, title, description, link, position }) => {
+  const [hovered, setHovered] = useState(false)
+  const mesh = useRef<THREE.Mesh>(null!)
+  
+  useFrame((state) => {
+    if (mesh.current) {
+      mesh.current.rotation.x = Math.sin(state.clock.getElapsedTime()) * 0.1
+      mesh.current.rotation.y = Math.cos(state.clock.getElapsedTime()) * 0.1
+    }
+  })
+
   return (
-    <Card className="bg-white/10 backdrop-blur-md shadow-2xl overflow-hidden h-full">
-      <CardContent className="p-6 h-full flex flex-col justify-between">
-        <div className="space-y-4">
-          <div className="flex items-center space-x-2">
-            <div className={`p-2 rounded-full bg-${color}-500`}>
-              <Icon className="h-6 w-6 text-white" />
-            </div>
-            <h2 className="text-3xl font-bold text-white">{title}</h2>
-          </div>
-          <p className="text-xl text-gray-200">{description}</p>
-        </div>
-        <Link href={link} className="bg-slate-800 no-underline group w-fit cursor-pointer relative shadow-2xl shadow-zinc-900 rounded-full p-px text-xs font-semibold leading-6  text-white inline-block">
-              <span className="absolute inset-0 overflow-hidden rounded-full">
-                <span className="absolute inset-0 rounded-full bg-[image:radial-gradient(75%_100%_at_50%_0%,rgba(56,189,248,0.6)_0%,rgba(56,189,248,0)_75%)] opacity-0 transition-opacity duration-500 group-hover:opacity-100" />
-              </span>
-              <button className="relative flex space-x-2 items-center z-10 rounded-full bg-zinc-950 py-0.5 px-4 ring-1 ring-white/10 ">
-                <span>
-                  Get Started
-                </span>
-                <svg
-                  fill="none"
-                  height="16"
-                  viewBox="0 0 24 24"
-                  width="16"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <path
-                    d="M10.75 8.75L14.25 12L10.75 15.25"
-                    stroke="currentColor"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth="1.5"
-                  />
-                </svg>
-              </button>
-              <span className="absolute -bottom-0 left-[1.125rem] h-px w-[calc(100%-2.25rem)] bg-gradient-to-r from-emerald-400/0 via-emerald-400/90 to-emerald-400/0 transition-opacity duration-500 group-hover:opacity-40" />
-            </Link>
-      </CardContent>
-    </Card>
+    <group position={position}>
+      <mesh
+        ref={mesh}
+        onPointerOver={() => setHovered(true)}
+        onPointerOut={() => setHovered(false)}
+      >
+        <boxGeometry args={[2, 2, 2]} />
+        <meshStandardMaterial color={hovered ? color : 'white'} />
+      </mesh>
+      <Html distanceFactor={10}>
+        <Card className="w-64 bg-black/50 backdrop-blur-md border-none">
+          <CardContent className="p-4">
+            <Icon className="h-8 w-8 mb-2" style={{ color }} />
+            <h3 className="text-xl font-bold mb-2 text-white">{title}</h3>
+            <p className="text-sm text-gray-300 mb-4">{description}</p>
+            <Button asChild variant="outline" size="sm">
+              <a href={link} className="no-underline">Explore</a>
+            </Button>
+          </CardContent>
+        </Card>
+      </Html>
+    </group>
   )
 }
 
-export default function BeautifulCard() {
-  const [activeTab, setActiveTab] = useState<string>('Support')
+const FloatingParticles = () => {
+  const count = 1000
+  const mesh = useRef<THREE.Points>(null!)
+  
+  const particlesPosition = useMemo(() => {
+    const positions = new Float32Array(count * 3)
+    for (let i = 0; i < count; i++) {
+      positions[i * 3] = (Math.random() - 0.5) * 10
+      positions[i * 3 + 1] = (Math.random() - 0.5) * 10
+      positions[i * 3 + 2] = (Math.random() - 0.5) * 10
+    }
+    return positions
+  }, [count])
+
+  useFrame((state) => {
+    const time = state.clock.getElapsedTime()
+    for (let i = 0; i < count; i++) {
+      const i3 = i * 3
+      mesh.current.geometry.attributes.position.array[i3 + 1] = particlesPosition[i3 + 1] + Math.sin(time + particlesPosition[i3]) * 0.1
+    }
+    mesh.current.geometry.attributes.position.needsUpdate = true
+  })
+
+  return (
+    <points ref={mesh}>
+      <bufferGeometry>
+        <bufferAttribute
+          attach="attributes-position"
+          count={count}
+          array={particlesPosition}
+          itemSize={3}
+        />
+      </bufferGeometry>
+      <pointsMaterial size={0.05} color="#ffffff" />
+    </points>
+  )
+}
+
+const Scene = () => {
+  const { camera } = useThree()
+  camera.position.z = 10
 
   const features: FeatureProps[] = [
     {
       icon: HelpCircle,
-      color: 'green',
+      color: '#10B981',
       title: 'Support',
-      description: 'Discover the essential support system to propel this platform forward! Identify and connect with the right resources and expertise.',
-      bgImage: '/img/support.png',
-      link:"/support"
+      description: 'Connect with resources and expertise.',
+      link: "/support",
+      position: [-4, 2, 0]
     },
     {
       icon: Group,
-      color: 'blue',
+      color: '#3B82F6',
       title: 'Forum',
-      description: 'Engage in discussions on the latest developments and trends in medical laboratory technologies and advancements.',
-      bgImage: '/img/community.png',
-      link:"/community/feed"
+      description: 'Discuss latest developments and trends.',
+      link: "/community/feed",
+      position: [-2, -2, 2]
     },
     {
       icon: Search,
-      color: 'purple',
+      color: '#8B5CF6',
       title: 'Research',
-      description: 'Use this platform to research and drive innovation in medical laboratory science. Share knowledge and overcome challenges.',
-      bgImage: '/img/publications.png',
-      link:"/mw/research"
+      description: 'Drive innovation in medical lab science.',
+      link: "/mw/research",
+      position: [2, 2, -2]
     },
     {
       icon: Book,
-      color: 'yellow',
+      color: '#FBBF24',
       title: 'Survey',
-      description: 'Take your survey to the next level. Build survey forms with beautiful templates right into it.',
-      bgImage: '/img/survey.png',
-      link:"/survey"
+      description: 'Build advanced survey forms.',
+      link: "/survey",
+      position: [4, -2, 0]
     },
     {
       icon: Zap,
-      color: 'orange',
+      color: '#F97316',
       title: 'Collaboration',
-      description: 'Collaborate with peers globally in real-time on research projects, data analysis, and problem-solving sessions.',
-      bgImage: '/img/analysis.png',
-      link:"/signin"
+      description: 'Real-time global collaboration.',
+      link: "/signin",
+      position: [0, 3, 3]
     },
-
   ]
 
-  const activeFeature = features.find(f => f.title === activeTab) || features[0]
-
   return (
-    <div className="relative md:min-h-screen flex bg-gray-900 overflow-hidden">
-      <div 
-        className="absolute inset-0 bg-cover bg-center transition-all duration-500 ease-in-out transform scale-105"
-        style={{ backgroundImage: `url(${activeFeature.bgImage})` }}
-      />
-      <div className="absolute inset-0 bg-black bg-opacity-60 backdrop-blur-sm" />
-      
-      <div className="relative z-10 flex w-full max-w-7xl mx-auto px-4 py-16">
-        <div className="w-1/4 pr-8">
-          <h1 className="text-xs md:text-4xl font-bold text-white mb-8">MLS Scientist Platform</h1>
-          <nav className="space-y-2">
-            {features.map((feature) => (
-              <Button
-                key={feature.title}
-                onClick={() => setActiveTab(feature.title)}
-                variant={activeTab === feature.title ? 'default' : 'outline'}
-                className={`w-full justify-start text-left text-lg py-3 ${
-                  activeTab === feature.title ? `bg-${feature.color}-500 text-white` : 'text-gray-300'
-                }`}
-              >
-                <feature.icon className="mr-2 h-5 w-5" />
-                <span className='hidden md:block'>
-                  {feature.title}
-                </span>
-              </Button>
-            ))}
-          </nav>
-        </div>
-        
-        <div className="w-3/4">
-          <AnimatePresence mode="wait">
-            <motion.div
-              key={activeTab}
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -20 }}
-              transition={{ duration: 0.3 }}
-              className="h-full"
-            >
-              <Feature {...activeFeature} />
-            </motion.div>
-          </AnimatePresence>
-        </div>
+    <>
+      <ambientLight intensity={0.5} />
+      <pointLight position={[10, 10, 10]} />
+      <FloatingParticles />
+      {features.map((feature, index) => (
+        <Feature key={index} {...feature} />
+      ))}
+    </>
+  )
+}
+
+export default function BeautifulCard() {
+  return (
+    <div className="w-full h-screen relative">
+      <Canvas>
+        <Scene />
+        <OrbitControls enableZoom={false} />
+      </Canvas>
+      <div className="absolute top-4 left-4 z-10">
+        <h1 className="text-4xl font-bold text-black text-opacity-80 mb-2">MLS Scientist Platform</h1>
+        <p className="text-xl text-gray-300">Explore our Solutions</p>
+      </div>
+      <div className="absolute bottom-4 left-4 z-10">
+        <Badge variant="secondary" className="text-xs font-extralight">
+          Kuhesmedlab standing at the forefront
+        </Badge>
       </div>
     </div>
   )

@@ -25,8 +25,12 @@ import { ArrowRight, Facebook } from "lucide-react"
 import { InstagramLogoIcon, TwitterLogoIcon } from "@radix-ui/react-icons"
 import Image from "next/image"
 import Link from "next/link"
+import { Content } from "@prisma/client"
+import { stripHtml } from "@/lib/stripHtml"
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
+import { Calendar, AlertCircle } from 'lucide-react'
 
-export function AutoTriggerTabs() {
+export function AutoTriggerTabs({autoTrigger}:{autoTrigger:Content[]}) {
   const [activeTab, setActiveTab] = useState(0)
   
   useEffect(() => {
@@ -36,30 +40,7 @@ export function AutoTriggerTabs() {
     return () => clearInterval(interval)
   }, [])
 
-  const tabContent = [
-    {
-      title: "Portable Diagnostics",
-      description: "New portable device detects diseases in Malawi using finger prick test.",
-      image: "https://images.unsplash.com/photo-1532187863486-abf9dbad1b69?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-      color: "red",
-      articleTitle: "Scientists say they can cut HIV out of cells",
-    },
-    {
-      title: "Traditional Knowledge",
-      description: "Researchers explore natural plant extracts to combat antibiotic resistance. Locally sourced medicinal plants hold promise for alternative treatments.",
-      image: "https://images.unsplash.com/photo-1583911860331-9fd6ce32c78f?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-      color: "blue",
-      articleTitle: "Using traditional methods to fight antibiotics resistance",
-    },
-    {
-      title: "Empowering the Next Generation",
-      description: "KUHeSMEDLAB fosters innovation beyond the lab. Educational opportunities for future medical laboratory scientists.",
-      image: "https://images.unsplash.com/photo-1581594549595-35f6edc7b762?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-      color: "yellow",
-      articleTitle: "See how different sectors are uniting using this platform to Educational opportunities for future medical laboratory scientists.",
-    },
-  ]
-
+ 
   return (
     <div className="relative container mx-auto min-h-screen mt-5">
       <div className="flex flex-col gap-5 max-w-3xl mr-auto mb-10">
@@ -86,7 +67,40 @@ export function AutoTriggerTabs() {
       </div>
       
       <div className="relative h-[80vh] overflow-hidden">
-        {tabContent.map((content, index) => (
+        {autoTrigger.length===0 && <Card className="w-full max-w-2xl mx-auto bg-white">
+        <CardHeader className="text-center">
+          <div className="mx-auto bg-blue-100 rounded-full p-3 w-16 h-16 flex items-center justify-center mb-4">
+            <Calendar className="w-8 h-8 text-blue-500" />
+          </div>
+          <CardTitle className="text-2xl font-bold text-gray-800">No blog</CardTitle>
+        </CardHeader>
+        <CardContent>
+          <div className="text-center space-y-4">
+            <p className="text-gray-600">
+              There are currently no scheduled blog. Our team is working on planning exciting new blog for the future.
+            </p>
+            <div className="bg-yellow-50 border-l-4 border-yellow-400 p-4 mb-4">
+              <div className="flex items-center">
+                <AlertCircle className="w-5 h-5 text-yellow-400 mr-2" />
+                <p className="text-sm text-yellow-700">
+                  Stay tuned for updates on our upcoming blog. We will be adding new blog soon!
+                </p>
+              </div>
+            </div>
+            <div className="space-y-2">
+              <p className="text-sm text-gray-500">
+                In the meantime, you can:
+              </p>
+              <ul className="list-disc list-inside text-sm text-gray-600 space-y-1">
+                {/* <li>Check out our past event recordings</li> */}
+                <li>Subscribe to our newsletter for blog notifications</li>
+                <li>Follow us on social media for the latest updates</li>
+              </ul>
+            </div>
+          </div>
+        </CardContent>
+      </Card>}
+        {autoTrigger?.map((content, index) => (
           <div
             key={index}
             className={`absolute inset-0 transition-opacity duration-500 ${
@@ -97,17 +111,17 @@ export function AutoTriggerTabs() {
               <div className="grid grid-cols-1 gap-2 overflow-y-auto">
                 <div>
                   <h2 className="font-bold text-2xl">{content.title}</h2>
-                  <p className="text-gray-500 max-w-md">{content.description}</p>
+                  <p className="text-gray-500 max-w-md">{stripHtml(content.body)}</p>
                 </div>
                 {/* Add more content sections here if needed */}
               </div>
               <div className="relative md:h-full shadow-2xl rounded-2xl overflow-hidden">
-                <div className={`absolute inset-0 bg-gradient-to-t from-[${content.color}] to-transparent opacity-60 shadow-3xl flex flex-col justify-end gap-1 p-5 rounded-2xl`} />
+                <div className={`absolute inset-0 bg-gradient-to-t from-[blue] to-transparent opacity-60 shadow-3xl flex flex-col justify-end gap-1 p-5 rounded-2xl`} />
                 <div className="absolute bottom-0 left-0 right-0 p-6 text-white">
-                  <p className="text-white font-bold md:text-xl">{content.articleTitle}</p>
-                  <Link className="text-white text-xs flex items-center" href={'#'}>Read the article <ArrowRight className="h-4 w-4" /></Link>
+                  <p className="text-white font-bold md:text-xl">{content.title}</p>
+                  <Link className="text-white text-xs flex items-center" href={`/publications/${content.slug}`}>Read the article <ArrowRight className="h-4 w-4" /></Link>
                 </div>
-                <img src={content.image} className="w-full h-full object-cover rounded-2xl" alt="Article image" />
+                <img src={content.image!} className="w-full h-full object-cover rounded-2xl" alt="Article image" />
               </div>
             </div>
           </div>

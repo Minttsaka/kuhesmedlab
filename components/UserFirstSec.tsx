@@ -50,7 +50,7 @@ type UserWithAllRelations = Prisma.UserGetPayload<{
 type UserProfile = {
   name: string;
   bio: string;
-  image: string;
+  image: string | null;
 }
 
 export default function UserFirstSec({ user }:{ user:UserWithAllRelations }) {
@@ -60,7 +60,7 @@ export default function UserFirstSec({ user }:{ user:UserWithAllRelations }) {
   const [userProfile, setUserProfile] = useState<UserProfile>({
     name: "",
     bio: "",
-    image: ""
+    image:null
   });
 
   const router = useRouter()
@@ -124,11 +124,11 @@ export default function UserFirstSec({ user }:{ user:UserWithAllRelations }) {
   
         <div className='md:flex gap-5'>
         <Avatar className="w-24 h-24 ring-2 ring-purple-300">
-          <AvatarImage src={user.image! ?? userProfile.image} className='object-center object-cover'/>
+          <AvatarImage src={user.image! ?? userProfile.image ?? "/img/avatar.png"} className='object-center object-cover'/>
           <AvatarFallback>{user.name}</AvatarFallback>
         </Avatar>
         <div className='space-y-5'>
-          <div className='flex gap-2'>
+          <div className='md:flex mb-2 md:mb-0 gap-2'>
           <h2 className='text-xl text-black'>
             {user.name}
           </h2>
@@ -137,9 +137,6 @@ export default function UserFirstSec({ user }:{ user:UserWithAllRelations }) {
              onClick={() => setIsProfileOpen(true)}
              className='rounded-full flex gap-2 items-center bg-blue-300'>
               <User2 className="mr-2 h-4 w-4" /> Edit profile
-            </Button>
-            <Button className='rounded-full bg-transparent border text-gray-500'>
-              Invite Friend
             </Button>
           </div>
           </div>
@@ -156,7 +153,7 @@ export default function UserFirstSec({ user }:{ user:UserWithAllRelations }) {
               <div className="flex items-center space-x-4">
                 <div className="relative">
                   <img
-                    src={userProfile.image}
+                    src={userProfile.image  ?? user.image! ?? "/img/avatar.png"}
                     alt="Profile"
                     className="w-20 h-20 rounded-full object-cover"
                   />

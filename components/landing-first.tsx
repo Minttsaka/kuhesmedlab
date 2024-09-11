@@ -76,7 +76,7 @@ export function LandingFirst() {
               <span className="absolute -bottom-0 left-[1.125rem] h-px w-[calc(100%-2.25rem)] bg-gradient-to-r from-emerald-400/0 via-emerald-400/90 to-emerald-400/0 transition-opacity duration-500 group-hover:opacity-40" />
             </Link>
 
-              <Link href={'/signin'} className="px-8 py-2 text-gray-500 flex items-center gap-2  bg-transparent rounded-[6px]  relative group transition duration-20 hover:bg-transparent">
+              <Link href={'/about'} className="px-8 py-2 text-gray-500 flex items-center gap-2  bg-transparent rounded-[6px]  relative group transition duration-20 hover:bg-transparent">
                 Learn more 
                 <svg
                   fill="none"

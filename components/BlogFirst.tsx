@@ -26,15 +26,15 @@ export default function BlogFirst({blog}:{blog:Content}) {
                     </Badge>
                     <h2 className='text-2xl uppercase font-bold'>{blog?.title}</h2>
                     <p className='line-clamp-6'>
-                        {stripHtml(blog?.body).toLowerCase()}
+                        {stripHtml(blog?.body)}
                         </p>
                     <div className='flex gap-2 items-center'>
                         <Avatar>
-                            <AvatarImage src='/img/halima.jpeg' className='object-cover'/>
+                            <AvatarImage src={blog.creatorImage!} className='object-cover'/>
                         </Avatar>
                         <div>
                             {/* <p className='text-gray-600 '>{}</p> */}
-                            <p className='text-xs text-gray-500'>Product Manager</p>
+                            <p className='text-xs text-gray-500'>{blog.creatorName}</p>
                         </div>
                     </div>
                     

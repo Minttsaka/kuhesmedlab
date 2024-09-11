@@ -1,3 +1,5 @@
+"use client"
+
 import { useState } from 'react'
 import { AlertTriangle, Trash2, Lock } from 'lucide-react'
 import { Button } from "@/components/ui/button"
@@ -6,16 +8,27 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription, Di
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert"
+import { signOut, useSession } from 'next-auth/react'
+import { deleteAccount } from '@/lib/actions'
 
 export default function DeleteAccount() {
   const [isDeleteConfirmOpen, setIsDeleteConfirmOpen] = useState(false)
   const [deleteConfirmation, setDeleteConfirmation] = useState('')
+  const {data:session} = useSession()
+  const user = session?.user
 
-  const handleDeleteAccount = () => {
-    // In a real application, you would call an API to delete the account
-    console.log("Account deleted")
-    setIsDeleteConfirmOpen(false)
-    // Here you might redirect to a logged-out state or show a "goodbye" message
+  const handleDeleteAccount = async() => {
+    try {
+      await deleteAccount(user?.email!)
+      setIsDeleteConfirmOpen(false)
+
+      signOut()
+      
+    } catch (error) {
+
+      console.log(error)
+      
+    }
   }
 
   return (

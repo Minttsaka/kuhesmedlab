@@ -199,7 +199,7 @@ const Form = ({ form }:{ form:SurveyForm }) => {
               {
                 form.survey?.research?.collaborator.map(collaborator=>( 
                 <Avatar key={collaborator.id}>
-                  <AvatarImage src={collaborator.user.image!} alt={collaborator.user.name} />
+                  <AvatarImage src={collaborator.user.image! ?? "/img/avatar.png"} alt={collaborator.user.name} />
                   <AvatarFallback>{collaborator.user.name}</AvatarFallback>
                 </Avatar>
                 ))

@@ -66,7 +66,7 @@ export default function RelatedPosts({otherPost}:{otherPost:Post[]}) {
                   <Link href={`/community/post/${post.slug}`} className="font-semibold hover:underline text-lg text-blue-800 line-clamp-2">{post.title}</Link>
                   <div className="flex items-center mt-2 space-x-2">
                     <Avatar className="w-6 h-6">
-                      <AvatarImage src={post.user.image!} alt={post.user.name} className="object-cover" />
+                      <AvatarImage src={post.user.image! ?? "/img/avatar.png"} alt={post.user.name} className="object-cover" />
                       <AvatarFallback>{post.user.name}</AvatarFallback>
                     </Avatar>
                     <span className="text-sm text-gray-600">{post.user.name}</span>

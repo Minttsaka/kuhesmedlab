@@ -57,7 +57,7 @@ export default function CommunityNav() {
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>
                   <Avatar className="h-10 w-10 cursor-pointer ring-2 ring-gray-300 transition-all hover:ring-4">
-                    <AvatarImage src={user.image!} alt="@user" className='object-cover' />
+                    <AvatarImage src={user.image! ?? "/img/avatar.png"} alt="@user" className='object-cover' />
                     <AvatarFallback className="bg-gray-600">U</AvatarFallback>
                   </Avatar>
                 </DropdownMenuTrigger>

@@ -10,6 +10,7 @@ import { Prisma } from "@prisma/client";
 import PdfViewer from "./PdfViewer";
 import { citation, download } from "@/lib/actions";
 import VideoPlayer from "./PublicationVideoPlayer";
+import { useToast } from "./ui/use-toast";
 
 type ResearchWithAllRelations = Prisma.ResearchGetPayload<{
   include:{
@@ -22,6 +23,7 @@ type ResearchWithAllRelations = Prisma.ResearchGetPayload<{
 
 export default function PublicationContent({ research, pageNum }: { research: ResearchWithAllRelations , pageNum:number}) {
   const [loading, setLoading] = useState(false);
+  const { toast } = useToast()
 
   const handleDownload = async() => {
     setLoading(true);
@@ -35,8 +37,12 @@ export default function PublicationContent({ research, pageNum }: { research: Re
   };
 
   const handleCopyCitation = () => {
-    const reference = "Sample Citation";
-    navigator.clipboard.writeText(reference).then(async() => {
+    const reference = research.citeReference;
+    navigator.clipboard.writeText(reference).then( async() => {
+      toast({
+        title:"Copied",
+        description:"Reference has been copied."
+      })
       await citation(research.id)
     }).catch((err) => {
       console.error("Failed to copy citation: ", err);

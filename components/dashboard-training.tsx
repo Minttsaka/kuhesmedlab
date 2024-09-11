@@ -26,7 +26,7 @@ To read more about using these font, please visit the Next.js documentation:
 export function DashboardTraining({blog}:{blog:Content[]}) {
   return (
     <div className="bg-gray-100 py-10 space-y-10 mt-20 ">
-      <h2 className="container mx-auto text-3xl font-sans ">Annoucements</h2>
+      <h2 className="container mx-auto text-3xl font-sans ">Announcements</h2>
       {!blog[0] && <Card className="w-full max-w-2xl mx-auto bg-white">
         <CardHeader className="text-center">
           <div className="mx-auto bg-blue-100 rounded-full p-3 w-16 h-16 flex items-center justify-center mb-4">

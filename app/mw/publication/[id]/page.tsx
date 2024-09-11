@@ -68,7 +68,7 @@ export default async function page({params:{ id} }:{params:{id:string}}) {
       />
       {/* <ResearchFiles researchId={research?.id!} /> */}
       <RelatedResearchList title={research?.title!} />
-      <ResearchReferencesSection researchId={research?.id!}/>
+      <ResearchReferencesSection researchId={research?.id!} actualRef={research?.citeReference!} />
       <ResearchDangerZone id={id} status={research?.status!} />
     </div>
   )

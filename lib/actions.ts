@@ -41,6 +41,20 @@ export const setCookie = async () => {
 }
 
 
+export const deleteAccount=async(email:string)=>{
+  try {
+    await prisma.user.delete({
+      where:{
+        email
+      }
+    })
+    return true
+  } catch (error) {
+    console.log(error)
+    
+  }
+}
+
 export const updateUser = async (id:string,data:any) => {
 
   const userExist = await prisma.user.findUnique({

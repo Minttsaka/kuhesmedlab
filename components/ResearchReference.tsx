@@ -24,7 +24,7 @@ const fetcher = async (url:string) => {
   return res.data;
 };
 
-export default function ResearchReferencesSection({researchId,}:{researchId:string}) {
+export default function ResearchReferencesSection({researchId, actualRef}:{researchId:string,actualRef:string}) {
 
   const [searchTerm, setSearchTerm] = useState('')
   const [copiedId, setCopiedId] = useState<string | null>(null)
@@ -106,6 +106,10 @@ export default function ResearchReferencesSection({researchId,}:{researchId:stri
              
               <CardContent>
                 <div className="relative mb-6">
+                  <div className='space-y-2 p-2'>
+                    <p className='font-bold'>Your Actual reference</p>
+                    <p>{actualRef}</p>
+                  </div>
                   <Input
                     placeholder="Search references..."
                     value={searchTerm}

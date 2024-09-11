@@ -208,7 +208,7 @@ export default function CreateBlogPost() {
                   <h2 className="text-3xl font-bold text-blue-800 mb-4">{newPost.title || "Your Blog Post Title"}</h2>
                   <div className="flex items-center text-xs space-x-4 mb-6">
                     <Avatar>
-                      <AvatarImage src={user?.image ?? "/placeholder.svg?height=40&width=40" }alt="Author" />
+                      <AvatarImage src={user?.image ?? "/img/avatar.png" }alt="Author" />
                       <AvatarFallback>AU</AvatarFallback>
                     </Avatar>
                     <div>

@@ -104,7 +104,7 @@ const ReplyItem: React.FC<{ reply: Reply,mutate:KeyedMutator<Post>, level: numbe
         <div className="absolute left-[-24px] top-4 w-5 h-px bg-gray-300 dark:bg-gray-600" />
         <div className="flex items-start space-x-3">
           <Avatar className="h-8 w-8 ring-2 ring-purple-400 transition-all duration-300 hover:ring-3">
-            <AvatarImage src={reply.user.image!} alt={reply.user.name} className='object-cover' />
+            <AvatarImage src={reply.user.image! ?? "/img/avatar.png"} alt={reply.user.name} className='object-cover' />
             <AvatarFallback>{reply.user.name}</AvatarFallback>
           </Avatar>
           <div className="flex-1">
@@ -180,7 +180,7 @@ const CommentItem: React.FC<{ comment: Comment, mutate:KeyedMutator<Post>, level
         )}
         <div className="flex items-start space-x-4">
           <Avatar className="h-10 w-10 ring-2 ring-purple-500 transition-all duration-300 hover:ring-4">
-            <AvatarImage src={comment.user.image!} alt={comment.user.name} className='object-cover' />
+            <AvatarImage src={comment.user.image! ?? "/img/avatar.png"} alt={comment.user.name} className='object-cover' />
             <AvatarFallback>{comment.user.name}</AvatarFallback>
           </Avatar>
           <div className="flex-1">

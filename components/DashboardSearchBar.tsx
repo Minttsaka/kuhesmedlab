@@ -105,7 +105,7 @@ export default function DashboardSearchBar({user , firstResearch}:{user:User, fi
         <DropdownMenu>
           <DropdownMenuTrigger className="cursor-pointer" asChild>
               <Avatar>
-                <AvatarImage src={user?.image!} className="object-cover"/>
+                <AvatarImage src={user?.image! ?? "/img/avatar.png"} className="object-cover"/>
                 <AvatarFallback>{user?.name}</AvatarFallback>
               </Avatar>
           </DropdownMenuTrigger>
@@ -129,7 +129,7 @@ export default function DashboardSearchBar({user , firstResearch}:{user:User, fi
               </DropdownMenuItem>
               
               <DropdownMenuItem>
-                <Link className="flex items-center gap-2" href={'/404'}>
+                <Link className="flex items-center gap-2" href={'/community/settings'}>
                 <Settings className="mr-2 h-4 w-4" />
                 <span>Settings</span>
 

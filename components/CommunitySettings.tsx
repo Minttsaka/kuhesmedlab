@@ -109,7 +109,7 @@ export default function CommunitySettings({user}:{user:User}) {
             <h2 className="text-3xl font-bold text-gray-800 dark:text-gray-100">Account Information</h2>
             <div className="flex items-center space-x-4">
               <Avatar className="h-24 w-24 ring-4 ring-purple-500 transition-all duration-300 hover:ring-8">
-                <AvatarImage src={user.image!} alt="@username" className='object-cover'/>
+                <AvatarImage src={user.image! ?? "/img/avatar.png"} alt="@username" className='object-cover'/>
                 <AvatarFallback>{user.name}</AvatarFallback>
               </Avatar>
               <Link href={'/mw/profile'}>

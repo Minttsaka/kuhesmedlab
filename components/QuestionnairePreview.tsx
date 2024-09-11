@@ -79,7 +79,7 @@ const SurveyAnswerDisplay: React.FC<{ question: Question, index:number, identity
                     {identity && 
                       <div className='flex text-xs text-blue-900 items-center gap-2'>
                       <Avatar>
-                        <AvatarImage src={choice.user?.image!} alt={choice.user?.name} className='object-cover' />
+                        <AvatarImage src={choice.user?.image! ?? "/img/avatar.png"} alt={choice.user?.name} className='object-cover' />
                         <AvatarFallback>{choice.user?.name}</AvatarFallback>
                       </Avatar>
                       <p>{choice.user?.name}</p>
@@ -155,7 +155,7 @@ const SurveyAnswerDisplay: React.FC<{ question: Question, index:number, identity
                   {identity && 
                     <div className='flex text-xs text-blue-900 items-center gap-2'>
                     <Avatar>
-                      <AvatarImage src={choice.user?.image!} alt={choice.user?.name} className='object-cover' />
+                      <AvatarImage src={choice.user?.image! ?? "/img/avatar.png"} alt={choice.user?.name} className='object-cover' />
                       <AvatarFallback>{choice.user?.name}</AvatarFallback>
                     </Avatar>
                     <p>{choice.user?.name}</p>
@@ -240,7 +240,7 @@ const SurveyAnswerDisplay: React.FC<{ question: Question, index:number, identity
                   {identity && 
                     <div className='text-xs text-blue-900 flex items-center gap-2'>
                     <Avatar>
-                      <AvatarImage src={choice.user?.image!} alt={choice.user?.name} className='object-cover' />
+                      <AvatarImage src={choice.user?.image! ?? "/img/avatar.png"} alt={choice.user?.name} className='object-cover' />
                       <AvatarFallback>{choice.user?.name}</AvatarFallback>
                     </Avatar>
                     <p>{choice.user?.name}</p>
