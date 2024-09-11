@@ -19,6 +19,7 @@ import { formats, modules } from "@/lib/quillModules"
 import ReactQuill from "react-quill"
 import { useSession } from "next-auth/react"
 import { AspectRatio } from "./ui/aspect-ratio"
+import { uploadToS3 } from "@/lib/s3"
 
 export default function CreateBlogPost() {
 
@@ -52,14 +53,11 @@ export default function CreateBlogPost() {
     setNewPost({ ...newPost, [e.target.name]: e.target.value })
   }
 
-  const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleImageUpload = async(e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0]
     if (file) {
-      const reader = new FileReader()
-      reader.onloadend = () => {
-        setNewPost({ ...newPost, img: reader.result as string })
-      }
-      reader.readAsDataURL(file)
+      const res = await uploadToS3(file)
+      setNewPost({ ...newPost, img: res?.fileKey as string })
     }
   }
 

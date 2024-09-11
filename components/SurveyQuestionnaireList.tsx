@@ -28,6 +28,7 @@ import { formats, modules } from "@/lib/quillModules"
 import { saveQuestionnaireData } from '@/lib/actions'
 import { useToast } from './ui/use-toast'
 import SurveyPreviewModal from './QuestionnairePreview'
+import { uploadToS3 } from '@/lib/s3'
 
 const FormSchema = z.object({
   title: z
@@ -85,14 +86,11 @@ export default function SurveyQuestionnaireList({ surveyId }:{ surveyId:string }
   const { toast} = useToast()
   const formList = Array.isArray(data) ? data : [];
 
-  const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleImageUpload = async(e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0]
     if (file) {
-      const reader = new FileReader()
-      reader.onloadend = () => {
-        setImg(reader.result as string)
-      }
-      reader.readAsDataURL(file)
+      const res = await uploadToS3(file)
+      setImg(res?.fileKey as string)
     }
   }
   

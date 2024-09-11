@@ -102,7 +102,7 @@ export default function DashboardSolutions() {
                     Attend a researchers community and learn from other professionals
                      in medical laboratory science, share your research, and discuss new ideas.
                     </p>
-                    <Link className='underline flex items-center' href={'/community'}>
+                    <Link className='underline flex items-center' href={'/community/feed'}>
                         View this Solution
                     </Link>
                 </CardContent>
