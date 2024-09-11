@@ -2,17 +2,28 @@ import AboutBenefits from '@/components/AboutBenefits'
 import AboutCard from '@/components/AboutCard'
 import AboutFinisher from '@/components/AboutFinisher'
 import AboutFirst from '@/components/AboutFirst'
-import AboutFooter from '@/components/AboutFooter'
 import AboutUs from '@/components/AboutUs'
 import AobutSec from '@/components/AobutSec'
+import Footer from '@/components/Footer'
 import LandingMobileNav from '@/components/LandingMobileNav'
 import { AboutTeam } from '@/components/about-team'
 import { LandingNav } from '@/components/landing-nav'
-import { Button } from '@/components/ui/button'
+import { prisma } from '@/lib/prisma'
 import Link from 'next/link'
 import React from 'react'
 
-export default function page() {
+export default async function page() {
+
+  const teams = await prisma.user.findMany({
+    where:{
+      role:"ADMIN"
+    }
+  })
+
+  const users = await prisma.user.count()
+
+  const publications = await prisma.research.count()
+
   return (
     <div>
       <LandingNav />
@@ -56,11 +67,11 @@ export default function page() {
         <AboutFirst />
         <AboutCard />
         <AobutSec />
-        <AboutTeam />
+        <AboutTeam teams={teams!} />
         <AboutBenefits />
-        <AboutUs />
+        <AboutUs users={users!} publications={publications!} />
         <AboutFinisher />
-        <AboutFooter />
+        <Footer />
     </div>
   )
 }

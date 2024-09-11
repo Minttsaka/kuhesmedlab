@@ -14,6 +14,8 @@ import { MessageSquare, Send, ThumbsUp } from 'lucide-react'
 import { AspectRatio } from './ui/aspect-ratio'
 import Image from 'next/image'
 import { useSession } from 'next-auth/react'
+import MindBlowingShareButton from './Share'
+import FunctionalShareButton from './Share'
 
 type PostWithRelations = Prisma.PostGetPayload<{
   include:{
@@ -246,7 +248,7 @@ export default function SinglePostCommunity({post}:{post:PostWithRelations}) {
 
 
 const { data, mutate, isLoading, error } = useSWR<Post>(
-  `/api/post/${post.id}`,
+  `/api/post/${post?.id}`,
   fetcher
 );
 
@@ -317,16 +319,11 @@ const { data, mutate, isLoading, error } = useSWR<Post>(
             </div>
           </div>
         </div>
-        <div className="flex items-center space-x-4">
-          <button onClick={handleShare} className="flex items-center text-blue-500 hover:text-blue-600">
-            <Share2 size={20} className="mr-1" />
-            Share
-          </button>
-          <button onClick={handleSave} className="flex items-center text-green-500 hover:text-green-600">
-            <Bookmark size={20} className="mr-1" />
-            Save
-          </button>
-        </div>
+        <FunctionalShareButton 
+         url={`https://v0.dev/chat/oo98PP_MGPc`}
+          title={post?.title}
+          description={stripHtml(post?.body)}
+          />
       </div>
 
       <div className="prose dark:prose-invert max-w-none mb-6">

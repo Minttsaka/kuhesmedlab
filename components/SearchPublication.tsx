@@ -29,6 +29,7 @@ export default function SupportSearch({publicationList, searchQuery }:{searchQue
     matchedTerms: unknown[];
     excerpts: string[];
     id: string;
+    slug:string;
     title: string;
     abstract: string | null;
     createdAt: Date;
@@ -116,7 +117,7 @@ export default function SupportSearch({publicationList, searchQuery }:{searchQue
               <li key={result.id}>
                 <Card>
                   <CardContent className="pt-6">
-                    <Link href={`/publications/${result.id}`} className="font-medium hover:underline text-lg mb-2">
+                    <Link href={`/publications/${result.slug}`} className="font-medium hover:underline text-lg mb-2">
                       {highlightMatches(result.title, result.matchedTerms)}
                     </Link>
                     <div className="text-sm mb-2">

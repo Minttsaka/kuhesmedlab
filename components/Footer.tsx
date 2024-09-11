@@ -38,7 +38,7 @@ export default function Footer() {
   };
 
   return (
-    <footer className="relative mt-16 bg-gradient-to-b from-blue-50 to-blue-100 text-blue-900">
+    <footer className="relative text-xs bg-gradient-to-b from-blue-50 to-blue-100 text-blue-900">
         <svg
         className="absolute top-0 w-full h-6 -mt-5 sm:-mt-10 sm:h-16 text-blue-50"
         preserveAspectRatio="none"
@@ -61,11 +61,11 @@ export default function Footer() {
               </span>
             </a>
             <div className="mt-4 lg:max-w-sm">
-              <p className="text-sm text-blue-800">
+              <p className="text-xs text-blue-800">
               Empowering medical laboratory profession to drive innovation, collaboration,
                and excellence in healthcare using AI and technology through research, discovery, and data-driven solutions.
               </p>
-              <p className="mt-4 text-sm text-blue-800">
+              <p className="mt-4 text-xs text-blue-800">
               Advancing Medical Laboratory Science
               </p>
             </div>
@@ -104,7 +104,7 @@ export default function Footer() {
                   <Link href="/events#organizational-events" className="footer-link">Organization Events</Link>
                 </li>
                 <li>
-                  <Link href="/events#global-events" className="footer-link">Global Events</Link>
+                  <Link href="/events#general-events" className="footer-link">General Events</Link>
                 </li>
                 <li>
                   <Link href="/events#institutional-events" className="footer-link">Institutional Events</Link>
@@ -171,7 +171,7 @@ export default function Footer() {
 
         </div>
         <div className="container mx-auto flex flex-col justify-between pt-5 pb-10 border-t border-blue-200 sm:flex-row">
-          <p className="text-sm text-blue-800">
+          <p className="text-xs text-blue-800">
             © Copyright 2024 Kuhesmedlab Inc. All rights reserved.
           </p>
           <div className="flex items-center mt-4 space-x-4 sm:mt-0">

@@ -192,14 +192,14 @@ function Navbar({ className }: { className?: string }) {
                                         </li>
 
                                         <li className="DropdownItem_dropdownItem__iI2LA m-0 p-0 select-none lg:whitespace-nowrap">
-                                            <a href="/event/#global-events">
+                                            <a href="/event/#general-events">
                                                 <div className="flex  gap-1.5 md:gap-2 group font-normal transition-colors duration-300 ease" >
                                                     
                                                     <div className="h-3 w-3 rounded-full bg-gradient-to-r from-black to-purple-400" />
                                                   
                                                     <p className="transition-opacity duration-300 opacity-90 group-hover:opacity-100">
-                                                    <Link href={'/event/#global-events'}>
-                                                        <span className="block text-gray-600 text-xs  md:!text-base">Global Events</span><span className="block text-sm mt-px text-neutral-400">Workshops, training sessions, and meetings <br />hosted by KUHESMEDLAB in <br />partnership with academic institutions</span>
+                                                    <Link href={'/event/#general-events'}>
+                                                        <span className="block text-gray-600 text-xs  md:!text-base">General Events</span><span className="block text-sm mt-px text-neutral-400">Workshops, training sessions, and meetings <br />hosted by KUHESMEDLAB in <br />partnership with academic institutions</span>
                                                     </Link>
                                                     </p>
                                                 </div>

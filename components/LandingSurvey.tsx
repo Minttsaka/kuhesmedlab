@@ -84,10 +84,11 @@ export default async function LandingSurvey() {
                       }}
                       width={400}
                     />
-                    <div className='absolute bottom-1 left-1'>
+                    <div className='absolute bottom-1 left-1 flex items-center'>
                       <Avatar>
                         <AvatarImage src={survey.survey.research.user.image!} className='object-cover'/>
                       </Avatar>
+                      <span className='p-2 text-xs text-white bg-black bg-opacity-60 rounded-xl'>{survey.survey.research.user.name}</span>
                     </div>
                   </CardHeader>
                   <CardContent className="flex-1 p-6">

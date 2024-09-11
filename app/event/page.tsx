@@ -7,18 +7,32 @@ import Footer from '@/components/Footer'
 import LandingMobileNav from '@/components/LandingMobileNav'
 import { EventsGrid } from '@/components/events-grid'
 import { LandingNav } from '@/components/landing-nav'
+import { prisma } from '@/lib/prisma'
 import React from 'react'
 
-export default function page() {
+export default async function page() {
+
+  const events = await prisma.event.findMany({
+    orderBy:{
+      createdAt:"desc"
+    }
+  })
+
+  const newEvents = await prisma.event.findMany({
+    orderBy:{
+      createdAt:"desc"
+    },
+    take:6
+  })
   return (
     <div>
       <LandingNav />
       <LandingMobileNav />
       <EventFirst />
-      <EventSec />
-      <EventThird />
-      <EventFourth />
-      <EventsGrid />
+      <EventSec organizationalEvents={events.filter(event=>event.type==="ORGANIZATION")}  />
+      <EventThird institutionEvents={events.filter(event=>event.type==="INSTITUTION")}  />
+      <EventFourth generalEvents={events.filter(event=>event.type==="GENERAL")}  />
+      <EventsGrid newEvent={newEvents} />
       <Footer />
     </div>
   )

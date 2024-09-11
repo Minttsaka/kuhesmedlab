@@ -6,6 +6,7 @@ import { Card } from "./ui/card";
 import Link from "next/link";
 import { Content } from "@prisma/client";
 import { stripHtml } from "@/lib/stripHtml";
+import { NoBlog } from "./NoBlog";
 
 export function BlogList({blog}:{blog:Content[]}) {
   const cards = blog?.map((blog, index) => (
@@ -56,6 +57,7 @@ export function BlogList({blog}:{blog:Content[]}) {
       <h2 className="max-w-7xl mt-10 pl-4 mx-auto text-xl font-bold text-neutral-800 dark:text-neutral-200 ">
         Blog
       </h2>
+      {blog.length===0 && <NoBlog />}
       <Carousel items={cards} />
     </div>
   );

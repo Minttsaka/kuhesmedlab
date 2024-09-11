@@ -87,7 +87,7 @@ export const BackgroundGradientAnimation = ({
   return (
     <div
       className={cn(
-        "absolute inset-x-0 top-40 bottom-0 h-[30rem] bg-[#A3CCE5]   overflow-hidden left-0 )]",
+        "absolute inset-x-0 top-40 bottom-0 h-[30rem] bg-[#A3CCE5] overflow-hidden left-0 )]",
         className
       )}
     >

@@ -30,7 +30,6 @@ export default function SurveyOverallAnalysis({formData, aiAnalyze}:{formData:Da
   const [aiAnalysis, setAiAnalysis] = useState('')
   const [message, setMessage] = useState('')
   const [isSubmitting, setIsSubmitting] = useState(false)
-  const [expandedSurvey, setExpandedSurvey] = useState<string | number>('')
 
   const {data:session } = useSession()
   const user = session?.user

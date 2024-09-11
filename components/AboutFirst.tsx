@@ -18,8 +18,8 @@ export default function AboutFirst() {
                         <HelpCircle className='h-4 w-4' />
                         SUPPORT
                     </Badge>
-                    <h2 className='font-bold uppercase '>Who  Are We ?</h2>
-                    <p>KUHESMEDLAB is an initiative of the Department of Medical Laboratory Science at Kamuzu University of Health Sciences in Malawi, founded by medical laboratory science students to empower their peers in research, innovation, and critical thinking.</p>
+                    <h2 className='font-bold uppercase '>Who  Are Us ?</h2>
+                    <p>Kuhesmedlab is an initiative of the Department of Medical Laboratory Science at Kamuzu University of Health Sciences in Malawi, founded by medical laboratory science students to empower their peers in research, innovation, and critical thinking.</p>
                     
                     <div className='flex gap-2 '>
                     <StarFilledIcon className='h-7 w-7 text-[green]' />

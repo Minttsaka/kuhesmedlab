@@ -6,7 +6,7 @@ import Link from 'next/link'
 import { BackgroundGradientAnimation } from './ui/background-gradient-animation'
 import { SearchIcon, ClipboardListIcon, BarChart2Icon, MessageCircleIcon } from "lucide-react"
 
-export default function ResearchFIrst() {
+export default function ResearchFIrst({researchNo, downloadTrend, citationTrend}:{researchNo:number, downloadTrend:number, citationTrend:number}) {
 
   const iconSize = 80
   const iconColor = "white"
@@ -32,15 +32,15 @@ export default function ResearchFIrst() {
         <div className="stats-container">
           <div className="shadow-md bg-white max-w-2xl flex flex-col items-start sm:flex-row justify-between rounded-md mx-auto p-8">
             <div className="flex flex-col my-2">
-              <p className="text-6xl font-extrabold">10+</p>
+              <p className="text-6xl font-extrabold">{researchNo < 1 ? researchNo :` ${researchNo - 1}+`}</p>
               <span className="ml-2 mt-2">Research papers</span>
             </div>
             <div className="flex flex-col my-2">
-              <p className="text-6xl font-extrabold">10+</p>
-              <span className="ml-2 mt-2">Users</span>
+              <p className="text-6xl font-extrabold">{downloadTrend < 1 ? downloadTrend :` ${downloadTrend - 1}+`}</p>
+              <span className="ml-2 mt-2">Downloads</span>
             </div>
             <div className="flex flex-col my-2">
-              <p className="text-6xl font-extrabold">2</p>
+              <p className="text-6xl font-extrabold">{citationTrend < 1 ? citationTrend :` ${citationTrend - 1}+`}</p>
               <span className="ml-2 mt-2">Citations</span>
             </div>
           </div>
@@ -73,9 +73,9 @@ export default function ResearchFIrst() {
         </IconWrapper>
            
             <Link href={'/mw/research'}
-            className="absolute hover:bg-blue-300 bottom-3 right-5 z-40 h-10 w-10 rounded-full bg-blue-400 flex items-center justify-center disabled:opacity-50"
-  
-          >
+              className="absolute hover:bg-blue-300 bottom-3 right-5 z-40 h-10 w-10 rounded-full bg-blue-400 flex items-center justify-center disabled:opacity-50"
+    
+            >
             <IconArrowNarrowRight className="h-6 w-6 text-white" />
           </Link>
         </div>
@@ -89,12 +89,12 @@ export default function ResearchFIrst() {
           <ClipboardListIcon size={iconSize} color={iconColor} strokeWidth={1.5} />
         </IconWrapper>
            
-            <button
-            className="absolute bottom-3 right-5 z-40 h-10 w-10 rounded-full bg-blue-400 flex items-center justify-center disabled:opacity-50"
-  
-          >
+            <Link href={'/survey'}
+              className="absolute hover:bg-blue-300 bottom-3 right-5 z-40 h-10 w-10 rounded-full bg-blue-400 flex items-center justify-center disabled:opacity-50"
+    
+            >
             <IconArrowNarrowRight className="h-6 w-6 text-white" />
-          </button>
+          </Link>
         </div>
 
         <div className='relative lg:min-h-[60vh] flex flex-col justify-between p-10 rounded-3xl bg-blue-100'>
@@ -118,29 +118,29 @@ export default function ResearchFIrst() {
               <BarChart2Icon size={iconSize} color={iconColor} strokeWidth={1.5} />
             </IconWrapper>
            
-            <button
-            className="absolute bottom-3 right-5 z-40 h-10 w-10 rounded-full bg-blue-400 flex items-center justify-center disabled:opacity-50"
-  
-          >
+            <Link href={'/mw/research'}
+              className="absolute hover:bg-blue-300 bottom-3 right-5 z-40 h-10 w-10 rounded-full bg-blue-400 flex items-center justify-center disabled:opacity-50"
+    
+            >
             <IconArrowNarrowRight className="h-6 w-6 text-white" />
-          </button>
+          </Link>
         </div>
 
         <div className='relative lg:min-h-[60vh] flex flex-col justify-between p-10 rounded-3xl bg-blue-100'>
             <div className='space-y-5'>
                 <Badge className='text-gray-100 bg-gradient-to-r from-blue-400 to-purple-500 uppercase'>Chatbot</Badge>
-                <h2 className='text-3xl max-w-md font-bold text-gray-800'>Smart Survey Solutions: Chatbot-Enabled Data Collection and Analysis</h2>
+                <h2 className='text-3xl max-w-md font-bold text-gray-800'>Smart Support from Kuhesmedlab ai chatbot.</h2>
             </div>
             <IconWrapper  gradient="linear-gradient(135deg, #a18cd1 0%, #fbc2eb 100%)">
           <MessageCircleIcon size={iconSize} color={iconColor} strokeWidth={1.5} />
         </IconWrapper>
            
-            <button
-            className="absolute bottom-3 right-5 z-40 h-10 w-10 rounded-full bg-blue-400 flex items-center justify-center disabled:opacity-50"
-  
-          >
+            <Link href={'/mw/dashboard'}
+              className="absolute hover:bg-blue-300 bottom-3 right-5 z-40 h-10 w-10 rounded-full bg-blue-400 flex items-center justify-center disabled:opacity-50"
+    
+            >
             <IconArrowNarrowRight className="h-6 w-6 text-white" />
-          </button>
+          </Link>
         </div>
       </div>
     </div>

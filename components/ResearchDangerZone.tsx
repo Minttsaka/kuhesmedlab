@@ -10,14 +10,19 @@ import { Label } from "@/components/ui/label"
 import { Input } from "@/components/ui/input"
 import RequestApproval from './RequestApproval'
 import ResearchStatus from './ResearchStatus'
+import { deleteWorkSpace } from '@/lib/actions'
+import { useRouter } from 'next/navigation'
+import { useToast } from './ui/use-toast'
 
 export default function ResearchDangerZone({id, status}:{id:string, status:string}) {
   const [isDeleteEnabled, setIsDeleteEnabled] = useState(false)
   const [showDialog, setShowDialog] = useState(false)
   const [confirmText, setConfirmText] = useState('')
   const [shake, setShake] = useState(false)
+  const [isDeleting, setIseDeleting] = useState(false)
 
-  console.log(status,"status")
+  const router = useRouter()
+  const { toast } = useToast()
 
   useEffect(() => {
     if (shake) {
@@ -34,14 +39,40 @@ export default function ResearchDangerZone({id, status}:{id:string, status:strin
     }
   }
 
-  const handleConfirmDelete = () => {
-    if (confirmText.toLowerCase() === 'delete my workspace') {
-      // Perform delete action here
-      console.log('Workspace deleted')
-      setShowDialog(false)
-    } else {
-      setShake(true)
+  const handleConfirmDelete = async() => {
+
+    try {
+
+      if (confirmText.toLowerCase() === 'delete my workspace') {
+        console.log("deleting")
+        setIseDeleting(true)
+        const res = await deleteWorkSpace(id)
+
+        if(res===true){
+          router.push('/mw/dashboard')
+          toast({
+            title:"Deleted",
+            description:"The workspace has been successfully deleted."
+          })
+        } else {
+
+          toast({
+            title:"Error",
+            description:"Something went wrong."
+          })
+        }
+
+        setShowDialog(false)
+      } else {
+        setShake(true)
+      }
+      
+    } catch (error) {
+      
+    } finally{
+      setIseDeleting(false)
     }
+ 
   }
 
   return (
@@ -122,7 +153,7 @@ export default function ResearchDangerZone({id, status}:{id:string, status:strin
                 <Button variant="outline" onClick={() => setShowDialog(false)}>
                   Cancel
                 </Button>
-                <Button variant="destructive" onClick={handleConfirmDelete}>
+                <Button variant="destructive" onClick={handleConfirmDelete} disabled={isDeleting}>
                   Delete Workspace
                 </Button>
               </DialogFooter>

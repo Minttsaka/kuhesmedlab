@@ -1,6 +1,6 @@
-import AboutFooter from '@/components/AboutFooter'
 import BlogFirst from '@/components/BlogFirst'
 import BlogSecond from '@/components/BlogSecond'
+import Footer from '@/components/Footer'
 import { LandingNav } from '@/components/landing-nav'
 import LandingMobileNav from '@/components/LandingMobileNav'
 import { prisma } from '@/lib/prisma'
@@ -8,7 +8,7 @@ import React from 'react'
 
 export default async function page() {
 
-  const blogList = await prisma.content.findMany({
+  const blogList = await prisma.content.findFirst({
     where:{
       type:"BLOG"
     },
@@ -17,13 +17,20 @@ export default async function page() {
     }
   })
 
+  const otherPost = await prisma.content.findMany({
+    orderBy:{
+      createdAt:"desc"
+    },
+    skip:1
+  })
+
   return (
     <div>
         <LandingNav />
         <LandingMobileNav />
-        <BlogFirst blog={blogList[0]!}/>
-        <BlogSecond />
-        <AboutFooter />
+        <BlogFirst blog={blogList!}/>
+        <BlogSecond blog={otherPost!} />
+        <Footer />
     </div>
   )
 }

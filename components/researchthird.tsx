@@ -37,9 +37,6 @@ export function Researchthird() {
 
 <div className="flex flex-col justify-between md:flex-row md:px-12 lg:px-20 p-4 dark:bg-gray-800 transition duration-500">
   <div className="text-container md:mt-10 md:w-1/2">
-    <p className="text-black bg-gray-200 dark:bg-gray-700 rounded-md px-2 py-1 text-sm inline-block dark:text-white my-4">
-      <span className="bg-blue-500 px-2 py-1/2 rounded-md text-white">Pro</span> I wish i knew when i was starting
-    </p>
     <h1 className="text-2xl md:text-4xl text-black font-bold dark:text-white tracking-normal leading-10">Did you know ?</h1>
 
     <h2 className="text-gray-700 text-lg font-light dark:text-white mt-8">
@@ -47,31 +44,6 @@ export function Researchthird() {
     Machine learning algorithms can help reduce false negative results in medical laboratory tests by up to 50%, improving patient outcomes and reducing the need for repeat testing.
 
     </h2>
-
-    {/* <div className="flex mt-8 md:flex-row items-baseline space-x-4">
-      <div className="flex -space-x-2">
-        <a href="https://twitter.com/kishoregunnam" className="">
-          <img className="inline-block h-8 w-8 md:h-16 md:w-16 rounded-full object-cover ring-2 ring-white" src="https://picsum.photos/id/293/200/300" alt="Guy" />
-        </a>
-        <a href="https://twitter.com/absphreak" className="">
-          <img className="inline-block h-8 w-8 md:h-16 md:w-16 rounded-full object-cover ring-2 ring-white" src="https://picsum.photos/id/923/200/300" alt="Max" />
-        </a>
-        <a href="https://twitter.com/mannupaaji" className="">
-          <img className="inline-block h-8 w-8 md:h-16 md:w-16 rounded-full object-cover ring-2 ring-white" src="https://picsum.photos/id/112/200/300" alt="Charles" />
-        </a>
-      </div>
-      <div>
-        <h3 className="text-gray-700 md:text-lg font-light dark:text-white mt-8">
-          Created by the founders of
-          <a href="https://placeholdertech.in">PlaceholderTech</a>
-        </h3>
-      </div>
-    </div> */}
-
-    {/* <div className="buttons-container flex space-x-2 md:space-x-4 text-white dark:text-white my-12">
-      <buton className="font-semibold rounded-md text-sm md:text-base bg-blue-500 px-4 py-2 md:px-8 md:py-4 cursor-pointer transform transition duration-200 hover:shadow-xl hover:-translate-y-1"> <span className="hidden lg:inline-block">Browse</span> Components </buton>
-      <buton className="font-semibold rounded-md text-sm md:text-base bg-red-500 px-4 py-2 md:px-8 md:py-4 cursor-pointer transform transition duration-200 hover:shadow-xl hover:-translate-y-1"> <span className="hidden lg:inline-block">Access</span> Playground </buton>
-    </div> */}
   </div>
   <div className="image-container md:w-1/2 md:mt-10 md:-mr-20">
     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 750 500">

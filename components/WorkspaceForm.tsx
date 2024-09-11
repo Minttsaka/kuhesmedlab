@@ -73,6 +73,8 @@ export default function ResearchWorkspaceForm() {
   const router = useRouter();
   const {toast} = useToast()
 
+  const slugify = (str:string) =>str.toLowerCase().trim().replace(/[^\w\s-]/g, "").replace(/[\s_-]+/g, "-").replace(/^-+|-+$/g, "");
+
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -89,7 +91,8 @@ export default function ResearchWorkspaceForm() {
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
 
-    const { title,
+    const { 
+      title,
       abstract,
       affiliation,
       keywords,
@@ -105,6 +108,7 @@ export default function ResearchWorkspaceForm() {
         const response= await axios.post('/api/research',{
           title,
           abstract,
+          slug:slugify(title),
           affiliation,
           keywords,
           field,

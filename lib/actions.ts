@@ -73,6 +73,23 @@ export const updateUser = async (id:string,data:any) => {
    return "Successfully updated"
 }
 
+export const deleteWorkSpace = async(id:string)=>{
+
+  try {
+
+    await prisma.research.delete({
+      where:{
+        id
+      }
+    })
+    return true
+  } catch (error) {
+    console.log(error)
+    
+  }
+
+}
+
 export const savePost = async(post:Post)=>{
 
 

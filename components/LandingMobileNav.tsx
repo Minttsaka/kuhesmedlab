@@ -22,8 +22,12 @@ export default function LandingMobileNav() {
 
   const menuItems = [
     {
-      name: 'Products',
+      name: 'Research',
       subLinks: [
+        {
+          name:'Publications',
+          Link:"/publications"
+          },
         {
             name:'Research',
             Link:"/research"
@@ -32,18 +36,15 @@ export default function LandingMobileNav() {
             Link:"/survey"
         },{
             name:'Cloud Storage',
-            Link:"/storage"
+            Link:"/about/technology"
         },
         {
             name:'Artificial Intelligence',
-            Link:"/ai"
+            Link:"/about/technology"
             },{
             name:'Data Analysis',
-            Link:"/data"
-        },{
-            name:'Automation',
-            Link:"/automation"
-        },
+            Link:"/about/technology"
+        }
       ],
     },
     {
@@ -51,13 +52,13 @@ export default function LandingMobileNav() {
       subLinks: [
         {
             name:'Organizational Events',
-            Link:"/events/#organizational-events"
+            Link:"/events#organizational-events"
             },{
             name:'Institutional Events',
-            Link:"/events/#institutional-events"
+            Link:"/events#institutional-events"
         },{
-            name:'Global Events',
-            Link:"/events/#global-events"
+            name:'general Events',
+            Link:"/events#general-events"
         },],
     },
     {
@@ -65,15 +66,15 @@ export default function LandingMobileNav() {
       subLinks: [
         {
         name:'Blog',
-        Link:"blog"
+        Link:"/blog"
         }, 
         {
             name:'Faq',
-            Link:"a/#faq"
+            Link:"/#faq"
         }, 
         {
             name:'Support',
-            Link:"support"
+            Link:"/support"
         },
     ],
     },
@@ -81,7 +82,7 @@ export default function LandingMobileNav() {
       name: 'Community',
       subLinks: [{
         name:'Community',
-        Link:"community"
+        Link:"/community/feed"
   },],
     },
     {
@@ -89,19 +90,19 @@ export default function LandingMobileNav() {
       subLinks: [
         {
             name:'about',
-            Link:"about"
+            Link:"/about"
       },
       {
             name:'About Us',
-            Link:"about-us"
+            Link:"/about-us"
         },
         {
             name:'About Team',
-            Link:"about"
+            Link:"/about#team"
         },
         {
             name:'About Technology',
-            Link:"about"
+            Link:"/about/technology"
       },
         ],
     },
@@ -182,7 +183,7 @@ export default function LandingMobileNav() {
                             transition={{ duration: 0.3 }}
                           >
                             <a
-                              href="#"
+                              href={subLink.Link}
                               className="block p-3 pl-8 text-sm text-white/80 hover:text-white hover:bg-white/10 transition-colors"
                               onClick={() => setIsOpen(false)}
                             >

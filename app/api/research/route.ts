@@ -18,6 +18,7 @@ const FormSchema = z.object({
   abstract: z.string().min(10, {
     message: "Abstract must be at least 10 characters.",
   }),
+  slug: z.string(),
   keywords: z.string().min(2, {
     message: "Please provide at least one keyword.",
   }),
@@ -45,6 +46,7 @@ export const POST = async (req: Request,res:Response) => {
     const {
       title,
       abstract,
+      slug,
       affiliation,
       keywords,
       field,
@@ -130,8 +132,6 @@ export const POST = async (req: Request,res:Response) => {
           
         }
 
-
-
       }
 
       const subjectArea = await subjectAreaData()
@@ -140,6 +140,7 @@ export const POST = async (req: Request,res:Response) => {
       const newResearch = await prisma.research.create({
         data: {
           title,
+          slug,
           abstract,
           citeReference:citeReference!,
           keyWords:keywords,

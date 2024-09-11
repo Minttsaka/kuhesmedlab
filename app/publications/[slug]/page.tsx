@@ -7,11 +7,11 @@ import { loadPdf } from '@/lib/pageNum'
 import { prisma } from '@/lib/prisma'
 import React from 'react'
 
-export default async function page({params:{id}}:{params:{id:string}}) {
+export default async function page({params:{slug}}:{params:{slug:string}}) {
 
   const research = await prisma.research.findUnique({
     where:{
-      id
+      slug
     },
     include:{
       files:true,
@@ -21,14 +21,21 @@ export default async function page({params:{id}}:{params:{id:string}}) {
     }
   })
 
-  await prisma.research.update({
-    where:{
-      id
-    },
-    data:{
-      views: { increment: 1 }
-    }
-  })
+  if (research) {
+    await prisma.research.update({
+      where: {
+        id: research.id
+      },
+      data: {
+        views: {
+          increment: 1
+        }
+      }
+    });
+  } else {
+    console.error('Research not found');
+  }
+  
   return (
     <div>
         <PublicationNav />

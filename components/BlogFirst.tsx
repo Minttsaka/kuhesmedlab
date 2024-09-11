@@ -12,9 +12,9 @@ import { stripHtml } from '@/lib/stripHtml'
 export default function BlogFirst({blog}:{blog:Content}) {
   return (
     <div className='mt-20'>
-      <BackgroundGradientAnimation className=" -skew-y-12 origin-top-left" />
+      <BackgroundGradientAnimation className=" -skew-y-12 -z-10 origin-top-left" />
       <div className='relative container mx-auto'>
-      <Card className='shadow-2xl grid md:grid-cols-2'>
+      {blog && <Card className='shadow-2xl grid md:grid-cols-2'>
             <CardHeader className='bg-gray-100 m-2 rounded-2xl  pl-40 pt-20'>
                 <img src={blog?.image!} className='rounded-2xl' alt='this is good' />
             </CardHeader>
@@ -43,7 +43,7 @@ export default function BlogFirst({blog}:{blog:Content}) {
                     </Link>
                 </div>
             </CardContent>
-        </Card>
+        </Card>}
       </div>
     </div>
   )

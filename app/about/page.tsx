@@ -27,7 +27,7 @@ export default async function page() {
         <Industry />
         {/* <SuccessNav /> */}
         <SuccessIntro />
-        <UseCase />
+        {/* <UseCase /> */}
         <CarouselFadeExample />
         <BlogList blog={blog!} />
         <IndustryFinisher />

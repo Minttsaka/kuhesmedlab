@@ -4,10 +4,11 @@
 * Documentation: https://v0.dev/docs#integrating-generated-code-into-your-nextjs-app
 */
 
-import { ArrowRight } from "lucide-react";
+import { AlertCircle, ArrowRight, Calendar } from "lucide-react";
 import Link from "next/link";
 import { Badge } from "./ui/badge";
 import { Content } from "@prisma/client";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 
 /** Add fonts into your Next.js project:
 
@@ -25,8 +26,41 @@ To read more about using these font, please visit the Next.js documentation:
 export function DashboardTraining({blog}:{blog:Content[]}) {
   return (
     <div className="bg-gray-100 py-10 space-y-10 mt-20 ">
-      <h2 className="container mx-auto text-3xl font-sans ">Top Discoveries</h2>
-      <div className="container  grid md:grid-cols-2 gap-4 " >
+      <h2 className="container mx-auto text-3xl font-sans ">Annoucements</h2>
+      {!blog[0] && <Card className="w-full max-w-2xl mx-auto bg-white">
+        <CardHeader className="text-center">
+          <div className="mx-auto bg-blue-100 rounded-full p-3 w-16 h-16 flex items-center justify-center mb-4">
+            <Calendar className="w-8 h-8 text-blue-500" />
+          </div>
+          <CardTitle className="text-2xl font-bold text-gray-800">No Announcements</CardTitle>
+        </CardHeader>
+        <CardContent>
+          <div className="text-center space-y-4">
+            <p className="text-gray-600">
+              There are currently no scheduled Announcements. Our team is working on planning exciting new Announcements for the future.
+            </p>
+            <div className="bg-yellow-50 border-l-4 border-yellow-400 p-4 mb-4">
+              <div className="flex items-center">
+                <AlertCircle className="w-5 h-5 text-yellow-400 mr-2" />
+                <p className="text-sm text-yellow-700">
+                  Stay tuned for updates on our upcoming Announcements. We will be adding new Announcements soon!
+                </p>
+              </div>
+            </div>
+            <div className="space-y-2">
+              <p className="text-sm text-gray-500">
+                In the meantime, you can:
+              </p>
+              <ul className="list-disc list-inside text-sm text-gray-600 space-y-1">
+                {/* <li>Check out our past event recordings</li> */}
+                <li>Subscribe to our newsletter for blog notifications</li>
+                <li>Follow us on social media for the latest updates</li>
+              </ul>
+            </div>
+          </div>
+        </CardContent>
+      </Card>}
+      {blog[0] && <div className="container  grid md:grid-cols-2 gap-4 " >
       <div className="relative overflow-hidden rounded-3xl shadow-lg group hover:shadow-xl">
         <img
           src={blog[0]?.image!}
@@ -107,8 +141,7 @@ export function DashboardTraining({blog}:{blog:Content[]}) {
         </div>
         </div>
       </div>
-      </div>
-      
+      </div>}
     </div>
   )
 }

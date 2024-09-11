@@ -19,8 +19,18 @@ To read more about using these font, please visit the Next.js documentation:
 **/
 import Link from "next/link"
 import { Badge } from "./ui/badge"
+import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
+import { AlertCircle, Calendar } from "lucide-react"
+import { Prisma } from "@prisma/client"
 
-export function Researchsec() {
+type Research = Prisma.ResearchGetPayload<{
+  include:{
+    files:true
+  }
+}>
+
+export function Researchsec({currentArticles}:{currentArticles:Research[]}) {
+
   return (
     <section id="published" className="w-full py-12 md:py-24 lg:py-32">
       <div className="relative container px-4 md:px-6">
@@ -48,41 +58,55 @@ export function Researchsec() {
     </div> */}
     <span aria-label="emoji" className="absolute left-1/2 -bottom-5 text-6xl">🍁</span>
   </div>
-  <div className="">
-    <h1 className="text-center font-bold text-gray-600 text-4xl mt-10 dark:text-gray-50">The recent published research</h1>
-
     <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mt-20">
-      <div className="blog-card flex flex-col items-center md:items-start cursor-pointer">
+    {currentArticles.length===0 &&
+      <Card className="w-full max-w-2xl mx-auto bg-white ">
+        <CardHeader className="text-center">
+          <div className="mx-auto bg-blue-100 rounded-full p-3 w-16 h-16 flex items-center justify-center mb-4">
+            <Calendar className="w-8 h-8 text-blue-500" />
+          </div>
+          <CardTitle className="text-2xl font-bold text-gray-800">No Publications</CardTitle>
+        </CardHeader>
+        <CardContent>
+          <div className="text-center space-y-4">
+            <p className="text-gray-600">
+              There are currently no Publications. Our team is working on publishing research papers for the future.
+            </p>
+            <div className="bg-yellow-50 border-l-4 border-yellow-400 p-4 mb-4">
+              <div className="flex items-center">
+                <AlertCircle className="w-5 h-5 text-yellow-400 mr-2" />
+                <p className="text-sm text-yellow-700">
+                  Stay tuned for updates on our upcoming publications. We will be adding new publications soon!
+                </p>
+              </div>
+            </div>
+            <div className="space-y-2">
+              <p className="text-sm text-gray-500">
+                In the meantime, you can:
+              </p>
+              <ul className="list-disc list-inside text-sm text-gray-600 space-y-1">
+                {/* <li>Check out our past event recordings</li> */}
+                <li>Subscribe to our newsletter for blog notifications</li>
+                <li>Follow us on social media for the latest updates</li>
+              </ul>
+            </div>
+          </div>
+        </CardContent>
+      </Card>}
+      {currentArticles.map(content=>
+      <div key={content.id} className="blog-card flex flex-col items-center md:items-start cursor-pointer">
         <div className="img-container rounded-md overflow-hidden w-3/4 sm:w-1/2 mx-auto md:w-full lg:h-48">
-          <img src="https://media.istockphoto.com/id/1465316262/photo/businessman-inspecting-paperwork-document-of-business-data-analysis-working-management-report.webp?b=1&s=170667a&w=0&k=20&c=L6xi5VJG0gr3a40-i35k8XWcmglc5hlgYP-lSqdEd9s=" className="object-cover" alt="headerImage" />
+          {content.files.find(file=>file.fileType==="image") && <img src={content.files.find(file=>file.fileType==="image")?.url} className="object-cover" alt="headerImage" />}
         </div>
-        <h1 className="mt-4 text-xl font-semibold dark:text-gray-50">Investigating the Impact of AI-Powered Diagnostic Tools on Patient Outcomes in Medical Laboratories</h1>
-        <p className="my-4 text-sm font-light max-w-md dark:text-gray-50 line-clamp-2">This study examines the effectiveness of AI-driven diagnostic tools in improving patient outcomes, reducing errors, and enhancing laboratory efficiency. Researchers will analyze data from 100 medical laboratories using AI-powered diagnostic tools and compare results with traditional methods.</p>
-        <small className="text-gray-500 dark:text-gray-50">June 10th, 2021</small>
+        <Link href={`/publications/${content.slug}`}  className="mt-4 text-xl font-semibold dark:text-gray-50">{content.title}</Link>
+        <p className="my-4 text-sm font-light max-w-md dark:text-gray-50 line-clamp-2">{content.abstract}</p>
+        <small className="text-gray-500 dark:text-gray-50">{content.publicationDate?.toDateString()}</small>
       </div>
-
-      <div className="blog-card flex flex-col items-center md:items-start cursor-pointer">
-        <div className="img-container rounded-md overflow-hidden w-3/4 sm:w-1/2 mx-auto md:w-full lg:h-48">
-          <img src="https://media.istockphoto.com/id/1465316262/photo/businessman-inspecting-paperwork-document-of-business-data-analysis-working-management-report.webp?b=1&s=170667a&w=0&k=20&c=L6xi5VJG0gr3a40-i35k8XWcmglc5hlgYP-lSqdEd9s=" className="object-cover" alt="headerImage" />
-        </div>
-        <h1 className="mt-4 text-xl font-semibold dark:text-gray-50">Exploring the Role of Machine Learning in Predicting Disease Progression in Cancer Patients</h1>
-        <p className="my-4 text-sm font-light max-w-md dark:text-gray-50 line-clamp-2">This research project utilizes machine learning algorithms to analyze genomic data and predict disease progression in cancer patients. The study aims to identify potential biomarkers and develop personalized treatment plans, improving patient outcomes and quality of life.</p>
-        <small className="text-gray-500 dark:text-gray-50">May 17th, 2021</small>
-      </div>
-
-      <div className="blog-card flex flex-col items-center md:items-start cursor-pointer">
-        <div className="img-container rounded-md overflow-hidden w-3/4 sm:w-1/2 mx-auto md:w-full lg:h-48">
-          <img src="https://media.istockphoto.com/id/1465316262/photo/businessman-inspecting-paperwork-document-of-business-data-analysis-working-management-report.webp?b=1&s=170667a&w=0&k=20&c=L6xi5VJG0gr3a40-i35k8XWcmglc5hlgYP-lSqdEd9s=" className="object-cover" alt="headerImage" />
-        </div>
-        <h1 className="mt-4 text-xl font-semibold dark:text-gray-50">Evaluating the Efficacy of Virtual Reality-Based Training for Medical Laboratory Professionals</h1>
-        <p className="my-4 text-sm font-light max-w-md dark:text-gray-50 line-clamp-2">This study assesses the effectiveness of virtual reality (VR)-based training programs for medical laboratory professionals, focusing on skill development, knowledge retention, and error reduction. Researchers will compare VR-based training with traditional methods, measuring participant performance and satisfaction.</p>
-        <small className="text-gray-500 dark:text-gray-50">May 17th, 2021</small>
-      </div>
+    )}
     </div>
-  </div>
 </div>
         <div className="mt-12 flex justify-center">
-          <Link className="underline text-xl text-blue-400" href={''} >
+          <Link className="underline text-xl text-blue-400" href={'/publications'} >
             View More
           </Link>
         </div>
