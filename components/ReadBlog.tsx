@@ -162,7 +162,7 @@ export default function ReadBlog({content, user}:{content:Content, user:User}) {
             sessionUser &&
             <div className="mb-6">
               <div className="flex items-center space-x-4">
-                <img src={sessionUser.image!} alt="Current User" className="w-10 h-10 rounded-full" />
+                <img src={sessionUser.image! ?? '/img/avatar.png'} alt="Current User" className="w-10 h-10 rounded-full" />
                 <input
                   type="text"
                   name='comment'

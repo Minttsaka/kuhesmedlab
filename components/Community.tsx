@@ -158,7 +158,7 @@ const limit = 10;
           <div key={post.id} className="bg-white shadow dark:bg-gray-800 rounded-lg  p-6">
             <div className="md:flex space-y-2 items-center justify-between mb-4">
               <div className="flex items-center space-x-3">
-                <img src={post.user.image!} alt={post.user.name} className="w-10 h-10 object-cover rounded-full" />
+                <img src={post.user.image! ?? '/img/avatar.png'} alt={post.user.name} className="w-10 h-10 object-cover rounded-full" />
                 <div>
                   <h3 className="font-semibold">{post.user.name}</h3>
                   <p className="text-xs text-gray-500 dark:text-gray-400">{new Date(post.createdAt).toDateString()}</p>

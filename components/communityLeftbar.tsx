@@ -249,7 +249,7 @@ export default function CommunitySidebar() {
             whileTap={{ scale: 0.95 }}
           >
             <img
-              src={user.image!}
+              src={user.image! ?? "/img/avatar.png"}
               alt="User avatar"
               className="w-10 object-cover h-10 rounded-full"
             />
