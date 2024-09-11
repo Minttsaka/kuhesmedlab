@@ -27,8 +27,8 @@ export default function PublicationsFooter() {
             <h3 className="text-lg font-semibold text-primary">Community</h3>
             <ul className="space-y-2">
               <li><a href="/events" className="hover:text-primary">Events</a></li>
-              <li><a href="/community/create" className="hover:text-primary">Create Post</a></li>
-              <li><a href="/community/feed" className="hover:text-primary">Forum</a></li>
+              <li><a target="__blank" href="/community/create" className="hover:text-primary">Create Post</a></li>
+              <li><a target="__blank" href="/community/feed" className="hover:text-primary">Forum</a></li>
             </ul>
           </div>
           <div className="space-y-4">

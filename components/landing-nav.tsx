@@ -289,6 +289,7 @@ function Navbar({ className }: { className?: string }) {
         </MenuItem>
 
         <Link 
+        target="__blank"
           className="cursor-pointer text-white font-bold text-sm hover:opacity-[0.9] dark:text-white"
           href={'/community/feed'}>
           Community

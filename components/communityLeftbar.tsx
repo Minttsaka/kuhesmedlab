@@ -96,6 +96,7 @@ export default function CommunitySidebar() {
             {navItems.map((item, index) => (
               <motion.li key={index} whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
                 <a
+                target='__blank'
                   href={item.link}
                   className={`flex items-center space-x-4 p-2 rounded-lg ${
                     isDarkMode ? 'hover:bg-gray-700' : 'hover:bg-gray-200'

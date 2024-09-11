@@ -183,6 +183,7 @@ export default function LandingMobileNav() {
                             transition={{ duration: 0.3 }}
                           >
                             <a
+                            target='__blank'
                               href={subLink.Link}
                               className="block p-3 pl-8 text-sm text-white/80 hover:text-white hover:bg-white/10 transition-colors"
                               onClick={() => setIsOpen(false)}

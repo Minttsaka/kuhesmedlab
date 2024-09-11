@@ -31,6 +31,7 @@ export default function CreateBlogPost() {
   const [currentTag, setCurrentTag] = useState("")
   const [previewMode, setPreviewMode] = useState(false)
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isUploading, setIsUploading] = useState(false)
 
   const { toast } = useToast()
 
@@ -55,9 +56,17 @@ export default function CreateBlogPost() {
 
   const handleImageUpload = async(e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0]
-    if (file) {
-      const res = await uploadToS3(file)
-      setNewPost({ ...newPost, img: res?.fileKey as string })
+    try {
+      if (file) {
+        setIsUploading(true)
+        const res = await uploadToS3(file)
+        setNewPost({ ...newPost, img: res?.fileKey as string })
+        
+      }
+    } catch (error) {
+      
+    }finally{
+      setIsUploading(false)
     }
   }
 
@@ -153,6 +162,7 @@ export default function CreateBlogPost() {
                     </label>
                   </Button>
                   {newPost.img && <img src={newPost.img} className='object-center h-10 w-10 rounded-lg object-cover'/>}
+                  {isUploading &&<Loader2 className="animate-spin" />}
                 </div>
                 <p className="text-xs text-gray-500">This is rich text editor. Highlight the text to format.</p>
                 <ReactQuill

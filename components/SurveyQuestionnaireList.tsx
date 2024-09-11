@@ -76,6 +76,7 @@ export default function SurveyQuestionnaireList({ surveyId }:{ surveyId:string }
     const [isModalOpen, setIsModalOpen] = useState(false)
     const [value, setValue] = useState("");
     const [isPreviewOpen, setIsPreviewOpen] = useState(false)
+    const [isUploading, setIsUploading] = useState(false)
 
 
   const { data, mutate, isLoading, error } = useSWR<FormSchema[]>(
@@ -88,9 +89,16 @@ export default function SurveyQuestionnaireList({ surveyId }:{ surveyId:string }
 
   const handleImageUpload = async(e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0]
-    if (file) {
-      const res = await uploadToS3(file)
-      setImg(res?.fileKey as string)
+    try {
+      if (file) {
+        setIsUploading(true)
+        const res = await uploadToS3(file)
+        setImg(res?.fileKey as string)
+      }
+    } catch (error) {
+      
+    } finally{
+      setIsUploading(false)
     }
   }
   
@@ -330,6 +338,7 @@ const handleDelete = async(id:string)=>{
                         </label>
                       </Button>
                       {img && <img src={img!} className='object-center h-10 w-10 rounded-lg object-cover'/>}
+                      {isUploading &&<Loader2 className="animate-spin" />}
                     </div>
                   <div className="grid items-center grid-cols-1 gap-4">
                   <Label htmlFor="guidlines" className="text-right">

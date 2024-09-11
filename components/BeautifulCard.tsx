@@ -46,7 +46,7 @@ const Feature: React.FC<FeatureProps> = ({ icon: Icon, color, title, description
             <h3 className="text-xl font-bold mb-2 text-white">{title}</h3>
             <p className="text-sm text-gray-300 mb-4">{description}</p>
             <Button asChild variant="outline" size="sm">
-              <a href={link} className="no-underline">Explore</a>
+              <a target='__blank' href={link} className="no-underline">Explore</a>
             </Button>
           </CardContent>
         </Card>

@@ -184,7 +184,7 @@ export default function SupportPage({supports,popularSupport}:{supports:Support[
                 <h3 className="text-lg font-semibold">Join the MedLab Research Community</h3>
               </div>
               <p className="mb-4">Connect with fellow researchers, share insights, and collaborate on cutting-edge medical studies.</p>
-              <Link href={'/community/feed'} className="bg-white p-3 text-blue-600 hover:bg-blue-50">Visit Forum</Link>
+              <Link target="__blank" href={'/community/feed'} className="bg-white p-3 text-blue-600 hover:bg-blue-50">Visit Forum</Link>
             </CardContent>
           </Card>
         </section>
