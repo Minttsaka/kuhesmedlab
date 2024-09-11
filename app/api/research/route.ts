@@ -113,10 +113,11 @@ export const POST = async (req: Request,res:Response) => {
           Affiliation: "${affiliation}"
           Keywords: ${keywords}
           Field: "${field}"
+          date: ${new Date()}
           Journal: "${journal}"
           Authors: ${authors}
           
-          Format the reference in modern APA style.
+          Format the reference in modern APA style. do not add url.
         `;
 
         try {

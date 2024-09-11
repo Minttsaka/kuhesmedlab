@@ -382,8 +382,8 @@ export default function Practice(
                   </div>
                   <div className="flex flex-col items-center justify-center p-4 bg-primary/10 rounded-lg">
                     <GlobeIcon className="w-8 h-8 mb-2 text-muted-foreground" />
-                    <span className="text-2xl font-bold">{research.issue}</span>
-                    <span className="text-sm">Impact Factor</span>
+                    <span className="text-2xl font-bold">{research.views}</span>
+                    <span className="text-sm">Views</span>
                   </div>
                 </div>
               </CardContent>

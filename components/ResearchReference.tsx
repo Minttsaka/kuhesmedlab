@@ -75,7 +75,7 @@ export default function ResearchReferencesSection({researchId, actualRef}:{resea
 
       <Card className='py-2'>
         <CardContent className="">
-          <h3 className="text-xl font-semibold mb-4 flex items-center gap-2">
+          <div className="text-xl font-semibold mb-4 flex items-center gap-2">
             <BookOpenIcon className="h-6 w-6" />
             Recently Added References
             <HoverCard>
@@ -99,17 +99,17 @@ export default function ResearchReferencesSection({researchId, actualRef}:{resea
                
               </HoverCardContent>
             </HoverCard>
-          </h3>
+          </div>
+          <div className='space-y-2 p-2'>
+            <p className='font-bold'>Your Actual reference</p>
+            <p>{actualRef}</p>
+          </div>
           <ScrollArea className="h-[300px] py-4 rounded-md border">
             {filteredReferences.length > 0 ? (
               <Card className="">
              
               <CardContent>
                 <div className="relative mb-6">
-                  <div className='space-y-2 p-2'>
-                    <p className='font-bold'>Your Actual reference</p>
-                    <p>{actualRef}</p>
-                  </div>
                   <Input
                     placeholder="Search references..."
                     value={searchTerm}
