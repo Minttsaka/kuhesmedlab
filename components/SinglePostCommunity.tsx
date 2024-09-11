@@ -129,7 +129,7 @@ const ReplyItem: React.FC<{ reply: Reply,mutate:KeyedMutator<Post>, level: numbe
   )
 }
 
-const CommentItem: React.FC<{ comment: Comment, mutate:KeyedMutator<Post>, level: number }> = ({ comment, mutate, level }) => {
+const CommentItem: React.FC<{ comment: Comment, isUser:boolean, mutate:KeyedMutator<Post>, level: number }> = ({ comment, mutate, level, isUser }) => {
   const [isReplying, setIsReplying] = useState(false)
   const [likes, setLikes] = useState(comment.likes)
   const [newReply, setNewReply] = useState<string>()
@@ -193,17 +193,17 @@ const CommentItem: React.FC<{ comment: Comment, mutate:KeyedMutator<Post>, level
             </div>
             <p className="text-sm text-gray-600 dark:text-gray-300 mt-1 leading-relaxed">{comment.comment}</p>
             <div className="flex items-center space-x-4 mt-2">
-              <Button size="sm" onClick={() => setIsReplying(!isReplying)} className="bg-transparent  hover:bg-transparent text-purple-600 hover:text-purple-700 dark:text-purple-400 dark:hover:text-purple-300">
+              {isUser && <Button size="sm" onClick={() => setIsReplying(!isReplying)} className="bg-transparent  hover:bg-transparent text-purple-600 hover:text-purple-700 dark:text-purple-400 dark:hover:text-purple-300">
                 <MessageSquare className="h-4 w-4 mr-1" />
                 Reply
-              </Button>
+              </Button>}
               <Button size="sm" onClick={()=>handleCommentLike(comment.id)} className="text-pink-600 bg-transparent hover:bg-transparent hover:text-pink-700 dark:text-pink-400 dark:hover:text-pink-300">
                 <ThumbsUp className={`h-4 w-4 mr-1 ${comment.likes.length > 0 ? "  fill-[red] text-[red]":" text-gray-600"}` } />
                 {comment.likes.length}
               </Button>
             </div>
             <AnimatePresence>
-              {isReplying && (
+              {isReplying && isUser && (
                 <motion.div
                   initial={{ opacity: 0, height: 0 }}
                   animate={{ opacity: 1, height: 'auto' }}
@@ -245,6 +245,8 @@ export default function SinglePostCommunity({post}:{post:PostWithRelations}) {
   const {data:session}= useSession()
 
   const sessionUser = session?.user
+
+  const isUser = !!sessionUser
 
 
 const { data, mutate, isLoading, error } = useSWR<Post>(
@@ -320,7 +322,7 @@ const { data, mutate, isLoading, error } = useSWR<Post>(
           </div>
         </div>
         <FunctionalShareButton 
-         url={`https://v0.dev/chat/oo98PP_MGPc`}
+         url={`https://kuhesmedlab.vercel.app/community/post/launching-of-kuhesmedlab`}
           title={post?.title}
           description={stripHtml(post?.body)}
           />
@@ -393,7 +395,7 @@ const { data, mutate, isLoading, error } = useSWR<Post>(
         <div className="space-y-6">
         <AnimatePresence>
         {data?.comment?.map((comment) => (
-          <CommentItem key={comment.id}  mutate={mutate} comment={comment} level={0} />
+          <CommentItem key={comment.id} isUser={isUser}  mutate={mutate} comment={comment} level={0} />
         ))}
       </AnimatePresence>
           
