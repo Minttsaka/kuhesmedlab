@@ -22,13 +22,6 @@ type Form = Prisma.SurveyFormQuestionGetPayload<{
   };
 }>;
 
-type Value = Prisma.SurveyFormQuestionGetPayload<{
-  include: {
-    choices: true;
-    options: true;
-  };
-}>;
-
 const Question = ({
   name,
   id,
@@ -44,7 +37,7 @@ const Question = ({
   name: string;
   id: string;
   index: number;
-  value: Value;
+  value: Form ;
   formId: string;
   mutate: KeyedMutator<Form[]>;
   addQuestion: () => void;
@@ -54,28 +47,17 @@ const Question = ({
 }) => {
   const { title, type } = value;
   const [loading, setLoading] = useState(false);
-  const [datas, setDatas] = useState<any>();
-  const [savedDatas, setSavedDatas] = useState<any>();
+  const [inputValue, setInputValue] = useState({})
 
-  // Define the debounced update outside of any callbacks or conditionals
-  const debouncedUpdate = debounce(async (id: string, datas: any) => {
-    await updateFields(id, datas);
-    mutate();
-    console.log("updated");
-  }, 300);
 
-  useEffect(() => {
-    // Trigger debounced update whenever datas changes
-    if (datas !== savedDatas) {
-      setSavedDatas(datas);
-      debouncedUpdate(id, datas);
-    }
-
-    // Cleanup the debounce on unmount
-    return () => {
-      debouncedUpdate.cancel();
-    };
-  }, [datas, savedDatas, id, mutate, debouncedUpdate]);
+  const handleInputChange = async( e: React.ChangeEvent<HTMLInputElement>) => {
+    e.preventDefault();
+    setInputValue((prev)=>({
+      ...prev,
+      [e.target.name]:e.target.value
+    }))
+   
+  };
 
   const activeQuestionIndex = useSelector(
     (state: RootState) => state.form.activeQuestionIndex
@@ -102,6 +84,14 @@ const Question = ({
 
   const qType = data.find((elem) => elem.title === type);
 
+  const saveFormData = async () => {
+    if (Object.keys(inputValue).length > 0) {
+      await updateFields(id, inputValue )
+      mutate()
+    }
+  };
+
+
   return (
     <div
       onClick={onclick}
@@ -122,31 +112,24 @@ const Question = ({
           <Loader2 className="animate-spin h-4 w-4 text-green-500" />
         )}
         <div className="w-full md:px-6 px-2 flex md:flex-row flex-col md:justify-between justify-center items-center gap-8 py-6">
-          <input
-            type="text"
-            name="title"
-            defaultValue={title}
-            onChange={(e) =>
-              setDatas((prevDatas: any) => ({
-                ...prevDatas,
-                [e.target.name]: e.target.value,
-              }))
-            }
-            placeholder="Question"
-            required
-            className="text-base px-4 outline-none capitalize border-b bg-gray-100 focus:border-b-2 border-gray-400 pt-3 pb-2 w-full focus:border-[#29A0B1]"
-          />
+        <input
+          type="text"
+          name="title"
+          defaultValue={title}
+          onChange={(handleInputChange)}
+          onBlur={saveFormData}
+          placeholder="Question"
+          required
+          className="text-base px-4 outline-none capitalize border-b bg-gray-100 focus:border-b-2 border-gray-400 pt-3 pb-2 w-full focus:border-[#29A0B1]"
+        />
           <Select
             placeholder="Select Question Type"
             className="w-full"
-            onChange={(e) =>
-              setDatas((prevDatas: any) => ({
-                ...prevDatas,
-                type: e,
-              }))
-            }
+            onChange={async(e) =>{
+              await updateFields(id, { type:e } )
+              mutate()
+            }}
             value={type}
-            defaultValue={type}
             options={[
               { value: "Short_Answer", label: "Short Answer" },
               { value: "Paragraph", label: "Paragraph" },

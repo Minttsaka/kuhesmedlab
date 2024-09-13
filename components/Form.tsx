@@ -164,7 +164,11 @@ const Form = ({ form }:{ form:SurveyForm }) => {
       ...prev,
       [e.target.name]:e.target.value
     }))
-    await updatedSurveyTitleAndDesc(form.id,inputValue )
+    
+  };
+
+  const saveFormTitleAndDescription = async () => {
+    await updatedSurveyTitleAndDesc(form.id, inputValue )
     mutate()
   };
 
@@ -270,6 +274,7 @@ const Form = ({ form }:{ form:SurveyForm }) => {
                     name="title"
                     onChange={(handleInputChange)}
                     defaultValue={form?.title}
+                    onBlur={saveFormTitleAndDescription}
                     required
                     className="text-3xl outline-none font-bold capitalize border-b 
                 focus:border-b-2 border-gray-200 pt-3 pb-2 w-full focus:border-[#29A0B1]"
@@ -281,6 +286,7 @@ const Form = ({ form }:{ form:SurveyForm }) => {
                     name="description"
                     onChange={handleInputChange}
                     defaultValue={form?.description}
+                    onBlur={saveFormTitleAndDescription}
                     required
                     placeholder="Form Description"
                     className="text-base outline-none font-medium capitalize border-b 
