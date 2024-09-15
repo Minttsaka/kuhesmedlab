@@ -31,7 +31,7 @@ export default async function page({params:{id}}:{params:{id:string}}) {
 
   const formTitle = form?.title || 'Untitled Form';
   const formDescription = form?.description || 'Fill out this form to participate';
-  const formUrl = `https://kuhesmedlab.vercel.app/survey/${id}`;
+  const formUrl = `https://kuhesmedlab.vercel.app/mw/survey/create/${id}`;
   const imageUrl = form?.img;
 
 

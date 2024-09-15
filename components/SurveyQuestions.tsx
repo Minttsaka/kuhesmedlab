@@ -1,6 +1,6 @@
 'use client'
 
-import { use, useCallback, useEffect, useState } from 'react'
+import React, { use, useCallback, useEffect, useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
@@ -38,6 +38,7 @@ export default function SurveyQuestions({ forms, sessionid ,user }: {forms:Resea
   const [isIntro, setIsIntro] = useState<boolean>(true)
   const [isAnswered, setIsAnswered] = useState<boolean>(false)
   const [questionTimes, setQuestionTimes] = useState<Record<string, { startTime: Date | null, endTime: Date | null }>>({});
+  const [sentenceAnswer, setSentenceAnswer ] = useState<string>()
 
   const getActionToken =async()=>{
     const idFromServer= await setCookie()
@@ -111,23 +112,57 @@ export default function SurveyQuestions({ forms, sessionid ,user }: {forms:Resea
 
   }
 
-  const debouncedHandleAnswer = useCallback(debounce((answer: string) => {
-    handleAnswer(answer);
-  }, 500), []);
+  const handleSentenceAnswer = (e:React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
 
-  const handleSentenceAnswer = (answer: string) => {
-    debouncedHandleAnswer(answer);
+    setAnswers(prev => ({ ...prev, [currentQuestion.id]: e.target.value }))
+    setSentenceAnswer(e.target.value)
+  
   };
-  const handleAnswer = async (answer: string) => {
 
-    setAnswers(prev => ({ ...prev, [currentQuestion.id]: answer }))
+  const handleSentenceAnswers = async () => {
 
     const endTime = new Date();
     const currentQuestionId = currentQuestion.id;
     const startTime = questionTimes[currentQuestionId]?.startTime || new Date();
     const timeTaken = startTime ? (endTime.getTime() - startTime.getTime()) / 1000 : 0;
 
-    setAnswers(prev => ({ ...prev, [currentQuestionId]: answer }));
+    setQuestionTimes(prev => ({
+      ...prev,
+      [currentQuestionId]: {
+        ...prev[currentQuestionId],
+        endTime: endTime
+      }
+    }));
+
+    try {
+      await axios.post('/api/answer',{
+       answer:sentenceAnswer,
+       userId:id,
+       questionId:currentQuestion.id,
+       startTime,
+       endTime, 
+       timeTaken 
+       
+      })
+      aiAnalysis()
+    } catch (error) {
+      
+    } finally{
+      setIsAnswered(true)
+    }
+   
+    localStorage.setItem(forms.title, (currentQuestionIndex + 1).toString());
+    
+  }
+
+  const handleAnswer = async (answer: string) => {
+
+    
+
+    const endTime = new Date();
+    const currentQuestionId = currentQuestion.id;
+    const startTime = questionTimes[currentQuestionId]?.startTime || new Date();
+    const timeTaken = startTime ? (endTime.getTime() - startTime.getTime()) / 1000 : 0;
 
     setQuestionTimes(prev => ({
       ...prev,
@@ -204,7 +239,8 @@ export default function SurveyQuestions({ forms, sessionid ,user }: {forms:Resea
             <Input
               id="answer"
               placeholder="Type your answer here"
-              onChange={(e) => handleSentenceAnswer(e.target.value)}
+              onChange={handleSentenceAnswer}
+              onBlur={handleSentenceAnswers}
             />
           </div>
         )
@@ -229,7 +265,8 @@ export default function SurveyQuestions({ forms, sessionid ,user }: {forms:Resea
             <Textarea
               id="answer"
               placeholder="Type your answer here"
-              onChange={(e) => handleSentenceAnswer(e.target.value)}
+              onChange={handleSentenceAnswer}
+              onBlur={handleSentenceAnswers}
             />
           </div>
         )

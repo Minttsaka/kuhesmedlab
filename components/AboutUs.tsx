@@ -59,7 +59,7 @@ export default function AboutUs({users, publications}:{users:number, publication
 
                 </div>
             </div>
-            <img alt='kuh' src='/kuh.png' />
+            <img alt='kuh' src='/img/kuh.png' />
         </div>
       
     </div>

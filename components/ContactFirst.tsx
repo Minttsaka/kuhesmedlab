@@ -264,13 +264,8 @@ export default function ContactFirst() {
           <div className="bg-white p-12 rounded-3xl shadow-2xl">
             <h2 className="text-3xl font-bold mb-8 text-indigo-900">Why Choose Kuhesmedlab?</h2>
             <p className="text-lg text-gray-700 mb-6">
-              At Kuhesmedlab, we are committed to advancing healthcare through precision diagnostics. Our team of expert pathologists, technicians, and medical professionals work tirelessly to provide you with accurate, timely, and comprehensive medical laboratory services.
-            </p>
-            <p className="text-lg text-gray-700 mb-6">
-              We understand that behind every test is a person anxiously awaiting results. Thats why we combine our technical expertise with a compassionate approach, ensuring that you receive not just numbers, but clarity and peace of mind.
-            </p>
-            <p className="text-lg text-gray-700">
-              From routine blood work to complex genetic testing, Kuhesmedlab is your trusted partner in health. Experience the difference of a lab that cares as much about your health as you do.
+              Our team at KUHESMedLab is comprised of highly trained professionals with extensive
+              experience in the medical laboratory field and well competent tech experts.
             </p>
           </div>
         </FadeInSection>

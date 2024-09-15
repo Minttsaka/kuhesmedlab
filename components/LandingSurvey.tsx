@@ -10,6 +10,9 @@ import { Avatar, AvatarImage } from './ui/avatar'
 export default async function LandingSurvey() {
 
   const forms = await prisma.surveyForm.findMany({
+    where:{
+      status:"active"
+    },
     orderBy:{
       createdAt:"desc"
     },

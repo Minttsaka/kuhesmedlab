@@ -48,7 +48,7 @@ export default function SurveyHeader({id}:{id:string}) {
                       alt="Avatar"
                       className="rounded-full"
                       height="32"
-                      src={user?.image!}
+                      src={user?.image! ?? '/img/avatar.png'}
                       style={{
                         aspectRatio: "32/32",
                         objectFit: "cover",

@@ -22,5 +22,5 @@ export default withAuth(
 )
 
 export const config = {
-  matcher: ['/mw/((?!api|_next/static|_next/image|favicon.ico).*)'],
+  matcher: ['/mw/((?!api|_next/static|_next/image|favicon.ico).*)','/community/settings'],
 }

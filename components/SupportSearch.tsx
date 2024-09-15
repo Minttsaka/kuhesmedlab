@@ -139,7 +139,9 @@ export default function SupportSearch({supportList, searchQuery }:{searchQuery:s
           </ul>
         </div>
       ) : searchQuery && (
-        <p className="text-gray-500">No results found. Try different keywords or rephrase your query.</p>
+        <div className='flex h-screen justify-center items-center'>
+          <p className="text-gray-500">No results found. Try different keywords or rephrase your query.</p>
+        </div>
       )}
     </div>
   )

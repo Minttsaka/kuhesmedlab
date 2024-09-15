@@ -155,23 +155,7 @@ export default function SupportPage({supports,popularSupport}:{supports:Support[
         <section className="mb-12">
           <h2 className="text-xl font-semibold mb-4 text-blue-800">Video Tutorials</h2>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-            {[
-              'NGS Data Analysis Workflow',
-              'Biomarker Discovery Techniques',
-              'Integrating Clinical Data'
-            ].map((title) => (
-              <Card key={title} className="overflow-hidden">
-                <CardContent className="p-0">
-                  <div className="aspect-video bg-blue-200 flex items-center justify-center">
-                    <PlayCircle size={48} className="text-blue-600" />
-                  </div>
-                  <div className="p-4">
-                    <h3 className="font-semibold text-blue-700">{title}</h3>
-                    <p className="text-sm text-blue-600">Learn advanced techniques for medical research</p>
-                  </div>
-                </CardContent>
-              </Card>
-            ))}
+            <iframe width="560" height="315" src="https://www.youtube.com/embed/kLxNJzGCzt8?si=ECyoyBP_xPxcxs4b" title="YouTube video player" frameBorder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerPolicy="strict-origin-when-cross-origin" allowFullScreen></iframe>
           </div>
         </section>
 
