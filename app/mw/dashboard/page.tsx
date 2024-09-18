@@ -35,9 +35,8 @@ export default async function page() {
   return (
     <div>
         <DashboardNav />
-        {!user?.bio && <BioPractice />}
         <DashboardCarousel blog={blog!} />
-        <DashboardSolutions />
+        <DashboardSolutions bio={user?.bio!} />
         <DashboardTraining blog={blog!} />
         
         <BlogList blog={blog!}/>

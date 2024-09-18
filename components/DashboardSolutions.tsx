@@ -3,8 +3,13 @@ import { Card, CardContent } from './ui/card'
 import { Button } from './ui/button'
 import { Badge } from './ui/badge'
 import Link from 'next/link'
+import BioPractice from './BioPractice'
 
-export default function DashboardSolutions() {
+export default function DashboardSolutions({bio}:{bio:string}) {
+
+    if(!bio || bio===undefined || bio===""){
+        return <BioPractice />
+    }
   return (
     <div className='my-10'>
         <div className='container mx-auto space-y-5 mb-5'>
