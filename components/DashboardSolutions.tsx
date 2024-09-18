@@ -1,4 +1,6 @@
-import React from 'react'
+"use client"
+
+import React, { useState } from 'react'
 import { Card, CardContent } from './ui/card'
 import { Button } from './ui/button'
 import { Badge } from './ui/badge'
@@ -6,12 +8,15 @@ import Link from 'next/link'
 import BioPractice from './BioPractice'
 
 export default function DashboardSolutions({bio}:{bio:string}) {
+    const [isBio, setIsBio ] = useState(true)
 
     if(!bio || bio===undefined || bio===""){
-        return <BioPractice />
+        setIsBio(false)
     }
+    
   return (
     <div className='my-10'>
+        {!isBio && <BioPractice /> }
         <div className='container mx-auto space-y-5 mb-5'>
             <h2 className='text-3xl font-sans'>
                 Your Products
