@@ -42,7 +42,7 @@ const characterVariants = {
   excited: { rotate: [-5, 5, -5, 5, 0], transition: { duration: 0.5 } },
 }
 
-export default function BioPractice() {
+export default function BioPractice({setIsBio}:{setIsBio:React.Dispatch<React.SetStateAction<boolean>>}) {
   const [currentMessageIndex, setCurrentMessageIndex] = useState(0)
   const [userName, setUserName] = useState('')
   const scrollAreaRef = useRef<HTMLDivElement>(null)
@@ -88,6 +88,7 @@ export default function BioPractice() {
     });
     if (result.data==="success") {
       toast.success("Thank you.");
+      setIsBio(true)
       router.refresh()
       return;
     }

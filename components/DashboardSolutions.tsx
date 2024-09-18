@@ -20,7 +20,7 @@ export default function DashboardSolutions({bio}:{bio:string}) {
     
   return (
     <div className='my-10'>
-        {!isBio && <BioPractice /> }
+        {!isBio && <BioPractice setIsBio={setIsBio!}  /> }
         <div className='container mx-auto space-y-5 mb-5'>
             <h2 className='text-3xl font-sans'>
                 Your Products
