@@ -1,6 +1,6 @@
 "use client"
 
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Card, CardContent } from './ui/card'
 import { Button } from './ui/button'
 import { Badge } from './ui/badge'
@@ -10,9 +10,13 @@ import BioPractice from './BioPractice'
 export default function DashboardSolutions({bio}:{bio:string}) {
     const [isBio, setIsBio ] = useState(true)
 
-    if(!bio || bio===undefined || bio===""){
-        setIsBio(false)
-    }
+    useEffect(()=>{
+        if(!bio || bio===undefined || bio===""){
+            setIsBio(false)
+        }
+    },[])
+
+   
     
   return (
     <div className='my-10'>
