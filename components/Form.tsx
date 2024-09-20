@@ -226,7 +226,7 @@ const Form = ({ form }:{ form:SurveyForm }) => {
           </div>
         </div>
         <div className="flex items-center gap-2">
-          {form.status==="active" && <FunctionalShareButton url={`https://kuhesmedlab.vercel.app/mw/survey/create/${form.id}`}
+          {form.status==="active" && <FunctionalShareButton url={`https://kuhesmedlab.vercel.app/survey/${form.id}`}
           title={form.title}
           description={form.description}
           />}
