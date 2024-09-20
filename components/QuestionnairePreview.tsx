@@ -47,7 +47,7 @@ const SurveyAnswerDisplay: React.FC<{ question: Question, index:number, identity
           labels:labelling,
           datasets: [
             {
-              label: 'Number of Responses',
+              label: 'Rating',
               data:dataLabels,
               backgroundColor: 'rgba(75, 192, 192, 0.6)',
               borderColor: 'rgba(75, 192, 192, 1)',
@@ -178,7 +178,7 @@ const SurveyAnswerDisplay: React.FC<{ question: Question, index:number, identity
                   }
                     <div className="flex justify-between items-center">
                       <span className="text-lg">{choice.answer}:</span>
-                      <span className="text-lg font-semibold">{question.choices.map(choice=>choice.answer===choice.answer).length} ({((question.choices.map(choice=>choice.answer===choice.answer).length / totalMCResponses) * 100).toFixed(1)}%)</span>
+                      <span className="text-lg font-semibold">{question.choices.filter(choice => choice.answer === choice.answer).length} ({((question.choices.filter(choice => choice.answer === choice.answer).length / totalMCResponses) * 100).toFixed(1)}%)</span>
                     </div>
                   </div>
                 ))}
@@ -306,7 +306,6 @@ interface SurveyPreviewModalProps {
 
 export default function SurveyPreviewModal({survey , title, description, identity}: SurveyPreviewModalProps) {
 
-  console.log(survey,"this is survey")
   return (
     <Dialog>
       <DialogTrigger asChild>

@@ -1,6 +1,6 @@
 "use client"
 
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { Bar } from 'react-chartjs-2'
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import {
@@ -12,6 +12,7 @@ import {
   Tooltip,
   Legend,
 } from 'chart.js'
+import { surveyAnalysis } from '@/lib/actions'
 
 ChartJS.register(
   CategoryScale,
@@ -24,11 +25,37 @@ ChartJS.register(
 
 interface SurveyMetrics {
   totalResponses: number
-  averageCompletionRate: number
-  averageTimeToComplete: number
+  completionRate: number
+  averageTimeTakenInMinutes: string
 }
 
-const SurveyBarAnalysis: React.FC<{ metrics: SurveyMetrics }> = ({ metrics }) => {
+const SurveyBarAnalysis: React.FC<{surveyId:string}> = ({surveyId}) => {
+
+  const [datas, setDatas] = useState<SurveyMetrics>()
+
+  useEffect(()=>{
+
+    const fetchData = async () => {
+    const {
+    completionRate,
+    totalResponses,
+    averageTimeTakenInMinutes
+  } = await surveyAnalysis(surveyId)
+
+  const allInfo = {
+    completionRate,
+    totalResponses,
+    averageTimeTakenInMinutes
+  }
+
+  setDatas(allInfo)
+
+}
+
+fetchData()
+  },[])
+
+
   const data = {
     labels: [
       'Total Responses',
@@ -39,9 +66,9 @@ const SurveyBarAnalysis: React.FC<{ metrics: SurveyMetrics }> = ({ metrics }) =>
       {
         label: 'Survey Metrics',
         data: [
-          metrics.totalResponses,
-          metrics.averageCompletionRate,
-          metrics.averageTimeToComplete,
+          datas?.totalResponses,
+          datas?.completionRate,
+          datas?.averageTimeTakenInMinutes,
         ],
         backgroundColor: [
           'rgba(255, 99, 132, 0.6)',

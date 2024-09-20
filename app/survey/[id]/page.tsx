@@ -9,19 +9,59 @@ import { getServerSession } from 'next-auth';
 import { User } from '@prisma/client';
 import { redirect } from 'next/navigation';
 import { setCookie } from '@/lib/actions';
-import Head from 'next/head';
+import { Metadata, ResolvingMetadata } from 'next'
+import { headers } from 'next/headers'
 
+type Props = {
+  params: { id: string }
+  searchParams: { [key: string]: string | string[] | undefined }
+}
 
-export default async function page({params:{id}}:{params:{id:string}}) {
+export async function generateMetadata(
+  { params, searchParams }: Props,
+  parent: ResolvingMetadata
+): Promise<Metadata> {
+  // read route params
+  const id = params.id
 
-  const session:any = await getServerSession(authOptions);
-    const user = (session?.user as User );
+  // fetch data
+  const product = await fetchProduct(id)
 
-  const cookieStore = cookies()
-  const cookie = cookieStore.get('sessionId')
-  let sessionId = cookie?.value
+  // optionally access and extend (rather than replace) parent metadata
+  const previousImages = (await parent).openGraph?.images || []
 
-  const forms = await prisma.surveyForm.findUnique({
+  return {
+    title: product?.title,
+    description: product?.description,
+    openGraph: {
+      title: product?.title,
+      description: product?.description,
+      url: `${process.env.NEXTAUTH_URL}/survey/${id}`,
+      siteName: 'KUHESMEDLAB',
+      images: [
+        {
+          url: product?.img!,
+          width: 800,
+          height: 600,
+          alt: product?.title,
+        },
+        ...previousImages,
+      ],
+      locale: 'en_US',
+      type: 'website',
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: product?.title,
+      description: product?.description,
+      images: [product?.img!],
+    },
+  }
+}
+
+async function fetchProduct(id: string) {
+
+  return await prisma.surveyForm.findUnique({
     where:{
       id
     },
@@ -34,39 +74,24 @@ export default async function page({params:{id}}:{params:{id:string}}) {
       }
     }
   })
+}
+
+export default async function page({params:{id}}:{params:{id:string}}) {
+
+  const session:any = await getServerSession(authOptions);
+    const user = (session?.user as User );
+
+  const cookieStore = cookies()
+  const cookie = cookieStore.get('sessionId')
+  let sessionId = cookie?.value
+
+  const forms = await fetchProduct(id)
 
   if(forms?.identity && user){
     sessionId=user?.id
   }
 
-  const formTitle = forms?.title || 'Untitled Form';
-  const formDescription = forms?.description || 'Fill out this form to participate';
-  const formUrl = `https://kuhesmedlab.vercel.app/mw/survey/create/${id}`;
-  const imageUrl = forms?.img;
-
-
   return (
-    <>
-      <Head>
-        <title>{formTitle}</title>
-        <meta name="description" content={formDescription} />
-        <meta property="og:title" content={formTitle} />
-        <meta property="og:description" content={formDescription} />
-        <meta property="og:url" content={formUrl} />
-        <meta property="og:image" content={imageUrl!} />
-        <meta property="og:type" content="website" />
-        <meta property="og:site_name" content="Your Website" />
-        <meta property="fb:app_id" content="your-facebook-app-id" /> {/* Optional: Facebook App ID */}
-        <meta property="og:locale" content="en_US" />
-
-        {/* Twitter Card Metadata */}
-        <meta name="twitter:card" content="summary_large_image" />
-        <meta name="twitter:title" content={formTitle} />
-        <meta name="twitter:description" content={formDescription} />
-        <meta name="twitter:image" content={imageUrl!} />
-        <meta name="twitter:url" content={formUrl} />
-      </Head>
-      <SurveyQuestions forms={forms!} sessionid={sessionId! } user={user} />
-    </>
+    <SurveyQuestions forms={forms!} sessionid={sessionId! } user={user} />
   )
 }

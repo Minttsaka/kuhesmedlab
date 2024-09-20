@@ -12,18 +12,24 @@ import axios from 'axios'
 import { useSession } from 'next-auth/react'
 import { useToast } from './ui/use-toast'
 import { useRouter } from 'next/navigation'
+import { Prisma, SurveyForm } from '@prisma/client'
+import { surveyAnalysis } from '@/lib/actions'
 
-type DataItem = {
-  responses:number,
-  title: string;
-  label:string,
-  importance: string;
-  completionRate: number;
-  avgTime: number;
-  sentiment:string;
-};
+type SurveyItem = Prisma.SurveyGetPayload<{
+  include:{
+    surveyForm:{
+      include:{
+        questions:{
+          include:{
+            choices:true
+          }
+        }
+      }
+    }
+  }
+}>
 
-export default function SurveyOverallAnalysis({formData, aiAnalyze}:{formData:DataItem[],aiAnalyze:string}) {
+export default function SurveyOverallAnalysis({survey, aiAnalyze}:{survey:SurveyItem,aiAnalyze:string}) {
   const [sortBy, setSortBy] = useState('responses')
   const [sortOrder, setSortOrder] = useState('desc')
   const [filterImportance, setFilterImportance] = useState('all')
@@ -31,6 +37,39 @@ export default function SurveyOverallAnalysis({formData, aiAnalyze}:{formData:Da
   const [aiAnalysis, setAiAnalysis] = useState('')
   const [message, setMessage] = useState('')
   const [isSubmitting, setIsSubmitting] = useState(false)
+
+  const [datas, setData] = useState<{
+    completionRate:number,
+    totalResponses:number,
+    averageTimeTakenInMinutes:string
+    }>()
+
+
+  useEffect(()=>{
+
+    const fetchData = async () => {
+    const {
+    completionRate,
+    totalResponses,
+    demographicData,
+    responseTrends,
+    averageTimeTakenInMinutes
+  } = await surveyAnalysis(survey.id)
+
+  const allInfo = {
+    completionRate,
+    totalResponses,
+    demographicData,
+    responseTrends,
+    averageTimeTakenInMinutes
+  }
+
+  setData(allInfo)
+
+}
+
+fetchData()
+  },[])
 
   const {data:session } = useSession()
   const user = session?.user
@@ -40,12 +79,12 @@ export default function SurveyOverallAnalysis({formData, aiAnalyze}:{formData:Da
   const COLORS = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042', '#A28DFF']
 
  
-  const filteredData = formData
+  const filteredData = survey.surveyForm
     .filter(survey => filterImportance === 'all' || survey.importance === filterImportance)
     .sort((a, b) => {
       const order = sortOrder === 'asc' ? 1 : -1;
-      const aValue = a[sortBy as keyof DataItem];
-      const bValue = b[sortBy as keyof DataItem];
+      const aValue = a[sortBy as keyof SurveyForm];
+      const bValue = b[sortBy as keyof SurveyForm];
   
       if (typeof aValue === 'number' && typeof bValue === 'number') {
         return (aValue - bValue) * order;
@@ -56,29 +95,21 @@ export default function SurveyOverallAnalysis({formData, aiAnalyze}:{formData:Da
       return 0; 
     })
 
-  const totalResponses = formData.reduce((sum, survey) => sum + survey.responses, 0)
-  const avgCompletionRate = formData.reduce((sum, survey) => sum + survey.completionRate, 0) / formData.length
-  const avgTimeMinutes = formData.reduce((sum, survey) => sum + survey.avgTime, 0) / formData.length
-
-  const barChartData = {
-    labels: filteredData.map(survey => survey.title),
-    datasets: [
-      {
-        label: 'Responses',
-        data: filteredData.map(survey => survey.responses),
-        backgroundColor: 'rgba(53, 162, 235, 0.5)',
-      },
-    ],
-  }
+    let totalResponses = 0;
+    survey.surveyForm.forEach(form => {
+      form.questions.forEach(question => {
+        totalResponses += question.choices.length;
+      });
+    })
 
   const pieChartData = {
     labels: ['High', 'Medium', 'Low'],
     datasets: [
       {
         data: [
-          formData.filter(s => s.importance === 'high').length,
-          formData.filter(s => s.importance === 'medium').length,
-          formData.filter(s => s.importance === 'low').length,
+          survey.surveyForm.filter(s => s.importance === 'high').length,
+          survey.surveyForm.filter(s => s.importance === 'medium').length,
+          survey.surveyForm.filter(s => s.importance === 'low').length,
         ],
         backgroundColor: ['#FF6384', '#36A2EB', '#FFCE56'],
         hoverBackgroundColor: ['#FF6384', '#36A2EB', '#FFCE56'],
@@ -184,14 +215,14 @@ export default function SurveyOverallAnalysis({formData, aiAnalyze}:{formData:Da
                 {filteredData.map((survey, index) => (
                   <tr key={index} className="border-b last:border-b-0">
                     <td className="py-2 px-4 line-clamp-1">{survey.label}</td>
-                    <td className="py-2 px-4">{survey.responses.toLocaleString()}</td>
+                    <td className="py-2 px-4">{totalResponses}</td>
                     <td className="py-2 px-4">
                       <Badge variant={survey.importance}>{survey.importance}</Badge>
                     </td>
-                    <td className="py-2 px-4">{survey.completionRate}%</td>
-                    <td className="py-2 px-4">{survey.avgTime} sec</td>
+                    <td className="py-2 px-4">{datas?.completionRate}%</td>
+                    <td className="py-2 px-4">{datas?.averageTimeTakenInMinutes} sec</td>
                     <td className="py-2 px-4">
-                      {survey.sentiment}
+                      No data
                     </td>
                     
                   </tr>
@@ -215,7 +246,7 @@ export default function SurveyOverallAnalysis({formData, aiAnalyze}:{formData:Da
                 animate={{ opacity: 1 }}
                 transition={{ duration: 0.5 }}
               >
-                <div dangerouslySetInnerHTML={{ __html: aiAnalyze }} />                
+                <div dangerouslySetInnerHTML={{ __html: aiAnalyze! }} />                
               </motion.div>
               }
           </div>
