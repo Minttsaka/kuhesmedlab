@@ -40,7 +40,7 @@ export default function Notifications() {
 
 
 
-  const unreadCount =  data?.filter(n => n.status==="READ").length
+  const unreadCount =  data?.filter(n => n.status==="UNREAD").length
 
   const filteredNotifications = data?.filter(notification => {
     const matchesSearch = notification.title.toLowerCase().includes(searchTerm.toLowerCase()) ||

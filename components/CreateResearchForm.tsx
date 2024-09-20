@@ -81,13 +81,13 @@ function ResearchCard({ item, id }: { item: Research; id: string }) {
         <CardDescription className="text-sm text-blue-400">{item.status}</CardDescription>
       </CardHeader>
       <CardContent className="text-sm text-gray-500">
-        <p className='line-clamp-1'><span className="font-semibold">Journal:</span> {item.journal}</p>
+        {item?.journal && <p className='line-clamp-1'><span className="font-semibold">Journal:</span> {item.journal}</p>}
         {item.Published && <p><span className="font-semibold">Published Date:</span> {item.publicationDate?.toDateString()}</p>}
         <p className='line-clamp-1'><span className="font-semibold">Field:</span> {item.field}</p>
-        <p className='line-clamp-1'><span className="font-semibold">Volume:</span> {item.volume}, <span className="font-semibold">Issue:</span> {item.issue}</p>
+        {item.issue && <p className='line-clamp-1'><span className="font-semibold">Volume:</span> {item.volume}, <span className="font-semibold">Issue:</span> {item.issue}</p>}
         <p className='line-clamp-1'><span className="font-semibold">Affiliation:</span> {item.affiliation}</p>
         <p className='line-clamp-1'><span className="font-semibold">Year Created:</span> {item.createdAt.toDateString()}</p>
-        <p className='line-clamp-1'> <span className="font-semibold">DOI:</span> {item.doi}</p>
+       {item?.doi && <p className='line-clamp-1'> <span className="font-semibold">DOI:</span> {item.doi}</p>}
         <a
           href={`/mw/publication/${item.id}`}
 

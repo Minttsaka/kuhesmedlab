@@ -9,6 +9,7 @@ import { getServerSession } from 'next-auth';
 import { User } from '@prisma/client';
 import { redirect } from 'next/navigation';
 import { setCookie } from '@/lib/actions';
+import Head from 'next/head';
 
 
 export default async function page({params:{id}}:{params:{id:string}}) {
@@ -38,9 +39,34 @@ export default async function page({params:{id}}:{params:{id:string}}) {
     sessionId=user?.id
   }
 
+  const formTitle = forms?.title || 'Untitled Form';
+  const formDescription = forms?.description || 'Fill out this form to participate';
+  const formUrl = `https://kuhesmedlab.vercel.app/mw/survey/create/${id}`;
+  const imageUrl = forms?.img;
+
+
   return (
-    <div>
+    <>
+      <Head>
+        <title>{formTitle}</title>
+        <meta name="description" content={formDescription} />
+        <meta property="og:title" content={formTitle} />
+        <meta property="og:description" content={formDescription} />
+        <meta property="og:url" content={formUrl} />
+        <meta property="og:image" content={imageUrl!} />
+        <meta property="og:type" content="website" />
+        <meta property="og:site_name" content="Your Website" />
+        <meta property="fb:app_id" content="your-facebook-app-id" /> {/* Optional: Facebook App ID */}
+        <meta property="og:locale" content="en_US" />
+
+        {/* Twitter Card Metadata */}
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content={formTitle} />
+        <meta name="twitter:description" content={formDescription} />
+        <meta name="twitter:image" content={imageUrl!} />
+        <meta name="twitter:url" content={formUrl} />
+      </Head>
       <SurveyQuestions forms={forms!} sessionid={sessionId! } user={user} />
-    </div>
+    </>
   )
 }

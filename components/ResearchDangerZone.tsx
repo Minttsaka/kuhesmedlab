@@ -76,7 +76,7 @@ export default function ResearchDangerZone({id, status}:{id:string, status:strin
   }
 
   return (
-    <div className="p-8 w-full grid md:grid-cols-2" id='danger'>
+    <div className="w-full grid md:grid-cols-2" id='danger'>
       <motion.div
         className="w-full max-w-2xl bg-white rounded-lg shadow-lg overflow-hidden"
         initial={{ opacity: 0, y: 20 }}
@@ -120,7 +120,7 @@ export default function ResearchDangerZone({id, status}:{id:string, status:strin
         </div>
       </motion.div>
      {status==="DEVELOPMENT" && <RequestApproval id={id!} />}
-     {status==="PENDING" && <ResearchStatus />}
+     {status==="PENDING" && <ResearchStatus id={id!} />}
 
       <AnimatePresence>
         {showDialog && (

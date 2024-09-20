@@ -616,7 +616,7 @@ export const inviteCollaboratior = async(id:string,collaborators:User[])=>{
     const session:any = await getServerSession(authOptions);
     const user= (session.user as User);
 
-    const url = `http:localhost:3000/invite/${id}`
+    const url = `${process.env.NEXTAUTH_URL}/mw/invite/${id}`
 
   try {
 
@@ -698,13 +698,14 @@ export const inviteCollaboratior = async(id:string,collaborators:User[])=>{
                     }
                     .cta-button:hover {
                         background-color: #0056b3;
+                        color:white;
                     }
                 </style>
             </head>
             <body>
                 <div class="email-container">
                     <div class="email-header">
-                        <img src=${user.image} alt="Sender's Image">
+                        <img src=${user.image! ?? "https://kuhesmedlab.vercel.app/img/official-logo.png"} alt="Sender's Image">
                     </div>
                     <div class="email-body">
                         <h1>Hello, ${collaborator.name}!</h1>
@@ -715,7 +716,7 @@ export const inviteCollaboratior = async(id:string,collaborators:User[])=>{
                             Your expertise and insights would be incredibly valuable to this initiative. If you're interested, please click the button below to learn more about the project and how we can work together:
                         </p>
                         <p style="text-align: center;">
-                            <a href="/invite/${id}" class="cta-button">Join the Research Collaboration</a>
+                            <a href="${process.env.NEXTAUTH_URL}/mw/invite/${id}" class="cta-button">Join the Research Collaboration</a>
                         </p>
                         <p>
                             Should you have any questions, feel free to reach out to me directly at ${user.email}. I look forward to your positive response.
@@ -1457,12 +1458,29 @@ export async function deleteNotification(id:string) {
       },
       
     })
-
-
     return "success"
 
   } catch (error: any) {
     console.error("Error creating form:", error);
+    return false
+  }
+}
+
+export async function changeStatus(id:string, data:any) {
+
+  try {
+
+    await prisma.research.update({
+      where:{
+        id
+      },
+      data
+      
+    })
+    return "success"
+
+  } catch (error: any) {
+    console.error("Error updating:", error);
     return false
   }
 }

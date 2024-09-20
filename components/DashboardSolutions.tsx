@@ -15,8 +15,6 @@ export default function DashboardSolutions({bio}:{bio:string}) {
             setIsBio(false)
         }
     },[])
-
-   
     
   return (
     <div className='my-10'>

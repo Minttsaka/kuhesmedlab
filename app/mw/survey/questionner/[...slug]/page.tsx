@@ -305,6 +305,7 @@ const formData = surveyForms.map(form => {
 
   return {
     title: form.title,
+    label:form.label,
     responses: totalResponses,
     importance: form.importance,
     completionRate: parseFloat(completionRate.toFixed(2)),

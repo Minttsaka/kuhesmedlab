@@ -58,6 +58,10 @@ export default function SigninForm() {
 
   const {data:session , status, } =useSession()
 
+  if(loginSuccess){
+    router.refresh()
+  }
+
 
 
   if (status ==="loading") {
@@ -100,7 +104,6 @@ export default function SigninForm() {
           variant: "default",
         })
         setLoginSuccess(true)
-        
         router.push(callbackUrl)
       }
      

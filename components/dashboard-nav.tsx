@@ -77,7 +77,7 @@ export async function DashboardNav() {
   return (
     <header>
      <div className="bg-gradient-to-r from-purple-300 to-blue-400">
-        {firstResearch && <Link href={`/blog/read/${blog?.slug}`} className="container text-xs flex items-center mx-auto">
+        {blog && <Link href={`/blog/read/${blog?.slug}`} className="container text-xs flex items-center mx-auto">
           <p className="font-bold p-2   gap-2 text-white">{blog?.title}</p>
           <ArrowRight className="h-3 w-3 text-white" />
         </Link>}

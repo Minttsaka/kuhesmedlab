@@ -102,7 +102,7 @@ const [isOPen, setIsOpen] = useState(false)
         className="w-full fixed inset-0 max-w-md z-50  h-screen overflow-hidden lg:rounded-r-2xl bg-black/70 backdrop-blur-sm shadow-2xl"
       >
          <ParticleBackground />
-        <div className="relative backdrop-blur-md bg-white bg-opacity-10 p-8">
+        <div className="relative backdrop-blur-md bg-white bg-opacity-10 h-full p-8">
             <div className='flex items-center justify-between'>
             {/* <GroupMembers /> */}
             <XIcon onClick={()=>setIsOpen(false)} className='text-white'/>

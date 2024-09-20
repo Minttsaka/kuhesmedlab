@@ -16,6 +16,7 @@ import { useRouter } from 'next/navigation'
 type DataItem = {
   responses:number,
   title: string;
+  label:string,
   importance: string;
   completionRate: number;
   avgTime: number;
@@ -171,7 +172,7 @@ export default function SurveyOverallAnalysis({formData, aiAnalyze}:{formData:Da
             <table className="w-full">
               <thead>
                 <tr className="border-b">
-                  <th className="py-2 px-4 text-left">Title</th>
+                  <th className="py-2 px-4 text-left">Label</th>
                   <th className="py-2 px-4 text-left">Responses</th>
                   <th className="py-2 px-4 text-left">Importance</th>
                   <th className="py-2 px-4 text-left">Completion Rate</th>
@@ -182,7 +183,7 @@ export default function SurveyOverallAnalysis({formData, aiAnalyze}:{formData:Da
               <tbody>
                 {filteredData.map((survey, index) => (
                   <tr key={index} className="border-b last:border-b-0">
-                    <td className="py-2 px-4 line-clamp-1">{survey.title}</td>
+                    <td className="py-2 px-4 line-clamp-1">{survey.label}</td>
                     <td className="py-2 px-4">{survey.responses.toLocaleString()}</td>
                     <td className="py-2 px-4">
                       <Badge variant={survey.importance}>{survey.importance}</Badge>

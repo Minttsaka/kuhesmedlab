@@ -410,9 +410,9 @@ function StatusBadge({ status }:{ status:string }) {
 
 function ImportanceDot({ importance }:{ importance:string }) {
   const colors = {
-    high: 'bg-red-500',
+    high: 'bg-green-500',
     medium: 'bg-yellow-500',
-    low: 'bg-green-500'
+    low: 'bg-red-500'
   }
 
   const selectedColor = colors[importance as keyof typeof colors];

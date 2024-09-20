@@ -28,6 +28,15 @@ type Question = Prisma.SurveyFormQuestionGetPayload<{
 }>
 
 const SurveyAnswerDisplay: React.FC<{ question: Question, index:number, identity:boolean }> = ({ question , index, identity}) => {
+
+  const dataLabels = question.choices.map(choice => choice.answer)
+
+  const uniqueAnswers = Array.from(new Set(question.choices.map(choice => choice.answer)));
+
+  const labelling = uniqueAnswers.map(answer => {
+    return question.choices.filter(choice => choice.answer === answer).length;
+  });
+
   const renderAnswers = () => {
     switch (question.type) {
       case QuestionType.Rating:
@@ -35,11 +44,11 @@ const SurveyAnswerDisplay: React.FC<{ question: Question, index:number, identity
         const averageRating = question.choices.reduce((acc, curr) => acc + (parseInt(curr.answer) * curr.answer.length), 0) / totalResponses;
         
         const chartData = {
-          labels: question.choices.map(choice => choice.answer),
+          labels:labelling,
           datasets: [
             {
               label: 'Number of Responses',
-              data: question.choices.map(choice => choice.answer.length),
+              data:dataLabels,
               backgroundColor: 'rgba(75, 192, 192, 0.6)',
               borderColor: 'rgba(75, 192, 192, 1)',
               borderWidth: 1,
@@ -98,13 +107,19 @@ const SurveyAnswerDisplay: React.FC<{ question: Question, index:number, identity
 
       case QuestionType.Multiple_Choice:
         const totalMCResponses = question.choices.length;
+
+        const labels = question.choices.map(choice => choice.answer)
+        const countArray = labels.map(answer => {
+          return question.choices.filter(choice => choice.answer === answer).length;
+        });
+        
         
         const mcChartData = {
-          labels: question.choices.map(choice => choice.answer),
+          labels,
           datasets: [
             {
               label: 'Number of Responses',
-              data: question.choices.map(choice => choice.answer.length),
+              data: countArray,
               backgroundColor: [
                 'rgba(255, 99, 132, 0.6)',
                 'rgba(54, 162, 235, 0.6)',
@@ -163,7 +178,7 @@ const SurveyAnswerDisplay: React.FC<{ question: Question, index:number, identity
                   }
                     <div className="flex justify-between items-center">
                       <span className="text-lg">{choice.answer}:</span>
-                      <span className="text-lg font-semibold">{choice.answer.length} ({((choice.answer.length / totalMCResponses) * 100).toFixed(1)}%)</span>
+                      <span className="text-lg font-semibold">{question.choices.map(choice=>choice.answer===choice.answer).length} ({((question.choices.map(choice=>choice.answer===choice.answer).length / totalMCResponses) * 100).toFixed(1)}%)</span>
                     </div>
                   </div>
                 ))}

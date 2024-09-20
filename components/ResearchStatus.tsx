@@ -4,41 +4,70 @@ import { Progress } from "@/components/ui/progress"
 import { Badge } from "@/components/ui/badge"
 import { CheckCircle, XCircle, Clock, RefreshCw } from 'lucide-react'
 import { motion } from "framer-motion"
+import { changeStatus } from '@/lib/actions'
+import { useRouter } from 'next/navigation'
 
-type Status = 'approved' | 'pending' | 'disapproved'
+type Status = "DEVELOPMENT" |"APPROVED" |"PENDING" |"DISAPPROVED"
 
-export default function ResearchStatus() {
-  const [status, setStatus] = useState<Status>('pending')
+export default async function ResearchStatus({id}:{id:string}) {
+  const [status, setStatus] = useState<Status>('PENDING')
   const [isLoading, setIsLoading] = useState(false)
 
-  const statusConfig = {
-    approved: {
-      icon: CheckCircle,
-      color: 'text-green-500',
-      bgColor: 'bg-green-100',
-      borderColor: 'border-green-500',
-      message: 'Congratulations! Your research paper has been approved.',
-    },
-    pending: {
-      icon: Clock,
-      color: 'text-yellow-500',
-      bgColor: 'bg-yellow-100',
-      borderColor: 'border-yellow-500',
-      message: 'Your research paper is currently under review.',
-    },
-    disapproved: {
-      icon: XCircle,
-      color: 'text-red-500',
-      bgColor: 'bg-red-100',
-      borderColor: 'border-red-500',
-      message: 'Unfortunately, your research paper was not approved. Please review the feedback and consider resubmitting.',
-    },
+  const router = useRouter()
+
+  const statusChange = async()=>{
+
+    const data = {
+      status:"DEVELOPMENT"
+    }
+
+    try {
+      setIsLoading(true)
+      await changeStatus(id, data)
+      router.refresh()
+    
+    } catch (error) {
+      
+    } finally{
+      setIsLoading(false)
+    }
   }
+
+  const statusConfig = {
+    DEVELOPMENT: {
+      icon:Clock,
+      color: "text-blue-500",
+      bgColor: "bg-blue-100",
+      borderColor: "border-blue-500",
+      message: "Your research paper is in development.",
+    },
+    APPROVED: {
+      icon: CheckCircle,
+      color: "text-green-500",
+      bgColor: "bg-green-100",
+      borderColor: "border-green-500",
+      message: "Congratulations! Your research paper has been approved.",
+    },
+    PENDING: {
+      icon: Clock,
+      color: "text-yellow-500",
+      bgColor: "bg-yellow-100",
+      borderColor: "border-yellow-500",
+      message: "Your research paper is currently under review.",
+    },
+    DISAPPROVED: {
+      icon: XCircle,
+      color: "text-red-500",
+      bgColor: "bg-red-100",
+      borderColor: "border-red-500",
+      message: "Unfortunately, your research paper was not approved.",
+    },
+  };
 
   const { icon: StatusIcon, color, bgColor, borderColor, message } = statusConfig[status]
 
   return (
-    <section className=" text-white px-4 sm:px-6 lg:px-8">
+    <section className=" text-white px-4 ">
       <motion.div 
         initial={{ scale: 0.9, opacity: 0 }}
         animate={{ scale: 1, opacity: 1 }}
@@ -66,6 +95,7 @@ export default function ResearchStatus() {
           <Button 
             className="bg-gradient-to-r from-blue-500 to-purple-500 hover:from-blue-600 hover:to-purple-600 text-white font-bold py-3 px-6 rounded-full shadow-lg transition duration-300 ease-in-out transform hover:-translate-y-1"
             disabled={isLoading}
+            onClick={statusChange}
           >
             <RefreshCw className={`mr-2 ${isLoading ? 'animate-spin' : ''}`} size={20} />
             {isLoading ? 'Cancelling...' : 'Cancel'}
