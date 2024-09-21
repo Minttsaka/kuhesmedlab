@@ -58,6 +58,14 @@ export default function SigninForm() {
 
   const {data:session , status } =useSession()
 
+  const {
+    register,
+    handleSubmit,
+    formState: { errors, isSubmitting },
+  } = useForm<InputType>({
+    resolver: zodResolver(FormSchema),
+  });
+
   if (status === "loading") {
     return <LoadingState />;
   }
@@ -67,13 +75,7 @@ export default function SigninForm() {
     router.push(callbackUrl)
   }
 
-  const {
-    register,
-    handleSubmit,
-    formState: { errors, isSubmitting },
-  } = useForm<InputType>({
-    resolver: zodResolver(FormSchema),
-  });
+
 
   const onSubmit: SubmitHandler<InputType> = async (data) => {
 
