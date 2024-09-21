@@ -66,15 +66,15 @@ export default function SigninForm() {
     resolver: zodResolver(FormSchema),
   });
 
-  if (status === "loading") {
-    return <LoadingState />;
-  }
-  
+  useEffect(() => {
+    if (status === 'loading') {
+      return;
+    }
 
-  if(status==="authenticated"){
-    router.push(callbackUrl)
-  }
-
+    if (status === 'authenticated') {
+      router.push(callbackUrl);
+    }
+  }, [status, router, callbackUrl]);
 
 
   const onSubmit: SubmitHandler<InputType> = async (data) => {
@@ -101,7 +101,6 @@ export default function SigninForm() {
           variant: "default",
         })
         setLoginSuccess(true)
-        router.push(callbackUrl)
       }
      
   
@@ -125,6 +124,9 @@ export default function SigninForm() {
     
   };
 
+  if (status === 'loading') {
+    return <LoadingState />;
+  }
 
   return (
     <SignupBg>
