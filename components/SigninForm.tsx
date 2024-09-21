@@ -56,17 +56,12 @@ export default function SigninForm() {
   const callbackUrl = searchParams.get('callbackUrl') || '/'
   
 
-  const {data:session , status, } =useSession()
+  const {data:session , status } =useSession()
 
-  if(loginSuccess){
-    router.refresh()
+  if (status === "loading") {
+    return <LoadingState />;
   }
-
-
-
-  if (status ==="loading") {
-    LoadingState()
-  }
+  
 
   if(status==="authenticated"){
     router.push(callbackUrl)

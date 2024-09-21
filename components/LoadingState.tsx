@@ -3,6 +3,7 @@
 import React from 'react'
 import { motion } from 'framer-motion'
 import { Avatar, AvatarImage } from './ui/avatar'
+import { Loader2 } from 'lucide-react'
 
 export function LoadingState() {
   return (
@@ -21,7 +22,7 @@ export function LoadingState() {
           animate={{ opacity: [0.5, 1, 0.5] }}
           transition={{ duration: 2, repeat: Infinity }}
         >
-          Loading...
+          <Loader2 className='animate-spin' />
         </motion.h2>
         <motion.div
           className="w-64 h-2 bg-white/30 rounded-full mx-auto overflow-hidden"
