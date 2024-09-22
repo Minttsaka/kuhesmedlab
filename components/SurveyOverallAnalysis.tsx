@@ -12,7 +12,7 @@ import axios from 'axios'
 import { useSession } from 'next-auth/react'
 import { useToast } from './ui/use-toast'
 import { useRouter } from 'next/navigation'
-import { Prisma, SurveyForm } from '@prisma/client'
+import { Prisma, SurveyForm, User } from '@prisma/client'
 import { surveyAnalysis } from '@/lib/actions'
 
 type SurveyItem = Prisma.SurveyGetPayload<{
@@ -29,7 +29,7 @@ type SurveyItem = Prisma.SurveyGetPayload<{
   }
 }>
 
-export default function SurveyOverallAnalysis({survey, aiAnalyze}:{survey:SurveyItem,aiAnalyze:string}) {
+export default function SurveyOverallAnalysis({survey, aiAnalyze, user }:{survey:SurveyItem,aiAnalyze:string, user:User}) {
   const [sortBy, setSortBy] = useState('responses')
   const [sortOrder, setSortOrder] = useState('desc')
   const [filterImportance, setFilterImportance] = useState('all')
@@ -71,8 +71,6 @@ export default function SurveyOverallAnalysis({survey, aiAnalyze}:{survey:Survey
 fetchData()
   },[])
 
-  const {data:session } = useSession()
-  const user = session?.user
   const { toast } = useToast()
   const router = useRouter()
 
@@ -131,14 +129,18 @@ fetchData()
 
     try {
       setIsSubmitting(true)
-      await axios.post('/api/notification',
-      { 
-        name, 
-        comments:message,
-        email:user?.email,
-        feedbackType:"SURVEY_ANALYSIS"
+
+    if (message.trim()) {
+      try {
+        const response = await axios.post('/api/chats', {
+            userId: user.id,
+            message: message,
+            topic: "eedback"
+        })
+      } catch (error) {
+        console.error('Error creating new chat:', error)
       }
-    )
+    }
     toast({
       title:'Success',
       description:'Successfully sent the feedback'

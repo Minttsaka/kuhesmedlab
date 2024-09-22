@@ -156,7 +156,7 @@ const SupportChat = ({user}:{user:User}) => {
                   <div className="space-y-2">
                     <Label htmlFor="topic" className="text-lg font-medium">Select a Topic</Label>
                     <RadioGroup id="topic" value={newChatTopic} onValueChange={setNewChatTopic} className="grid grid-cols-2 gap-4">
-                      {['general', 'technical', 'billing', 'feedback'].map((topic) => (
+                      {['general', 'technical', 'feedback'].map((topic) => (
                         <div key={topic}>
                           <RadioGroupItem
                             value={topic}
@@ -202,7 +202,7 @@ const SupportChat = ({user}:{user:User}) => {
                     key={chat.id}
                     className={`p-4 hover:bg-accent cursor-pointer transition-colors duration-200 ${
                       selectedChat === chat.id ? 'bg-accent' : ''
-                    }`}
+                    } ${chat.unreadCount > 0 && 'bg-yellow-100'}`}
                     onClick={() => handleChatSelect(chat.id)}
                   >
                     <div className="flex items-center space-x-3">

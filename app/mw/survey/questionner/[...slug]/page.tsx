@@ -5,7 +5,10 @@ import SurveyHeader from '@/components/SurveyHeader';
 import SurveyOverallAnalysis from '@/components/SurveyOverallAnalysis';
 import SurveyQuestionnaire from '@/components/SurveyQuestionaires';
 import SurveyQuestionnaireList from '@/components/SurveyQuestionnaireList';
+import { authOptions } from '@/lib/auth';
 import prisma from '@/lib/prisma';
+import { User } from '@prisma/client';
+import { getServerSession } from 'next-auth';
 import React from 'react'
 
 type Props = {
@@ -19,10 +22,14 @@ export default async function page({ params: { slug } }: Props) {
 
   const [surveyId, researchId] = slug
 
+  const session:any = await getServerSession(authOptions);
+  const sessionUser = (session.user as User);
+
   const [
     survey,
      research, 
-     relatedSurvey
+     relatedSurvey,
+     user
     ] = await prisma.$transaction([
 
   prisma.survey.findUnique({
@@ -50,8 +57,13 @@ export default async function page({ params: { slug } }: Props) {
     
   }),
 
+  prisma.surveyForm.findMany(),
 
-  prisma.surveyForm.findMany()
+  prisma.user.findUnique({
+    where:{
+      email:sessionUser.email
+    }
+  })
   
 
   
@@ -65,7 +77,10 @@ export default async function page({ params: { slug } }: Props) {
       <SurveyDashboard surveyId={survey?.id!}/>
       <SurveyQuestionnaire title={survey?.title!} relatedSurvey={relatedSurvey}/>
       <SurveyBarAnalysis surveyId={surveyId}/>
-      <SurveyOverallAnalysis survey={survey!} aiAnalyze={survey?.aiAnalyze!}  />      
+      <SurveyOverallAnalysis 
+        survey={survey!} 
+        aiAnalyze={survey?.aiAnalyze!}  
+        user={user!}/>      
     </div>
   )
 }
