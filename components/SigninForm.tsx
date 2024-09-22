@@ -101,8 +101,13 @@ export default function SigninForm() {
           variant: "default",
         })
         setLoginSuccess(true)
+        router.refresh()
+        if(callbackUrl){
+          router.push(callbackUrl)
+        } else{
+          router.push('/mw/dashboard') 
+        }
       }
-     
   
     } catch (error) {
       if (error instanceof Error) {

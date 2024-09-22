@@ -12,6 +12,8 @@ import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
 import { redirect } from "next/navigation";
 import dynamic from "next/dynamic";
+import { LoadingState } from "@/components/LoadingState";
+import { Suspense } from "react";
 
 /** Add fonts into your Next.js project:
 
@@ -34,8 +36,8 @@ const SigninForm = dynamic(() => import('@/components/SigninForm'), {
 export default async function page() {
 
   return (
- 
+    <Suspense fallback={<LoadingState />}>
       <SigninForm />
-         
+    </Suspense>    
   )
 }
