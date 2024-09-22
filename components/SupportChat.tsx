@@ -237,7 +237,7 @@ const SupportChat = ({user}:{user:User}) => {
                 <AvatarFallback>{chats?.find(chat => chat.id === selectedChat)?.user.name.charAt(0)}</AvatarFallback>
               </Avatar>
               <h3 className="text-lg font-semibold">
-                {chats?.find(chat => chat.id === selectedChat)?.user.name}
+                {chats?.find(chat => chat.id === selectedChat)?.topic}
               </h3>
             </div>
             <div className="flex space-x-2">

@@ -26,7 +26,7 @@ export async function GET(req: NextRequest) {
       content: message.content,
       senderId: message.senderId,
       senderName: message.sender.name,
-      timestamp: message.createdAt.toISOString(),
+      timestamp: message.createdAt.toDateString(),
     }))
 
     return NextResponse.json(formattedMessages)
@@ -82,7 +82,7 @@ export async function POST(req: NextRequest) {
       timestamp: newMessage.createdAt.toISOString(),
     })
   } catch (error) {
-    NextResponse.json({ message: 'Error sending message', error })
+    return NextResponse.json({ message: 'Error sending message', error })
   }
 }
 
