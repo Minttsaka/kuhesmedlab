@@ -266,12 +266,12 @@ const SupportChat = ({user}:{user:User}) => {
                   <li
                     key={message.id}
                     className={`flex ${
-                      message.senderId === 'user-id-1' ? 'justify-end' : 'justify-start'
+                      message.senderId === user.id ? 'justify-end' : 'justify-start'
                     }`}
                   >
                     <div
                       className={`max-w-[70%] p-3 rounded-lg ${
-                        message.senderId === 'user-id-1'
+                        message.senderId === user.id
                           ? 'bg-primary text-primary-foreground'
                           : 'bg-accent'
                       }`}
