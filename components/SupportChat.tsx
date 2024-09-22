@@ -139,8 +139,8 @@ const SupportChat = ({user}:{user:User}) => {
 
       {/* Sidebar */}
       {isSidebarOpen && (
-        <div className="absolute bottom-16 right-0 w-80 rounded-lg shadow-lg overflow-hidden">
-          <div className="p-4 border-b bg-bg-blue-900 text-primary-foreground flex justify-between items-center">
+        <div className="absolute bottom-16 bg-white right-0 w-80 rounded-lg shadow-lg overflow-hidden">
+          <div className="p-4 border-b bg-blue-900 text-primary-foreground flex justify-between items-center">
             <h2 className="text-lg font-semibold">Support Chats</h2>
             <Dialog>
               <DialogTrigger asChild>
@@ -229,8 +229,8 @@ const SupportChat = ({user}:{user:User}) => {
 
       {/* Individual Chat Popup */}
       {selectedChat && (
-        <div className="fixed bottom-4 right-96 w-96 h-[32rem] border rounded-lg shadow-lg flex flex-col">
-          <div className="p-4 border-b flex justify-between items-center bg-blue-900 text-primary-foreground">
+        <div className="fixed bottom-4 right-96 w-96 h-[32rem] rounded-lg shadow-lg flex flex-col">
+          <div className="p-4 border-b flex justify-between items-center rounded-lg bg-blue-900 text-primary-foreground">
             <div className="flex items-center space-x-3">
               <Avatar className="h-8 w-8">
                 <AvatarImage src={chats?.find(chat => chat.id === selectedChat)?.user.image ?? '/img/avatar.png'} alt={chats?.find(chat => chat.id === selectedChat)?.user.name} />
