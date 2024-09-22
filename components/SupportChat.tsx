@@ -94,22 +94,12 @@ const SupportChat = ({user}:{user:User}) => {
   const handleNewChat = async () => {
     if (newChatMessage.trim()) {
       try {
-        const response = await fetch('/api/chats/new', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ 
+        const response = await axios.post('/api/chats', {
             userId: user.id,
             message: newChatMessage,
             topic: newChatTopic
-          }),
         })
-        if (response.ok) {
-          const newChat = await response.json()
-          setNewChatMessage('')
-          setNewChatTopic('general')
-          chatMutate()
-          setSelectedChat(newChat.id)
-        }
+        chatMutate()
       } catch (error) {
         console.error('Error creating new chat:', error)
       }
