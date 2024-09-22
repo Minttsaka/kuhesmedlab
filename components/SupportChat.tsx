@@ -124,7 +124,7 @@ const SupportChat = ({user}:{user:User}) => {
               {totalUnreadCount > 0 && (
                 <Badge 
                   variant="destructive" 
-                  className="absolute -top-2 -right-2 px-2 py-1 text-xs"
+                  className="absolute bg-[green] -top-2 -right-2 px-2 py-1 text-xs"
                 >
                   {totalUnreadCount}
                 </Badge>
@@ -202,7 +202,7 @@ const SupportChat = ({user}:{user:User}) => {
                     key={chat.id}
                     className={`p-4 hover:bg-accent cursor-pointer transition-colors duration-200 ${
                       selectedChat === chat.id ? 'bg-accent' : ''
-                    } ${chat.unreadCount > 0 && 'bg-yellow-100'}`}
+                    }`}
                     onClick={() => handleChatSelect(chat.id)}
                   >
                     <div className="flex items-center space-x-3">
@@ -229,7 +229,7 @@ const SupportChat = ({user}:{user:User}) => {
 
       {/* Individual Chat Popup */}
       {selectedChat && (
-        <div className="fixed bottom-4 right-96 w-96 h-[32rem] rounded-lg shadow-lg flex flex-col">
+        <div className="fixed bottom-4 right-96 w-96 h-[32rem] rounded-lg bg-white shadow-lg flex flex-col">
           <div className="p-4 border-b flex justify-between items-center rounded-lg bg-blue-900 text-primary-foreground">
             <div className="flex items-center space-x-3">
               <Avatar className="h-8 w-8">
