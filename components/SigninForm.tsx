@@ -66,17 +66,6 @@ export default function SigninForm() {
     resolver: zodResolver(FormSchema),
   });
 
-  useEffect(() => {
-    if (status === 'loading') {
-      return;
-    }
-
-    if (status === 'authenticated') {
-      router.push(callbackUrl);
-    }
-  }, [status, router, callbackUrl]);
-
-
   const onSubmit: SubmitHandler<InputType> = async (data) => {
 
     try {
@@ -101,11 +90,10 @@ export default function SigninForm() {
           variant: "default",
         })
         setLoginSuccess(true)
-        router.refresh()
         if(callbackUrl){
-          router.push(callbackUrl)
+          window.location.href = callbackUrl;
         } else{
-          router.push('/mw/dashboard') 
+          window.location.href = callbackUrl;
         }
       }
   
