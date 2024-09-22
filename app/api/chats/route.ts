@@ -13,19 +13,38 @@ const session:any = await getServerSession(authOptions);
   try {
     const data  = await req.json();
 
-    const {name} = data
+    const { userId, message } = data
 
-    await prisma.category.create({
-     data:{
-      name,
-     creatorId:sessionUser.id
-     }
-    })
-      ;
+      if (!userId || !message) {
+        return NextResponse.json({ message: 'Missing required fields' })
+      }
 
-    return NextResponse.json(
-     "success"
-    );
+      const newChat = await prisma.chat.create({
+        data: {
+          userId: userId,
+          lastMessage: message,
+          unreadCount: 1,
+          messages: {
+            create: {
+              content: message,
+              senderId: userId,
+            },
+          },
+        },
+        include: {
+          user: {
+            select: { id: true, name: true, image: true }
+          },
+        },
+      })
+
+      return NextResponse.json({
+        id: newChat.id,
+        user: newChat.user,
+        lastMessage: newChat.lastMessage,
+        unreadCount: newChat.unreadCount,
+      })
+
   } catch (error: any) {
     console.log(error)
     throw new Error("Something went wrong");
@@ -57,8 +76,8 @@ export async function GET() {
           unreadCount: chat.unreadCount,
         }))
     
-        NextResponse.json(formattedChats)
+        return NextResponse.json(formattedChats)
       } catch (error) {
-        NextResponse.json({ message: 'Error fetching chats', error})
+        return NextResponse.json({ message: 'Error fetching chats', error})
       }
 }

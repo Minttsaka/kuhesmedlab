@@ -6,12 +6,15 @@ import { Button } from "@/components/ui/button"
 import { ScrollArea } from "@/components/ui/scroll-area"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { Input } from "@/components/ui/input"
-import { MessageCircle, X, Send, Phone, Video } from 'lucide-react'
+import { MessageCircle, X, Send, Phone, Video, Plus } from 'lucide-react'
 import { Badge } from "@/components/ui/badge"
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip"
 import axios from 'axios'
-import { useSession } from 'next-auth/react'
 import { User } from '@prisma/client'
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from './ui/dialog'
+import { Label } from './ui/label'
+import { RadioGroup, RadioGroupItem } from './ui/radio-group'
+import { Textarea } from './ui/textarea'
 
 const fetcher = async(url: string) => {
     const res = await axios.get(url)
@@ -42,13 +45,15 @@ const SupportChat = ({user}:{user:User}) => {
   const [selectedChat, setSelectedChat] = useState<string | null>(null)
   const [newMessage, setNewMessage] = useState('')
   const [totalUnreadCount, setTotalUnreadCount] = useState(0)
+  const [newChatMessage, setNewChatMessage] = useState('')
+  const [newChatTopic, setNewChatTopic] = useState('general')
 
-  const { data: chats, error: chatsError } = useSWR<Chat[]>('/api/chats', fetcher, {
+  const { data: chats, mutate:chatMutate, error: chatsError } = useSWR<Chat[]>('/api/chats', fetcher, {
     refreshInterval: 5000
   })
 
-  const { data: messages, error: messagesError } = useSWR<ChatMessage[]>(
-    selectedChat ? `/api/chats/${selectedChat}` : null,
+  const { data: messages,mutate:messageMutate, error: messagesError } = useSWR<ChatMessage[]>(
+    `/api/chats/${selectedChat}`,
     fetcher,
     { refreshInterval: 1000 }
   )
@@ -64,23 +69,49 @@ const SupportChat = ({user}:{user:User}) => {
 
   const handleChatSelect = async (chatId: string) => {
     setSelectedChat(chatId)
-    // Mark chat as read
     await axios.put(`/api/chats/${chatId}`)
-    mutate('/api/chats') // Refresh chat list
+    messageMutate()
   }
 
   const handleSendMessage = async () => {
     if (newMessage.trim() && selectedChat) {
       try {
-        const response = await axios.post(`/api/chats/${selectedChat}/messages`, {
-          content: newMessage, senderId: user.id })
+        const response = await axios.post(`/api/chats/${selectedChat}`, {
+          content: newMessage, 
+          senderId: user.id 
+        })
         if (response.data) {
           setNewMessage('')
-          mutate(`/api/chats/${selectedChat}`) // Refresh messages
-          mutate('/api/chats') // Refresh chat list
+          chatMutate()
+          messageMutate()
         }
       } catch (error) {
         console.error('Error sending message:', error)
+      }
+    }
+  }
+
+  const handleNewChat = async () => {
+    if (newChatMessage.trim()) {
+      try {
+        const response = await fetch('/api/chats/new', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ 
+            userId: user.id,
+            message: newChatMessage,
+            topic: newChatTopic
+          }),
+        })
+        if (response.ok) {
+          const newChat = await response.json()
+          setNewChatMessage('')
+          setNewChatTopic('general')
+          chatMutate()
+          setSelectedChat(newChat.id)
+        }
+      } catch (error) {
+        console.error('Error creating new chat:', error)
       }
     }
   }
@@ -116,8 +147,55 @@ const SupportChat = ({user}:{user:User}) => {
       {/* Sidebar */}
       {isSidebarOpen && (
         <div className="absolute bottom-16 right-0 w-80 bg-background border rounded-lg shadow-lg overflow-hidden">
-          <div className="p-4 border-b bg-primary text-primary-foreground">
+          <div className="p-4 border-b bg-primary text-primary-foreground flex justify-between items-center">
             <h2 className="text-lg font-semibold">Support Chats</h2>
+            <Dialog>
+              <DialogTrigger asChild>
+                <Button variant="ghost" size="icon" className="text-primary-foreground hover:bg-primary-foreground hover:text-primary transition-colors">
+                  <Plus size={20} />
+                </Button>
+              </DialogTrigger>
+              <DialogContent className="sm:max-w-[425px]">
+                <DialogHeader>
+                  <DialogTitle className="text-2xl font-bold text-center mb-4">Start a New Chat</DialogTitle>
+                </DialogHeader>
+                <div className="grid gap-6">
+                  <div className="space-y-2">
+                    <Label htmlFor="topic" className="text-lg font-medium">Select a Topic</Label>
+                    <RadioGroup id="topic" value={newChatTopic} onValueChange={setNewChatTopic} className="grid grid-cols-2 gap-4">
+                      {['general', 'technical', 'billing', 'feedback'].map((topic) => (
+                        <div key={topic}>
+                          <RadioGroupItem
+                            value={topic}
+                            id={topic}
+                            className="peer sr-only"
+                          />
+                          <Label
+                            htmlFor={topic}
+                            className="flex flex-col items-center justify-between rounded-md border-2 border-muted bg-popover p-4 hover:bg-accent hover:text-accent-foreground peer-data-[state=checked]:border-primary [&:has([data-state=checked])]:border-primary cursor-pointer"
+                          >
+                            {topic.charAt(0).toUpperCase() + topic.slice(1)}
+                          </Label>
+                        </div>
+                      ))}
+                    </RadioGroup>
+                  </div>
+                  <div className="space-y-2">
+                    <Label htmlFor="message" className="text-lg font-medium">Your Message</Label>
+                    <Textarea
+                      id="message"
+                      placeholder="Type your message here..."
+                      value={newChatMessage}
+                      onChange={(e) => setNewChatMessage(e.target.value)}
+                      className="min-h-[100px]"
+                    />
+                  </div>
+                  <Button onClick={handleNewChat} className="w-full">
+                    Start Chat
+                  </Button>
+                </div>
+              </DialogContent>
+            </Dialog>
           </div>
           <ScrollArea className="h-96">
             {chatsError ? (
