@@ -31,10 +31,11 @@ interface ChatMessage {
 
 interface Chat {
   id: string
+  topic:string
   user: {
     id: string
     name: string
-    avatar: string
+    image: string
   }
   lastMessage: string
   unreadCount: number
@@ -84,6 +85,7 @@ const SupportChat = ({user}:{user:User}) => {
           setNewMessage('')
           chatMutate()
           messageMutate()
+          setNewChatMessage('')
         }
       } catch (error) {
         console.error('Error sending message:', error)
@@ -99,6 +101,7 @@ const SupportChat = ({user}:{user:User}) => {
             message: newChatMessage,
             topic: newChatTopic
         })
+        setNewChatMessage('')
         chatMutate()
       } catch (error) {
         console.error('Error creating new chat:', error)
@@ -136,7 +139,7 @@ const SupportChat = ({user}:{user:User}) => {
 
       {/* Sidebar */}
       {isSidebarOpen && (
-        <div className="absolute bottom-16 right-0 w-80 bg-background border rounded-lg shadow-lg overflow-hidden">
+        <div className="absolute bottom-16 right-0 w-80 bg-blue-900 rounded-lg shadow-lg overflow-hidden">
           <div className="p-4 border-b bg-primary text-primary-foreground flex justify-between items-center">
             <h2 className="text-lg font-semibold">Support Chats</h2>
             <Dialog>
@@ -145,7 +148,7 @@ const SupportChat = ({user}:{user:User}) => {
                   <Plus size={20} />
                 </Button>
               </DialogTrigger>
-              <DialogContent className="sm:max-w-[425px]">
+              <DialogContent className="sm:max-w-[425px] border-none">
                 <DialogHeader>
                   <DialogTitle className="text-2xl font-bold text-center mb-4">Start a New Chat</DialogTitle>
                 </DialogHeader>
@@ -204,11 +207,10 @@ const SupportChat = ({user}:{user:User}) => {
                   >
                     <div className="flex items-center space-x-3">
                       <Avatar>
-                        <AvatarImage src={chat.user.avatar} alt={chat.user.name} />
                         <AvatarFallback>{chat.user.name.charAt(0)}</AvatarFallback>
                       </Avatar>
                       <div className="flex-1 min-w-0">
-                        <p className="text-sm font-medium truncate">{chat.user.name}</p>
+                        <p className="text-sm font-medium truncate">{chat.topic}</p>
                         <p className="text-sm text-muted-foreground truncate">{chat.lastMessage}</p>
                       </div>
                       {chat.unreadCount > 0 && (
@@ -227,11 +229,11 @@ const SupportChat = ({user}:{user:User}) => {
 
       {/* Individual Chat Popup */}
       {selectedChat && (
-        <div className="fixed bottom-4 right-96 w-96 h-[32rem] bg-background border rounded-lg shadow-lg flex flex-col">
+        <div className="fixed bottom-4 right-96 w-96 h-[32rem] bg-blue-900 rounded-lg shadow-lg flex flex-col">
           <div className="p-4 border-b flex justify-between items-center bg-primary text-primary-foreground">
             <div className="flex items-center space-x-3">
               <Avatar className="h-8 w-8">
-                <AvatarImage src={chats?.find(chat => chat.id === selectedChat)?.user.avatar} alt={chats?.find(chat => chat.id === selectedChat)?.user.name} />
+                <AvatarImage src={chats?.find(chat => chat.id === selectedChat)?.user.image ?? '/img/avatar.png'} alt={chats?.find(chat => chat.id === selectedChat)?.user.name} />
                 <AvatarFallback>{chats?.find(chat => chat.id === selectedChat)?.user.name.charAt(0)}</AvatarFallback>
               </Avatar>
               <h3 className="text-lg font-semibold">
@@ -239,30 +241,6 @@ const SupportChat = ({user}:{user:User}) => {
               </h3>
             </div>
             <div className="flex space-x-2">
-              <TooltipProvider>
-                <Tooltip>
-                  <TooltipTrigger asChild>
-                    <Button variant="ghost" size="icon" className="text-primary-foreground">
-                      <Phone size={20} />
-                    </Button>
-                  </TooltipTrigger>
-                  <TooltipContent>
-                    <p>Start voice call</p>
-                  </TooltipContent>
-                </Tooltip>
-              </TooltipProvider>
-              <TooltipProvider>
-                <Tooltip>
-                  <TooltipTrigger asChild>
-                    <Button variant="ghost" size="icon" className="text-primary-foreground">
-                      <Video size={20} />
-                    </Button>
-                  </TooltipTrigger>
-                  <TooltipContent>
-                    <p>Start video call</p>
-                  </TooltipContent>
-                </Tooltip>
-              </TooltipProvider>
               <TooltipProvider>
                 <Tooltip>
                   <TooltipTrigger asChild>

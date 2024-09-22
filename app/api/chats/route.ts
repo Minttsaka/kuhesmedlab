@@ -13,7 +13,7 @@ const session:any = await getServerSession(authOptions);
   try {
     const data  = await req.json();
 
-    const { userId, message } = data
+    const { userId,topic, message } = data
 
       if (!userId || !message) {
         return NextResponse.json({ message: 'Missing required fields' })
@@ -22,6 +22,7 @@ const session:any = await getServerSession(authOptions);
       const newChat = await prisma.chat.create({
         data: {
           userId: userId,
+          topic,
           lastMessage: message,
           unreadCount: 1,
           messages: {
@@ -71,6 +72,7 @@ export async function GET() {
     
         const formattedChats = chats.map(chat => ({
           id: chat.id,
+          topic:chat.topic,
           user: chat.user,
           lastMessage: chat.messages[0]?.content || '',
           unreadCount: chat.unreadCount,
