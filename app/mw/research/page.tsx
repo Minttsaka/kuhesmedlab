@@ -1,14 +1,23 @@
 import CreateResearch from '@/components/CreateResearch'
-import CreateResearchWorkspace from '@/components/CreateResearchWorkspace'
-import ResearchWorkspaceForm from '@/components/WorkspaceForm'
+import dynamic from 'next/dynamic'
+import prisma from '@/lib/prisma';
 import React from 'react'
 
-export default function page() {
+const ResearchWorkspaceForm = dynamic(() => import('@/components/WorkspaceForm'), {
+  ssr: false,
+})
+
+export default async function page() {
+
+  const fields = await prisma.researchCategory.findMany({
+    orderBy:{
+      createdAt:"desc"
+    }
+  })
   return (
     <div>
       <CreateResearch />
-      <ResearchWorkspaceForm />
-      {/* <CreateResearchWorkspace /> */}
+      <ResearchWorkspaceForm fields={fields} />
     </div>
   )
 }

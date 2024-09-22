@@ -51,12 +51,8 @@ export default function SigninForm() {
   const [showPassword, setShowPassword] = useState(false)
   const [loginSuccess, setLoginSuccess] = useState(false)
 
-  const router=useRouter()
   const searchParams = useSearchParams()
   const callbackUrl = searchParams.get('callbackUrl') || '/'
-  
-
-  const {data:session , status } =useSession()
 
   const {
     register,

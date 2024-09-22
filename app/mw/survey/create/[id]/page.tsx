@@ -1,6 +1,5 @@
 import Form from '@/components/Form'
-import { prisma } from '@/lib/prisma'
-import Head from 'next/head'
+import prisma from '@/lib/prisma'
 import React from 'react'
 
 export default async function page({params:{id}}:{params:{id:string}}) {

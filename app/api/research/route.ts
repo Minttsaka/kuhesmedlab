@@ -1,5 +1,5 @@
 import { authOptions } from "@/lib/auth";
-import { prisma } from "@/lib/prisma";
+import prisma from "@/lib/prisma";
 import { User } from "@prisma/client";
 import { getServerSession } from "next-auth";
 import {  NextResponse } from "next/server";
@@ -63,6 +63,11 @@ export const POST = async (req: Request,res:Response) => {
         }
     })
 
+    const fields = await prisma.researchCategory.findUnique({
+      where:{
+        category:field
+      }
+    })
 
     const institution = await prisma.institution.findUnique({
       where:{
@@ -143,6 +148,7 @@ export const POST = async (req: Request,res:Response) => {
           title,
           slug,
           abstract,
+          field:fields?.category!,
           citeReference:citeReference!,
           keyWords:keywords,
           user:{
@@ -159,7 +165,11 @@ export const POST = async (req: Request,res:Response) => {
           conference,
           affiliation,
           authors,
-          field,
+          category:{
+            connect:{
+              id:fields?.id
+            }
+          },
           creatorName: checkUser?.name,
         },
       });

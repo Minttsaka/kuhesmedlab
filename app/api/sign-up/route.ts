@@ -2,7 +2,7 @@ import bcrypt from 'bcrypt';
 import { signJwt } from '@/lib/jwt';
 import { z } from 'zod';
 import { NextRequest, NextResponse } from 'next/server';
-import { prisma } from '@/lib/prisma';
+import prisma from '@/lib/prisma';
 import { compileActivationTemplate, sendMail } from '@/lib/mail';
 
   

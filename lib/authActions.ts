@@ -6,7 +6,7 @@ import {
   sendMail,
 } from "./mail";
 import { signJwt, verifyJwt } from "./jwt";
-import { prisma } from "./prisma";
+import prisma from "./prisma";
 
 
 type ActivateUserFunc = {

@@ -7,7 +7,7 @@ import Footer from '@/components/Footer'
 import LandingMobileNav from '@/components/LandingMobileNav'
 import { EventsGrid } from '@/components/events-grid'
 import { LandingNav } from '@/components/landing-nav'
-import { prisma } from '@/lib/prisma'
+import prisma from '@/lib/prisma'
 import React from 'react'
 
 export default async function page() {

@@ -11,8 +11,7 @@ import { AutoTriggerTabs } from "@/components/auto-trigger-tabs";
 import { Faq } from "@/components/faq";
 import { LandingFirst } from "@/components/landing-first";
 import { LandingNav } from "@/components/landing-nav";
-import { prisma } from "@/lib/prisma";
-import Image from "next/image";
+import prisma from "@/lib/prisma";
 
 export default async function Home() {
 

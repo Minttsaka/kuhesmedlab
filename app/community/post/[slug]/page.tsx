@@ -2,7 +2,7 @@ import CommunitySidebar from '@/components/communityLeftbar'
 import CommunityNav from '@/components/CommunityNav'
 import RelatedPosts from '@/components/RelatedPosts'
 import SinglePostCommunity from '@/components/SinglePostCommunity'
-import { prisma } from '@/lib/prisma'
+import prisma from '@/lib/prisma'
 import React from 'react'
 
 export default async function page({params:{slug}}:{params:{slug:string}}) {

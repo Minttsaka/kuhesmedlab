@@ -3,7 +3,7 @@ import { LandingNav } from '@/components/landing-nav';
 import LandingMobileNav from '@/components/LandingMobileNav';
 import ReadBlog from '@/components/ReadBlog'
 import { authOptions } from '@/lib/auth';
-import { prisma } from '@/lib/prisma'
+import prisma from '@/lib/prisma'
 import { User } from '@prisma/client';
 import { getServerSession } from 'next-auth';
 import React from 'react'

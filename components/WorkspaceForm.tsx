@@ -35,6 +35,7 @@ import { cn } from "@/lib/utils"
 import axios from "axios"
 import { useRouter } from "next/navigation"
 import { useToast } from "./ui/use-toast"
+import { ResearchCategory } from "@prisma/client"
 
 const formSchema = z.object({
   title: z.string().min(2, {
@@ -65,7 +66,7 @@ const AnimatedIcon = ({ icon: Icon, delay }:{ icon: React.FC<LucideProps>, delay
   </div>
 )
 
-export default function ResearchWorkspaceForm() {
+export default function ResearchWorkspaceForm({fields}:{fields:ResearchCategory[]}) {
   const [step, setStep] = React.useState(0)
   const totalSteps = 3
   const [isSubmitting,setIsSubmitting] = React.useState(false)
@@ -129,7 +130,7 @@ export default function ResearchWorkspaceForm() {
             title:"Workspace created",
             description:"The research was successfully created."
           });
-          router.push(`/mw/publication/${response.data}`)
+          window.location.href =`/mw/publication/${response.data}`
         }
 
       } catch (error) {
@@ -137,7 +138,6 @@ export default function ResearchWorkspaceForm() {
       } finally {
         setIsSubmitting(false)
       }
-    console.log(values)
    // alert("Form submitted successfully! Time to celebrate! 🎉🎊🥳")
   }
 
@@ -279,12 +279,7 @@ export default function ResearchWorkspaceForm() {
                             </SelectTrigger>
                           </FormControl>
                           <SelectContent>
-                            <SelectItem value="computer-science">Computer Science (Binary Boogaloo)</SelectItem>
-                            <SelectItem value="biology">Biology (Cell-ebration Studies)</SelectItem>
-                            <SelectItem value="physics">Physics (Quantum Leaps and Bounds)</SelectItem>
-                            <SelectItem value="chemistry">Chemistry (Periodic Table Dancing)</SelectItem>
-                            <SelectItem value="psychology">Psychology (Mind-Bending Research)</SelectItem>
-                            <SelectItem value="other">Other (Uncharted Academic Territory)</SelectItem>
+                            {fields.map(field=><SelectItem key={field.id} value={field.category}>{field.category}</SelectItem>)}
                           </SelectContent>
                         </Select>
                         <FormDescription>

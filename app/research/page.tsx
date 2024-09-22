@@ -6,8 +6,9 @@ import LandingMobileNav from '@/components/LandingMobileNav'
 import ResearchFIrst from '@/components/ResearchFIrst'
 import { ResearchFirth } from '@/components/ResearchFirth'
 import { Researchsec } from '@/components/researchsec'
+import prisma from '@/lib/prisma'
 import { Researchthird } from '@/components/researchthird'
-import { prisma } from '@/lib/prisma'
+
 import React from 'react'
 
 export default async function page() {

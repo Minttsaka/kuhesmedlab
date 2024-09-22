@@ -9,7 +9,7 @@ import SuccessIntro from '@/components/SuccessIntro'
 import SuccessNav from '@/components/SuccessNav'
 import CarouselFadeExample from '@/components/SuccessStories'
 import UseCase from '@/components/UseCase'
-import { prisma } from '@/lib/prisma'
+import prisma from '@/lib/prisma'
 import React from 'react'
 
 export default async function page() {

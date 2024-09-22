@@ -3,7 +3,7 @@ import BlogSecond from '@/components/BlogSecond'
 import Footer from '@/components/Footer'
 import { LandingNav } from '@/components/landing-nav'
 import LandingMobileNav from '@/components/LandingMobileNav'
-import { prisma } from '@/lib/prisma'
+import prisma from '@/lib/prisma'
 import React from 'react'
 
 export default async function page() {

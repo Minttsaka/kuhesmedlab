@@ -31,7 +31,7 @@ import {
   CheckCircleIcon, 
   DownloadIcon, 
 } from 'lucide-react'
-import { prisma } from '@/lib/prisma'
+import prisma from '@/lib/prisma'
 import { authOptions } from '@/lib/auth'
 import { getServerSession } from 'next-auth'
 import { Research, User } from '@prisma/client'

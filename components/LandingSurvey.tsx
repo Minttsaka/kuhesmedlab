@@ -4,7 +4,7 @@ import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/componen
 import { Badge } from "@/components/ui/badge"
 import { ChevronRightIcon, BarChartIcon, UsersIcon, ClipboardIcon } from 'lucide-react'
 import Link from 'next/link'
-import { prisma } from '@/lib/prisma'
+import prisma from '@/lib/prisma'
 import { Avatar, AvatarImage } from './ui/avatar'
 
 export default async function LandingSurvey() {

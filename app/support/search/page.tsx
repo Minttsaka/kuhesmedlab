@@ -4,7 +4,7 @@ import PublicationsFooter from '@/components/PublicationFooter'
 import PublicationNav from '@/components/PublicationNav'
 import SearchPublication from '@/components/SearchPublication'
 import SupportSearch from '@/components/SupportSearch'
-import { prisma } from '@/lib/prisma'
+import prisma from '@/lib/prisma'
 import { notFound } from 'next/navigation'
 import React from 'react'
 

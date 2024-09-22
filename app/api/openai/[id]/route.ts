@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { prisma } from "@/lib/prisma";
+import prisma from "@/lib/prisma";
 import { Configuration, OpenAIApi } from 'openai';
 
 const configuration = new Configuration({
@@ -29,7 +29,7 @@ export async function GET(req: NextRequest) {
         }
     })
 
-    const prompt = `YOu are ai assistant and you are able to make recommendations for the research. inform on what can be done to make this research effective given the following survey data
+    const prompt = `You are ai assistant and you are able to make recommendations for the research. inform on what can be done to make this research effective given the following survey data
      and provide some recomendetions
      provide key insights having the following 
      details of a research called ${research?.title} and 

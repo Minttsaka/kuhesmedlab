@@ -1,14 +1,12 @@
 'use server'
 import { cookies } from 'next/headers'
 import { v4 as uuidv4 } from 'uuid';
-import { prisma } from './prisma';
+import prisma from './prisma';
 import {  Importance, User } from '@prisma/client';
-import { redirect } from 'next/navigation';
-import { revalidatePath } from 'next/cache';
 import { getServerSession } from 'next-auth';
 import { authOptions } from './auth';
 import { Configuration, OpenAIApi } from 'openai';
-import { compileActivationTemplate, compileCollaborationTemplate, sendMail } from './mail';
+import { compileCollaborationTemplate, sendMail } from './mail';
 import crypto from 'crypto';
 
 const configuration = new Configuration({
@@ -1127,7 +1125,7 @@ Completion Rate Comparisons: Compare completion rates across different sections 
 
 Demographic Distribution: Provide a breakdown of the demographic data (e.g., age groups, gender) of the respondents.
 
-Please present the analysis in an HTML format using tailwind css  with appropriate headings and sections for each part of the analysis.`
+Please present the analysis in an HTML starting with divs using tailwind css  with appropriate headings and sections for each part of the analysis.`
     
     const completion = await openai.createChatCompletion({
       model: 'gpt-3.5-turbo',

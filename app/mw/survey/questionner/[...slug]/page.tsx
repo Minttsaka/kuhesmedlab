@@ -5,7 +5,7 @@ import SurveyHeader from '@/components/SurveyHeader';
 import SurveyOverallAnalysis from '@/components/SurveyOverallAnalysis';
 import SurveyQuestionnaire from '@/components/SurveyQuestionaires';
 import SurveyQuestionnaireList from '@/components/SurveyQuestionnaireList';
-import { prisma } from '@/lib/prisma';
+import prisma from '@/lib/prisma';
 import React from 'react'
 
 type Props = {

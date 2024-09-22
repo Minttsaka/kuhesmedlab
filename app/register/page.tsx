@@ -5,7 +5,7 @@
 */
 import Practice2 from "@/components/Practice2"
 //import { SignupBg } from "@/components/ui/SigninupBg"
-import { prisma } from "@/lib/prisma"
+import prisma from "@/lib/prisma"
 import dynamic from "next/dynamic";
 import React from "react"
 

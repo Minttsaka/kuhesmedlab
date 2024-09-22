@@ -10,10 +10,14 @@ import Image from 'next/image'
 import { Support } from '@prisma/client'
 import { useRouter } from "next/navigation"
 import { KeyboardEvent, useState } from "react"
+import { signIn, useSession } from "next-auth/react"
 
 export default function SupportPage({supports,popularSupport}:{supports:Support[], popularSupport:Support[]}) {
 
   const [searchQuery, setSearchQuery] = useState('')
+
+  const {data:session} = useSession()
+  const user = session?.user
   const router = useRouter()
 
   const handleSearch = () => {
@@ -116,7 +120,7 @@ export default function SupportPage({supports,popularSupport}:{supports:Support[
                 </CardTitle>
               </CardHeader>
               <CardContent>
-                <Button className="w-full bg-purple-600 hover:bg-purple-700">Start Chat</Button>
+                {user ? "Click the chat icons form live chat" : <Button onClick={()=>signIn()} className="w-full bg-purple-600 hover:bg-purple-700">Signin for live chat</Button>}
                 <p className="text-sm text-purple-500 mt-2">Available 24/7 for urgent issues</p>
               </CardContent>
             </Card>
@@ -168,7 +172,7 @@ export default function SupportPage({supports,popularSupport}:{supports:Support[
                 <h3 className="text-lg font-semibold">Join the MedLab Research Community</h3>
               </div>
               <p className="mb-4">Connect with fellow researchers, share insights, and collaborate on cutting-edge medical studies.</p>
-              <Link target="__blank" href={'/community/feed'} className="bg-white p-3 text-blue-600 hover:bg-blue-50">Visit Forum</Link>
+              <Link target="__blank" href={'/community/feed'} className="bg-white p-3 text-blue-600 hover:bg-blue-50 rounded-3xl">Visit Forum</Link>
             </CardContent>
           </Card>
         </section>

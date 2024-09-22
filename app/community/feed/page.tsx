@@ -1,7 +1,7 @@
 import Community from '@/components/Community'
 import CommunitySidebar from '@/components/communityLeftbar'
 import CommunityNav from '@/components/CommunityNav'
-import { prisma } from '@/lib/prisma'
+import prisma from '@/lib/prisma'
 import React from 'react'
 
 export default async function page() {

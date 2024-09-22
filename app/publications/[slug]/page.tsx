@@ -4,7 +4,7 @@ import PublicationImage from '@/components/PublicationImage'
 import PublicationNav from '@/components/PublicationNav'
 import PublicationRef from '@/components/PulbicationsRef'
 import { loadPdf } from '@/lib/pageNum'
-import { prisma } from '@/lib/prisma'
+import prisma from '@/lib/prisma'
 import React from 'react'
 
 export default async function page({params:{slug}}:{params:{slug:string}}) {

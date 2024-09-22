@@ -1,7 +1,7 @@
 import * as React from "react"
 import Link from "next/link"
 import { Button } from "./ui/button"
-import { prisma } from "@/lib/prisma"
+import prisma from "@/lib/prisma"
 
 export async function ResearchFirth() {
   const surveyForms = await prisma.surveyForm.findMany({

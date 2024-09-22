@@ -8,7 +8,7 @@ import Footer from '@/components/Footer'
 import LandingMobileNav from '@/components/LandingMobileNav'
 import { AboutTeam } from '@/components/about-team'
 import { LandingNav } from '@/components/landing-nav'
-import { prisma } from '@/lib/prisma'
+import prisma from '@/lib/prisma'
 import Link from 'next/link'
 import React from 'react'
 

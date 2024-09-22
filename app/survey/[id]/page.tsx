@@ -1,5 +1,5 @@
 import SurveyQuestions from '@/components/SurveyQuestions'
-import { prisma } from '@/lib/prisma'
+import prisma from '@/lib/prisma'
 import React from 'react'
 import { cookies } from 'next/headers'
 import { v4 as uuidv4 } from 'uuid';

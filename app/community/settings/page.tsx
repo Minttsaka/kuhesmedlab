@@ -1,7 +1,7 @@
 import CommunitySidebar from '@/components/communityLeftbar'
 import CommunitySettings from '@/components/CommunitySettings'
 import { authOptions } from '@/lib/auth';
-import { prisma } from '@/lib/prisma';
+import prisma from '@/lib/prisma';
 import { User } from '@prisma/client';
 import { getServerSession } from 'next-auth';
 import React from 'react'
