@@ -10,6 +10,7 @@ import { Content, Prisma, User } from "@prisma/client"
 import useSWR from "swr"
 import axios from "axios"
 import { useSession } from "next-auth/react"
+import FunctionalShareButton from "./Share"
 
 type Contents = Prisma.ContentGetPayload<{
  include:{
@@ -93,8 +94,8 @@ export default function ReadBlog({content, user}:{content:Content, user:User}) {
         </header>
 
         <figure className="relative w-full overflow-hidden rounded-lg">
-          <Image
-            alt="AI-assisted coding illustration"
+          <img
+            alt={content.title}
             className="object-cover"
             height={400}
             src={content.image!}
@@ -146,14 +147,10 @@ export default function ReadBlog({content, user}:{content:Content, user:User}) {
               <span className="text-xs">{data?.comment.length}</span>
             </Button>
           </div>
-          <Button
-            variant="outline"
-            size="sm"
-            className="space-x-2 bg-white text-gray-700 transition-all duration-300 ease-in-out transform hover:scale-105"
-          >
-            <Share2 className="h-4 w-4" />
-            <span className="text-xs">Share</span>
-          </Button>
+          <FunctionalShareButton url={`https://kuhesmedlab.vercel.app/blog/read/${content.slug}`}
+            title={content.title}
+            description={content.slug} 
+          />
         </div>
 
         <section className="space-y-4">

@@ -109,9 +109,27 @@ export function AutoTriggerTabs({autoTrigger}:{autoTrigger:Content[]}) {
           >
             <div className="grid md:grid-cols-2 gap-5 h-full">
               <div className="grid grid-cols-1 gap-2 overflow-y-auto">
-                <div>
+                <div className="space-y-2">
                   <h2 className="font-bold text-2xl">{content.title}</h2>
-                  <p className="text-gray-500 max-w-md">{stripHtml(content.body)}</p>
+                  <p className="text-gray-500 max-w-md line-clamp-6">{stripHtml(content.body)}</p>
+                  <Link href={`/blog/read/${content.slug}`} className=" text-[#2a2e7c] font-bold flex items-center gap-2  bg-transparent rounded-[6px]  relative group transition duration-20 hover:bg-transparent">
+                            Learn full story
+                            <svg
+                              fill="none"
+                              height="16"
+                              viewBox="0 0 24 24"
+                              width="16"
+                              xmlns="http://www.w3.org/2000/svg"
+                            >
+                              <path
+                                d="M10.75 8.75L14.25 12L10.75 15.25"
+                                stroke="currentColor"
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                                strokeWidth="1.5"
+                              />
+                            </svg>
+                          </Link>
                 </div>
                 {/* Add more content sections here if needed */}
               </div>
