@@ -181,7 +181,7 @@ export default function ReadBlog({content, user}:{content:Content, user:User}) {
         
           {
             data?.comment.map(comment=>( 
-            <Card key={comment.id} className="overflow-hidden">
+            <Card key={comment.id} className="overflow-hidden mb-10">
             <CardContent className="p-4 bg-gradient-to-r from-blue-50 to-indigo-50">
               <div className="flex space-x-4">
                 <Avatar>
