@@ -75,9 +75,9 @@ export default function DashboardCarousel({blog}:{blog:Content[]}) {
                             {blog.title}
                         </h2>
                         <p className='max-w-[300px] line-clamp-3 md:max-w-xl'>
-                            {stripHtml(blog.body)}
+                            {stripHtml(blog.body!)}
                         </p>
-                        <Link href={`/blog/read/${blog.slug}`}>
+                        <Link href={`/blog/read/${blog.slug!}`}>
                             <button className="px-12 py-4 mt-5 rounded-full bg-[orange] font-bold text-white tracking-widest uppercase transform hover:scale-105 hover:bg-[#21e065] transition-colors duration-200">
                             Explore
                             </button>

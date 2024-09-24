@@ -110,34 +110,17 @@ export function AutoTriggerTabs({autoTrigger}:{autoTrigger:Content[]}) {
             <div className="grid md:grid-cols-2 gap-5 h-full">
               <div className="grid grid-cols-1 gap-2 overflow-y-auto">
                 <div className="space-y-2">
-                  <h2 className="font-bold text-2xl">{content.title}</h2>
-                  <p className="text-gray-500 max-w-md line-clamp-6">{stripHtml(content.body)}</p>
-                  <Link href={`/blog/read/${content.slug}`} className=" text-[#2a2e7c] font-bold flex items-center gap-2  bg-transparent rounded-[6px]  relative group transition duration-20 hover:bg-transparent">
-                            Learn full story
-                            <svg
-                              fill="none"
-                              height="16"
-                              viewBox="0 0 24 24"
-                              width="16"
-                              xmlns="http://www.w3.org/2000/svg"
-                            >
-                              <path
-                                d="M10.75 8.75L14.25 12L10.75 15.25"
-                                stroke="currentColor"
-                                strokeLinecap="round"
-                                strokeLinejoin="round"
-                                strokeWidth="1.5"
-                              />
-                            </svg>
-                          </Link>
+                  <h2 className="font-bold text-2xl">{content.title!}</h2>
+                  <p className="text-gray-500 max-w-md line-clamp-6">{stripHtml(content.body!)}</p>
+                  
                 </div>
                 {/* Add more content sections here if needed */}
               </div>
               <div className="relative md:h-full shadow-2xl rounded-2xl overflow-hidden">
                 <div className={`absolute inset-0 bg-gradient-to-t from-[blue] to-transparent opacity-60 shadow-3xl flex flex-col justify-end gap-1 p-5 rounded-2xl`} />
                 <div className="absolute bottom-0 left-0 right-0 p-6 text-white">
-                  <p className="text-white font-bold md:text-xl">{content.title}</p>
-                  <Link className="text-white text-xs flex items-center" href={`/publications/${content.slug}`}>Read the article <ArrowRight className="h-4 w-4" /></Link>
+                  <p className="text-white font-bold md:text-xl">{content.title!}</p>
+                  <Link className="text-white text-xs flex items-center" href={`/publications/${content.slug!}`}>Read the article <ArrowRight className="h-4 w-4" /></Link>
                 </div>
                 <img src={content.image!} className="w-full h-full object-cover rounded-2xl" alt="Article image" />
               </div>

@@ -322,9 +322,9 @@ const { data, mutate, isLoading, error } = useSWR<Post>(
           </div>
         </div>
         <FunctionalShareButton 
-         url={`https://kuhesmedlab.vercel.app/community/post/${post.slug}`}
+         url={`https://kuhesmedlab.vercel.app/community/post/${post.slug!}`}
           title={post?.title}
-          description={stripHtml(post?.body)}
+          description={stripHtml(post?.body!)}
           />
       </div>
 

@@ -17,17 +17,17 @@ export function BlogList({blog}:{blog:Content[]}) {
                       <section className="space-y-5" >
                           <header className="text-xl font-bold tracking-wide">
                               <h1 className="Copy__title">
-                                  {blog.title}
+                                  {blog.title!}
                               </h1>
                           </header>
       
                           <div className="">
                               <p className="line-clamp-3">
-                                {stripHtml(blog.body)}
+                                {stripHtml(blog.body!)}
                               </p>
                           </div>
       
-                          <Link href={`/blog/read/${blog.slug}`} className=" text-[#2a2e7c] font-bold flex items-center gap-2  bg-transparent rounded-[6px]  relative group transition duration-20 hover:bg-transparent">
+                          <Link href={`/blog/read/${blog.slug!}`} className=" text-[#2a2e7c] font-bold flex items-center gap-2  bg-transparent rounded-[6px]  relative group transition duration-20 hover:bg-transparent">
                             Learn more 
                             <svg
                               fill="none"
