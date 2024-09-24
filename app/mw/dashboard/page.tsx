@@ -16,12 +16,6 @@ export default async function page() {
   const session:any = await getServerSession(authOptions);
   const { id }= (session.user as User);
 
-  const user = await prisma.user.findUnique({
-    where:{
-      id
-    }
-  })
-
   const blog = await prisma.content.findMany({
     where:{
       type:"DISCOVERY" 
@@ -34,7 +28,7 @@ export default async function page() {
     <div>
         <DashboardNav />
         <DashboardCarousel blog={blog!} />
-        <DashboardSolutions bio={user?.bio!} />
+        <DashboardSolutions />
         <DashboardTraining blog={blog!} />
         
         <BlogList blog={blog!}/>
