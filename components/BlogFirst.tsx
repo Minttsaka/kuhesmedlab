@@ -23,7 +23,7 @@ export default function BlogFirst({blog}:{blog:Content}) {
                     <Badge className='flex gap-2 rounded-xl bg-gradient-to-r from-blue-300 to-purple-400 text-gray-100 w-fit'>
                         {blog?.category}
                     </Badge>
-                    <h2 className='text-2xl uppercase font-bold'>{blog?.title}</h2>
+                    <h2 className='text-2xl uppercase font-bold'>{blog?.title!}</h2>
                     <p className='line-clamp-6'>
                         {stripHtml(blog?.body!)}
                         </p>
@@ -33,11 +33,11 @@ export default function BlogFirst({blog}:{blog:Content}) {
                         </Avatar>
                         <div>
                             {/* <p className='text-gray-600 '>{}</p> */}
-                            <p className='text-xs text-gray-500'>{blog.creatorName}</p>
+                            <p className='text-xs text-gray-500'>{blog.creatorName!}</p>
                         </div>
                     </div>
                     
-                    <Link className='text-[#3f3f74] mt-10 text-xs flex gap-2 items-center' href={`/blog/read/${blog?.slug}`}>
+                    <Link className='text-[#3f3f74] mt-10 text-xs flex gap-2 items-center' href={`/blog/read/${blog?.slug!}`}>
                         Read More <ArrowRightIcon className='h-3 w-3' />
                     </Link>
                 </div>
