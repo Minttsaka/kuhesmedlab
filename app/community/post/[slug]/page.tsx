@@ -8,7 +8,7 @@ import { Metadata, ResolvingMetadata } from 'next'
 import { stripHtml } from '@/lib/stripHtml'
 
 type Props = {
-  params: { id: string }
+  params: { slug: string }
   searchParams: { [key: string]: string | string[] | undefined }
 }
 
@@ -17,10 +17,10 @@ export async function generateMetadata(
   parent: ResolvingMetadata
 ): Promise<Metadata> {
   // read route params
-  const id = params.id
+  const slug = params.slug
 
   // fetch data
-  const product = await fetchProduct(id)
+  const product = await fetchProduct(slug)
 
   // optionally access and extend (rather than replace) parent metadata
   const previousImages = (await parent).openGraph?.images || []
