@@ -134,7 +134,7 @@ const FormSchema = z.object({
         },
         senderId:"1234",
         from:"KUHESMEDLAB",
-        title:"Upadte biography!",
+        title:"Update biography!",
         description:"Biography is missing.",
         status: 'UNREAD',
         content:`<div style="font-family: Arial, sans-serif; padding: 20px; border-radius: 8px; max-width: 600px; margin: 0 auto; color: #333;">
