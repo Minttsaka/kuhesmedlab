@@ -334,10 +334,9 @@ const { data, mutate, isLoading, error } = useSWR<Post>(
           />
         {post.img && 
         <AspectRatio ratio={16 / 9} className="bg-muted">
-        <Image
+        <img
           src={post.img}
           alt="Photo by Drew Beamer"
-          fill
           className="h-full w-full rounded-md object-cover"
         />
       </AspectRatio>

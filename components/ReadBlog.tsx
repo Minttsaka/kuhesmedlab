@@ -93,7 +93,7 @@ export default function ReadBlog({content, user}:{content:Content, user:User}) {
           </div>
         </header>
 
-        <figure className="relative w-full overflow-hidden rounded-lg">
+        {content.image && <figure className="relative w-full overflow-hidden rounded-lg">
           <img
             alt={content.title}
             className="object-cover"
@@ -106,7 +106,7 @@ export default function ReadBlog({content, user}:{content:Content, user:User}) {
             width={800}
           />
         </figure>
-
+}
         <div className=" max-w-none">
             <div
             className="prose max-w-none"
