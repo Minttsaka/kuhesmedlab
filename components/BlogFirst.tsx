@@ -25,7 +25,7 @@ export default function BlogFirst({blog}:{blog:Content}) {
                     </Badge>
                     <h2 className='text-2xl uppercase font-bold'>{blog?.title}</h2>
                     <p className='line-clamp-6'>
-                        {stripHtml(blog?.body)}
+                        {stripHtml(blog?.body!)}
                         </p>
                     <div className='flex gap-2 items-center'>
                         <Avatar>
