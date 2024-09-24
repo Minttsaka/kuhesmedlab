@@ -10,7 +10,10 @@ export default async function page() {
 
   const blogList = await prisma.content.findFirst({
     where:{
-      type:"BLOG"
+      type:"BLOG",
+      publishedAt:{
+        not:null
+      }
     },
     orderBy:{
       createdAt:"desc"
@@ -18,6 +21,11 @@ export default async function page() {
   })
 
   const otherPost = await prisma.content.findMany({
+    where:{
+      publishedAt:{
+        not:null
+      }
+    },
     orderBy:{
       createdAt:"desc"
     },

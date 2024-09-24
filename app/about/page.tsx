@@ -16,7 +16,10 @@ export default async function page() {
 
   const blog= await prisma.content.findMany({
     where:{
-      type:"BLOG"
+      type:"BLOG",
+      publishedAt:{
+        not:null
+      }
     }
   })
   

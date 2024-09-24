@@ -18,7 +18,7 @@ export async function POST(req: NextRequest) {
 
     const content = await prisma.content.findUnique({
         where:{
-            id
+            id,
         }
     })
 

@@ -15,6 +15,11 @@ export default async function page() {
 
   const [blog, research, researchNo, downloadTrend, citationTrend] = await prisma.$transaction([
     prisma.content.findMany({
+      where:{
+        publishedAt:{
+          not:null
+        }
+      },
       orderBy:{
         createdAt:"desc"
       }

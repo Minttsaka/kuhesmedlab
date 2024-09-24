@@ -17,13 +17,19 @@ export default async function Home() {
 
   const blog= await prisma.content.findMany({
     where:{
-      type:"BLOG"
+      type:"BLOG",
+      publishedAt:{
+        not:null
+      }
     }
   })
 
   const autoTrigger = await prisma.content.findMany({
     where:{
-      type:"BLOG"
+      type:"BLOG",
+      publishedAt:{
+        not:null
+      }
     },
     take:3
   })

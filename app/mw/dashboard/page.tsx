@@ -18,7 +18,10 @@ export default async function page() {
 
   const blog = await prisma.content.findMany({
     where:{
-      type:"BLOG" 
+      type:"BLOG" ,
+      publishedAt:{
+        not:null
+      }
     },
     orderBy:{
       createdAt:"desc"
@@ -27,7 +30,10 @@ export default async function page() {
 
   const discover = await prisma.content.findMany({
     where:{
-      type:"DISCOVERY" 
+      type:"DISCOVERY" ,
+      publishedAt:{
+        not:null
+      }
     },
     orderBy:{
       createdAt:"desc"
@@ -36,7 +42,10 @@ export default async function page() {
 
   const announce = await prisma.content.findMany({
     where:{
-      type:"ANNOUNCEMENT" 
+      type:"ANNOUNCEMENT" ,
+      publishedAt:{
+        not:null
+      }
     },
     orderBy:{
       createdAt:"desc"

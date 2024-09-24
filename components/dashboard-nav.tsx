@@ -66,7 +66,10 @@ export async function DashboardNav() {
 
   const blog = await prisma.content.findFirst({
     where:{
-      type:"BLOG" 
+      type:"BLOG" ,
+      publishedAt:{
+        not:null
+      }
     },
     orderBy:{
       createdAt:"desc"
