@@ -89,7 +89,7 @@ export default function ReadBlog({content, user}:{content:Content, user:User}) {
           <div className="flex items-center space-x-2 text-gray-500 text-xs">
             <time dateTime="2023-05-15">{content.createdAt.toDateString()}</time>
             <span>•</span>
-            <span>{content.category}</span>
+            <span>{content.category!}</span>
           </div>
         </header>
 
@@ -110,7 +110,7 @@ export default function ReadBlog({content, user}:{content:Content, user:User}) {
         <div className=" max-w-none">
             <div
             className="prose max-w-none"
-                dangerouslySetInnerHTML={{ __html: content.body }}
+                dangerouslySetInnerHTML={{ __html: content.body! }}
                 />
         </div>
 
