@@ -113,32 +113,7 @@ export const activationTemplate = `
                         <td style="padding: 0 0 24px 0;">
                           <a class="button" href="{{url}}" title="Reset Password" style="width: 100%; background: #4C83EE; text-decoration: none; display: inline-block; padding: 10px 0; color: #fff; font-size: 14px; line-height: 21px; text-align: center; font-weight: bold; border-radius: 7px;">Verify</a>
                         </td>
-                      </tr>
-                      <tr>
-                        <td style="padding: 0 0 16px 0; font-size: 14px; line-height: 150%; font-weight: 400; color: #000000; letter-spacing: 0.01em;">
-                          If you need some help to get started check our:
-                        </td>
-                      </tr>
-                      <tr>
-                        <td style="padding: 0 0 8px;">
-                          <a style="display: flex; justify-content: space-between; align-items: center; padding: 28px 24px; border-radius: 4px; background-color: #FFF9F9; text-decoration: none;" href="{{get_started_link}}">
-                            <span style="width: 90%; font-size: 14px; line-height: 150%; font-weight: bold; color: #29426E; letter-spacing: 0.01em;">Get Started Guide</span>
-                            <span style="width: 10%; float: right;">
-                              <strong>→</strong>
-                            </span>
-                          </a>
-                        </td>
-                      </tr>
-                      <tr>
-                        <td style="padding: 0 0 60px;">
-                          <a style="display: flex; padding: 28px 24px; border-radius: 4px; background-color: #FFF9F9; text-decoration: none;" href="{{onboarding_video_link}}">
-                            <span style="width: 90%; font-size: 14px; line-height: 150%; font-weight: bold; color: #29426E; letter-spacing: 0.01em;">Onboarding Video</span>
-                            <span style="width: 10%; float: right;">
-                              <strong>→</strong>
-                            </span>
-                          </a>
-                        </td>
-                      </tr>
+                      </tr>                     
                       <tr>
                       <tr>
                         <td style="padding: 0 0 16px;">

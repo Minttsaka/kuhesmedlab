@@ -21,7 +21,7 @@ export default function BlogSecond({blog}:{blog:Content[]}) {
                      {single.category}
                  </Badge>
                  <h2 className='text-2xl uppercase font-bold'>{single.title}</h2>
-                 <p>{stripHtml(single.body!)}</p>
+                 <p className='line-clamp-6'>{stripHtml(single.body!)}</p>
                  <Link className='text-[#3f3f74] mt-10 text-xs flex gap-2 items-center' href={`/blog/read/$${single.slug}`}>
                      Read More <ArrowRightIcon className='h-3 w-3' />
                  </Link>
