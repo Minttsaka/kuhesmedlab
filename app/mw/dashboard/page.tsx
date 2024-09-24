@@ -18,18 +18,37 @@ export default async function page() {
 
   const blog = await prisma.content.findMany({
     where:{
+      type:"BLOG" 
+    },
+    orderBy:{
+      createdAt:"desc"
+    }
+  })
+
+  const discover = await prisma.content.findMany({
+    where:{
       type:"DISCOVERY" 
     },
     orderBy:{
       createdAt:"desc"
     }
   })
+
+  const announce = await prisma.content.findMany({
+    where:{
+      type:"ANNOUNCEMENT" 
+    },
+    orderBy:{
+      createdAt:"desc"
+    }
+  })
+
   return (
     <div>
         <DashboardNav />
-        <DashboardCarousel blog={blog!} />
+        <DashboardCarousel blog={discover!} />
         <DashboardSolutions />
-        <DashboardTraining blog={blog!} />
+        <DashboardTraining blog={announce!} />
         
         <BlogList blog={blog!}/>
         <DashboardFinisher />
