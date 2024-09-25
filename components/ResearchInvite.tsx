@@ -147,7 +147,7 @@ const [isOPen, setIsOpen] = useState(false)
               </motion.div>
             ))}
           </div>
-          <div className="absolute inset-x-0 bottom-0 flex justify-between items-center">
+          <div className="absolute inset-x-0 bottom-0 flex justify-between items-center p-4">
             <p className="text-white">
               {selectedUsers.length} user{selectedUsers.length !== 1 ? 's' : ''} selected
             </p>
