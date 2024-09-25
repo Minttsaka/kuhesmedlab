@@ -103,7 +103,7 @@ const [isOPen, setIsOpen] = useState(false)
       >
          <ParticleBackground />
         <div className="relative backdrop-blur-md bg-white bg-opacity-10 h-full p-8">
-            <div className='flex items-center justify-between'>
+            <div className='flex items-center justify-between pb-5'>
             {/* <GroupMembers /> */}
             <XIcon onClick={()=>setIsOpen(false)} className='text-white'/>
             </div>
@@ -128,7 +128,7 @@ const [isOPen, setIsOpen] = useState(false)
                 className="flex items-center justify-between p-3 rounded-lg hover:bg-white hover:bg-opacity-10 transition-all duration-300 mb-2"
               >
                 <div className="flex items-center">
-                  <img src={user.image! ?? '/img/avatar.png'} alt={user.name} className="w-10 h-10 rounded-full mr-3" />
+                  <img src={user.image! ?? '/img/avatar.png'} alt={user.name} className="w-10 h-10 object-cover rounded-full mr-3" />
                   <div>
                     <h3 className="text-white font-semibold">{user.name}</h3>
                     <p className="text-white text-opacity-75 text-sm">{user.email}</p>
