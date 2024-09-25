@@ -118,7 +118,7 @@ const [isOPen, setIsOpen] = useState(false)
             />
             <Search className="absolute right-3 top-1/2 transform -translate-y-1/2 text-white opacity-75" />
           </div>
-          <div className="h-full overflow-y-auto custom-scrollbar mb-6">
+          <div className="mb-20 overflow-y-auto custom-scrollbar">
             {filteredUsers.map(user => (
               <motion.div
                 key={user.id}
@@ -147,7 +147,7 @@ const [isOPen, setIsOpen] = useState(false)
               </motion.div>
             ))}
           </div>
-          <div className="flex justify-between items-center">
+          <div className="absolute inset-x-0 bottom-0 flex justify-between items-center">
             <p className="text-white">
               {selectedUsers.length} user{selectedUsers.length !== 1 ? 's' : ''} selected
             </p>

@@ -40,7 +40,7 @@ export default function RequestApproval({id}:{id:string}) {
   ]
 
   return (
-    <section className=" text-white px-4 sm:px-6 lg:px-8">
+    <section className=" text-white px-4">
       <div className="bg-gradient-to-br from-blue-900 to-purple-900 rounded-lg w-full">
         <motion.div 
           initial={{ scale: 0.9, opacity: 0 }}

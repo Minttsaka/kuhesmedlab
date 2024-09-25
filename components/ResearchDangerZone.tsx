@@ -76,9 +76,9 @@ export default function ResearchDangerZone({id, status}:{id:string, status:strin
   }
 
   return (
-    <div className="w-full grid md:grid-cols-2" id='danger'>
+    <div className="w-full mt-10 grid md:grid-cols-2" id='danger'>
       <motion.div
-        className="w-full max-w-2xl bg-white rounded-lg shadow-lg overflow-hidden"
+        className="w-full bg-white rounded-lg shadow-lg overflow-hidden"
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5 }}
