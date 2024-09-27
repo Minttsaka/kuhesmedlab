@@ -42,7 +42,7 @@ const ForgotPasswordPage = () => {
       >
         <div className="text-center p-2">
           <h2 className="text-2xl font-semibold">Enter your Email</h2>
-          <p>We will send the link to your email address the reset your password</p>
+          <p>We will send the link to your email address to reset your password</p>
         </div>
         <Input
           className="w-full bg-gray- border bg-white shadow  "

@@ -149,7 +149,7 @@ const FormSchema = z.object({
       
     </p>
 
-    <a href="/mw/a/profile" style="display: inline-block; background-color: #4a90e2; color: #fff; padding: 10px 20px; text-decoration: none; border-radius: 4px; font-size: 16px; margin-bottom: 20px; text-align: center;">Update Biography</a>
+    <a href="/mw/profile" style="display: inline-block; background-color: #4a90e2; color: #fff; padding: 10px 20px; text-decoration: none; border-radius: 4px; font-size: 16px; margin-bottom: 20px; text-align: center;">Update Biography</a>
 
     <p style="font-size: 16px; line-height: 1.6; margin-top: 20px;">
       You can easily update your biography in your profile settings by clicking the link above and click edit profile.
