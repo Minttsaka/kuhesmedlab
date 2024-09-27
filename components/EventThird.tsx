@@ -53,7 +53,9 @@ export function EventThird({institutionEvents}:{institutionEvents:Event[]}) {
                                         <MapPin className="w-4 h-4 inline mr-2" />
                                         {event.location}
                                       </p>
-                                      <p className="mb-4">{event.description}</p>
+                                      <div
+                                        dangerouslySetInnerHTML={{ __html: event.description }}
+                                      />
                                       {event.video && (
                                         <VideoPlayer url={event.video} />
                                       )}
