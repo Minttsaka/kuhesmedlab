@@ -40,7 +40,9 @@ export function EventsGrid({newEvent}:{newEvent:Event[]}) {
             <div className="p-6">
               <h3 className="text-lg font-semibold mb-2">{event.title}</h3>
               <p className="text-sm text-muted-foreground mb-4">{event.startDate.toDateString()}</p>
-              <p className="text-sm">{event.description}</p>
+              <div
+                  dangerouslySetInnerHTML={{ __html: event.description }}
+                />
             </div>
           </div>
         ))}
