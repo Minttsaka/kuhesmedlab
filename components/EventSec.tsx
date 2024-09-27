@@ -35,7 +35,7 @@ export function EventSec({organizationalEvents}:{organizationalEvents:Event[]}) 
                                 View More
                               </Button>
                             </DialogTrigger>
-                            <DialogContent className="bg-gray-800 text-white max-w-3xl">
+                            <DialogContent className="max-w-3xl">
                               <DialogHeader>
                                 <DialogTitle>{event.title}</DialogTitle>
                                 <DialogDescription>
