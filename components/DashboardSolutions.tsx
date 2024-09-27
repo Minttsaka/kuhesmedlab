@@ -49,7 +49,7 @@ export default function DashboardSolutions() {
                      connecting you with experts, innovations, and networking
                       opportunities to enhance your knowledge and professional growth.
                     </p>
-                    <Link target='__blank' className='underline flex items-center' href={'/events'}>
+                    <Link target='__blank' className='underline flex items-center' href={'/event'}>
                         View this Solution
                     </Link>
                 </CardContent>
