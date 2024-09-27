@@ -30,7 +30,7 @@ export default function DashboardSolutions() {
                      easily access and organize your papers, collaborations,
                       and resources, helping you work more efficiently and make new discoveries.
                     </p>
-                    <Link className='underline flex items-center' href={'/mw/research'}>
+                    <Link target='__blank' className='underline flex items-center' href={'/mw/research'}>
                         View this Solution
                     </Link>
                 </CardContent>
@@ -49,7 +49,7 @@ export default function DashboardSolutions() {
                      connecting you with experts, innovations, and networking
                       opportunities to enhance your knowledge and professional growth.
                     </p>
-                    <Link className='underline flex items-center' href={'/events'}>
+                    <Link target='__blank' className='underline flex items-center' href={'/events'}>
                         View this Solution
                     </Link>
                 </CardContent>
@@ -62,13 +62,13 @@ export default function DashboardSolutions() {
                         Research
                     </Badge>
                     <h2  className='text-3xl'>
-                    Research Repository
+                        Publications repository
                     </h2>
                     <p className=''>
                         Access a vast collection of medical laboratory science research papers,
                          articles, and resources, curated to facilitate knowledge sharing, collaboration, and innovation.
                     </p>
-                    <Link className='underline flex items-center' href={'/publications'}>
+                    <Link target='__blank' className='underline flex items-center' href={'/publications'}>
                         View this Solution
                     </Link>
                 </CardContent>
@@ -87,7 +87,7 @@ export default function DashboardSolutions() {
                     Connect with experienced professionals in medical laboratory science, receiving personalized guidance,
                      mentorship, and expertise to overcome challenges, enhance your research, and achieve your goals.
                     </p>
-                    <Link className='underline flex items-center' href={'/support'}>
+                    <Link target='__blank' className='underline flex items-center' href={'/support'}>
                         View this Solution
                     </Link>
                 </CardContent>
